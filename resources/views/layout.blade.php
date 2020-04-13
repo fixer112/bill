@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+        <link href="images/favicon.png" rel="icon" />
+
+        <title>@yield('title') | {{env('APP_NAME')}} </title>
+        <meta name="description" content="@yield('desc',env('APP_DESCRIPTION'))">
+        <meta name="author" content="Altechtic Solutions">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <!-- Web Fonts
+============================================= -->
+        <link rel='stylesheet'
+            href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900' type='text/css'>
+
+        <!-- Stylesheet
+============================================= -->
+        <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+        <link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.carousel.min.css" />
+        <link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.theme.default.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+
+    </head>
+
+    <body>
+
+        <!-- Preloader -->
+        <div id="preloader">
+            <div data-loader="dual-ring"></div>
+        </div><!-- Preloader End -->
+
+        <!-- Document Wrapper   
+============================================= -->
+        <div id="main-wrapper">
+
+            <!-- Header
+  ============================================= -->
+            <header id="header">
+                <div class="container">
+                    <div class="header-row">
+                        <div class="header-column justify-content-start">
+
+                            <!-- Logo
+          ============================================= -->
+                            <div class="logo">
+                                <a href="/" title="{{env('APP_DESCRIPTION')}}"><img src="images/logo.png" alt="Quickai"
+                                        width="127" height="29" /></a>
+                            </div><!-- Logo end -->
+
+                        </div>
+
+                        <div class="header-column justify-content-end">
+
+                            <!-- Primary Navigation -->
+                            <nav class="primary-menu navbar navbar-expand-lg">
+                                <div id="header-nav" class="collapse navbar-collapse">
+                                    <ul class="navbar-nav">
+                                        <li class="active"> <a href="/">Home</a></li>
+
+                                        {{-- <li class="dropdown"> <a class="dropdown-toggle" href="#">Features</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown"><a class="dropdown-item dropdown-toggle"
+                                                        href="#">Headers</a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="index.html">Light Version
+                                                                (Default)</a></li>
+                                                        <li><a class="dropdown-item" href="index-4.html">Dark
+                                                                Version</a></li>
+                                                        <li><a class="dropdown-item" href="index-5.html">Primary
+                                                                Version</a></li>
+                                                        <li><a class="dropdown-item" href="index-8.html">Transparent</a>
+                                                        </li>
+                                                        <li><a class="dropdown-item"
+                                                                href="page-header-custom-background-with-transparent-header.html">Transparent
+                                                                with border</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="dropdown"><a class="dropdown-item dropdown-toggle"
+                                                        href="#">Navigation DropDown</a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="index.html">Light Version
+                                                                (Default)</a></li>
+                                                        <li><a class="dropdown-item" href="index-3.html">Dark
+                                                                Version</a></li>
+                                                        <li><a class="dropdown-item" href="index-6.html">Primary
+                                                                Version</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="dropdown"><a class="dropdown-item dropdown-toggle"
+                                                        href="#">Page Headers</a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item"
+                                                                href="page-header-left-alignment.html">Left
+                                                                Alignment</a></li>
+                                                        <li><a class="dropdown-item"
+                                                                href="page-header-center-alignment.html">Center
+                                                                Alignment</a></li>
+                                                        <li><a class="dropdown-item" href="page-header-light.html">Light
+                                                                Version</a></li>
+                                                        <li><a class="dropdown-item" href="page-header-dark.html">Dark
+                                                                Version</a></li>
+                                                        <li><a class="dropdown-item"
+                                                                href="page-header-primary.html">Primary Version</a></li>
+                                                        <li><a class="dropdown-item"
+                                                                href="page-header-custom-background.html">Custom
+                                                                Background</a></li>
+                                                        <li><a class="dropdown-item"
+                                                                href="page-header-custom-background-with-transparent-header.html">Custom
+                                                                Background 2</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a class="dropdown-item" href="layout-boxed.html">Layout Boxed</a>
+                                                </li>
+                                            </ul>
+                                        </li> --}}
+                                        @if(Auth::guest())
+                                        <li class="login-signup ml-lg-2"><a class="pl-lg-4 pr-0" {{-- data-toggle="modal"
+                                                data-target="#login-signup" --}} href="/login" title="Login">Login </a>
+                                        </li>
+                                        <li class="login-signup ml-lg-2"><a class="pl-lg-4 pr-0" href="/register"
+                                                title="register">Register </a>
+                                        </li>
+                                        @else
+                                        <li class="login-signup ml-lg-2"><a class="pl-lg-4 pr-0"
+                                                href="{{Auth::user()->routePath()}}" title="Dashboard">Dashbord{{-- <span
+                                                    class="d-none d-lg-inline-block"><i
+                                                        class="fas fa-user"></i></span> --}}</a></li>
+                                        <li class="login-signup ml-lg-2"><a class="pl-lg-4 pr-0" href="/logout"
+                                                title="Logout">Logout </a>
+                                        </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </nav><!-- Primary Navigation end -->
+
+                        </div>
+
+                        <!-- Collapse Button
+        ============================================= -->
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header-nav">
+                            <span></span> <span></span> <span></span> </button>
+                    </div>
+                </div>
+            </header><!-- Header end -->
+
+            <!-- Content -->
+            <div id="content">
+
+                @yield('content')
+
+            </div><!-- Content end -->
+
+            <!-- Footer -->
+            <footer id="footer">
+                <section class="section bg-light shadow-md pt-4 pb-3">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="fas fa-lock"></i> </div>
+                                    <h4>100% Secure Payments</h4>
+                                    <p>Moving your card details to a much more secured place.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="fas fa-thumbs-up"></i> </div>
+                                    <h4>Trust pay</h4>
+                                    <p>100% Payment Protection. Easy Return Policy.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="fas fa-bullhorn"></i> </div>
+                                    <h4>Refer & Earn</h4>
+                                    <p>Invite a friend to sign up and earn up to $100.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="far fa-life-ring"></i> </div>
+                                    <h4>24X7 Support</h4>
+                                    <p>We re here to help. Have a query and need help ? <a href="#">Click here</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <p>Payment</p>
+                            <ul class="payments-types">
+                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                            src="images/payment/visa.png" alt="visa" title="Visa"></a></li>
+
+                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                            src="images/payment/paypal.png" alt="paypal" title="PayPal"></a></li>
+
+                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                            src="images/payment/mastercard.png" alt="discover" title="Discover"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <p>Subscribe</p>
+                            <div class="input-group newsletter">
+                                <input class="form-control" placeholder="Your Email Address" name="newsletterEmail"
+                                    id="newsletterEmail" type="text">
+                                <span class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">Subscribe</button>
+                                </span> </div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-md-end flex-column">
+                            <p>Keep in touch</p>
+                            <ul class="social-icons">
+                                <li class="social-icons-facebook"><a data-toggle="tooltip"
+                                        href="http://www.facebook.com/" target="_blank" title="Facebook"><i
+                                            class="fab fa-facebook-f"></i></a></li>
+                                <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/"
+                                        target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                <li class="social-icons-google"><a data-toggle="tooltip" href="http://www.google.com/"
+                                        target="_blank" title="Google"><i class="fab fa-google"></i></a></li>
+                                <li class="social-icons-linkedin"><a data-toggle="tooltip"
+                                        href="http://www.linkedin.com/" target="_blank" title="Linkedin"><i
+                                            class="fab fa-linkedin-in"></i></a></li>
+                                <li class="social-icons-youtube"><a data-toggle="tooltip" href="http://www.youtube.com/"
+                                        target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a></li>
+                                <li class="social-icons-instagram"><a data-toggle="tooltip"
+                                        href="http://www.instagram.com/" target="_blank" title="Instagram"><i
+                                            class="fab fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="footer-copyright">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item"> <a class="nav-link active" href="/about">About Us</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="#">Faq</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/contact">Contact</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/support">Support</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Us</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/privacy">Privacy Policy</a> </li>
+                        </ul>
+                        <p class="copyright-text">Copyright © {{date('Y')}} <a href="/">{{env('APP_NAME')}}</a>. All
+                            Rights
+                            Reserved.</p>
+                    </div>
+                </div>
+            </footer><!-- Footer end -->
+
+        </div><!-- Document Wrapper end -->
+
+        <!-- Back to Top
+============================================= -->
+        <a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i
+                class="fa fa-chevron-up"></i></a>
+
+
+        <!-- Script -->
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
+        <script src="/vendor/easy-responsive-tabs/easy-responsive-tabs.js"></script>
+        <script src="/js/theme.js"></script>
+
+        <script>
+            $(document).ready(function () {
+        $('#verticalTab').easyResponsiveTabs({
+        type: 'vertical', //Types: default, vertical, accordion
+        });
+        });
+        </script>
+
+    </body>
+
+</html>

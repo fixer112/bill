@@ -77,8 +77,9 @@
                 </div>
             </div>
 
-            <div class="m-2 small referral-link theme-bg p-2 rounded text-dark">
-                <span> Referral Link : {{request()->user->getReferralLink()}}</span>
+            <div class="m-2 small referral-link theme-bg p-2 rounded text-white">
+                <span> Referral Link : <a
+                        href="{{request()->user->getReferralLink()}}">{{request()->user->getReferralLink()}}</a></span>
             </div>
 
 

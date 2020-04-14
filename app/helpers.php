@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+
 //if (!function_exists("calPercentage")) {
 
 function calPercentageAmount(float $amount, float $percentage)
@@ -20,4 +22,9 @@ function numberFormat(float $number)
 function currencyFormat(float $number)
 {
     return 'NGN ' . numberFormat($number);
+}
+
+function generateRef(User $user)
+{
+    return Str::random(7) . $user->id . Str::random(8);
 }

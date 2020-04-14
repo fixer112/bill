@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('test/{user}', function (User $user) {
-        return calDiscountAmount(10, $user->calDiscount());
+        return calPercentageAmount(100, 200); //calDiscountAmount(10, $user->calDiscount());
 
     });
 

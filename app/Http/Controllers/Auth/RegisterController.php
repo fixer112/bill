@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Activity;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Transaction;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -85,7 +88,27 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        $user->giveReferralBounus('Registration Bonus', 0.5);
+        $amount = 100;
+        $user->update([
+            'balance' => $user->balance + $amount,
+        ]);
+        Transaction::create([
+            'amount' => $amount,
+            'balance' => $user->balance,
+            'type' => 'credit',
+            'desc' => "Registration bonus",
+            'ref' => generateRef($user),
+            'user_id' => $user->id,
+            'reason' => 'top-up',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => Auth::id(),
+            'summary' => 'Account created',
+        ]);
+
+        $user->giveReferralBounus($amount, 'Registration Bonus', true);
 
         return redirect($user->routePath());
 

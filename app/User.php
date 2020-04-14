@@ -2,7 +2,8 @@
 
 namespace App;
 
-use App\Traits\Referral;
+use App\Referral;
+use App\Traits\Referral as Refer;
 use Devi\MultiReferral\Models\ReferralList;
 use Devi\MultiReferral\Traits\MultiReferral;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable, MultiReferral, Referral;
+    use Notifiable, MultiReferral, Refer;
 
     /**
      * The attributes that are mass assignable.
@@ -68,23 +69,23 @@ class User extends Authenticatable
         return collect($users);
 
     }
-    public function giveReferralBounus(String $desc, float $multiples = 1.0)
+    public function giveReferralBounus(float $amount, String $desc, bool $isReferral = false, float $multiples = 1.0)
     {
-        $this->getReferralParents()->each(function ($parent) {
+        $this->getReferralParents()->each(function ($parent) use ($amount, $desc, $isReferral, $multiples) {
 
             $comission = $parent['comission'];
             $u = $parent['user'];
-            $cA = calPercentageAmount($amount, ($comission['bonus'] * $multiples));
+            $cA = !$isReferral ? calPercentageAmount($amount, ($comission['bonus'] * $multiples)) : calPercentageAmount($amount, ($comission['refer_bonus'] * $multiples));
             $u->update([
-                'referral_balance' => $u->comision_balance + $cA,
+                'referral_balance' => $u->referral_balance + $cA,
                 'points' => $u->points + ($comission['point'] * $multiples),
             ]);
 
             Referral::create([
                 'user_id' => $u->id,
                 'amount' => $cA,
-                'balance' => $u->comision_balance,
-                'referral_id' => $user->id,
+                'balance' => $u->referral_balance,
+                'referral_id' => $this->id,
                 'level' => $parent['level'],
                 'desc' => $desc,
             ]);

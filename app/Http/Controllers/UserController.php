@@ -110,7 +110,7 @@ class UserController extends Controller
             $bonus = config("settings.subscriptions.{$newSub}.bonus");
             $user->update(['balance' => $user->balance + calPercentageAmount($amount, $bonus)]);
 
-            $user->giveReferralBounus('Subscription bunus');
+            $user->giveReferralBounus($amount, 'Subscription bunus');
 
         }
 

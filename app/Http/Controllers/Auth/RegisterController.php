@@ -85,6 +85,8 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        $user->giveReferralBounus('Registration Bonus', 0.5);
+
         return redirect($user->routePath());
 
     }

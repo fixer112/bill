@@ -68,6 +68,28 @@ class User extends Authenticatable
         return collect($users);
 
     }
+    public function giveReferralBounus(String $desc, float $multiples = 1.0)
+    {
+        $this->getReferralParents()->each(function ($parent) {
+
+            $comission = $parent['comission'];
+            $u = $parent['user'];
+            $cA = calPercentageAmount($amount, ($comission['bonus'] * $multiples));
+            $u->update([
+                'referral_balance' => $u->comision_balance + $cA,
+                'points' => $u->points + ($comission['point'] * $multiples),
+            ]);
+
+            Referral::create([
+                'user_id' => $u->id,
+                'amount' => $cA,
+                'balance' => $u->comision_balance,
+                'referral_id' => $user->id,
+                'level' => $parent['level'],
+                'desc' => $desc,
+            ]);
+        });
+    }
 
     public function routePath()
     {

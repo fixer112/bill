@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 //use App\Traits\Main;
 use App\Activity;
-use App\Referral;
 use App\Subscription;
 //use App\Traits\Referral;
 use App\Traits\Payment;
@@ -111,25 +110,7 @@ class UserController extends Controller
             $bonus = config("settings.subscriptions.{$newSub}.bonus");
             $user->update(['balance' => $user->balance + calPercentageAmount($amount, $bonus)]);
 
-            $user->getReferralParents()->each(function ($parent) {
-
-                $comission = $parent['comission'];
-                $u = $parent['user'];
-                $cA = calPercentageAmount($amount, ($comission['bonus']));
-                $u->update([
-                    'referral_balance' => $u->comision_balance + $cA,
-                    'points' => $u->points + $comission['point'],
-                ]);
-
-                Referral::create([
-                    'user_id' => $u->id,
-                    'amount' => $cA,
-                    'balance' => $u->comision_balance,
-                    'referral_id' => $user->id,
-                    'level' => $parent['level'],
-                    'desc' => 'Subscription bonus',
-                ]);
-            });
+            $user->giveReferralBounus('Subscription bunus');
 
         }
 

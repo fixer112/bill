@@ -11,9 +11,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="{{env('APP_DESCRIPTION')}}" />
-        <meta name="keywords"
-            content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template">
-        <meta name="author" content="Codedthemes" />
+        <meta name="keywords" content="{{env('APP_KEYWORD')}}">
+        <meta name="author" content="{{env('APP_NAME')}}" />
         <script>
             (function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
@@ -58,6 +57,34 @@
                         <li class="nav-item"><a href="" class="nav-link"><span class="pcoded-micon"><i
                                         class="feather icon-home"></i></span><span
                                     class="pcoded-mtext">Dashboard</span></a>
+                        </li>
+
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>Navigation</label>
+                        </li>
+
+                        <li class="nav-item pcoded-hasmenu">
+                            <a class=""><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                                    class="pcoded-mtext">Wallet</span></a>
+                            <ul class="pcoded-submenu">
+                                <li class=""><a href="/user/wallet/{{request()->user->id}}/history" class="">History</a>
+                                </li>
+                                <li class=""><a href="/user/wallet/{{request()->user->id}}/fund" class="">Top up</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item pcoded-hasmenu">
+                            <a class=""><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                                    class="pcoded-mtext">Referral</span></a>
+                            <ul class="pcoded-submenu">
+                                <li class=""><a href="/user/referral/{{request()->user->id}}/history"
+                                        class="">History</a>
+                                </li>
+                                <li class=""><a href="/user/referral/{{request()->user->id}}/withdraw"
+                                        class="">Withdraw</a>
+                                </li>
+                            </ul>
                         </li>
 
                     </ul>
@@ -187,15 +214,28 @@
         <script>
             $( document ).ready(function() {
                 var url = window.location;
-                //console.log(url);
+                var link =url.origin + url.pathname;
+
                 var element = $('.nav-item a').filter(function() {
-                return this.href == url || url.href.indexOf(this.href) == 0;
-                }).parent().addClass('active');
+                   //console.log(this);
+                   return this.href == link; //|| url.href.indexOf(this.href) == 0;
+               });
+
+                element.parent().addClass('active');
+
                 //console.log(element);
                 //console.log($('li.pcoded-hasmenu li.active a').parent().parent().parent());
                 var e = $('li.pcoded-hasmenu li.active a').filter(function() {
-                return this.href == url || url.href.indexOf(this.href) == 0;
-                }).addClass('active').parent().parent().parent().addClass('pcoded-trigger');
+                   
+                    return this.href == link ;//|| url.href.indexOf(this.href) == 0;
+                   
+                });
+
+                //console.log(e.children.length);
+
+                e.parent().parent().parent().addClass('pcoded-trigger');
+
+                $('.pcoded-trigger ul').attr('style','display:block');//.attr('style'));
             });
         </script>
         <center>

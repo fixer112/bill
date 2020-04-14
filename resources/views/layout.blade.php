@@ -9,7 +9,8 @@
 
         <title>@yield('title') | {{env('APP_NAME')}} </title>
         <meta name="description" content="@yield('desc',env('APP_DESCRIPTION'))">
-        <meta name="author" content="Altechtic Solutions">
+        <meta name="keywords" content="{{env('APP_KEYWORD')}}">
+        <meta name="author" content="{{env('APP_NAME')}}" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 

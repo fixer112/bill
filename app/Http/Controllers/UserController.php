@@ -114,6 +114,10 @@ class UserController extends Controller
 
         }
 
+        $limit = config("settings.subscriptions.{$newSub}.rate_limit");
+
+        $user->update(['rate_limit' => $limit]);
+
         $tran = Transaction::create([
             'amount' => calPercentageAmount($amount, $bonus),
             'balance' => $user->balance,

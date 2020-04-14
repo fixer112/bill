@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('points')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('rate_limit')->default(60);
             $table->rememberToken();
             $table->timestamps();
         });

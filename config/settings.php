@@ -6,9 +6,9 @@ return [
     ],
 
     'subscriptions' => [
-        'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 10],
-        'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 12],
-        'gold' => ['amount' => 30000, 'discount' => 10, 'bonus' => 13],
-        'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 15],
+        'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 10, 'rate_limit' => 100],
+        'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 12, 'rate_limit' => 200],
+        'gold' => ['amount' => 30000, 'discount' => 10, 'bonus' => 13, 'rate_limit' => 500],
+        'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 15, 'rate_limit' => 1000],
     ],
 ];

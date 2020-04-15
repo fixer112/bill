@@ -43,6 +43,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{user}/edit', 'UserController@getEditUser');
             Route::post('/{user}/edit', 'UserController@editUser');
             Route::get('/{user}/activity', 'UserController@activity');
+            Route::get('/wallet/{user}/history', 'UserController@walletHistory');
+            Route::get('/wallet/{user}/fund', 'UserController@fundWallet');
+            Route::get('/referral/{user}/history', 'UserController@referralHistory');
+            Route::get('/referral/{user}/withdraw', 'UserController@withdrawReferral');
+
         });
 
         Route::middleware(['unsubscribed'])->group(function () {

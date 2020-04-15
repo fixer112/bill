@@ -19,6 +19,11 @@ function numberFormat(float $number)
     return number_format($number, 2);
 }
 
+function wholeNumberFormat(float $number)
+{
+    return number_format($number);
+}
+
 function currencyFormat(float $number)
 {
     return 'NGN ' . numberFormat($number);

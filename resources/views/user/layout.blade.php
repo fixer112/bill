@@ -29,6 +29,8 @@
         <link rel="stylesheet" href="/assets/plugins/notification/css/notification.min.css">
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/css/custom.css">
+        @yield('head')
+
     </head>
 
     <body>
@@ -40,11 +42,11 @@
         <nav class="pcoded-navbar">
             <div class="navbar-wrapper">
                 <div class="navbar-brand header-logo">
-                    <a href="index.html" class="b-brand">
+                    <a href="" class="b-brand">
                         <div class="b-bg">
                             <i class="feather icon-trending-up"></i>
                         </div>
-                        <span class="b-title">Datta Able</span>
+                        <span class="b-title">{{env('APP_NAME')}}</span>
                     </a>
                     <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
                 </div>
@@ -54,8 +56,8 @@
                             <label>Dashbord</label>
                         </li>
 
-                        <li class="nav-item"><a href="" class="nav-link"><span class="pcoded-micon"><i
-                                        class="feather icon-home"></i></span><span
+                        <li class="nav-item"><a href="{{request()->user->routePath()}}" class="nav-link"><span
+                                    class="pcoded-micon"><i class="feather icon-home"></i></span><span
                                     class="pcoded-mtext">Dashboard</span></a>
                         </li>
 
@@ -64,7 +66,7 @@
                         </li>
 
                         <li class="nav-item pcoded-hasmenu">
-                            <a class=""><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                            <a class=""><span class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
                                     class="pcoded-mtext">Wallet</span></a>
                             <ul class="pcoded-submenu">
                                 <li class=""><a href="/user/wallet/{{request()->user->id}}/history" class="">History</a>
@@ -75,7 +77,7 @@
                         </li>
 
                         <li class="nav-item pcoded-hasmenu">
-                            <a class=""><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                            <a class=""><span class="pcoded-micon"><i class="fa fa-link"></i></span><span
                                     class="pcoded-mtext">Referral</span></a>
                             <ul class="pcoded-submenu">
                                 <li class=""><a href="/user/referral/{{request()->user->id}}/history"
@@ -93,12 +95,12 @@
         </nav>
         <header class="navbar pcoded-header navbar-expand-lg navbar-light">
             <div class="m-header">
-                <a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
+                <a class="mobile-menu" id="mobile-collapse1" href=""><span></span></a>
                 <a href="index.html" class="b-brand">
                     <div class="b-bg">
                         <i class="feather icon-trending-up"></i>
                     </div>
-                    <span class="b-title">Datta Able</span>
+                    <span class="b-title">{{env('APP_NAME')}}</span>
                 </a>
             </div>
             <a class="mobile-menu" id="mobile-header" href="#!">
@@ -197,6 +199,7 @@
         </div>
     <![endif]-->
         <script src="/assets/js/vendor-all.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
         <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         {{-- <script src="/assets/js/menu-setting.min.js"></script> --}}
         <script src="/assets/js/pcoded.min.js"></script>{{-- 
@@ -211,6 +214,7 @@
         <script src="/assets/plugins/amchart/js/worldlow.js"></script>
         <script src="/assets/plugins/notification/js/bootstrap-growl.min.js"></script> --}}
         {{-- <script src="/assets/js/pages/dashboard-custom.js"></script> --}}
+        @yield('js')
         <script>
             $( document ).ready(function() {
                 var url = window.location;

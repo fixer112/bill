@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 //use App\Traits\Main;
 use App\Activity;
-use App\Subscription;
+use App\Referral;
 //use App\Traits\Referral;
+use App\Subscription;
 use App\Traits\Payment;
 use App\Transaction;
 use App\User;
@@ -31,7 +32,13 @@ class UserController extends Controller
 
         //return $user->getReferralLevel();
 
-        return view('user.index');
+        $referrals = $user->getReferralChildren();
+        $directReferral = $referrals->where('level', 1);
+        $indirectReferral = $referrals->where('level', '!=', 1);
+
+        $compact = compact('referrals', 'directReferral', 'indirectReferral');
+
+        return view('user.index', $compact);
     }
 
     public function getSubscribe(User $user)
@@ -125,7 +132,7 @@ class UserController extends Controller
             'desc' => "{$desc} bonus",
             'ref' => $tranx->data->reference,
             'user_id' => $tranx->data->metadata->user_id,
-            'reason' => 'subscription',
+            // 'reason' => 'subscription',
         ]);
 
         $sub = Subscription::create([
@@ -177,5 +184,58 @@ class UserController extends Controller
 
         return view('user.activity', $compact);
 
+    }
+
+    public function walletHistory(User $user)
+    {
+        $from = request()->from ? Carbon::parse(request()->from) : now();
+        $from = $from->startOfDay();
+        $to = request()->to ? Carbon::parse(request()->to) : now();
+        $to = $to->endOfDay();
+        $reason = request()->reason ? request()->reason : '';
+
+        $transactions = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason) {
+            if ($reason != '') {
+                $query->where('reason', $reason);
+
+            }
+        })->paginate(1);
+
+        $query = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason) {
+            if ($reason != '') {
+                $query->where('reason', $reason);
+
+            }
+        })->get();
+
+        $credit = $query->where('type', 'credit');
+
+        $debit = $query->where('type', 'debit');
+
+        $reasons = Transaction::pluck('reason')->unique();
+
+        //$transactions->paginate(1);
+
+        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons');
+
+        return view('user.wallet.history', $compact);
+    }
+
+    public function referralHistory(User $user)
+    {
+        $from = request()->from ? Carbon::parse(request()->from) : now();
+        $from = $from->startOfDay();
+        $to = request()->to ? Carbon::parse(request()->to) : now();
+        $to = $to->endOfDay();
+
+        $transactions = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->paginate(100);
+
+        $query = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
+
+        $referrals = $query;
+
+        $compact = compact('transactions', 'from', 'to', 'referrals');
+
+        return view('user.referral.history', $compact);
     }
 }

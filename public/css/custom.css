@@ -124,3 +124,11 @@
     width: 100%;
 
 }
+
+.pcoded-navbar .pcoded-inner-navbar li>a>.pcoded-micon+.pcoded-mtext {
+    top: 14px;
+}
+
+.info {
+    margin-bottom: 1px;
+}

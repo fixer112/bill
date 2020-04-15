@@ -31,7 +31,7 @@ class UserController extends Controller
         // return $user->calDiscount();
 
         //return $user->getReferralLevel();
-
+        //$lastSub = $user->subscriptions->last();
         $referrals = $user->getReferralChildren();
         $directReferral = $referrals->where('level', 1);
         $indirectReferral = $referrals->where('level', '!=', 1);
@@ -193,19 +193,30 @@ class UserController extends Controller
         $to = request()->to ? Carbon::parse(request()->to) : now();
         $to = $to->endOfDay();
         $reason = request()->reason ? request()->reason : '';
+        $ref = request()->ref ? request()->ref : '';
 
-        $transactions = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason) {
+        $transactions = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref) {
             if ($reason != '') {
                 $query->where('reason', $reason);
 
             }
+            if ($ref != '') {
+                $query->where('ref', 'LIKE', "%{$ref}%");
+
+            }
+
         })->paginate(1);
 
-        $query = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason) {
+        $query = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref) {
             if ($reason != '') {
                 $query->where('reason', $reason);
 
             }
+            if ($ref != '') {
+                $query->where('ref', 'LIKE', "%{$ref}%");
+
+            }
+
         })->get();
 
         $credit = $query->where('type', 'credit');
@@ -216,7 +227,7 @@ class UserController extends Controller
 
         //$transactions->paginate(1);
 
-        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons');
+        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref');
 
         return view('user.wallet.history', $compact);
     }
@@ -227,14 +238,27 @@ class UserController extends Controller
         $from = $from->startOfDay();
         $to = request()->to ? Carbon::parse(request()->to) : now();
         $to = $to->endOfDay();
+        $ref = request()->ref ? request()->ref : '';
 
-        $transactions = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->paginate(100);
+        $transactions = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($ref) {
+            if ($ref != '') {
+                $query->where('ref', 'LIKE', "%{$ref}%");
 
-        $query = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
+            }
+
+        })->paginate(100);
+
+        $query = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($ref) {
+            if ($ref != '') {
+                $query->where('ref', 'LIKE', "%{$ref}%");
+
+            }
+
+        })->get();
 
         $referrals = $query;
 
-        $compact = compact('transactions', 'from', 'to', 'referrals');
+        $compact = compact('transactions', 'from', 'to', 'referrals', 'ref');
 
         return view('user.referral.history', $compact);
     }

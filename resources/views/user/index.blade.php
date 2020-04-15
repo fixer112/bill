@@ -105,6 +105,11 @@
                 </div>
                 <div class="profile-usertitle-job">
                     {{request()->user->type()}} Account
+                    @if (request()->user->is_reseller)
+                    <div>
+                        <span class="badge badge-primary badge-pill">{{request()->user->lastSub()->name}}</span>
+                    </div>
+                    @endif
                 </div>
             </div>
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Subscription;
+use App\Transaction;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -12,13 +14,32 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $user = User::create([
+            'balance' => 1200,
             'login' => 'user',
             'first_name' => 'Abubakar',
             'last_name' => 'Lawal',
             'email' => 'abula3003@gmail.com',
             'password' => 'abula112',
             'is_reseller' => 1,
+        ]);
+
+        $tran = Transaction::create([
+            'amount' => 1200,
+            'balance' => 1200,
+            'type' => 'credit',
+            'desc' => "Subscription basic bonus",
+            'ref' => generateRef($user),
+            'user_id' => $user->id,
+            // 'reason' => 'subscription',
+        ]);
+
+        Subscription::create([
+            'amount' => 5000,
+            //'balance' =>5000
+            'user_id' => $user->id,
+            'name' => 'basic',
+            'transaction_id' => $tran->id,
         ]);
 
         User::create([

@@ -22,6 +22,7 @@ class CreateReferralsTable extends Migration
             $table->decimal('balance', 13, 2);
             $table->string('level');
             $table->string('desc');
+            $table->string('ref')->unique();
 
         });
     }

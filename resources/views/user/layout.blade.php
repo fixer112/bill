@@ -48,9 +48,9 @@
                         </div>
                         <span class="b-title">{{env('APP_NAME')}}</span>
                     </a>
-                    <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+                    <a class="mobile-menu" id="mobile-collapse"><span></span></a>
                 </div>
-                <div class="navbar-content scroll-div">
+                <div class="navbar-content scroll-div ps ps--active-y">
                     <ul class="nav pcoded-inner-navbar">
                         <li class="nav-item pcoded-menu-caption">
                             <label>Dashbord</label>
@@ -89,13 +89,38 @@
                             </ul>
                         </li>
 
+                        @if(request()->user->is_reseller)
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>Subscription</label>
+                        </li>
+                        @if(count(request()->user->upgradeList()) > 0) <li class="nav-item text-success"><a
+                                href="/user/{{request()->user->id}}/subscription/upgrade"
+                                class="nav-link text-danger"><span class="pcoded-micon"><i
+                                        class="fa fa-sync"></i></span><span class="pcoded-mtext">Upgrade
+                                    Now</span></a>
+                        </li>
+                        @endif
+                        @endif
+
+                        {{-- <li class="nav-item pcoded-hasmenu">
+                            <a class=""><span class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
+                                    class="pcoded-mtext">Wallet</span></a>
+                            <ul class="pcoded-submenu">
+                                <li class=""><a href="/user/wallet/{{request()->user->id}}/history"
+                        class="">History</a>
+                        </li>
+                        <li class=""><a href="/user/wallet/{{request()->user->id}}/fund" class="">Top up</a>
+                        </li>
+                    </ul>
+                    </li> --}}
+
                     </ul>
                 </div>
             </div>
         </nav>
         <header class="navbar pcoded-header navbar-expand-lg navbar-light">
             <div class="m-header">
-                <a class="mobile-menu" id="mobile-collapse1" href=""><span></span></a>
+                <a class="mobile-menu" id="mobile-collapse1"><span></span></a>
                 <a href="index.html" class="b-brand">
                     <div class="b-bg">
                         <i class="feather icon-trending-up"></i>

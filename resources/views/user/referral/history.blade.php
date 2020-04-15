@@ -1,5 +1,5 @@
 @extends('user.layout')
-@section('title','Wallet History')
+@section('title','Referral History')
 @section('js')
 
 @endsection
@@ -80,6 +80,13 @@
                             <input type="date" name="to" value="{{$to->format('Y-m-d')}}" class="form-control"
                                 aria-label="Small">
                         </div>
+                        <div class="input-group input-group-sm mr-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Ref</span>
+                            </div>
+                            <input type="text" name="ref" placeholder="Search by ref" value="{{$ref}}"
+                                class="form-control" aria-label="Small">
+                        </div>
 
                         <div class="input-group input-group-sm mr-1">
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
@@ -102,7 +109,7 @@
                         <tbody>
                             @foreach ($transactions as $transaction)
                             <tr>
-                                <td>{{$transaction->id}}</td>
+                                <td>{{$transaction->ref}}</td>
                                 <td>{{$transaction->amount}}</td>
                                 <td>{{$transaction->balance}}</td>
                                 <td>{{$transaction->desc}}</td>

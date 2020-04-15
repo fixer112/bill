@@ -124,6 +124,13 @@
                             </select>
                         </div>
                         <div class="input-group input-group-sm mr-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Ref</span>
+                            </div>
+                            <input type="text" name="ref" placeholder="Search by reference" value="{{$ref}}"
+                                class="form-control" aria-label="Small">
+                        </div>
+                        <div class="input-group input-group-sm mr-1">
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>

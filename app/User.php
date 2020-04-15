@@ -44,8 +44,32 @@ class User extends Authenticatable
 
     public function getReferralChildren()
     {
-        return ReferralList::whereUserId($this->id)->orderBy("level", "desc")->orderBy("created_at", "desc")->get()->unique('user_id');
+        return ReferralList::whereUserId($this->id)->orderBy("level", "desc")->orderBy("created_at", "desc")->get()->unique('ref_id');
 
+    }
+
+    public function lastSub()
+    {
+        return $this->subscriptions->last();
+    }
+
+    public function upgradeList()
+    {
+        if ($this->is_reseller) {
+            //$sub = config("subscriptions.{$this->lastSub()->name}");
+            $keys = array_keys(config("settings.subscriptions"));
+            $key = array_search($this->lastSub()->name, $keys);
+
+            foreach ($keys as $k => $value) {
+                if ($key > $k) {
+                    unset($keys[$k]);
+                }
+            }
+            unset($keys[$key]);
+            return $keys;
+
+        }
+        return "";
     }
 
     public function getReferralParents()
@@ -88,6 +112,7 @@ class User extends Authenticatable
                 'referral_id' => $this->id,
                 'level' => $parent['level'],
                 'desc' => $desc,
+                'ref' => generateRef($u),
             ]);
         });
     }

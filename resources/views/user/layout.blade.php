@@ -108,13 +108,14 @@
                         <li class="nav-item pcoded-menu-caption">
                             <label>Subscription</label>
                         </li>
-                        @if(count(request()->user->upgradeList()) > 0) <li class="nav-item text-success"><a
-                                href="/user/{{request()->user->id}}/subscription/upgrade"
+                        {{-- {{json_encode(request()->user->upgradeList())}} --}}
+                        @can('upgrade',request()->user)
+                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/subscription/upgrade"
                                 class="nav-link text-danger"><span class="pcoded-micon"><i
                                         class="fa fa-sync"></i></span><span class="pcoded-mtext">Upgrade
                                     Now</span></a>
                         </li>
-                        @endif
+                        @endcan
                         @endif
 
                         {{-- <li class="nav-item pcoded-hasmenu">

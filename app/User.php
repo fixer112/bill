@@ -59,14 +59,27 @@ class User extends Authenticatable
             //$sub = config("subscriptions.{$this->lastSub()->name}");
             $keys = array_keys(config("settings.subscriptions"));
             $key = array_search($this->lastSub()->name, $keys);
+            $lastSub = config("settings.subscriptions.{$this->lastSub()->name}");
+
+            $upgrades = [];
 
             foreach ($keys as $k => $value) {
-                if ($key > $k) {
-                    unset($keys[$k]);
+                if ($key >= $k) {
+                    // unset($keys[$k]);
+                    continue;
                 }
+
+                $sub = config("settings.subscriptions.{$value}");
+
+                $sub['amount'] = $sub['amount'] - $lastSub['amount'];
+
+                array_push($upgrades, [$value => $sub]);
+
             }
-            unset($keys[$key]);
-            return $keys;
+            //unset($keys[$key]);
+
+            return $upgrades;
+            // return $keys;
 
         }
         return "";

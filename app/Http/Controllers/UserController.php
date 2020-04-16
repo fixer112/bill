@@ -51,7 +51,7 @@ class UserController extends Controller
 
     public function getUpgrade(User $user)
     {
-        $this->authorize('subscribe', $user);
+        $this->authorize('upgrade', $user);
 
         return view('user.subscribe.upgrade');
 

@@ -16,6 +16,10 @@ class UnSubscribed
      */
     public function handle($request, Closure $next)
     {
+        if (!Auth::user()->is_reseller) {
+            return redirect(Auth::user()->routePath());
+
+        }
         if (Auth::user()->is_reseller && Auth::user()->subscriptions->last()) {
             return redirect(Auth::user()->routePath());
         }

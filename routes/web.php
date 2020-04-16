@@ -48,11 +48,20 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/referral/{user}/history', 'UserController@referralHistory');
             Route::get('/referral/{user}/withdraw', 'UserController@withdrawReferral');
 
+            Route::get('/{user}/airtime', 'UserController@getAirtime');
+            Route::post('/{user}/airtime', 'UserController@airtime');
+
+            Route::get('/{user}/data', 'UserController@getData');
+            Route::post('/{user}/data', 'UserController@data');
+
         });
 
         Route::middleware(['unsubscribed'])->group(function () {
             Route::get('/{user}/subscribe/', 'UserController@getSubscribe')->name('subscribe');
         });
+
+        Route::get('/{user}/subscription/upgrade/', 'UserController@getUpgrade');
+
     });
 
     Route::get('/subscribe/{reference}', 'UserController@subscribe');

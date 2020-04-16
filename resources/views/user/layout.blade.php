@@ -42,7 +42,7 @@
         <nav class="pcoded-navbar">
             <div class="navbar-wrapper">
                 <div class="navbar-brand header-logo">
-                    <a href="" class="b-brand">
+                    <a href="/" class="b-brand">
                         <div class="b-bg">
                             <i class="feather icon-trending-up"></i>
                         </div>
@@ -89,6 +89,21 @@
                             </ul>
                         </li>
 
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>Bill Payment</label>
+                        </li>
+
+                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/airtime/"
+                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-phone"></i></span><span
+                                    class="pcoded-mtext">Airtime</span></a>
+                        </li>
+                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/data"
+                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-globe"></i></span><span
+                                    class="pcoded-mtext">Data</span></a>
+                        </li>
+
+
+
                         @if(request()->user->is_reseller)
                         <li class="nav-item pcoded-menu-caption">
                             <label>Subscription</label>
@@ -121,7 +136,7 @@
         <header class="navbar pcoded-header navbar-expand-lg navbar-light">
             <div class="m-header">
                 <a class="mobile-menu" id="mobile-collapse1"><span></span></a>
-                <a href="index.html" class="b-brand">
+                <a href="/" class="b-brand">
                     <div class="b-bg">
                         <i class="feather icon-trending-up"></i>
                     </div>

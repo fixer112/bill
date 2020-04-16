@@ -43,8 +43,17 @@ class UserController extends Controller
 
     public function getSubscribe(User $user)
     {
+        $this->authorize('subscribe', $user);
 
         return view('user.subscribe.new');
+
+    }
+
+    public function getUpgrade(User $user)
+    {
+        $this->authorize('subscribe', $user);
+
+        return view('user.subscribe.upgrade');
 
     }
 
@@ -110,8 +119,8 @@ class UserController extends Controller
 
             if (!isset($newSub)) {
                 return $this->jsonWebBack(request(), 'error', 'No subscription available for the amount paid');
-
             }
+
             $desc = "Subscribed to {$newSub}";
             //$newSubAmount = config("settings.subscriptions.{$newSub}.amount");
             $bonus = config("settings.subscriptions.{$newSub}.bonus");
@@ -157,7 +166,7 @@ class UserController extends Controller
 
     public function Activity(User $user)
     {
-        $this->authorize('update', $user);
+        $this->authorize('view', $user);
         $from = now();
         $to = now();
 
@@ -188,6 +197,8 @@ class UserController extends Controller
 
     public function walletHistory(User $user)
     {
+        $this->authorize('view', $user);
+
         $from = request()->from ? Carbon::parse(request()->from) : now();
         $from = $from->startOfDay();
         $to = request()->to ? Carbon::parse(request()->to) : now();
@@ -219,6 +230,9 @@ class UserController extends Controller
 
         })->get();
 
+        $totalDebit = $user->transactions->where('type', 'debit');
+        $totalCredit = $user->transactions->where('type', 'credit');
+
         $credit = $query->where('type', 'credit');
 
         $debit = $query->where('type', 'debit');
@@ -227,13 +241,15 @@ class UserController extends Controller
 
         //$transactions->paginate(1);
 
-        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref');
+        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit');
 
         return view('user.wallet.history', $compact);
     }
 
     public function referralHistory(User $user)
     {
+        $this->authorize('view', $user);
+
         $from = request()->from ? Carbon::parse(request()->from) : now();
         $from = $from->startOfDay();
         $to = request()->to ? Carbon::parse(request()->to) : now();
@@ -261,5 +277,19 @@ class UserController extends Controller
         $compact = compact('transactions', 'from', 'to', 'referrals', 'ref');
 
         return view('user.referral.history', $compact);
+    }
+
+    public function getAirtime(User $user)
+    {
+        $this->authorize('view', $user);
+
+        return view('user.bill.airtime');
+    }
+
+    public function getData(User $user)
+    {
+        $this->authorize('view', $user);
+
+        return view('user.bill.data');
     }
 }

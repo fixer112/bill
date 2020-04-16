@@ -6,6 +6,7 @@
 
     {{-- <form ref="form"> --}}
 
+    <h2 class="text-6 mb-4"> {{$message}}</h2>
 
     <div class="form-group">
         <label for="operator">Plan</label>

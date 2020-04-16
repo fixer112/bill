@@ -91,6 +91,11 @@ class UserPolicy
         //
     }
 
+    public function subscribe(User $user, User $model)
+    {
+        return count($model->upgradeList()) > 0 && $model->is_referral;
+    }
+
     public function before($user, $ability)
     {
 

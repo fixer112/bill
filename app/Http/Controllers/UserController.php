@@ -52,6 +52,7 @@ class UserController extends Controller
     public function getUpgrade(User $user)
     {
         $this->authorize('upgrade', $user);
+        //return $user->upgradeList();
 
         return view('user.subscribe.upgrade');
 
@@ -59,38 +60,23 @@ class UserController extends Controller
 
     public function subscribe($reference)
     {
-        $tranx = $this->validatePayment($reference);
+        $tranx = $this->validatePayment($reference, 'subscription');
 
         if (is_array($tranx) && isset($tranx['error'])) {
-            return $this->jsonWebBack(request(), 'error', $tranx['error']);
+            return $this->jsonWebBack('error', $tranx['error']);
         }
 
-        //$user = User::find($tranx->data->metadata->user_id);
+        $user = User::find($tranx->data->metadata->user_id);
 
-        if (!$user = User::find($tranx->data->metadata->user_id)) {
-            return $this->jsonWebBack(request(), 'error', 'User does not exist');
-
-        }
-
-        if ($tranx->data->metadata->reason != 'subscription') {
-            return $this->jsonWebBack(request(), 'error', 'Payment is not for subscription');
-
-        }
-
-        $lastSub = $user->subscriptions->last();
+        $lastSub = $user->lastSub();
 
         /* if (!auth()->user()->is_admin && $tranx->data->metadata->user_id != auth()->user()->id) {
         abort(403);
         } */
 
-        if (Transaction::where('ref', $reference)->first()) {
-            return $this->jsonWebRedirect(request(), 'error', "Payment {$reference} already approved", auth()->user()->routePath());
-
-        }
-
         $amount = $tranx->data->amount / 100;
 
-        if ($tranx->data->metadata->upgrade == true) {
+        if ($tranx->data->metadata->upgrade) {
             $newSubAmount = config("settings.subscriptions.{$lastSub->name}.amount") + $amount;
             foreach (config("settings.subscriptions") as $key => $value) {
 
@@ -100,13 +86,13 @@ class UserController extends Controller
                 }
             }
             if (!isset($newSub)) {
-                return $this->jsonWebBack(request(), 'error', 'No subscription available for the amount paid');
+                return $this->jsonWebBack('error', 'No subscription available for the amount paid');
 
             }
 
             $bonus = config("settings.subscriptions.{$newSub}.bonus");
 
-            $desc = "Upgraded from {$user->subscription} to {$newSub}";
+            $desc = "Upgraded from {$lastSub->name} to {$newSub}";
             //$user->update(['subscription' => $newSub]);
 
         } else {
@@ -118,13 +104,12 @@ class UserController extends Controller
             }
 
             if (!isset($newSub)) {
-                return $this->jsonWebBack(request(), 'error', 'No subscription available for the amount paid');
+                return $this->jsonWebBack('error', 'No subscription available for the amount paid');
             }
 
             $desc = "Subscribed to {$newSub}";
             //$newSubAmount = config("settings.subscriptions.{$newSub}.amount");
             $bonus = config("settings.subscriptions.{$newSub}.bonus");
-            $user->update(['balance' => $user->balance + calPercentageAmount($amount, $bonus)]);
 
             $user->giveReferralBounus($amount, 'Subscription bunus');
 
@@ -132,7 +117,11 @@ class UserController extends Controller
 
         $limit = config("settings.subscriptions.{$newSub}.rate_limit");
 
-        $user->update(['rate_limit' => $limit]);
+        //$user->update(['rate_limit' => $limit]);
+        $user->update([
+            'balance' => $user->balance + calPercentageAmount($amount, $bonus),
+            'rate_limit' => $limit,
+        ]);
 
         $tran = Transaction::create([
             'amount' => calPercentageAmount($amount, $bonus),
@@ -148,7 +137,7 @@ class UserController extends Controller
             'amount' => config("settings.subscriptions.{$newSub}.amount"),
             'user_id' => $tranx->data->metadata->user_id,
             'name' => $newSub,
-            'last_sub' => $lastSub ? $lastSub : null,
+            'last_sub' => $lastSub ? $lastSub->name : null,
             'transaction_id' => $tran->id,
         ]);
 
@@ -160,7 +149,7 @@ class UserController extends Controller
 
         //$this->app($user, $activity->summary, 'Payment Approved');
 
-        return $this->jsonWebRedirect(request(), 'success', $activity->summary, "/user/$activity->user_id");
+        return $this->jsonWebRedirect('success', $activity->summary, "/user/$activity->user_id");
 
     }
 
@@ -277,6 +266,59 @@ class UserController extends Controller
         $compact = compact('transactions', 'from', 'to', 'referrals', 'ref');
 
         return view('user.referral.history', $compact);
+    }
+
+    public function getFundWallet(User $user)
+    {
+        $this->authorize('view', $user);
+        return view('user.wallet.fund');
+    }
+
+    public function fundWallet($reference)
+    {
+        /* $this->validate(request(), [
+        'amount' => "required|numeric|min:" . config('settings.minimum_amount'),
+        'type' => 'required|string|in:' . implode(",", config('settings.investments')),
+        'duration' => 'required|integer',
+        'proof' => 'required|image|max:250',
+        ]); */
+
+        $tranx = $this->validatePayment($reference, 'top-up');
+        // return \json_encode($tranx);
+
+        if (is_array($tranx) && isset($tranx['error'])) {
+            return $this->jsonWebBack('error', $tranx['error']);
+        }
+
+        $user = User::find($tranx->data->metadata->user_id);
+
+        $amount = $tranx->data->amount / 100;
+
+        $desc = "Wallet funding of {$amount}";
+
+        $tran = Transaction::create([
+            'amount' => $amount,
+            'balance' => $user->balance,
+            'type' => 'credit',
+            'desc' => "{$desc}",
+            'ref' => $tranx->data->reference,
+            'user_id' => $tranx->data->metadata->user_id,
+            //'reason' => 'top-up',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $tranx->data->metadata->user_id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $desc,
+        ]);
+
+        $user->update([
+            'balance' => $user->balance + $amount,
+        ]);
+
+        return $this->jsonWebRedirect('success', '{$amount} added to wallet', $user->routePath());
+
+        //return view('user.wallet.fund');
     }
 
     public function getAirtime(User $user)

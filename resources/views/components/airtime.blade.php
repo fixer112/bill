@@ -1,5 +1,5 @@
 <div class="resp-tab-content resp-tab-content-active" style="display:block" aria-labelledby="tab_item-0">
-    <h2 class="text-6 mb-4">Airtime Recharge </h2>
+    <h4 class="text-6 mb-4">Airtime Recharge </h4>
     <form id="recharge-bill" method="post">
 
         <div class="form-group">

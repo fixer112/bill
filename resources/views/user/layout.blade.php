@@ -50,7 +50,7 @@
                     </a>
                     <a class="mobile-menu" id="mobile-collapse"><span></span></a>
                 </div>
-                <div class="navbar-content scroll-div ps ps--active-y">
+                <div class="navbar-content scroll-div" style="overflow-y: auto;">
                     <ul class="nav pcoded-inner-navbar">
                         <li class="nav-item pcoded-menu-caption">
                             <label>Dashbord</label>
@@ -189,6 +189,17 @@
                     <div class="pcoded-inner-content">
                         <div class="main-body">
                             <div class="page-wrapper">
+                                @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{session('success')}}
+                                </div>
+                                @endif
+
+                                @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{session('error')}}
+                                </div>
+                                @endif
                                 @yield('content')
                             </div>
                         </div>
@@ -240,6 +251,7 @@
         </div>
     <![endif]-->
         <script src="/assets/js/vendor-all.min.js"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
         <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         {{-- <script src="/assets/js/menu-setting.min.js"></script> --}}
@@ -258,6 +270,7 @@
         @yield('js')
         <script>
             $( document ).ready(function() {
+               // $.stickysidebarscroll(".scroll-div",{offset: {top: 10, bottom: 200}});
                 var url = window.location;
                 var link =url.origin + url.pathname;
 

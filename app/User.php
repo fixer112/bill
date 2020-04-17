@@ -73,7 +73,8 @@ class User extends Authenticatable
 
                 $sub['amount'] = $sub['amount'] - $lastSub['amount'];
 
-                array_push($upgrades, [$value => $sub]);
+                $upgrades[$value] = $sub;
+                //array_push($upgrades, [$value => $sub]);
 
             }
             //unset($keys[$key]);
@@ -149,7 +150,8 @@ class User extends Authenticatable
     {
         return $this->is_admin ? true : false;
     }
-    public function calDiscount()
+
+    public function getDiscount()
     {
         //return $this->is_reseller;
 
@@ -199,6 +201,17 @@ class User extends Authenticatable
 
     }
 
+    public function minFund()
+    {
+        if (!$this->is_reseller) {
+            return numberFormat(200);
+        }
+
+        $sub = config("settings.subscriptions.{$this->lastSub()->name}");
+
+        return numberFormat(calPercentageAmount($sub['amount'], $sub['bonus']));
+    }
+
     public function profilePic()
     {
         return $this->profile == '' ? '/assets/images/user/avatar-2.jpg' : '/storage/' . $this->profile;
@@ -206,32 +219,37 @@ class User extends Authenticatable
 
     public function userActivities()
     {
-        return $this->hasMany('App\Activity');
+        return $this->hasMany('App\Activity')->ordered();
     }
 
     public function adminActivities()
     {
-        return $this->hasMany('App\Activity', 'id', 'admin_id');
+        return $this->hasMany('App\Activity', 'id', 'admin_id')->ordered();
     }
 
     public function transactions()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Transaction')->ordered();
     }
 
     public function subscriptions()
     {
-        return $this->hasMany('App\Subscription');
+        return $this->hasMany('App\Subscription')->ordered();
     }
 
     public function referrals()
     {
-        return $this->hasMany('App\Referral');
+        return $this->hasMany('App\Referral')->ordered();
     }
 
     public function type()
     {
         return $this->is_reseller ? 'Reseller' : 'Individual';
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('created_at', 'desc');
     }
 
 }

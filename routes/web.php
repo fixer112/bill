@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{user}/edit', 'UserController@editUser');
             Route::get('/{user}/activity', 'UserController@activity');
             Route::get('/wallet/{user}/history', 'UserController@walletHistory');
-            Route::get('/wallet/{user}/fund', 'UserController@fundWallet');
+            Route::get('/wallet/{user}/fund', 'UserController@getFundWallet');
             Route::get('/referral/{user}/history', 'UserController@referralHistory');
             Route::get('/referral/{user}/withdraw', 'UserController@withdrawReferral');
 
@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/subscribe/{reference}', 'UserController@subscribe');
+    Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
 
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });

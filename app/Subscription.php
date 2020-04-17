@@ -12,4 +12,8 @@ class Subscription extends Model
     {
         return $this->belongsTo('App\Transaction');
     }
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 }

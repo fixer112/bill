@@ -17,4 +17,9 @@ class Transaction extends Model
     {
         return $this->hasOne('App\Subscription');
     }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 }

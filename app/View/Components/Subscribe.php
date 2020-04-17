@@ -10,16 +10,20 @@ class Subscribe extends Component
 
     public $user;
     public $message;
+    public $packages;
+    public $upgrade;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(User $user, $message)
+    public function __construct(User $user, String $message, array $packages, bool $upgrade = false)
     {
         $this->user = $user;
         $this->message = $message;
+        $this->packages = $packages;
+        $this->upgrade = $upgrade;
     }
 
     /**

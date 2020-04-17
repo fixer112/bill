@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function jsonWebBack($request, $type, $message)
+    public function jsonWebBack($type, $message)
     {
         if (request()->wantsJson()) {
             return [$type => $message];
@@ -20,15 +20,13 @@ class Controller extends BaseController
         return url()->previous() == url()->current() && !request()->isMethod('post') ? $message : back();
 
     }
-    public function jsonWebRedirect($request, $type, $message, $link)
+    public function jsonWebRedirect($type, $message, $link)
     {
         if (request()->wantsJson()) {
             return [$type => $message];
         }
         request()->session()->flash($type, $message);
-        /* if (!auth()->check()) {
-        return $this->jsonWebBack($request, $type, $message);
-        } */
+
         return redirect($link);
     }
 }

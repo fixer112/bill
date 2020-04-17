@@ -1,13 +1,15 @@
 <?php
 namespace App\Traits;
 
+use App\Transaction;
+use App\User;
 use Yabacon\Paystack;
 /**
  *
  */
 trait Payment
 {
-    public static function validatePayment($reference)
+    public static function validatePayment($reference, $reason)
     {
 
         if (!$reference) {
@@ -23,7 +25,6 @@ trait Payment
                 'reference' => $reference, // unique to transactions
             ]);
 
-            return $tranx;
         } catch (\Throwable $e) {
 
             /* \Paystack\Exception\ApiException $e */
@@ -32,8 +33,27 @@ trait Payment
         }
 
         if ('success' != $tranx->data->status) {
-            return ['error', "Payment {$reference} failed, pls try again"];
+            return ['error' => "Payment {$reference} failed, pls try again"];
 
         }
+
+        if (!$user = User::find($tranx->data->metadata->user_id)) {
+            return ['error' => 'User does not exist'];
+
+        }
+
+        if ($tranx->data->metadata->reason != $reason) {
+
+            return ['error' => "Payment is not for {$reason}"];
+
+        }
+
+        if (Transaction::where('ref', $reference)->first()) {
+            return ['error' => "Payment {$reference} already approved"];
+
+        }
+
+        return $tranx;
+
     }
 }

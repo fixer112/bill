@@ -27,4 +27,9 @@ class Activity extends Model
     {
         return $this->user->id == $user->id ? 'self' : $this->user->username;
     }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 }

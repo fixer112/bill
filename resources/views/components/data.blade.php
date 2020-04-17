@@ -1,5 +1,5 @@
 <div class="resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-1" style="display: block;">
-    <h2 class="text-6 mb-4">Data Subscription</h2>
+    <h4 class="text-6 mb-4">Data Subscription</h4>
     <form id="recharge-bill" method="post">
 
         <div class="form-group">

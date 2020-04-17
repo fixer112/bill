@@ -12,7 +12,7 @@
         <label for="operator">Plan</label>
         <select class="custom-select" id="operator" required="" v-model="amount">
             <option value="">Choose Plan</option>
-            @foreach (config("settings.subscriptions") as $key=>$sub)
+            @foreach ($packages as $key=>$sub)
             <option value="{{$sub['amount']}}"> {{ucfirst($key)}} - {{currencyFormat($sub['amount'])}}</option>
             @endforeach
         </select>
@@ -51,7 +51,7 @@
                   
                   user_id: "{{$user->id}}",
                   reason: 'subscription',
-                  upgrade:false,
+                  upgrade:"{{$upgrade}}",
                  
               },
               

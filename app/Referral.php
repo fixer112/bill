@@ -17,4 +17,9 @@ class Referral extends Model
     {
         return $this->belongsTo('App\User', 'referral_id');
     }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 }

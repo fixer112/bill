@@ -43,7 +43,7 @@ class UserController extends Controller
 
     public function getSubscribe(User $user)
     {
-        $this->authorize('subscribe', $user);
+        //$this->authorize('subscribe', $user);
 
         return view('user.subscribe.new');
 

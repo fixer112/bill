@@ -35,7 +35,8 @@
        methods:{
 
            payWithPaystack(){
-               //console.log(this.$refs.fund);
+
+               //return console.log(calcCharges(this.amount ));
             //this.$refs.form;
             //return;
            // if(this.amount=="") return;

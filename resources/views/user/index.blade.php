@@ -36,7 +36,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div class="card theme-bg round">
+        <div class="card theme-bg ">
             <div class="card-header borderless">
                 <h5 class="text-white">Wallet</h5>
             </div>
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card theme-inverse round">
+        <div class="card theme-bg2">
             <div class="card-header borderless">
                 <h5 class="text-white">Referral Wallet</h5>
             </div>
@@ -92,7 +92,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="card">
+        <div class="card ">
 
             <div class="profile-userpic">
                 <img src="{{request()->user->profilePic()}}" class="img-responsive" alt="">
@@ -209,7 +209,9 @@
                                     <td>{{$transaction->ref}}</td>
                                     <td>{{$transaction->amount}}</td>
                                     <td>{{$transaction->balance}}</td>
-                                    <td>{{$transaction->type}}</td>
+                                    <td><a
+                                            class="label rounded-pill text-white {{$transaction->type =='credit' ?'theme-bg':'theme-bg2'}}">{{$transaction->type}}</a>
+                                    </td>
                                     <td>{{$transaction->reason}}</td>
                                     <td>{{$transaction->desc}}</td>
                                     <td>{{$transaction->created_at}}</td>

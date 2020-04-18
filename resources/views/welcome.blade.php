@@ -9,15 +9,16 @@
                 <div class="row no-gutters">
                     <div class="col-md-3 my-0 my-md-4">
                         <ul class="resp-tabs-list">
-                            <li><span><i class="fas fa-phone"></i></span> Airtime</li>
-                            <li><span><i class="fas fa-globe"></i></span>Data</li>
+                            <li class="resp-tab-item resp-tab-active"><span><i class="fas fa-phone"></i></span> Airtime
+                            </li>
+                            <li class="resp-tab-item"><span><i class="fas fa-globe"></i></span>Data</li>
                         </ul>
                     </div>
                     <div class="col-md-9">
                         <div class="resp-tabs-container bg-light shadow-md rounded h-100 p-3">
 
                             <!-- Mobile Recharge -->
-                            <x-airtime />>
+                            <x-airtime />
                             <!-- Mobile Recharge end -->
 
                             <!-- Data Recharge -->

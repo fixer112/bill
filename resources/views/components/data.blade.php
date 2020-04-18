@@ -1,4 +1,4 @@
-<div class="resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-1" style="display: block;">
+<div class="resp-tab-content" aria-labelledby="tab_item-1">
     <h4 class="text-6 mb-4">Data Subscription</h4>
     <form id="recharge-bill" method="post">
 
@@ -36,7 +36,7 @@
         <div class="form-group">
             <label for="amount">Cost</label>
             <div class="input-group">
-                <div class="input-group-prepend"> <span class="input-group-text">$</span>
+                <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                 </div>
 
                 <input class="form-control" id="amount" placeholder="Enter Amount" disabled="" type="text">

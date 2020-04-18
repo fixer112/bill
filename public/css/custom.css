@@ -132,3 +132,7 @@
 .info {
     margin-bottom: 1px;
 }
+
+.card {
+    border-radius: .25rem !important;
+}

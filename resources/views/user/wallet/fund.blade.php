@@ -12,14 +12,13 @@
             {{-- @csrf --}}
             <div class="form-group">
                 <label>Amount</label>
-                <input name="amount" min="{{request()->user->minFund()}}" type="number" step=".01"
-                    class="form-control @error('amount') is-invalid @enderror" v-model="amount" required
-                    placeholder="Enter Amount">
-                @error('amount')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
+                <div class="input-group">
+                    <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
+                    </div>
+                    <input name="amount" min="{{request()->user->minFund()}}" type="number" step=".01"
+                        class="form-control" v-model="amount" required placeholder="Enter Amount">
+                </div>
+
             </div>
             <button class="btn btn-primary btn-block" type="submit">Continue</button>
         </form>
@@ -44,7 +43,7 @@
             var handler = PaystackPop.setup({
               key: '{{env("PAYSTACK_KEY")}}',
               email: '{{request()->user->email}}',
-              amount: this.amount * 100,
+              amount: calcCharges(this.amount ) * 100,
               currency: "NGN",
               first_name:'{{request()->user->fname}}',
               last_name:'{{request()->user->lname}}',
@@ -56,11 +55,12 @@
                   user_id: "{{request()->user->id}}",
                   reason: 'top-up',
                   //upgrade:"{{-- {{$upgrade}} --}}",
+                  amount:this.amount,
                  
               },
               
               callback: function(response){
-                  window.location.replace("/wallet/fund/"+response.reference);
+                  window.location.replace("/verify/wallet/fund/"+response.reference);
                   //alert('success. transaction ref is ' + response.reference);
               },
               onClose: function(){

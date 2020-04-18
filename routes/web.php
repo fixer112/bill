@@ -46,13 +46,16 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/wallet/{user}/history', 'UserController@walletHistory');
             Route::get('/wallet/{user}/fund', 'UserController@getFundWallet');
             Route::get('/referral/{user}/history', 'UserController@referralHistory');
-            Route::get('/referral/{user}/withdraw', 'UserController@withdrawReferral');
+            Route::get('/referral/{user}/withdraw', 'UserController@getWithdrawReferral');
+            Route::post('/referral/{user}/withdraw', 'UserController@withdrawReferral');
 
             Route::get('/{user}/airtime', 'UserController@getAirtime');
             Route::post('/{user}/airtime', 'UserController@airtime');
 
             Route::get('/{user}/data', 'UserController@getData');
             Route::post('/{user}/data', 'UserController@data');
+
+            Route::get('/{user}/subscriptions/', 'UserController@subscriptions');
 
         });
 
@@ -64,8 +67,11 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    Route::get('/subscribe/{reference}', 'UserController@subscribe');
-    Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
+    #Payment Verification
+    Route::prefix('verify')->group(function () {
+        Route::get('/subscribe/{reference}', 'UserController@subscribe');
+        Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
+    });
 
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });

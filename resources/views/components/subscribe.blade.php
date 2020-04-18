@@ -13,7 +13,8 @@
         <select class="custom-select" id="operator" required="" v-model="amount">
             <option value="">Choose Plan</option>
             @foreach ($packages as $key=>$sub)
-            <option value="{{$sub['amount']}}"> {{ucfirst($key)}} - {{currencyFormat($sub['amount'])}}</option>
+            <option value="{{$sub['amount']}}"> {{ucfirst($key)}} -
+                {{currencyFormat($sub['amount'])}}</option>
             @endforeach
         </select>
     </div>
@@ -40,7 +41,7 @@
             var handler = PaystackPop.setup({
               key: '{{env("PAYSTACK_KEY")}}',
               email: '{{$user->email}}',
-              amount: this.amount * 100,
+              amount: calcCharges(this.amount) * 100,
               currency: "NGN",
               first_name:'{{$user->fname}}',
               last_name:'{{$user->lname}}',
@@ -52,11 +53,12 @@
                   user_id: "{{$user->id}}",
                   reason: 'subscription',
                   upgrade:"{{$upgrade}}",
+                  amount:this.amount,
                  
               },
               
               callback: function(response){
-                  window.location.replace("/subscribe/"+response.reference);
+                  window.location.replace("/verify/subscribe/"+response.reference);
                   //alert('success. transaction ref is ' + response.reference);
               },
               onClose: function(){

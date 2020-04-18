@@ -21,7 +21,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-4">
-        <div class="card theme-bg round">
+        <div class="card theme-bg">
             <div class="card-header borderless">
                 <h5 class="text-white">Wallet</h5>
             </div>
@@ -68,7 +68,7 @@
 
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card rounded">
             <div class="card-block">
                 <div class="row">
                     <div class="col">
@@ -152,6 +152,17 @@
                         </div>
                         <div class="input-group input-group-sm my-1 mr-1">
                             <div class="input-group-prepend">
+                                <span class="input-group-text">Type</span>
+                            </div>
+                            <select class="custom-select" name="reason" aria-label="Small">
+                                <option value="">All</option>
+                                @foreach ($types as $t)
+                                <option value="{{$t}}" {{$t == $type ? 'selected': ''}}>{{ucfirst($t)}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="input-group input-group-sm my-1 mr-1">
+                            <div class="input-group-prepend">
                                 <span class="input-group-text">Reason</span>
                             </div>
                             <select class="custom-select" name="reason" aria-label="Small">
@@ -192,7 +203,9 @@
                                 <td>{{$transaction->ref}}</td>
                                 <td>{{$transaction->amount}}</td>
                                 <td>{{$transaction->balance}}</td>
-                                <td>{{$transaction->type}}</td>
+                                <td><a
+                                        class="label rounded-pill text-white {{$transaction->type =='credit' ?'theme-bg':'theme-bg2'}}">{{$transaction->type}}</a>
+                                </td>
                                 <td>{{$transaction->reason}}</td>
                                 <td>{{$transaction->desc}}</td>
                                 <td>{{$transaction->created_at}}</td>

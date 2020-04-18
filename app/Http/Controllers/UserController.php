@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use App\Traits\Main;
 use App\Activity;
 use App\Referral;
-//use App\Traits\Referral;
 use App\Subscription;
+//use App\Traits\Referral;
+use App\Traits\Main;
 use App\Traits\Payment;
 use App\Transaction;
 use App\User;
@@ -14,7 +14,7 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    use Payment/*, Referral , Main */;
+    use Payment, Main/*, Referral , Main */;
 
     public function index(User $user)
     {
@@ -49,6 +49,13 @@ class UserController extends Controller
 
     }
 
+    public function subscriptions(User $user)
+    {
+        $this->authorize('reseller', $user);
+        return view('user.subscribe.history');
+
+    }
+
     public function getUpgrade(User $user)
     {
         $this->authorize('upgrade', $user);
@@ -74,7 +81,7 @@ class UserController extends Controller
         abort(403);
         } */
 
-        $amount = $tranx->data->amount / 100;
+        $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
         if ($tranx->data->metadata->upgrade) {
             $newSubAmount = config("settings.subscriptions.{$lastSub->name}.amount") + $amount;
@@ -138,6 +145,7 @@ class UserController extends Controller
             'user_id' => $tranx->data->metadata->user_id,
             'name' => $newSub,
             'last_sub' => $lastSub ? $lastSub->name : null,
+            'bonus' => calPercentageAmount($amount, $bonus),
             'transaction_id' => $tran->id,
         ]);
 
@@ -194,26 +202,37 @@ class UserController extends Controller
         $to = $to->endOfDay();
         $reason = request()->reason ? request()->reason : '';
         $ref = request()->ref ? request()->ref : '';
+        $type = request()->type ? request()->type : '';
 
-        $transactions = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref) {
+        $transactions = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type) {
             if ($reason != '') {
                 $query->where('reason', $reason);
 
             }
             if ($ref != '') {
                 $query->where('ref', 'LIKE', "%{$ref}%");
+
+            }
+
+            if ($type != '') {
+                $query->where('type', $type);
 
             }
 
         })->paginate(1);
 
-        $query = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref) {
+        $query = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type) {
             if ($reason != '') {
                 $query->where('reason', $reason);
 
             }
             if ($ref != '') {
                 $query->where('ref', 'LIKE', "%{$ref}%");
+
+            }
+
+            if ($type != '') {
+                $query->where('type', $type);
 
             }
 
@@ -227,10 +246,11 @@ class UserController extends Controller
         $debit = $query->where('type', 'debit');
 
         $reasons = Transaction::pluck('reason')->unique();
+        $types = Transaction::pluck('type')->unique();
 
         //$transactions->paginate(1);
 
-        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit');
+        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types');
 
         return view('user.wallet.history', $compact);
     }
@@ -268,6 +288,53 @@ class UserController extends Controller
         return view('user.referral.history', $compact);
     }
 
+    public function getWithdrawReferral(User $user)
+    {
+        $this->authorize('view', $user);
+        return view('user.referral.withdraw');
+    }
+
+    public function withdrawReferral(User $user)
+    {
+        $this->validate(request(), [
+            'amount' => "required|numeric|min:1000",
+        ]);
+
+        $amount = request()->amount;
+
+        if ($amount > $user->referral_balance) {
+            //return 'error';
+            return $this->jsonWebBack('error', 'Insuficcient Referral Balance');
+        }
+        //return;
+
+        $desc = "Wallet funding of {$amount} from referral wallet";
+
+        $tran = Transaction::create([
+            'amount' => $amount,
+            'balance' => $user->balance,
+            'type' => 'credit',
+            'desc' => "{$desc}",
+            'ref' => generateRef($user),
+            'user_id' => $user->id,
+            //'reason' => 'top-up',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $desc,
+        ]);
+
+        $user->update([
+            'balance' => $user->balance + $amount,
+            'referral_balance' => $user->referral_balance - $amount,
+        ]);
+
+        return $this->jsonWebRedirect('error', "Withrawal of {$amount} to wallet successfull", $user->routePath());
+
+    }
+
     public function getFundWallet(User $user)
     {
         $this->authorize('view', $user);
@@ -276,12 +343,6 @@ class UserController extends Controller
 
     public function fundWallet($reference)
     {
-        /* $this->validate(request(), [
-        'amount' => "required|numeric|min:" . config('settings.minimum_amount'),
-        'type' => 'required|string|in:' . implode(",", config('settings.investments')),
-        'duration' => 'required|integer',
-        'proof' => 'required|image|max:250',
-        ]); */
 
         $tranx = $this->validatePayment($reference, 'top-up');
         // return \json_encode($tranx);
@@ -292,9 +353,9 @@ class UserController extends Controller
 
         $user = User::find($tranx->data->metadata->user_id);
 
-        $amount = $tranx->data->amount / 100;
+        $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
-        $desc = "Wallet funding of {$amount}";
+        $desc = "Wallet funding of {$amount} from online payment";
 
         $tran = Transaction::create([
             'amount' => $amount,
@@ -316,7 +377,7 @@ class UserController extends Controller
             'balance' => $user->balance + $amount,
         ]);
 
-        return $this->jsonWebRedirect('success', '{$amount} added to wallet', $user->routePath());
+        return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
 
         //return view('user.wallet.fund');
     }

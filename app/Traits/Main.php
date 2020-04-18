@@ -1,15 +1,18 @@
 <?php
 namespace App\Traits;
 
+use App\User;
+
 trait Main
 {
-    /**
-     * @param double $amount
-     * @param double $percentage
-     * @return double
-     **/
-    /* public static function calPercentage($amount, $percentage)
-{
-return ($amount - ($percentage / 100 * $amount));
-} */
+    function isReferalBalanceEnuf(User $user, $amount)
+    {
+        return $amount > $user->referral_balance ? false : true;
+    }
+
+    function isBalanceEnuf(User $user, $amount)
+    {
+        return $amount > $user->balance ? false : true;
+    }
+
 }

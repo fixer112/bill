@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="/assets/plugins/notification/css/notification.min.css">
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/css/custom.css">
+        <script src="/js/script.js"></script>
         @yield('head')
 
     </head>
@@ -69,9 +70,9 @@
                             <a class=""><span class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
                                     class="pcoded-mtext">Wallet</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a href="/user/wallet/{{request()->user->id}}/history" class="">History</a>
-                                </li>
                                 <li class=""><a href="/user/wallet/{{request()->user->id}}/fund" class="">Top up</a>
+                                </li>
+                                <li class=""><a href="/user/wallet/{{request()->user->id}}/history" class="">History</a>
                                 </li>
                             </ul>
                         </li>
@@ -80,11 +81,11 @@
                             <a class=""><span class="pcoded-micon"><i class="fa fa-link"></i></span><span
                                     class="pcoded-mtext">Referral</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a href="/user/referral/{{request()->user->id}}/history"
-                                        class="">History</a>
-                                </li>
                                 <li class=""><a href="/user/referral/{{request()->user->id}}/withdraw"
                                         class="">Withdraw</a>
+                                </li>
+                                <li class=""><a href="/user/referral/{{request()->user->id}}/history"
+                                        class="">History</a>
                                 </li>
                             </ul>
                         </li>
@@ -107,6 +108,12 @@
                         @if(request()->user->is_reseller)
                         <li class="nav-item pcoded-menu-caption">
                             <label>Subscription</label>
+                        </li>
+
+                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/subscriptions"
+                                class="nav-link"><span class="pcoded-micon"><i
+                                        class="fa fa-money-bill-alt"></i></span><span
+                                    class="pcoded-mtext">History</span></a>
                         </li>
                         {{-- {{json_encode(request()->user->upgradeList())}} --}}
                         @can('upgrade',request()->user)

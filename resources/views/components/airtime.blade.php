@@ -23,7 +23,7 @@
         <div class="form-group">
             <label for="amount">Custom Amount</label>
             <div class="input-group">
-                <div class="input-group-prepend"> <span class="input-group-text">$</span>
+                <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                 </div>
 
                 <input class="form-control" id="amount" placeholder="Enter Amount" required="" type="text">

@@ -93,7 +93,12 @@ class UserPolicy
 
     public function upgrade(User $user, User $model)
     {
-        return count($model->upgradeList()) > 0 && $model->is_reseller;
+        return $user->id == $model->id && count($model->upgradeList()) > 0 && $model->is_reseller;
+    }
+
+    public function reseller(User $user, User $model)
+    {
+        return $user->id == $model->id && $model->is_reseller;
     }
 
     public function before($user, $ability)

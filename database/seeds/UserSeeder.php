@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
 
         Subscription::create([
             'amount' => 5000,
-            //'balance' =>5000
+            'bonus' => 1200,
             'user_id' => $user->id,
             'name' => 'basic',
             'transaction_id' => $tran->id,

@@ -26,6 +26,7 @@
         <link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.carousel.min.css" />
         <link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.theme.default.min.css" /> --}}
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+        <script src="/js/script.js"></script>
 
 
 

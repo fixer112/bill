@@ -207,6 +207,7 @@
                                     {{session('error')}}
                                 </div>
                                 @endif
+                                {{-- {{request()->user->lastSub()}} --}}
                                 @yield('content')
                             </div>
                         </div>

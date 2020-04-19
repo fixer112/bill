@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function lastSub()
     {
-        return $this->subscriptions->last();
+        return $this->subscriptions->first();
     }
 
     public function upgradeList()

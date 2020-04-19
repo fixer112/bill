@@ -39,7 +39,7 @@ trait BillPayment
 
     }
 
-    public static function airtime($amount, $phoneNumber, $networkCode,$ref)
+    public static function airtime($amount, $phoneNumber, $networkCode, $ref)
     {
         // return self::link(null, "network=15&phone=xxxxx&amt=500&user_ref=xxx");
         if (self::balance() < $amount) {

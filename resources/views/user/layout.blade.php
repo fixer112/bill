@@ -262,7 +262,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
         <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         {{-- <script src="/assets/js/menu-setting.min.js"></script> --}}
-        <script src="/assets/js/pcoded.min.js"></script>{{-- 
+        <script src="/assets/js/pcoded.min.js"></script>
+        <script src="{{ asset('js/phone-validator.js')}}"></script>
+        {{-- 
         <script src="/assets/plugins/amchart/js/amcharts.js"></script>
         <script src="/assets/plugins/amchart/js/gauge.js"></script>
         <script src="/assets/plugins/amchart/js/serial.js"></script>

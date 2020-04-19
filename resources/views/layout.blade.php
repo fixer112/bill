@@ -287,6 +287,7 @@
         <script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
         <script src="/vendor/easy-responsive-tabs/easy-responsive-tabs.js"></script>
         <script src="/js/theme.js"></script>
+        <script src="{{ asset('js/phone-validator.js')}}"></script>
 
         <script>
             $(document).ready(function () {

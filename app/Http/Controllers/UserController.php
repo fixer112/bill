@@ -6,6 +6,7 @@ use App\Activity;
 use App\Referral;
 use App\Subscription;
 //use App\Traits\Referral;
+use App\Traits\BillPayment;
 use App\Traits\Main;
 use App\Traits\Payment;
 use App\Transaction;
@@ -14,7 +15,8 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    use Payment, Main/*, Referral , Main */;
+
+    use Payment, Main, BillPayment/*, Referral , Main */;
 
     public function index(User $user)
     {
@@ -309,6 +311,11 @@ class UserController extends Controller
         //return;
 
         $desc = "Wallet funding of {$amount} from referral wallet";
+        
+        $user->update([
+            'balance' => $user->balance + $amount,
+            'referral_balance' => $user->referral_balance - $amount,
+        ]);
 
         $tran = Transaction::create([
             'amount' => $amount,
@@ -326,10 +333,7 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        $user->update([
-            'balance' => $user->balance + $amount,
-            'referral_balance' => $user->referral_balance - $amount,
-        ]);
+        
 
         return $this->jsonWebRedirect('error', "Withrawal of {$amount} to wallet successfull", $user->routePath());
 
@@ -357,6 +361,10 @@ class UserController extends Controller
 
         $desc = "Wallet funding of {$amount} from online payment";
 
+         $user->update([
+            'balance' => $user->balance + $amount,
+        ]);
+
         $tran = Transaction::create([
             'amount' => $amount,
             'balance' => $user->balance,
@@ -373,9 +381,7 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        $user->update([
-            'balance' => $user->balance + $amount,
-        ]);
+       
 
         return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
 
@@ -387,6 +393,63 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return view('user.bill.airtime');
+    }
+
+    public function postAirtime(User $user)
+    {
+        $this->authorize('view', $user);
+
+        $networks = config("settings.mobile_networks");
+        $bills = config("settings.bills.airtime");
+
+        //return $bills[request()->network];
+        $this->validate(request(), [
+            'network' => "required|string|in:" . implode(',', array_keys($networks)),
+            'amount' => "required|numeric|min:{$bills[request()->network]['min']}|max:{$bills[request()->network]['max']}",
+            'number' => "required|string",
+            'network_code' => "required|string",
+            'discount_amount' => "required|numeric",
+        ]);
+        
+        if(request()->discount_amount > $user->balance){
+            return $this->jsonWebBack('error', 'Insufficient Fund');
+        }
+
+        $result = $this->airtime(request()->amount, request()->number, request()->network_code);
+
+        if (is_array($result) && isset($result['error'])) {
+            return $this->jsonWebBack('error', $result['error']);
+        }
+        $user->update([
+            'balance' => $user->balance - request()->discount_amount,
+        ]);
+
+        $desc = "Recharge of ".strtoupper(request()->network)." ".currencyFormat(request()->amount)." to ".request()->number;
+
+        $tran = Transaction::create([
+            'amount' => request()->discount_amount,
+            'balance' => $user->balance,
+            'type' => 'debit',
+            'desc' => "{$desc}",
+            'ref' => generateRef($user),
+            'user_id' => $user->id,
+            'reason' => 'airtime',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $desc,
+        ]);
+
+        
+
+        return $this->jsonWebRedirect('error', $desc, $user->routePath());
+
+
+
+        //return request()->all();
+
     }
 
     public function getData(User $user)

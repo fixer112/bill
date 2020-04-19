@@ -18,11 +18,16 @@
                         <div class="resp-tabs-container bg-light shadow-md rounded h-100 p-3">
 
                             <!-- Mobile Recharge -->
-                            <x-airtime />
+                            <div class="resp-tab-content resp-tab-content-active" style="display:block"
+                                aria-labelledby="tab_item-0">
+                                <x-airtime />
+                            </div>
                             <!-- Mobile Recharge end -->
 
                             <!-- Data Recharge -->
-                            <x-data />
+                            <div class="resp-tab-content" aria-labelledby="tab_item-1">
+                                <x-data />
+                            </div>
                             <!-- Data Recharge end -->
 
                         </div>

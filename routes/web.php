@@ -50,10 +50,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/referral/{user}/withdraw', 'UserController@withdrawReferral');
 
             Route::get('/{user}/airtime', 'UserController@getAirtime');
-            Route::post('/{user}/airtime', 'UserController@airtime');
+            Route::post('/{user}/airtime', 'UserController@postAirtime');
 
             Route::get('/{user}/data', 'UserController@getData');
-            Route::post('/{user}/data', 'UserController@data');
+            Route::post('/{user}/data', 'UserController@postData');
 
             Route::get('/{user}/subscriptions/', 'UserController@subscriptions');
 
@@ -76,4 +76,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });
 
+Route::get('/test', 'Controller@test');
 //Route::get('/home', 'HomeController@index')->name('home');

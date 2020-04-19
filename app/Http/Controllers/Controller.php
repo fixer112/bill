@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\BillPayment;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -9,7 +10,9 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use BillPayment;
+
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, BillPayment;
 
     public function jsonWebBack($type, $message)
     {
@@ -28,5 +31,11 @@ class Controller extends BaseController
         request()->session()->flash($type, $message);
 
         return redirect($link);
+    }
+
+    public function test()
+    {
+        return $this->balance();
+        return $this->airtime(100, '08106813749', '15');
     }
 }

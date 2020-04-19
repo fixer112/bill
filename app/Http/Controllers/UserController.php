@@ -487,7 +487,7 @@ class UserController extends Controller
             $result = $this->data(request()->amount, request()->number, request()->network_code, $ref);
         }
 
-        return $result;
+        // return $result;
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);

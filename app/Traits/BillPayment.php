@@ -41,6 +41,7 @@ trait BillPayment
 
     public static function checkError($response)
     {
+
         if ($response['code'] == '107') {
             return errorMessage('Invalid Phone Number');
         }
@@ -65,7 +66,7 @@ trait BillPayment
     {
         // return self::link(null, "network=15&phone=xxxxx&amt=500&user_ref=xxx");
         if (self::balance() < $amount) {
-            return errorMessage();
+            return errorMessage(balanceError());
         }
 
         //$ref = generateRef();
@@ -85,7 +86,7 @@ trait BillPayment
     public static function data($amount, $phoneNumber, $networkCode, $ref)
     {
         if (self::balance() < $amount) {
-            return errorMessage();
+            return errorMessage(balanceError());
         }
 
         $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
@@ -105,7 +106,7 @@ trait BillPayment
     {
 
         if (self::balance() < $amount) {
-            return errorMessage();
+            return errorMessage(balanceError());
         }
 
         $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}"))->throw();

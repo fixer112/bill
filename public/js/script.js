@@ -16,3 +16,9 @@ function calcCharges(amount) {
     //return
 
 }
+
+function getLastString(string, delimiter = '-') {
+    var strings = string.split(delimiter);
+
+    return strings[strings.length - 1];
+}

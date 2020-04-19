@@ -333,8 +333,6 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        
-
         return $this->jsonWebRedirect('success', "Withrawal of {$amount} to wallet successfull", $user->routePath());
 
     }
@@ -361,7 +359,7 @@ class UserController extends Controller
 
         $desc = "Wallet funding of {$amount} from online payment";
 
-         $user->update([
+        $user->update([
             'balance' => $user->balance + $amount,
         ]);
 
@@ -380,8 +378,6 @@ class UserController extends Controller
             'admin_id' => auth()->user()->id,
             'summary' => $desc,
         ]);
-
-       
 
         return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
 
@@ -410,14 +406,14 @@ class UserController extends Controller
             'network_code' => "required|string",
             'discount_amount' => "required|numeric",
         ]);
-        
-        if(request()->discount_amount > $user->balance){
+
+        if (request()->discount_amount > $user->balance) {
             return $this->jsonWebBack('error', 'Insufficient Fund');
         }
 
-        $ref =generateRef($user);
+        $ref = generateRef($user);
 
-        $result = $this->airtime(request()->amount, request()->number, request()->network_code,$ref);
+        $result = $this->airtime(request()->amount, request()->number, request()->network_code, $ref);
 
         //return $result;
 
@@ -428,7 +424,7 @@ class UserController extends Controller
             'balance' => $user->balance - request()->discount_amount,
         ]);
 
-        $desc = "Recharge of ".strtoupper(request()->network)." ".currencyFormat(request()->amount)." to ".request()->number;
+        $desc = "Recharge of " . strtoupper(request()->network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
 
         $tran = Transaction::create([
             'amount' => request()->discount_amount,
@@ -446,12 +442,7 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        
-
         return $this->jsonWebRedirect('success', $desc, $user->routePath());
-
-
-
         //return request()->all();
 
     }
@@ -461,5 +452,69 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return view('user.bill.data');
+    }
+
+    public function postData(User $user)
+    {
+        $this->authorize('view', $user);
+
+        $networks = config("settings.mobile_networks");
+        $bills = config("settings.bills.airtime");
+
+//return request()->network_code;
+        $this->validate(request(), [
+            'network' => "required|string|in:" . implode(',', array_keys($networks)),
+            'amount' => "required|numeric",
+            'details' => "required|string",
+            'number' => "required|string",
+            'network_code' => "required|string",
+            'discount_amount' => "required|numeric",
+        ]);
+
+        //return request()->all();
+
+        if (request()->discount_amount > $user->balance) {
+            return $this->jsonWebBack('error', 'Insufficient Fund');
+        }
+
+        $ref = generateRef($user);
+
+        if (request()->network == 'mtn') {
+            $result = $this->dataMtn(request()->amount, request()->number, request()->network_code, $ref);
+
+        } else {
+
+            $result = $this->data(request()->amount, request()->number, request()->network_code, $ref);
+        }
+
+        return $result;
+
+        if (is_array($result) && isset($result['error'])) {
+            return $this->jsonWebBack('error', $result['error']);
+        }
+        $user->update([
+            'balance' => $user->balance - request()->discount_amount,
+        ]);
+
+        $desc = "Data subscription of " . strtoupper(request()->network) . " " . request()->details . " to " . request()->number;
+
+        $tran = Transaction::create([
+            'amount' => request()->discount_amount,
+            'balance' => $user->balance,
+            'type' => 'debit',
+            'desc' => "{$desc}",
+            'ref' => $ref,
+            'user_id' => $user->id,
+            'reason' => 'airtime',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $desc,
+        ]);
+
+        return $this->jsonWebRedirect('success', $desc, $user->routePath());
+
     }
 }

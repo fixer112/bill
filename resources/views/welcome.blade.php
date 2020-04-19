@@ -1,6 +1,7 @@
 @extends('layout')
 @section('title','Home')
 @section('content')
+{{-- @json(config("settings.bills.data")) --}}
 @guest
 <section class="container">
     <div class="row mt-4">
@@ -20,13 +21,13 @@
                             <!-- Mobile Recharge -->
                             <div class="resp-tab-content resp-tab-content-active" style="display:block"
                                 aria-labelledby="tab_item-0">
-                                <x-airtime :dat="airtimeDiscount()"/>
+                                <x-airtime :dat="airtimeDiscount()" />
                             </div>
                             <!-- Mobile Recharge end -->
 
                             <!-- Data Recharge -->
                             <div class="resp-tab-content" aria-labelledby="tab_item-1">
-                                <x-data />
+                                <x-data :dat="dataDiscount()" />
                             </div>
                             <!-- Data Recharge end -->
 

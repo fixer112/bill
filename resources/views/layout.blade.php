@@ -153,24 +153,24 @@
 
             <!-- Content -->
             <div id="content">
-                {{--  <section class="container">
+                 <section class="container">
                     <div id="row">
                         <div id="col-12">
 
                             @if(session('success'))
-                            <div class="alert alert-success mt-3">
+                            <div class="alert alert-success rounded mt-3">
                                 {{session('success')}}
             </div>
             @endif
 
             @if(session('error'))
-            <div class="alert alert-danger m-3">
+            <div class="alert alert-danger rounded m-3">
                 {{session('error')}}
             </div>
         </div>
         </div>
         @endif
-        </section> --}}
+        </section>
         @yield('content')
 
         </div><!-- Content end -->

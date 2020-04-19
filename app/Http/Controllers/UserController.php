@@ -311,7 +311,7 @@ class UserController extends Controller
         //return;
 
         $desc = "Wallet funding of {$amount} from referral wallet";
-        
+
         $user->update([
             'balance' => $user->balance + $amount,
             'referral_balance' => $user->referral_balance - $amount,
@@ -335,7 +335,7 @@ class UserController extends Controller
 
         
 
-        return $this->jsonWebRedirect('error', "Withrawal of {$amount} to wallet successfull", $user->routePath());
+        return $this->jsonWebRedirect('success', "Withrawal of {$amount} to wallet successfull", $user->routePath());
 
     }
 
@@ -402,7 +402,7 @@ class UserController extends Controller
         $networks = config("settings.mobile_networks");
         $bills = config("settings.bills.airtime");
 
-        //return $bills[request()->network];
+        //return request()->network_code;
         $this->validate(request(), [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'amount' => "required|numeric|min:{$bills[request()->network]['min']}|max:{$bills[request()->network]['max']}",
@@ -415,7 +415,11 @@ class UserController extends Controller
             return $this->jsonWebBack('error', 'Insufficient Fund');
         }
 
-        $result = $this->airtime(request()->amount, request()->number, request()->network_code);
+        $ref =generateRef($user);
+
+        $result = $this->airtime(request()->amount, request()->number, request()->network_code,$ref);
+
+        //return $result;
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
@@ -431,7 +435,7 @@ class UserController extends Controller
             'balance' => $user->balance,
             'type' => 'debit',
             'desc' => "{$desc}",
-            'ref' => generateRef($user),
+            'ref' => $ref,
             'user_id' => $user->id,
             'reason' => 'airtime',
         ]);
@@ -444,7 +448,7 @@ class UserController extends Controller
 
         
 
-        return $this->jsonWebRedirect('error', $desc, $user->routePath());
+        return $this->jsonWebRedirect('success', $desc, $user->routePath());
 
 
 

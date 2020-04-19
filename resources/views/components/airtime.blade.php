@@ -28,7 +28,7 @@
                 @enderror
     </div>
 
-    <input name="network_code" value="network_code" required readonly hidden />
+    <input name="network_code" v-model="network_code" required readonly hidden />
 
     <div class="form-group">
         <label for="amount">Amount</label>

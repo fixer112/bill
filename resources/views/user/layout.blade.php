@@ -197,13 +197,13 @@
                         <div class="main-body">
                             <div class="page-wrapper">
                                 @if(session('success'))
-                                <div class="alert alert-success">
+                                <div class="alert alert-success rounded">
                                     {{session('success')}}
                                 </div>
                                 @endif
 
                                 @if(session('error'))
-                                <div class="alert alert-danger">
+                                <div class="alert alert-danger rounded">
                                     {{session('error')}}
                                 </div>
                                 @endif

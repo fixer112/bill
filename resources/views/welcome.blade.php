@@ -20,7 +20,7 @@
                             <!-- Mobile Recharge -->
                             <div class="resp-tab-content resp-tab-content-active" style="display:block"
                                 aria-labelledby="tab_item-0">
-                                <x-airtime />
+                                <x-airtime :dat="airtimeDiscount()"/>
                             </div>
                             <!-- Mobile Recharge end -->
 

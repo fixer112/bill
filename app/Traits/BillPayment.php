@@ -39,20 +39,25 @@ trait BillPayment
 
     }
 
-    public static function airtime($amount, $phoneNumber, $networkCode)
+    public static function airtime($amount, $phoneNumber, $networkCode,$ref)
     {
         // return self::link(null, "network=15&phone=xxxxx&amt=500&user_ref=xxx");
         if (self::balance() < $amount) {
             return errorMessage();
         }
 
-        $ref = generateRef();
+        //$ref = generateRef();
 
         $response = Http::get(self::link(null, "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
 
-        //return $response->status();
+        //return $response->body();
+
         if (str_contains($response->body(), '107')) {
             return errorMessage('Invalid Phone Number');
+        }
+
+        if (str_contains($response->body(), '108')) {
+            return errorMessage('You cannot process same transaction within 3 minutes');
         }
 
         if (str_contains($response->body(), '102')) {

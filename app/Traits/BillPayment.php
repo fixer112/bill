@@ -54,6 +54,10 @@ trait BillPayment
             return errorMessage("Invalid amount");
         }
 
+        if ($response['code'] == '103') {
+            return errorMessage('Temporary network issue,Please try again later');
+        }
+
         if ($response != '100') {
             return errorMessage();
         }
@@ -65,9 +69,7 @@ trait BillPayment
     public static function airtime($amount, $phoneNumber, $networkCode, $ref)
     {
         // return self::link(null, "network=15&phone=xxxxx&amt=500&user_ref=xxx");
-        if (self::balance() < $amount) {
-            return errorMessage(balanceError());
-        }
+        self::balance();
 
         //$ref = generateRef();
 
@@ -85,9 +87,7 @@ trait BillPayment
 
     public static function data($amount, $phoneNumber, $networkCode, $ref)
     {
-        if (self::balance() < $amount) {
-            return errorMessage(balanceError());
-        }
+        self::balance();
 
         $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
 
@@ -105,9 +105,7 @@ trait BillPayment
     public static function dataMtn($amount, $phoneNumber, $networkCode, $ref)
     {
 
-        if (self::balance() < $amount) {
-            return errorMessage(balanceError());
-        }
+        self::balance();
 
         $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}"))->throw();
 

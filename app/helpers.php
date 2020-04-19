@@ -5,10 +5,6 @@ use App\User;
 use Illuminate\Support\Facades\Storage;
 
 //if (!function_exists("calPercentage")) {
-function balanceError()
-{
-    return 'Temporary network issue,Please try again later';
-}
 
 function successMessage($message = "An error occured, Please try again later")
 {

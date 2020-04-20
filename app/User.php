@@ -151,24 +151,24 @@ class User extends Authenticatable
         return $this->is_admin ? true : false;
     }
 
-    public function getDiscount()
+    /* public function getDiscount()
     {
-        //return $this->is_reseller;
+    //return $this->is_reseller;
 
-        if (!$this->is_reseller) {
-            return 0;
-        }
-
-        $subscription = $this->subscriptions->last();
-        if (!$subscription) {
-            return 0;
-        }
-
-        $discount = config("settings.subscriptions.{$subscription->name}.discount");
-
-        return $discount;
-
+    if (!$this->is_reseller) {
+    return 0;
     }
+
+    $subscription = $this->subscriptions->last();
+    if (!$subscription) {
+    return 0;
+    }
+
+    $discount = config("settings.subscriptions.{$subscription->name}.discount");
+
+    return $discount;
+
+    } */
     public function getReferralLevel()
     {
         $points = $this->points;

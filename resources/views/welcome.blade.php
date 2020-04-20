@@ -136,7 +136,44 @@
         </div>
     </div>
 </div><!-- Tabs end -->
+<div class="container">
+    <section class="section pricing bg-light shadow-md rounded px-5 mb-3">
+        <div class="container">
+            <div class="row">
+                <!-- Free Tier -->
+                @foreach (config("settings.subscriptions") as$key=> $item)
+                <div class="col">
+                    <div class="card mb-5 mb-lg-0">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">{{$key}}</h5>
+                            <h6 class="card-price text-center">{{currencyFormat($item['amount'])}}<span
+                                    class="period">/Forever</span></h6>
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>{{$item['rate_limit']}} Api
+                                    Throttle limit / Minutes</li>
+                                <li><span class="fa-li"><i
+                                            class="fas fa-check"></i></span>{{currencyFormat(calPercentageAmount($item['amount'],$item['bonus']))}}
+                                    Balance After Setup
+                                </li>
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>Bill Payments Discount</li>
+                                {{-- <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Unlimited
+                                    Private
+                                    Projects</li> --}}
 
+                            </ul>
+                            <a href="/pricing"><button class="btn btn-block btn-primary text-uppercase text-white">Check
+                                    Out
+                                    Pricing</button></a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+            </div>
+        </div>
+    </section>
+</div>
 <!-- Refer & Earn -->
 <div class="container">
     <section class="section bg-light shadow-md rounded px-5">

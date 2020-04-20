@@ -26,7 +26,10 @@
         <link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.carousel.min.css" />
         <link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.theme.default.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+        <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+        <link rel="stylesheet" type="text/css" href="/css/custom.css" />
         <script src="/js/script.js"></script>
+        @yield('head')
 
     </head>
 
@@ -63,7 +66,8 @@
                             <nav class="primary-menu navbar navbar-expand-lg">
                                 <div id="header-nav" class="collapse navbar-collapse">
                                     <ul class="navbar-nav">
-                                        <li class="active"> <a href="/">Home</a></li>
+                                        <li class=""> <a href="/">Home</a></li>
+                                        <li class=""> <a href="/pricing">Pricing</a></li>
 
                                         {{-- <li class="dropdown"> <a class="dropdown-toggle" href="#">Features</a>
                                             <ul class="dropdown-menu">
@@ -153,124 +157,127 @@
 
             <!-- Content -->
             <div id="content">
-                 <section class="container">
+                <section class="container">
                     <div id="row">
                         <div id="col-12">
 
                             @if(session('success'))
                             <div class="alert alert-success rounded mt-3">
                                 {{session('success')}}
-            </div>
-            @endif
+                            </div>
+                            @endif
 
-            @if(session('error'))
-            <div class="alert alert-danger rounded m-3">
-                {{session('error')}}
-            </div>
-        </div>
-        </div>
-        @endif
-        </section>
-        @yield('content')
+                            @if(session('error'))
+                            <div class="alert alert-danger rounded m-3">
+                                {{session('error')}}
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                </section>
+                @yield('content')
 
-        </div><!-- Content end -->
+            </div><!-- Content end -->
 
-        <!-- Footer -->
-        <footer id="footer">
-            <section class="section bg-light shadow-md pt-4 pb-3">
-                <div class="container">
+            <!-- Footer -->
+            <footer id="footer">
+                <section class="section bg-light shadow-md pt-4 pb-3">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="fas fa-lock"></i> </div>
+                                    <h4>100% Secure Payments</h4>
+                                    <p>Moving your card details to a much more secured place.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="fas fa-thumbs-up"></i> </div>
+                                    <h4>Trust pay</h4>
+                                    <p>100% Payment Protection. Easy Return Policy.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="fas fa-bullhorn"></i> </div>
+                                    <h4>Refer & Earn</h4>
+                                    <p>Invite a friend to sign up and earn up to $100.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="featured-box text-center">
+                                    <div class="featured-box-icon"> <i class="far fa-life-ring"></i> </div>
+                                    <h4>24X7 Support</h4>
+                                    <p>We re here to help. Have a query and need help ? <a href="#">Click here</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="container mt-4">
                     <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <div class="featured-box text-center">
-                                <div class="featured-box-icon"> <i class="fas fa-lock"></i> </div>
-                                <h4>100% Secure Payments</h4>
-                                <p>Moving your card details to a much more secured place.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="featured-box text-center">
-                                <div class="featured-box-icon"> <i class="fas fa-thumbs-up"></i> </div>
-                                <h4>Trust pay</h4>
-                                <p>100% Payment Protection. Easy Return Policy.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="featured-box text-center">
-                                <div class="featured-box-icon"> <i class="fas fa-bullhorn"></i> </div>
-                                <h4>Refer & Earn</h4>
-                                <p>Invite a friend to sign up and earn up to $100.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="featured-box text-center">
-                                <div class="featured-box-icon"> <i class="far fa-life-ring"></i> </div>
-                                <h4>24X7 Support</h4>
-                                <p>We re here to help. Have a query and need help ? <a href="#">Click here</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div class="container mt-4">
-                <div class="row">
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <p>Payment</p>
-                        <ul class="payments-types">
-                            <li><a href="#" target="_blank"> <img data-toggle="tooltip" src="images/payment/visa.png"
-                                        alt="visa" title="Visa"></a></li>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <p>Payment</p>
+                            <ul class="payments-types">
+                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                            src="images/payment/visa.png" alt="visa" title="Visa"></a></li>
 
-                            <li><a href="#" target="_blank"> <img data-toggle="tooltip" src="images/payment/paypal.png"
-                                        alt="paypal" title="PayPal"></a></li>
+                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                            src="images/payment/paypal.png" alt="paypal" title="PayPal"></a></li>
 
-                            <li><a href="#" target="_blank"> <img data-toggle="tooltip"
-                                        src="images/payment/mastercard.png" alt="discover" title="Discover"></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <p>Subscribe</p>
-                        <div class="input-group newsletter">
-                            <input class="form-control" placeholder="Your Email Address" name="newsletterEmail"
-                                id="newsletterEmail" type="text">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="submit">Subscribe</button>
-                            </span> </div>
-                    </div>
-                    <div class="col-md-4 d-flex align-items-md-end flex-column">
-                        <p>Keep in touch</p>
-                        <ul class="social-icons">
-                            <li class="social-icons-facebook"><a data-toggle="tooltip" href="http://www.facebook.com/"
-                                    target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                            <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/"
-                                    target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                            <li class="social-icons-google"><a data-toggle="tooltip" href="http://www.google.com/"
-                                    target="_blank" title="Google"><i class="fab fa-google"></i></a></li>
-                            <li class="social-icons-linkedin"><a data-toggle="tooltip" href="http://www.linkedin.com/"
-                                    target="_blank" title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
-                            <li class="social-icons-youtube"><a data-toggle="tooltip" href="http://www.youtube.com/"
-                                    target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a></li>
-                            <li class="social-icons-instagram"><a data-toggle="tooltip" href="http://www.instagram.com/"
-                                    target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></li>
-                        </ul>
+                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                            src="images/payment/mastercard.png" alt="discover" title="Discover"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <p>Subscribe</p>
+                            <div class="input-group newsletter">
+                                <input class="form-control" placeholder="Your Email Address" name="newsletterEmail"
+                                    id="newsletterEmail" type="text">
+                                <span class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">Subscribe</button>
+                                </span> </div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-md-end flex-column">
+                            <p>Keep in touch</p>
+                            <ul class="social-icons">
+                                <li class="social-icons-facebook"><a data-toggle="tooltip"
+                                        href="http://www.facebook.com/" target="_blank" title="Facebook"><i
+                                            class="fab fa-facebook-f"></i></a></li>
+                                <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/"
+                                        target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                <li class="social-icons-google"><a data-toggle="tooltip" href="http://www.google.com/"
+                                        target="_blank" title="Google"><i class="fab fa-google"></i></a></li>
+                                <li class="social-icons-linkedin"><a data-toggle="tooltip"
+                                        href="http://www.linkedin.com/" target="_blank" title="Linkedin"><i
+                                            class="fab fa-linkedin-in"></i></a></li>
+                                <li class="social-icons-youtube"><a data-toggle="tooltip" href="http://www.youtube.com/"
+                                        target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a></li>
+                                <li class="social-icons-instagram"><a data-toggle="tooltip"
+                                        href="http://www.instagram.com/" target="_blank" title="Instagram"><i
+                                            class="fab fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="container">
-                <div class="footer-copyright">
-                    <ul class="nav justify-content-center">
-                        <li class="nav-item"> <a class="nav-link active" href="/about">About Us</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="#">Faq</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="/contact">Contact</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="/support">Support</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Us</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="/privacy">Privacy Policy</a> </li>
-                    </ul>
-                    <p class="copyright-text">Copyright © {{date('Y')}} <a href="/">{{env('APP_NAME')}}</a>. All
-                        Rights
-                        Reserved.</p>
+                <div class="container">
+                    <div class="footer-copyright">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item"> <a class="nav-link active" href="/about">About Us</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="#">Faq</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/contact">Contact</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/support">Support</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Us</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/privacy">Privacy Policy</a> </li>
+                        </ul>
+                        <p class="copyright-text">Copyright © {{date('Y')}} <a href="/">{{env('APP_NAME')}}</a>. All
+                            Rights
+                            Reserved.</p>
+                    </div>
                 </div>
-            </div>
-        </footer><!-- Footer end -->
+            </footer><!-- Footer end -->
 
         </div><!-- Document Wrapper end -->
 
@@ -295,6 +302,16 @@
         type: 'vertical', //Types: default, vertical, accordion
         });
         });
+
+        var url = window.location;
+        var link =url.origin + url.pathname;
+        
+        var element = $('.navbar-nav li a').filter(function() {
+        //console.log(this);
+        return this.href == link; //|| url.href.indexOf(this.href) == 0;
+        });
+        
+        element.parent().addClass('active');
         </script>
 
     </body>

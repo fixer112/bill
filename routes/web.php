@@ -15,10 +15,13 @@ use Illuminate\Support\Facades\Route;
  */
 Route::middleware(['webRouteEnabled'])->group(function () {
     Route::middleware(['referral'])->group(function () {
-        Route::get('/', function () {
-            //return calPercentage(10000, 5);
-            return view('welcome');
-        });
+        /*  Route::get('/', function () {
+        //return calPercentage(10000, 5);
+        return view('welcome');
+        }); */
+        Route::get('/', 'HomeController@index');
+        Route::get('pricing', 'HomeController@pricing');
+
         Auth::routes();
     });
 

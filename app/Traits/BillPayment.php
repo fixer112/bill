@@ -85,19 +85,19 @@ trait BillPayment
         return $response->json();
     }
 
-    public static function data2()
+    /* public static function data2()
     {
 
-        $response = Http::post('https://www.speedydata.com.ng/api/data-order/create', [
-            "public_key" => 'pub_VbAb5lqnivVGQOkNjzir',
-            "private_key" => 'pri_6OATyKWh0nBdL3OjWdBkT2F13uOIIU',
-            "phone" => '08106813749',
-            "data_id" => 1,
-        ])->throw();
+    $response = Http::post('https://www.speedydata.com.ng/api/data-order/create', [
+    "public_key" => 'pub_VbAb5lqnivVGQOkNjzir',
+    "private_key" => 'pri_6OATyKWh0nBdL3OjWdBkT2F13uOIIU',
+    "phone" => '08106813749',
+    "data_id" => 1,
+    ])->throw();
 
-        return $response->json();
+    return $response->json();
 
-    }
+    } */
 
     public static function data($amount, $phoneNumber, $networkCode, $ref)
     {

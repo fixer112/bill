@@ -35,8 +35,8 @@ class Controller extends BaseController
 
     public function test()
     {
-        return $this->data2();
-        //return $this->fetchDataInfo('airtel');
+        //return $this->data2();
+        return $this->fetchDataInfo('glo');
         //return $this->balance();
         //return $this->airtime(100, '08106813749', '134555', generateRef());
     }

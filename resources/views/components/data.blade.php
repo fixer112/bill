@@ -35,7 +35,7 @@
             <option value="">Select Plan</option>
             <template v-for="data,key in plans">
                 <option :value='key'>@{{this.getLastString(data["id"])}} - @{{data["topup_currency"]}}
-                    @{{data["price"]}}
+                    @{{data["price"]}} - @{{data["validity"]}}
                     {{-- {{getLastString($value[0]['id'])}} --}}
                 </option>
 
@@ -72,6 +72,17 @@
     </div>
     <button class="btn btn-primary btn-block" type="submit">Continue</button>
 </div>
+<div class="alert alert-danger mt-2 p-3 rounded">
+    <h5 class="text-danger font-weight-bold">NOTICE</h5>
+    Data top up will come in as airtime but would be automatically converted to the particular bundle. A recipient that
+    has
+    borrowed airtime will not receive the data top up because the airtime (or part) would have been deducted before
+    conversion. This applies to all network except MTN.
+    <p class="text-primary font-weight-bold">
+        To Check Data balance:
+        Airtel: *123*10# or *140#, 9Mobile: *228#, MTN: *461*4# or *131*4#, GLO: *127*0#
+    </p>
+</div>
 
 <script>
     new Vue({
@@ -105,7 +116,7 @@
                
                 this.discountAmount = this.bills[this.network][n]['price'] -((this.bonus / 100) * this.bills[this.network][n]['price']);
 
-                this.details = getLastString(this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["price"];
+                this.details = getLastString(this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["price"]+ '-'+ this.bills[this.network][n]["validity"];
                 
             },
             

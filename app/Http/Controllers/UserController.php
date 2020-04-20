@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Referral;
-use App\Subscription;
+use App\Rules\checkBalance;
 //use App\Traits\Referral;
+use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
 use App\Traits\Payment;
@@ -404,12 +405,8 @@ class UserController extends Controller
             'amount' => "required|numeric|min:{$bills[request()->network]['min']}|max:{$bills[request()->network]['max']}",
             'number' => "required|string",
             'network_code' => "required|string",
-            'discount_amount' => "required|numeric",
+            'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
-
-        if (request()->discount_amount > $user->balance) {
-            return $this->jsonWebBack('error', 'Insufficient Fund');
-        }
 
         $ref = generateRef($user);
 
@@ -420,6 +417,7 @@ class UserController extends Controller
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
         }
+
         $user->update([
             'balance' => $user->balance - request()->discount_amount,
         ]);
@@ -464,18 +462,14 @@ class UserController extends Controller
 //return request()->network_code;
         $this->validate(request(), [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            'amount' => "required|numeric",
+            'discount_amount' => ["required", "numeric", new checkBalance($user)],
             'details' => "required|string",
             'number' => "required|string",
             'network_code' => "required|string",
-            'discount_amount' => "required|numeric",
+            'amount' => "required|numeric",
         ]);
 
         //return request()->all();
-
-        if (request()->discount_amount > $user->balance) {
-            return $this->jsonWebBack('error', 'Insufficient Fund');
-        }
 
         $ref = generateRef($user);
 

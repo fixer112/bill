@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'referral' => \Questocat\Referral\Http\Middleware\CheckReferral::class,
         'subscribed' => \App\Http\Middleware\Subscribed::class,
         'unsubscribed' => \App\Http\Middleware\UnSubscribed::class,
+        'webRouteEnabled' => \App\Http\Middleware\webRouteEnabled::class,
     ];
 }

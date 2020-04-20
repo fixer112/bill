@@ -18,8 +18,14 @@ trait BillPayment
 
         return $query ? "{$link}&{$query}" : $link;
     }
+
     public static function balance()
     {
+        Session::put('balance', [0, time()]);
+
+        if (!env("ENABLE_BILL_PAYMENT")) {
+            return errorMessage("Service Temporary Unavailable, please try again later");
+        }
 
         if (Session::has('balance') && time() - Session::get('balance')[1] < 300) {
 
@@ -58,7 +64,7 @@ trait BillPayment
             return errorMessage('Temporary network issue,Please try again later');
         }
 
-        if ($response != '100') {
+        if ($response['code'] != '100') {
             return errorMessage();
         }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GuestTransaction;
 use App\Traits\BillPayment;
+use App\Traits\Payment;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -11,7 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    use BillPayment;
+    use BillPayment, Payment;
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, BillPayment;
 
@@ -38,7 +39,7 @@ class Controller extends BaseController
 
     public function guestAirtime($reference)
     {
-        $tranx = $this->validateGuestPayment($reference, 'data');
+        $tranx = $this->validateGuestPayment($reference, 'airtime');
         // return \json_encode($tranx);
 
         if (is_array($tranx) && isset($tranx['error'])) {

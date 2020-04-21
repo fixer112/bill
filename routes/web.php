@@ -72,15 +72,16 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         });
 
         #Payment Verification
-        Route::prefix('verify')->group(function () {
-            Route::get('/subscribe/{reference}', 'UserController@subscribe');
-            Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
-            Route::get('/airtime/{reference}', 'Controller@guestAirtime');
-            Route::get('/data/{reference}', 'Controller@guestData');
-
-        });
 
         Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+    });
+
+    Route::prefix('verify')->group(function () {
+        Route::get('/subscribe/{reference}', 'UserController@subscribe');
+        Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
+        Route::get('/airtime/{reference}', 'Controller@guestAirtime');
+        Route::get('/data/{reference}', 'Controller@guestData');
+
     });
 
     Route::get('/test', 'Controller@test');

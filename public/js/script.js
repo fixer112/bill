@@ -33,6 +33,7 @@ function guestPaystack(amount, data, key) {
         metadata: data,
 
         callback: function(response) {
+            console.log("/verify/" + data['reason'] + '/' + response.reference);
             window.location.replace("/verify/" + data['reason'] + '/' + response.reference);
             //alert('success. transaction ref is ' + response.reference);
         },

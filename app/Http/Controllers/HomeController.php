@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\BillPayment;
+use Illuminate\Support\Facades\Session;
+
 class HomeController extends Controller
 {
+    use BillPayment;
     /**
      * Create a new controller instance.
      *
@@ -21,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (!Session::has('balance')) {
+            $this->balance();
+        }
         return view('welcome');
     }
 

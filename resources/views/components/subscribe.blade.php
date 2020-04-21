@@ -1,30 +1,30 @@
 <script src="{{ asset('js/vue.js')}}"></script>
 <script src="{{ asset('js/axios.js')}}"></script>
 <script src="https://js.paystack.co/v1/inline.js"></script>
+<form id="subscribe" @submit.prevent="payWithPaystack">
+    <div>
 
-<div id="subscribe">
+        {{-- <form ref="form"> --}}
 
-    {{-- <form ref="form"> --}}
+        <h2 class="text-6 mb-4"> {{$message}}</h2>
 
-    <h2 class="text-6 mb-4"> {{$message}}</h2>
+        <div class="form-group">
+            <label for="operator">Plan</label>
+            <select class="custom-select" id="operator" required="" v-model="amount">
+                <option value="">Choose Plan</option>
+                @foreach ($packages as $key=>$sub)
+                <option value="{{$sub['amount']}}"> {{ucfirst($key)}} -
+                    {{currencyFormat($sub['amount'])}}</option>
+                @endforeach
+            </select>
+        </div>
 
-    <div class="form-group">
-        <label for="operator">Plan</label>
-        <select class="custom-select" id="operator" required="" v-model="amount">
-            <option value="">Choose Plan</option>
-            @foreach ($packages as $key=>$sub)
-            <option value="{{$sub['amount']}}"> {{ucfirst($key)}} -
-                {{currencyFormat($sub['amount'])}}</option>
-            @endforeach
-        </select>
+
+        <button class="btn btn-primary btn-block" type="submit">Subscribe</button>
+        {{--  </form> --}}
     </div>
-
-
-    <button class="btn btn-primary btn-block" type="submit" @click="payWithPaystack">Subscribe</button>
-    {{--  </form> --}}
-</div>
-<script>
-    new Vue({
+    <script>
+        new Vue({
     el: '#subscribe',
     data: function() {
     return {
@@ -76,4 +76,4 @@
 
             }
             });
-</script>
+    </script>

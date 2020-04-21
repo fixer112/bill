@@ -58,6 +58,10 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::post('/{user}/data', 'UserController@postData');
 
                 Route::get('/{user}/subscriptions/', 'UserController@subscriptions');
+
+                Route::get('/{user}/api/documentation/', 'UserController@apiDocumentation');
+                Route::get('/{user}/api/reset/', 'UserController@apiReset');
+
             });
 
             Route::middleware(['unsubscribed'])->group(function () {
@@ -71,6 +75,9 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         Route::prefix('verify')->group(function () {
             Route::get('/subscribe/{reference}', 'UserController@subscribe');
             Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
+            Route::get('/airtime/{reference}', 'Controller@guestAirtime');
+            Route::get('/data/{reference}', 'Controller@guestData');
+
         });
 
         Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

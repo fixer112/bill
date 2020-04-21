@@ -103,6 +103,15 @@
                                     class="pcoded-mtext">Data</span></a>
                         </li>
 
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>API</label>
+                        </li>
+
+                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/api/documentation"
+                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-info"></i></span><span
+                                    class="pcoded-mtext">Api Documentation</span></a>
+                        </li>
+
 
 
                         @if(request()->user->is_reseller)
@@ -264,7 +273,6 @@
         <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         {{-- <script src="/assets/js/menu-setting.min.js"></script> --}}
         <script src="/assets/js/pcoded.min.js"></script>
-        <script src="{{ asset('js/phone-validator.js')}}"></script>
         {{-- 
         <script src="/assets/plugins/amchart/js/amcharts.js"></script>
         <script src="/assets/plugins/amchart/js/gauge.js"></script>

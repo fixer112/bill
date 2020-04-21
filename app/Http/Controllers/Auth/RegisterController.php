@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -72,6 +73,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         $user = User::create([
             'login' => $data['login'],
             //'username' => $data['username'],
@@ -80,6 +82,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
             'is_reseller' => $data['reseller'],
+            'api_token' => Str::random(60),
         ]);
 
         return $user;

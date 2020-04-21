@@ -2,10 +2,10 @@
 
 
 <h4 class="text-6 mb-4">Data Subscription </h4>
-<div id="airtime">
+<div id="data">
     <div class="form-group">
         <label for="mobileNumber">Mobile Number</label>
-        <input type="text" id="phone" class="form-control @error('number') is-invalid @enderror" name="number" required
+        <input type="text" min="11" class="form-control @error('number') is-invalid @enderror" name="number" required
             placeholder="Enter Mobile Number">
         <div id="error" class="is-invalid text-danger"></div>
         @error('number')
@@ -85,8 +85,8 @@
 </div>
 
 <script>
-    new Vue({
-    el: '#airtime',
+    var data = new Vue({
+    el: '#data',
     data: function() {
     return {
         amount:"",

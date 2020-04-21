@@ -13,6 +13,7 @@ use App\Traits\Payment;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -403,8 +404,15 @@ class UserController extends Controller
         $this->validate(request(), [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'amount' => "required|numeric|min:{$bills[request()->network]['min']}|max:{$bills[request()->network]['max']}",
-            'number' => "required|string",
+            'number' => "required|string|min:11",
             'network_code' => "required|string",
+            //'discount_amount' => ["required", "numeric", new checkBalance($user)],
+        ]);
+
+        $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[request()->network]);
+
+        request()->merge(['discount_amount' => $discount_amount]);
+        $this->validate(request(), [
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
@@ -462,11 +470,17 @@ class UserController extends Controller
 //return request()->network_code;
         $this->validate(request(), [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            'discount_amount' => ["required", "numeric", new checkBalance($user)],
+            //'discount_amount' => ["required", "numeric", new checkBalance($user)],
             'details' => "required|string",
-            'number' => "required|string",
+            'number' => "required|string|min:11",
             'network_code' => "required|string",
             'amount' => "required|numeric",
+        ]);
+
+        $discount_amount = calDiscountAmount(request()->amount, dataDiscount($user)[request()->network]);
+        request()->merge(['discount_amount' => $discount_amount]);
+        $this->validate(request(), [
+            'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
         //return request()->all();
@@ -509,6 +523,23 @@ class UserController extends Controller
         ]);
 
         return $this->jsonWebRedirect('success', $desc, $user->routePath());
+
+    }
+
+    public function apiReset(User $user)
+    {
+        $this->authorize('view', $user);
+        $user->update([
+            'api_token' => Str::random(60),
+        ]);
+
+        return $this->jsonWebBack('success', 'Api Key Updated');
+    }
+    public function apiDocumentation(User $user)
+    {
+        $this->authorize('view', $user);
+
+        return view("user.api.documentation");
 
     }
 }

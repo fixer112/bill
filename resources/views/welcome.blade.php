@@ -1,5 +1,8 @@
 @extends('layout')
 @section('title','Home')
+@section('head')
+<script src="https://js.paystack.co/v1/inline.js"></script>
+@endsection
 @section('content')
 {{-- @json(config("settings.bills.data")) --}}
 @guest
@@ -16,20 +19,81 @@
                         </ul>
                     </div>
                     <div class="col-md-9">
+
                         <div class="resp-tabs-container bg-light shadow-md rounded h-100 p-3">
+                            
+                            <p class="text-danger ml-3">
+                                Please make sure to you input a valid mobile number as payment is made before phone number validated.<br>
+                                For any complain or refund request please click <a href="/contact">here</a>
+                            </p>
+
+                            <h4 class="ml-3">GUEST</h4>
+                            
 
                             <!-- Mobile Recharge -->
-                            <div class="resp-tab-content resp-tab-content-active" style="display:block"
-                                aria-labelledby="tab_item-0">
-                                <x-airtime :dat="airtimeDiscount()" />
-                            </div>
+
+                            <form  id="airtime-home">
+                                <div class="resp-tab-content resp-tab-content-active" style="display:block"
+                                    aria-labelledby="tab_item-0">
+                                    
+                                    <x-airtime :dat="airtimeDiscount()" />
+                                </div>
+
+                            </form>
+                            
+                            {{--  @json(session('balance'))  --}}
+                            <script>
+                                document.getElementById('airtime-home').addEventListener("submit",function(event){
+
+                                event.preventDefault();
+                                var data = {
+                                            reason: 'airtime',
+                                            amount:airtime.discountAmount,
+                                            network:airtime.network,
+                                            network_code:airtime.network_code,
+                                            number:airtime.number,
+
+                                        };
+                                //console.log(data['reason']);
+                                processPayment(data,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
+                                });
+                                
+                                
+                            </script>
+
+
                             <!-- Mobile Recharge end -->
 
                             <!-- Data Recharge -->
+                            <form  id="data-home">
+                                
                             <div class="resp-tab-content" aria-labelledby="tab_item-1">
+                                
                                 <x-data :dat="dataDiscount()" />
                             </div>
+                        </form>
+                        <script>
+                            document.getElementById('data-home').addEventListener("submit",function(event){
+
+                                event.preventDefault();
+                                var d = {
+                                            reason: 'data',
+                                            amount:data.discountAmount,
+                                            network:data.network,
+                                            network_code:data.network_code,
+                                            number:data.number,
+                                            details:data.details,
+
+                                        };
+                                //console.log(data);
+                                processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
+                                });
+                            </script>
                             <!-- Data Recharge end -->
+
+
+                            <h5 class="mb-4 text-center"><a href="/register"> REGISTER NOW TO ENJOY AMAZING
+                                    DISCOUNTS</a></h5>
 
                         </div>
                     </div>

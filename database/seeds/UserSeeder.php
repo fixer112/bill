@@ -4,6 +4,7 @@ use App\Subscription;
 use App\Transaction;
 use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -22,6 +23,7 @@ class UserSeeder extends Seeder
             'email' => 'abula3003@gmail.com',
             'password' => 'abula112',
             'is_reseller' => 1,
+            'api_token' => Str::random(60),
         ]);
 
         $tran = Transaction::create([
@@ -31,6 +33,7 @@ class UserSeeder extends Seeder
             'desc' => "Subscription basic bonus",
             'ref' => generateRef($user),
             'user_id' => $user->id,
+
             // 'reason' => 'subscription',
         ]);
 
@@ -49,6 +52,7 @@ class UserSeeder extends Seeder
             'email' => 'individual@gmail.com',
             'password' => 'abula112',
             'is_reseller' => 0,
+            'api_token' => Str::random(60),
         ]);
 
     }

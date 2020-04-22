@@ -560,6 +560,11 @@ class UserController extends Controller
 
     }
 
+    public function getBalance(User $user)
+    {
+        return $user->balance;
+    }
+
     public function fetchData()
     {
         return config("settings.bills.data");

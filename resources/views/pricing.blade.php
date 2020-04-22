@@ -7,9 +7,9 @@
         <div class="table-responsive">
             <table class="table table-hover ">
                 <thead>
-                    <th>Discounts</th>
-                    <th>Guest</th>
-                    <th>Individual</th>
+                    <th>DISCOUNTS</th>
+                    <th>GUEST</th>
+                    <th>INDIVIDUAL</th>
                     @foreach (config("settings.subscriptions") as $key =>$item)
                     <th>{{strtoupper($key)}}</th>
                     @endforeach

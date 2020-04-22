@@ -19,7 +19,12 @@ class Controller extends BaseController
     public function jsonWebBack($type, $message)
     {
         if (request()->wantsJson()) {
-            return [$type => $message];
+            $data = [$type => $message];
+            if ($ref) {
+                $data['reference'] = $ref;
+            }
+            return $data;
+
         }
         request()->session()->flash($type, $message);
 
@@ -27,10 +32,14 @@ class Controller extends BaseController
         return url()->previous() == url()->current() && !request()->isMethod('post') ? $message : back();
 
     }
-    public function jsonWebRedirect($type, $message, $link)
+    public function jsonWebRedirect($type, $message, $link, $ref = null)
     {
         if (request()->wantsJson()) {
-            return [$type => $message];
+            $data = [$type => $message];
+            if ($ref) {
+                $data['reference'] = $ref;
+            }
+            return $data;
         }
         request()->session()->flash($type, $message);
 
@@ -84,7 +93,7 @@ class Controller extends BaseController
 
         $ref = generateRef();
 
-        if (request()->network == 'mtn') {
+        if ($tranx->data->metadata->network == 'mtn') {
 
             $result = $this->dataMtn($tranx->data->metadata->amount, $tranx->data->metadata->number, $tranx->data->metadata->network_code, $ref);
 
@@ -114,6 +123,7 @@ class Controller extends BaseController
 
     public function test()
     {
+        return fetchDataInfo();
         //return $this->data2();
         //return $this->fetchDataInfo('glo');
         //return $this->balance();

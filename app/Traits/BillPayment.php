@@ -137,7 +137,7 @@ trait BillPayment
 
         $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}"))->throw();
 
-        return $response->json();
+        //return $response->json();
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());

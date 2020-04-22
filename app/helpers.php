@@ -143,27 +143,38 @@ function fetchDataInfo()
 
             $fetchData = BillPayment::fetchDataInfo($key);
 
+            //return $fetchData;
+
+            $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
+                $plan['price'] = ceil($plan['price'] / 5) * 5;
+                $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
+
+                return [$k => $plan];
+            });
+
+            //return $fetchData->toArray();
+
             $datas[$key] = $fetchData;
 
         }
 
     }
-
+    //return $datas;
     //$datas['time'] = time();
     $datas['mtn'] = [
         [
             'id' => "Mtn-1GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 500,
-            'price' => 500,
+            'topup_amount' => 450,
+            'price' => 450,
             'data_amount' => "1000",
             'validity' => "30 days",
         ],
         [
             'id' => "Mtn-2GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 1000,
-            'price' => 1000,
+            'topup_amount' => 900,
+            'price' => 900,
             'data_amount' => "2000",
             'validity' => "30 days",
         ],
@@ -171,8 +182,8 @@ function fetchDataInfo()
         [
             'id' => "Mtn-3GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 1500,
-            'price' => 1500,
+            'topup_amount' => 1300,
+            'price' => 1300,
             'data_amount' => "3000",
             'validity' => "30 days",
         ],
@@ -187,5 +198,5 @@ function fetchDataInfo()
     ];
 
     Storage::put('data.json', json_encode(['data' => $datas, 'time' => time()]));
-
+    return $datas;
 }

@@ -6,7 +6,6 @@ use App\Activity;
 use App\Referral;
 use App\Rules\checkBalance;
 //use App\Traits\Referral;
-use App\Rules\checkNetwork;
 use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
@@ -404,11 +403,14 @@ class UserController extends Controller
         //return $bills;
 
         $this->validate(request(), [
-            'network_code' => ["required", "string", new checkNetwork()],
+            //'network_code' => ["required", "string", new checkNetwork()],
+            'network' => "required|string|in:" . implode(',', array_keys($networks)),
         ]);
 
-        $network = array_search(request()->network_code, $networks);
+        $network = request()->network;
+        $network_code = $networks[$network];
 
+        request()->merge(['network' => strtolower(request()->network)]);
         $this->validate(request(), [
             //'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
@@ -424,9 +426,15 @@ class UserController extends Controller
             'discount_amount' => [new checkBalance($user)],
         ]);
 
+        $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
+
+        if (env('ENABLE_TEST_MODE')) {
+            return $this->jsonWebRedirect('success', $desc, $user->routePath(), 'test');
+        }
+
         $ref = generateRef($user);
 
-        $result = $this->airtime(request()->amount, request()->number, request()->network_code, $ref);
+        $result = $this->airtime(request()->amount, request()->number, $network_code, $ref);
 
         //return $result;
 
@@ -437,8 +445,6 @@ class UserController extends Controller
         $user->update([
             'balance' => $user->balance - $discount_amount,
         ]);
-
-        $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
 
         $tran = Transaction::create([
             'amount' => $discount_amount,
@@ -456,7 +462,7 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        return $this->jsonWebRedirect('success', $desc, $user->routePath());
+        return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
         //return request()->all();
 
     }
@@ -477,51 +483,58 @@ class UserController extends Controller
 
 //return request()->network_code;
         $this->validate(request(), [
-            //'network' => "required|string|in:" . implode(',', array_keys($networks)),
+            'network' => "required|string|in:" . implode(',', array_keys($networks)),
             //'discount_amount' => ["required", "numeric", new checkBalance($user)],
             //'details' => "required|string",
             'number' => "required|string|min:11",
-            'network_code' => ["required", "string", new checkNetwork()],
+            //'network_code' => ["required", "string", new checkNetwork()],
             //'network_code' => "required|string",
             'amount' => "required|numeric",
         ]);
-
+        $network = request()->network;
+        $network_code = $networks[$network];
         $planKey = array_search(request()->amount, array_column($bills, 'data_amount'));
         $plan = $bills[$network][$planKey];
-        $price = currencyFormat($plan['price']);
+        $price = $plan['price'];
+        $formatPrice = currencyFormat($price);
 
-        $details = getLastString($plan["id"]) . " - {$price} - {$plan['validity']}";
+        $details = getLastString($plan["id"]) . " - {$formatPrice} - {$plan['validity']}";
 
-        //return $details;
+        //return $price;
 
-        $discount_amount = calDiscountAmount(request()->amount, dataDiscount($user)[$network]);
+        $discount_amount = calDiscountAmount($price, dataDiscount($user)[$network]);
+
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
+        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
+
+        if (env('ENABLE_TEST_MODE')) {
+            return $this->jsonWebRedirect('success', $desc, $user->routePath(), 'test');
+        }
         //return request()->all();
 
         $ref = generateRef($user);
 
         if ($network == 'mtn') {
-            $result = $this->dataMtn(request()->amount, request()->number, request()->network_code, $ref);
+            $result = $this->dataMtn(request()->amount, request()->number, $network_code, $ref);
 
         } else {
 
-            $result = $this->data(request()->amount, request()->number, request()->network_code, $ref);
+            $result = $this->data(request()->amount, request()->number, $network_code, $ref);
         }
 
-        return $result;
+        //return $result;
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
         }
+
         $user->update([
             'balance' => $user->balance - $discount_amount,
         ]);
-
-        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
         $tran = Transaction::create([
             'amount' => $discount_amount,
@@ -539,7 +552,7 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        return $this->jsonWebRedirect('success', $desc, $user->routePath());
+        return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
 
     }
 

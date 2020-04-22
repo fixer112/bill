@@ -52,7 +52,7 @@
     <input name="network_code" v-model="network_code" required readonly hidden />
 
     <input name="amount" v-model="amount" required readonly hidden />
-    <input name="details" v-model="details" required readonly hidden />
+    {{-- <input name="details" v-model="details" required readonly hidden /> --}}
 
 
     <div class="form-group">
@@ -99,7 +99,7 @@
         bonus:0,
         plans:"",
         plan:"",
-        details:"",
+        //details:"",
         
     }
   }, 
@@ -116,7 +116,7 @@
                
                 this.discountAmount = this.bills[this.network][n]['price'] -((this.bonus / 100) * this.bills[this.network][n]['price']);
 
-                this.details = getLastString(this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["price"]+ '-'+ this.bills[this.network][n]["validity"];
+                //this.details = getLastString(this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["price"]+ '-'+ this.bills[this.network][n]["validity"];
                 
             },
             

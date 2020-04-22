@@ -29,7 +29,7 @@
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
         <link rel="stylesheet" type="text/css" href="/css/custom.css" />
         <script src="/js/script.js"></script>
-        
+
         @yield('head')
 
     </head>
@@ -69,6 +69,9 @@
                                     <ul class="navbar-nav">
                                         <li class=""> <a href="/">Home</a></li>
                                         <li class=""> <a href="/pricing">Pricing</a></li>
+                                        <li class=""> <a
+                                                href="https://documenter.getpostman.com/view/4721383/Szf9UmbT">API</a>
+                                        </li>
 
                                         {{-- <li class="dropdown"> <a class="dropdown-toggle" href="#">Features</a>
                                             <ul class="dropdown-menu">
@@ -298,9 +301,9 @@
         <script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
         <script src="/vendor/easy-responsive-tabs/easy-responsive-tabs.js"></script>
         <script src="/js/theme.js"></script>
-       
-        
-        
+
+
+
 
         <script>
             $(document).ready(function () {

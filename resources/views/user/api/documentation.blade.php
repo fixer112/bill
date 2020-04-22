@@ -8,7 +8,9 @@
                     KEY</button></a>
         </div>
         <div class="">
-            <strong>API KEY</strong> : <i>{{request()->user->api_token}}</i>
+            <p><strong>API KEY</strong> : <i>{{request()->user->api_token}}</i></p>
+            <p><strong>User ID</strong> : <i>{{request()->user->id}}</i></p>
+            Read full api documentation <a href="https://documenter.getpostman.com/view/4721383/Szf9UmbT"> here</a>
         </div>
     </div>
 </div>

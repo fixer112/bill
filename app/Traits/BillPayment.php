@@ -72,7 +72,7 @@ trait BillPayment
     {
         // return self::link(null, "network=15&phone=xxxxx&amt=500&user_ref=xxx");
         /* if (!env("ENABLE_BILL_PAYMENT")) {
-            return errorMessage(env("ERROR_MESSAGE"));
+        return errorMessage(env("ERROR_MESSAGE"));
         } */
 
         self::balance();
@@ -115,7 +115,7 @@ trait BillPayment
 
         $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
 
-        //return $response->json();
+        // return $response->json();
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -137,7 +137,7 @@ trait BillPayment
 
         $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}"))->throw();
 
-        //return $response->json();
+        return $response->json();
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());

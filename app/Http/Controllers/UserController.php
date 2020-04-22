@@ -6,6 +6,7 @@ use App\Activity;
 use App\Referral;
 use App\Rules\checkBalance;
 //use App\Traits\Referral;
+use App\Rules\checkNetwork;
 use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
@@ -400,20 +401,27 @@ class UserController extends Controller
         $networks = config("settings.mobile_networks");
         $bills = config("settings.bills.airtime");
 
-        //return request()->network_code;
+        //return $bills;
+
         $this->validate(request(), [
-            'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            'amount' => "required|numeric|min:{$bills[request()->network]['min']}|max:{$bills[request()->network]['max']}",
+            'network_code' => ["required", "string", new checkNetwork()],
+        ]);
+
+        $network = array_search(request()->network_code, $networks);
+
+        $this->validate(request(), [
+            //'network' => "required|string|in:" . implode(',', array_keys($networks)),
+            'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
             'number' => "required|string|min:11",
-            'network_code' => "required|string",
+
             //'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
-        $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[request()->network]);
+        $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
 
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
-            'discount_amount' => ["required", "numeric", new checkBalance($user)],
+            'discount_amount' => [new checkBalance($user)],
         ]);
 
         $ref = generateRef($user);
@@ -427,13 +435,13 @@ class UserController extends Controller
         }
 
         $user->update([
-            'balance' => $user->balance - request()->discount_amount,
+            'balance' => $user->balance - $discount_amount,
         ]);
 
-        $desc = "Recharge of " . strtoupper(request()->network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
+        $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
 
         $tran = Transaction::create([
-            'amount' => request()->discount_amount,
+            'amount' => $discount_amount,
             'balance' => $user->balance,
             'type' => 'debit',
             'desc' => "{$desc}",
@@ -465,19 +473,28 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $networks = config("settings.mobile_networks");
-        $bills = config("settings.bills.airtime");
+        $bills = config("settings.bills.data");
 
 //return request()->network_code;
         $this->validate(request(), [
-            'network' => "required|string|in:" . implode(',', array_keys($networks)),
+            //'network' => "required|string|in:" . implode(',', array_keys($networks)),
             //'discount_amount' => ["required", "numeric", new checkBalance($user)],
-            'details' => "required|string",
+            //'details' => "required|string",
             'number' => "required|string|min:11",
-            'network_code' => "required|string",
+            'network_code' => ["required", "string", new checkNetwork()],
+            //'network_code' => "required|string",
             'amount' => "required|numeric",
         ]);
 
-        $discount_amount = calDiscountAmount(request()->amount, dataDiscount($user)[request()->network]);
+        $planKey = array_search(request()->amount, array_column($bills, 'data_amount'));
+        $plan = $bills[$network][$planKey];
+        $price = currencyFormat($plan['price']);
+
+        $details = getLastString($plan["id"]) . " - {$price} - {$plan['validity']}";
+
+        //return $details;
+
+        $discount_amount = calDiscountAmount(request()->amount, dataDiscount($user)[$network]);
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
@@ -487,7 +504,7 @@ class UserController extends Controller
 
         $ref = generateRef($user);
 
-        if (request()->network == 'mtn') {
+        if ($network == 'mtn') {
             $result = $this->dataMtn(request()->amount, request()->number, request()->network_code, $ref);
 
         } else {
@@ -495,19 +512,19 @@ class UserController extends Controller
             $result = $this->data(request()->amount, request()->number, request()->network_code, $ref);
         }
 
-        // return $result;
+        return $result;
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
         }
         $user->update([
-            'balance' => $user->balance - request()->discount_amount,
+            'balance' => $user->balance - $discount_amount,
         ]);
 
-        $desc = "Data subscription of " . strtoupper(request()->network) . " " . request()->details . " to " . request()->number;
+        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
         $tran = Transaction::create([
-            'amount' => request()->discount_amount,
+            'amount' => $discount_amount,
             'balance' => $user->balance,
             'type' => 'debit',
             'desc' => "{$desc}",
@@ -542,4 +559,10 @@ class UserController extends Controller
         return view("user.api.documentation");
 
     }
+
+    public function fetchData()
+    {
+        return config("settings.bills.data");
+    }
+
 }

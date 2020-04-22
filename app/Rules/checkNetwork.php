@@ -2,20 +2,18 @@
 
 namespace App\Rules;
 
-use App\User;
 use Illuminate\Contracts\Validation\Rule;
 
-class checkBalance implements Rule
+class checkNetwork implements Rule
 {
-    public $user;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
@@ -27,7 +25,7 @@ class checkBalance implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $value < $this->user->balance;
+        return in_array($value, array_values(config("settings.mobile_networks")));
     }
 
     /**
@@ -37,8 +35,6 @@ class checkBalance implements Rule
      */
     public function message()
     {
-        $msg = 'Insufficient Fund, please fund your wallet';
-        //request()->session()->flash('error', $msg);
-        return $msg;
+        return 'Invalid Network Code';
     }
 }

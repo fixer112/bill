@@ -25,7 +25,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         Auth::routes();
     });
 
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth', 'checkStatus'])->group(function () {
 
         #admin
         Route::prefix('admin')->middleware(['admin'])->group(function () {

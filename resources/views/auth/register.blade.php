@@ -49,6 +49,17 @@
     </div>
 
     <div class="form-group">
+        <label class="sr-only">Mobile Number</label>
+        <input type="text" name="number" class="form-control @error('number') is-invalid @enderror"
+            placeholder="Mobile number" value="{{old('number')}}" required>
+        @error('number')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+        @enderror
+    </div>
+
+    <div class="form-group">
         <label class="sr-only">User Type</label>
         <select name="reseller" class="custom-select @error('reseller') is-invalid @enderror" required>
             <option value="">Choose Type</option>

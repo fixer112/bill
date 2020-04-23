@@ -21,15 +21,31 @@
         <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
             <div class="container">
                 <div class="card login-card">
+
                     <div class="row no-gutters">
+
                         <div class="col-md-5">
                             <img src="/images/login.jpg" alt="login" class="login-card-img">
                         </div>
                         <div class="col-md-7">
+
                             <div class="card-body">
                                 <div class="brand-wrapper">
                                     <img src="/images/logo.svg" alt="logo" class="logo">
                                 </div>
+
+                                @if(session('success'))
+                                <div class="alert alert-success rounded mt-3 text-center">
+                                    {{session('success')}}
+                                </div>
+                                @endif
+
+                                @if(session('error'))
+                                <div class="alert alert-danger rounded mt-3 text-center">
+                                    {{session('error')}}
+                                </div>
+                                @endif
+
                                 @yield('content')
 
                                 <nav class="login-card-footer-nav">

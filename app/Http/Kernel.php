@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'subscribed' => \App\Http\Middleware\Subscribed::class,
         'unsubscribed' => \App\Http\Middleware\UnSubscribed::class,
         'webRouteEnabled' => \App\Http\Middleware\webRouteEnabled::class,
+        'checkStatus' => \App\Http\Middleware\checkStatus::class,
     ];
 }

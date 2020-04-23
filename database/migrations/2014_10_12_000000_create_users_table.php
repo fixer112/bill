@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             //$table->string('username')->unique();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('number')->nullable();
+            $table->boolean('is_active')->default(1);
             $table->boolean('is_admin')->default(0);
             $table->boolean('is_reseller');
             $table->decimal('balance')->default(0.0);

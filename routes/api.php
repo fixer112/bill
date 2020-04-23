@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:api', 'throttle:rate_limit,1'])->group(function () {
+Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::post('/{user}/airtime', 'UserController@postAirtime');
         Route::post('/{user}/data', 'UserController@postData');

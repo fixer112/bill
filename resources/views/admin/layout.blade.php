@@ -57,94 +57,33 @@
                             <label>Dashbord</label>
                         </li>
 
-                        <li class="nav-item"><a href="{{request()->user->routePath()}}" class="nav-link"><span
-                                    class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                        <li class="nav-item"><a href="/admin" class="nav-link"><span class="pcoded-micon"><i
+                                        class="feather icon-home"></i></span><span
                                     class="pcoded-mtext">Dashboard</span></a>
                         </li>
 
                         <li class="nav-item pcoded-menu-caption">
-                            <label>Navigation</label>
+                            <label>History</label>
                         </li>
 
-                        <li class="nav-item pcoded-hasmenu">
-                            <a class=""><span class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
+                        <li class="nav-item"><a href="/admin/wallet/history" class="nav-link"><span
+                                    class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
                                     class="pcoded-mtext">Wallet</span></a>
-                            <ul class="pcoded-submenu">
-                                <li class=""><a href="/user/wallet/{{request()->user->id}}/fund" class="">Top up</a>
-                                </li>
-                                <li class=""><a href="/user/wallet/{{request()->user->id}}/history" class="">History</a>
-                                </li>
-                            </ul>
                         </li>
 
-                        <li class="nav-item pcoded-hasmenu">
-                            <a class=""><span class="pcoded-micon"><i class="fa fa-link"></i></span><span
+                        <li class="nav-item"><a href="/admin/wallet/referral" class="nav-link"><span
+                                    class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
                                     class="pcoded-mtext">Referral</span></a>
-                            <ul class="pcoded-submenu">
-                                <li class=""><a href="/user/referral/{{request()->user->id}}/withdraw"
-                                        class="">Withdraw</a>
-                                </li>
-                                <li class=""><a href="/user/referral/{{request()->user->id}}/history"
-                                        class="">History</a>
-                                </li>
-                            </ul>
                         </li>
 
                         <li class="nav-item pcoded-menu-caption">
-                            <label>Bill Payment</label>
+                            <label>Search</label>
                         </li>
 
-                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/airtime/"
-                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-phone"></i></span><span
-                                    class="pcoded-mtext">Airtime</span></a>
-                        </li>
-                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/data"
-                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-globe"></i></span><span
-                                    class="pcoded-mtext">Data</span></a>
+                        <li class="nav-item"><a href="/admin/search" class="nav-link"><span class="pcoded-micon"><i
+                                        class="fa fa-money-bill"></i></span><span class="pcoded-mtext">Users</span></a>
                         </li>
 
-                        <li class="nav-item pcoded-menu-caption">
-                            <label>API</label>
-                        </li>
-
-                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/api/documentation"
-                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-info"></i></span><span
-                                    class="pcoded-mtext">Api Documentation</span></a>
-                        </li>
-
-
-
-                        @if(request()->user->is_reseller)
-                        <li class="nav-item pcoded-menu-caption">
-                            <label>Subscription</label>
-                        </li>
-
-                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/subscriptions"
-                                class="nav-link"><span class="pcoded-micon"><i
-                                        class="fa fa-money-bill-alt"></i></span><span
-                                    class="pcoded-mtext">History</span></a>
-                        </li>
-                        {{-- {{json_encode(request()->user->upgradeList())}} --}}
-                        @can('upgrade',request()->user)
-                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/subscription/upgrade"
-                                class="nav-link text-danger"><span class="pcoded-micon"><i
-                                        class="fa fa-sync"></i></span><span class="pcoded-mtext">Upgrade
-                                    Now</span></a>
-                        </li>
-                        @endcan
-                        @endif
-
-                        {{-- <li class="nav-item pcoded-hasmenu">
-                            <a class=""><span class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
-                                    class="pcoded-mtext">Wallet</span></a>
-                            <ul class="pcoded-submenu">
-                                <li class=""><a href="/user/wallet/{{request()->user->id}}/history"
-                        class="">History</a>
-                        </li>
-                        <li class=""><a href="/user/wallet/{{request()->user->id}}/fund" class="">Top up</a>
-                        </li>
-                    </ul>
-                    </li> --}}
 
                     </ul>
                 </div>
@@ -178,9 +117,9 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-notification">
                                 <div class="pro-head">
-                                    <img src="{{request()->user->profilePic()}}" class="img-radius"
+                                    <img src="{{Auth::user()->profilePic()}}" class="img-radius"
                                         alt="User-Profile-Image">
-                                    <span>{{request()->user->full_name}}</span>
+                                    <span>{{Auth::user()->full_name}}</span>
                                     <a href="/logout" class="dud-logout" title="Logout">
                                         <i class="feather icon-log-out"></i>
                                     </a>
@@ -216,7 +155,7 @@
                                     {{session('error')}}
                                 </div>
                                 @endif
-                                {{-- {{request()->user->lastSub()}} --}}
+                                {{-- {{Auth::user()->lastSub()}} --}}
                                 @yield('content')
                             </div>
                         </div>

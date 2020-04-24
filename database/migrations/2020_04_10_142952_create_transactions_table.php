@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->decimal('amount', 13, 2);
             $table->string('type')->default('debit');
-            $table->string('user_id');
+            $table->string('user_id')->nullable();
             $table->string('desc');
             $table->string('reason')->default('top-up');
             $table->boolean('is_online')->default(1);

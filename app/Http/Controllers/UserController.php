@@ -208,23 +208,6 @@ class UserController extends Controller
         $ref = request()->ref ? request()->ref : '';
         $type = request()->type ? request()->type : '';
 
-        $transactions = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type) {
-            if ($reason != '') {
-                $query->where('reason', $reason);
-
-            }
-            if ($ref != '') {
-                $query->where('ref', 'LIKE', "%{$ref}%");
-
-            }
-
-            if ($type != '') {
-                $query->where('type', $type);
-
-            }
-
-        })->paginate(1);
-
         $query = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type) {
             if ($reason != '') {
                 $query->where('reason', $reason);
@@ -240,7 +223,9 @@ class UserController extends Controller
 
             }
 
-        })->get();
+        }); //->get();
+
+        $transactions = $query->paginate(100);
 
         $totalDebit = $user->transactions->where('type', 'debit');
         $totalCredit = $user->transactions->where('type', 'credit');
@@ -252,7 +237,9 @@ class UserController extends Controller
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();
 
+        //$transactions = $query->paginate(100);
         //$transactions->paginate(1);
+        //return $transactions;
 
         $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types');
 
@@ -269,23 +256,17 @@ class UserController extends Controller
         $to = $to->endOfDay();
         $ref = request()->ref ? request()->ref : '';
 
-        $transactions = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($ref) {
-            if ($ref != '') {
-                $query->where('ref', 'LIKE', "%{$ref}%");
-
-            }
-
-        })->paginate(100);
-
         $query = Referral::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($ref) {
             if ($ref != '') {
                 $query->where('ref', 'LIKE', "%{$ref}%");
 
             }
 
-        })->get();
+        });
 
-        $referrals = $query;
+        $transactions = $query->paginate(100);
+
+        $referrals = $query->get();
 
         $compact = compact('transactions', 'from', 'to', 'referrals', 'ref');
 

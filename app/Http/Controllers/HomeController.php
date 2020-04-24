@@ -26,7 +26,11 @@ class HomeController extends Controller
     public function index()
     {
         if (!Session::has('balance')) {
-            $this->balance();
+            try {
+                $this->balance();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
         return view('welcome');
     }

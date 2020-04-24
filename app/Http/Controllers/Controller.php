@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\GuestTransaction;
 use App\Traits\BillPayment;
 use App\Traits\Payment;
+use App\Transaction;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -69,11 +69,12 @@ class Controller extends BaseController
 
         $desc = "Recharge of " . strtoupper($tranx->data->metadata->network) . " " . currencyFormat($amount) . " to " . $tranx->data->metadata->number;
 
-        $tran = GuestTransaction::create([
+        $tran = Transaction::create([
             'amount' => $amount,
             'desc' => "{$desc}",
             'ref' => $tranx->data->reference,
             'reason' => 'airtime',
+            'balance' => 0,
         ]);
 
         return $this->jsonWebBack('success', $tran->desc);
@@ -110,11 +111,12 @@ class Controller extends BaseController
 
         $desc = "Data subscription of " . strtoupper($tranx->data->metadata->network) . " " . $tranx->data->metadata->details . " to " . $tranx->data->metadata->number;
 
-        $tran = GuestTransaction::create([
+        $tran = Transaction::create([
             'amount' => $amount,
             'desc' => "{$desc}",
             'ref' => $tranx->data->reference,
             'reason' => 'data',
+            'balance' => 0,
         ]);
 
         return $this->jsonWebBack('success', $tran->desc);

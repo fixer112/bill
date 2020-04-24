@@ -15,6 +15,18 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
+        $user = User::create([
+            //'balance' => 1200,
+            'login' => 'admin',
+            'first_name' => 'Abubakar',
+            'last_name' => 'Lawal',
+            'email' => 'admin@gmail.com',
+            'password' => 'abula112',
+            'is_admin' => 1,
+            // 'api_token' => Str::random(60),
+        ]);
+
         $user = User::create([
             'balance' => 1200,
             'login' => 'user',

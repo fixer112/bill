@@ -30,6 +30,9 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         #admin
         Route::prefix('admin')->middleware(['admin'])->group(function () {
             Route::get('/', 'AdminController@index');
+            Route::get('/wallet/history', 'AdminController@walletHistory');
+            Route::get('/wallet/referral', 'AdminController@referralHistory');
+
         });
 
         Route::get('test/{user}', function (User $user) {

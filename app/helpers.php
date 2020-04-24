@@ -118,7 +118,7 @@ function getLastString($string, $delimiter = '-')
 function getDataInfo()
 {
     //return json_decode(Storage::get('data.json'), true)['data'];
-    if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24)) {
+    if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24 * 5)) {
         config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
 
     } else {

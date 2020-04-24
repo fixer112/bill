@@ -48,6 +48,14 @@ class User extends Authenticatable
 
     }
 
+    public function userPackage()
+    {
+        if (!$this->lastSub()) {
+            return 'individual';
+        }
+        return $this->lastSub()->name;
+    }
+
     public function lastSub()
     {
         return $this->subscriptions->first();

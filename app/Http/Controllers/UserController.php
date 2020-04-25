@@ -241,18 +241,18 @@ class UserController extends Controller
         }); //->get();
 
         if (request()->wantsJson()) {
-            return $q->get();
-            return TransactionResource::collection($query->get());
+            //return $q->get();
+            return TransactionResource::collection($q->get());
         }
 
-        $transactions = $query->paginate(100);
+        $transactions = $q->paginate(100);
 
         $totalDebit = $user->transactions->where('type', 'debit');
         $totalCredit = $user->transactions->where('type', 'credit');
 
-        $credit = $q->where('type', 'credit');
+        $credit = $q->where('type', 'credit')->get();
 
-        $debit = $q->where('type', 'debit');
+        $debit = $q->where('type', 'debit')->get();
 
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();

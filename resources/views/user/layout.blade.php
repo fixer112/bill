@@ -57,6 +57,13 @@
                             <label>Dashbord</label>
                         </li>
 
+                        @if (Auth::user()->is_admin)
+                        <li class="nav-item"><a href="/admin" class="nav-link"><span class="pcoded-micon"><i
+                                        class="feather icon-home"></i></span><span class="pcoded-mtext">Admin
+                                    Dashboard</span></a>
+                        </li>
+                        @endif
+
                         <li class="nav-item"><a href="{{request()->user->routePath()}}" class="nav-link"><span
                                     class="pcoded-micon"><i class="feather icon-home"></i></span><span
                                     class="pcoded-mtext">Dashboard</span></a>
@@ -318,6 +325,7 @@
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
                     <span>Copyright © <a href="/">{{env('APP_NAME')}}</a> 2019</span>
+                    | <span>Developed by <a href="https://altechtic.com">Altechtic Solutions</a></span>
                 </div>
             </div>
         </center>

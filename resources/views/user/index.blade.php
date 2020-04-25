@@ -101,7 +101,7 @@
 
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
-                    {{request()->user->full_name}}
+                    {{request()->user->full_name}} ({{request()->user->status()}})
                 </div>
                 <div class="profile-usertitle-job">
                     {{request()->user->type()}} Account
@@ -148,6 +148,13 @@
                         href="{{request()->user->getReferralLink()}}">{{request()->user->getReferralLink()}}</a></span>
             </div>
 
+            @can('delete',request()->user)
+            <div class="d-flex justify-content-center">
+                <a href="{{request()->user->routePath()}}/status/update" <button
+                    class="btn {{request()->user->is_active? 'btn-danger':'btn-success'}}">{{request()->user->is_active? 'Suspend User':'Activate User'}}</button></a>
+            </div>
+            @endcan
+
 
             {{-- <div class="profile-userbuttons">
                 <button type="button" class="btn btn-success btn-sm">Follow</button>
@@ -159,6 +166,7 @@
 
         </div>
     </div>
+
 </div>
 
 <div class="row">

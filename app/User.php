@@ -48,8 +48,15 @@ class User extends Authenticatable
 
     }
 
+    public function status()
+    {
+        return $this->is_active ? 'Active' : 'Suspended';
+    }
     public function userPackage()
     {
+        if ($this->is_admin) {
+            return 'admin';
+        }
         if (!$this->lastSub()) {
             return 'individual';
         }

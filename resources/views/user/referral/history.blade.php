@@ -41,9 +41,11 @@
                         <h6 class="m-t-50 m-b-0">Total Referral Transactions</h6>
                     </div>
                     <div class="col text-right">
-                        <h3 class="text-c-green f-w-300">{{currencyFormat($referrals->sum('amount'))}}</h3>
+                        <h3 class="text-c-green f-w-300">{{currencyFormat(request()->user->referrals->sum('amount'))}}
+                        </h3>
                         <span class="text-muted d-block">Total Refferal Amount </span>
-                        <span class="badge theme-bg text-white m-t-20">{{wholeNumberFormat($referrals->count())}}</span>
+                        <span
+                            class="badge theme-bg text-white m-t-20">{{wholeNumberFormat(request()->user->referrals->count())}}</span>
                     </div>
                 </div>
             </div>
@@ -62,11 +64,11 @@
                         <h6 class="m-t-50 m-b-0"> Referral Transactions</h6>
                     </div>
                     <div class="col text-right">
-                        <h3 class="text-c-green f-w-300">{{currencyFormat(request()->user->referrals->sum('amount'))}}
+                        <h3 class="text-c-green f-w-300">{{currencyFormat($transactions->sum('amount'))}}
                         </h3>
                         <span class="text-muted d-block"> Refferal Amount </span>
                         <span
-                            class="badge theme-bg text-white m-t-20">{{wholeNumberFormat(request()->user->referrals->count())}}</span>
+                            class="badge theme-bg text-white m-t-20">{{wholeNumberFormat($transactions->count())}}</span>
                     </div>
                 </div>
             </div>

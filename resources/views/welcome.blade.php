@@ -21,26 +21,27 @@
                     <div class="col-md-9">
 
                         <div class="resp-tabs-container bg-light shadow-md rounded h-100 p-3">
-                            
+
                             <p class="text-danger ml-3">
-                                Please make sure to you input a valid mobile number as payment is made before phone number validated.<br>
+                                Please make sure to you input a valid mobile number as payment is made before phone
+                                number validated.<br>
                                 For any complain or refund request please click <a href="/contact">here</a>
                             </p>
 
                             <h4 class="ml-3">GUEST</h4>
-                            
+
 
                             <!-- Mobile Recharge -->
 
-                            <form  id="airtime-home">
+                            <form id="airtime-home">
                                 <div class="resp-tab-content resp-tab-content-active" style="display:block"
                                     aria-labelledby="tab_item-0">
-                                    
+
                                     <x-airtime :dat="airtimeDiscount()" />
                                 </div>
 
                             </form>
-                            
+
                             {{--  @json(session('balance'))  --}}
                             <script>
                                 document.getElementById('airtime-home').addEventListener("submit",function(event){
@@ -65,15 +66,15 @@
                             <!-- Mobile Recharge end -->
 
                             <!-- Data Recharge -->
-                            <form  id="data-home">
-                                
-                            <div class="resp-tab-content" aria-labelledby="tab_item-1">
-                                
-                                <x-data :dat="dataDiscount()" />
-                            </div>
-                        </form>
-                        <script>
-                            document.getElementById('data-home').addEventListener("submit",function(event){
+                            <form id="data-home">
+
+                                <div class="resp-tab-content" aria-labelledby="tab_item-1">
+
+                                    <x-data :dat="dataDiscount()" />
+                                </div>
+                            </form>
+                            <script>
+                                document.getElementById('data-home').addEventListener("submit",function(event){
 
                                 event.preventDefault();
                                 var d = {
@@ -204,9 +205,61 @@
     <section class="section pricing bg-light shadow-md rounded px-5 mb-3">
         <div class="container">
             <div class="row">
-                <!-- Free Tier -->
+
+                <div class="col-md-4 mb-3">
+                    <div class="card mb-5 mb-lg-0">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">Guest</h5>
+                            <h6 class="card-price text-center">{{currencyFormat(0)}}<span class="period">/Forever</span>
+                            </h6>
+
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>0 Api
+                                    Throttle limit / Minutes</li>
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>{{currencyFormat(0)}}
+                                    Balance After Setup
+                                </li>
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>No Payments Discount</li>
+                                {{-- <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Unlimited
+                                                                    Private
+                                                                    Projects</li> --}}
+
+                            </ul>
+                            <a href="/pricing"><button class="btn btn-block btn-primary text-uppercase text-white">Check
+                                    Out
+                                    Pricing</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card mb-5 mb-lg-0">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">Individual</h5>
+                            <h6 class="card-price text-center">{{currencyFormat(0)}}<span class="period">/Forever</span>
+                            </h6>
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>60 Api
+                                    Throttle limit / Minutes</li>
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>{{currencyFormat(0)}}
+                                    Balance After Setup
+                                </li>
+                                <li><span class="fa-li"><i class="fas fa-check"></i></span>Bill Payments Discount</li>
+                                {{-- <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Unlimited
+                                                    Private
+                                                    Projects</li> --}}
+
+                            </ul>
+                            <a href="/pricing"><button class="btn btn-block btn-primary text-uppercase text-white">Check
+                                    Out
+                                    Pricing</button></a>
+                        </div>
+                    </div>
+                </div>
                 @foreach (config("settings.subscriptions") as$key=> $item)
-                <div class="col">
+                <div class="col-md-4 mb-3">
                     <div class="card mb-5 mb-lg-0">
                         <div class="card-body">
                             <h5 class="card-title text-muted text-uppercase text-center">{{$key}}</h5>

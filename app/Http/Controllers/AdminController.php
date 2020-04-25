@@ -35,12 +35,12 @@ class AdminController extends Controller
         $sub_type = request()->sub_type ? request()->sub_type : '';
 
         $users = User::get();
-        //$subscriptions = config('settings.subscriptions');
-        $sub_types = ['guest', 'individual', 'reseller'];
+        $subscriptions = array_keys(config('settings.subscriptions'));
+        $sub_types = [...['guest', 'individual'], ...$subscriptions];
 
         $trans = Transaction::get();
 
-        $query = Transaction::leftJoin('users', 'users.id', 'transactions.user_id')->join('subscriptions', 'users.id', 'subscriptions.user_id')->whereBetween('transactions.created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type, $sub_type) {
+        $query = Transaction::whereBetween('transactions.created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type, $sub_type) {
             if ($reason != '') {
                 $query->where('reason', $reason);
 
@@ -55,38 +55,55 @@ class AdminController extends Controller
 
             }
 
-            if ($sub_type != '') {
-                if ($sub_type == 'guest') {
-                    $query->where('users.id', '');
-                }
-                if ($sub_type == 'individual') {
-                    $query->where('users.is_reseller', 0);
-
-                }
-                if ($sub_type == 'reseller') {
-                    $query->where('users.is_reseller', 1);
-
-                }
-
-            }
-
         });
 
-        $transactions = $query->paginate(100);
+        $pagination = $query->paginate(100);
+        //return $pagination;
+        $transactions = $pagination;
+
+        if ($sub_type == 'guest') {
+
+            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+
+                return $transaction->user->id == '';
+
+            });
+        }
+
+        if ($sub_type == 'individual') {
+
+            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+
+                return $transaction->user->is_reseller == 0;
+
+            });
+        }
+
+        if (in_array($sub_type, $subscriptions)) {
+
+            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+                if ($transaction->user->lastSub()) {
+                    return $transaction->user->lastSub()->name == $sub_type;
+                }
+            });
+        }
+
+        //return $sub_type;
+        //return $transactions;
 
         $totalDebit = $trans->where('type', 'debit');
         $totalCredit = $trans->where('type', 'credit');
 
-        $credit = $query->where('type', 'credit');
+        $credit = $transactions->where('type', 'credit');
 
-        $debit = $query->where('type', 'debit');
+        $debit = $transactions->where('type', 'debit');
 
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();
 
         //return $sub_types;
 
-        $compact = compact('transactions', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types');
+        $compact = compact('transactions', 'pagination', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types');
 
         return view('admin.history.wallet', $compact);
 
@@ -94,6 +111,97 @@ class AdminController extends Controller
 
     public function referralHistory()
     {
+        $from = request()->from ? Carbon::parse(request()->from) : now();
+        $from = $from->startOfDay();
+        $to = request()->to ? Carbon::parse(request()->to) : now();
+        $to = $to->endOfDay();
+        $ref = request()->ref ? request()->ref : '';
+        $sub_type = request()->sub_type ? request()->sub_type : '';
 
+        $users = User::get();
+        $subscriptions = array_keys(config('settings.subscriptions'));
+        $sub_types = [...['individual'], ...$subscriptions];
+
+        $query = Referral::whereBetween('referrals.created_at', [$from, $to])->where(function ($query) use ($ref, $sub_type) {
+
+            if ($ref != '') {
+                $query->where('ref', 'LIKE', "%{$ref}%");
+
+            }
+
+        });
+
+        $pagination = $query->paginate(100);
+        $transactions = $pagination;
+
+        if ($sub_type == 'individual') {
+
+            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+
+                return $transaction->user->is_reseller == 0;
+
+            });
+        }
+
+        if (in_array($sub_type, $subscriptions)) {
+
+            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+                if ($transaction->user->lastSub()) {
+                    return $transaction->user->lastSub()->name == $sub_type;
+                }
+            });
+        }
+
+        $referrals = Referral::get();
+
+//return $sub_types;
+
+        $compact = compact('transactions', 'pagination', 'referrals', 'users', 'from', 'to', 'ref', 'sub_type', 'sub_types');
+
+        return view('admin.history.referral', $compact);
+
+    }
+
+    public function searchUsers()
+    {
+        $search = request()->search ?? '';
+        $sub_type = request()->sub_type ? request()->sub_type : '';
+        $subscriptions = array_keys(config('settings.subscriptions'));
+        $sub_types = [...['individual'], ...$subscriptions];
+
+        $query = User::where(function ($query) use ($search, $sub_type) {
+            if ($search != '') {
+                $query->where('first_name', 'LIKE', "%{$search}%")->orWhere('last_name', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->orWhere('login', 'LIKE', "%{$search}%");
+
+            }
+
+            if ($sub_type == 'individual') {
+                return $query->where('is_reseller', 0);
+            }
+
+        }); /* ->filter(function ($user) use ($type) {
+        if ($user->lastSub()) {
+        return $user->lastSub()->name == $type;
+        }
+        }) */;
+
+        $pagination = $query->paginate(100);
+        $users = $pagination;
+
+        if (in_array($sub_type, $subscriptions)) {
+
+            $users = $pagination->filter(function ($user) use ($sub_type, $subscriptions) {
+                if ($user->lastSub()) {
+                    return $user->lastSub()->name == $sub_type;
+                }
+            });
+        }
+
+        $admins = $users->where('is_admin', 1);
+        $nonAdmins = $users->where('is_admin', 0);
+
+        $compact = compact('users', 'pagination', 'sub_type', 'sub_types', 'search', 'admins', 'nonAdmins');
+
+        return view('admin.search.user', $compact);
     }
 }

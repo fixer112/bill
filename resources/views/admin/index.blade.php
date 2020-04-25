@@ -98,6 +98,8 @@
                         <table class="table table-hover ">
                             <thead>
                                 <th>Ref</th>
+                                <th>Username</th>
+                                <th>User Package</th>
                                 <th>Amount</th>
                                 <th>Balance</th>
                                 <th>Type</th>
@@ -109,6 +111,22 @@
                                 @foreach ($transactions as $transaction)
                                 <tr>
                                     <td>{{$transaction->ref}}</td>
+                                    <td class="font-weight-bold">
+                                        @if ($transaction->user)
+                                        <a href="/user/{{$transaction->user->id}}">
+                                            {{$transaction->user->login}}</a>
+                                        @else
+                                        Guest
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($transaction->user)
+                                        <a
+                                            class="label rounded-pill text-white theme-bg">{{ucfirst($transaction->user->userPackage())}}</a>
+                                        @else
+                                        Guest
+                                        @endif
+                                    </td>
                                     <td>{{$transaction->amount}}</td>
                                     <td>{{$transaction->balance}}</td>
                                     <td><a
@@ -131,10 +149,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <th>Id</th>
+                                <th>Username</th>
+                                <th>User Package</th>
                                 <th>Amount</th>
                                 <th>Balance</th>
                                 <th>Desc</th>
-                                <th>User</th>
+                                <th>User Referred</th>
                                 <th>Level</th>
                                 <th>Created At</th>
                             </thead>
@@ -142,10 +162,21 @@
                                 @foreach ($referrals as $transaction)
                                 <tr>
                                     <td>{{$transaction->id}}</td>
+                                    <td class="font-weight-bold"> <a href="/user/{{$transaction->user->id}}">
+                                            {{$transaction->user->login}}</a>
+                                    </td>
+                                    <td>
+
+                                        <a
+                                            class="label rounded-pill text-white theme-bg">{{ucfirst($transaction->user->userPackage())}}</a>
+
+                                    </td>
                                     <td>{{$transaction->amount}}</td>
                                     <td>{{$transaction->balance}}</td>
                                     <td>{{$transaction->desc}}</td>
-                                    <td>{{$transaction->refered->login}}</td>
+                                    <td class="font-weight-bold"><a
+                                            href="/user/{{$transaction->refered->id}}">{{$transaction->refered->login}}</a>
+                                    </td>
                                     <td>{{$transaction->level}}</td>
                                     <td>{{$transaction->created_at}}</td>
                                 </tr>

@@ -23,6 +23,8 @@ Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1'])->group(f
         Route::post('/{user}/airtime', 'UserController@postAirtime');
         Route::post('/{user}/data', 'UserController@postData');
         Route::get('/{user}/balance', 'UserController@getBalance');
+        Route::get('/{user}/history', 'UserController@walletHistory');
+        Route::get('/{user}/history/{ref}', 'UserController@history');
 
     });
 

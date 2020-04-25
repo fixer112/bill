@@ -235,7 +235,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-4 mb-3 mb-md-0">
+                        {{--  <div class="col-md-4 mb-3 mb-md-0">
                             <p>Subscribe</p>
                             <div class="input-group newsletter">
                                 <input class="form-control" placeholder="Your Email Address" name="newsletterEmail"
@@ -243,8 +243,8 @@
                                 <span class="input-group-append">
                                     <button class="btn btn-secondary" type="submit">Subscribe</button>
                                 </span> </div>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-md-end flex-column">
+                        </div>  --}}
+                        <div class="col-md-4 offset-md-4 d-flex align-items-md-end flex-column">
                             <p>Keep in touch</p>
                             <ul class="social-icons">
                                 <li class="social-icons-facebook"><a data-toggle="tooltip"
@@ -278,7 +278,8 @@
                         </ul>
                         <p class="copyright-text">Copyright © {{date('Y')}} <a href="/">{{env('APP_NAME')}}</a>. All
                             Rights
-                            Reserved.</p>
+                            Reserved|Developed by <a href="https://altechtic.com">Altechtic Solutions</a></p>
+
                     </div>
                 </div>
             </footer><!-- Footer end -->

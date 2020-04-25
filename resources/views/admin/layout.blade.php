@@ -80,8 +80,9 @@
                             <label>Search</label>
                         </li>
 
-                        <li class="nav-item"><a href="/admin/search" class="nav-link"><span class="pcoded-micon"><i
-                                        class="fa fa-money-bill"></i></span><span class="pcoded-mtext">Users</span></a>
+                        <li class="nav-item"><a href="/admin/search/users" class="nav-link"><span
+                                    class="pcoded-micon"><i class="fa fa-users"></i></span><span
+                                    class="pcoded-mtext">Users</span></a>
                         </li>
 
 
@@ -257,6 +258,7 @@
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
                     <span>Copyright © <a href="/">{{env('APP_NAME')}}</a> 2019</span>
+                    | <span>Developed by <a href="https://altechtic.com">Altechtic Solutions</a></span>
                 </div>
             </div>
         </center>

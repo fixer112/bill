@@ -32,6 +32,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('/', 'AdminController@index');
             Route::get('/wallet/history', 'AdminController@walletHistory');
             Route::get('/wallet/referral', 'AdminController@referralHistory');
+            Route::get('/search/users', 'AdminController@searchUsers');
 
         });
 
@@ -53,6 +54,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/referral/{user}/history', 'UserController@referralHistory');
                 Route::get('/referral/{user}/withdraw', 'UserController@getWithdrawReferral');
                 Route::post('/referral/{user}/withdraw', 'UserController@withdrawReferral');
+                Route::get('/{user}/status/update', 'UserController@updateStatus');
 
                 Route::get('/{user}/airtime', 'UserController@getAirtime');
                 Route::post('/{user}/airtime', 'UserController@postAirtime');

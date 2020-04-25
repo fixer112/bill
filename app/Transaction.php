@@ -14,6 +14,11 @@ class Transaction extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function getRouteKeyName()
+    {
+        return 'ref';
+    }
+
     public function subscription()
     {
         return $this->hasOne('App\Subscription');

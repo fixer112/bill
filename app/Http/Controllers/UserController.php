@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Http\Resources\Transaction as TransactionResource;
 use App\Referral;
-use App\Rules\checkBalance;
 //use App\Traits\Referral;
+use App\Rules\checkBalance;
 use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
@@ -195,10 +196,19 @@ class UserController extends Controller
         return view('user.activity', $compact);
 
     }
-
+    public function history(User $user, Transaction $ref)
+    {
+        //$ref = Transaction::where('ref',$ref);
+        return new TransactionResource($ref);
+    }
     public function walletHistory(User $user)
     {
         $this->authorize('view', $user);
+
+        $this->validate(request(), [
+            'from' => 'nullable|date',
+            'to' => 'nullable|date',
+        ]);
 
         $from = request()->from ? Carbon::parse(request()->from) : now();
         $from = $from->startOfDay();
@@ -208,7 +218,12 @@ class UserController extends Controller
         $ref = request()->ref ? request()->ref : '';
         $type = request()->type ? request()->type : '';
 
-        $query = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type) {
+        //return $from;
+        if (request()->wantsJson()) {
+            // $type = 'debit';
+        }
+
+        $q = Transaction::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type) {
             if ($reason != '') {
                 $query->where('reason', $reason);
 
@@ -225,14 +240,19 @@ class UserController extends Controller
 
         }); //->get();
 
+        if (request()->wantsJson()) {
+            return $q->get();
+            return TransactionResource::collection($query->get());
+        }
+
         $transactions = $query->paginate(100);
 
         $totalDebit = $user->transactions->where('type', 'debit');
         $totalCredit = $user->transactions->where('type', 'credit');
 
-        $credit = $query->where('type', 'credit');
+        $credit = $q->where('type', 'credit');
 
-        $debit = $query->where('type', 'debit');
+        $debit = $q->where('type', 'debit');
 
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();
@@ -266,9 +286,9 @@ class UserController extends Controller
 
         $transactions = $query->paginate(100);
 
-        $referrals = $query->get();
+        //$referrals = $Referral::get();
 
-        $compact = compact('transactions', 'from', 'to', 'referrals', 'ref');
+        $compact = compact('transactions', 'from', 'to', 'ref');
 
         return view('user.referral.history', $compact);
     }
@@ -281,6 +301,8 @@ class UserController extends Controller
 
     public function withdrawReferral(User $user)
     {
+        $this->authorize('view', $user);
+
         $this->validate(request(), [
             'amount' => "required|numeric|min:1000",
         ]);
@@ -562,6 +584,16 @@ class UserController extends Controller
     public function fetchData()
     {
         return config("settings.bills.data");
+    }
+
+    public function updateStatus(User $user)
+    {
+        $this->authorize('delete', $user);
+
+        $user->update(['is_active' => !$user->is_active]);
+
+        return $this->jsonWebRedirect('success', "User {$user->status()}", $user->routePath());
+
     }
 
 }

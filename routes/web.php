@@ -51,6 +51,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/activity', 'UserController@activity');
                 Route::get('/wallet/{user}/history', 'UserController@walletHistory');
                 Route::get('/wallet/{user}/fund', 'UserController@getFundWallet');
+                Route::post('/wallet/{user}/fund', 'AdminController@fundWallet');
                 Route::get('/referral/{user}/history', 'UserController@referralHistory');
                 Route::get('/referral/{user}/withdraw', 'UserController@getWithdrawReferral');
                 Route::post('/referral/{user}/withdraw', 'UserController@withdrawReferral');

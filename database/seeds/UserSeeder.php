@@ -19,8 +19,8 @@ class UserSeeder extends Seeder
         $user = User::create([
             //'balance' => 1200,
             'login' => 'admin',
-            'first_name' => 'Abubakar',
-            'last_name' => 'Lawal',
+            'first_name' => 'Abu',
+            'last_name' => 'Lawwy',
             'email' => 'admin@gmail.com',
             'password' => 'abula112',
             'is_admin' => 1,

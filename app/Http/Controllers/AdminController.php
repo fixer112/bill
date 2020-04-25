@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Referral;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function index()
     {
         $users = User::get();
@@ -203,5 +210,40 @@ class AdminController extends Controller
         $compact = compact('users', 'pagination', 'sub_type', 'sub_types', 'search', 'admins', 'nonAdmins');
 
         return view('admin.search.user', $compact);
+    }
+
+    public function fundWallet(User $user)
+    {
+        $this->validate(request(), [
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        $user->update([
+            'balance' => $user->balance + request()->amount,
+        ]);
+
+        $amount = request()->amount;
+
+        $desc = "Wallet funding of {$amount} by " . Auth::user()->login;
+
+        $tran = Transaction::create([
+            'amount' => $amount,
+            'balance' => $user->balance,
+            'type' => 'credit',
+            'desc' => "{$desc}",
+            'ref' => generateRef($user),
+            'user_id' => $user->id,
+            'is_online' => 0,
+            //'reason' => 'top-up',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $desc,
+        ]);
+
+        return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
+
     }
 }

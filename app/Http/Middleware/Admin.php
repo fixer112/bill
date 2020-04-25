@@ -16,7 +16,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()->is_admin) {
+        if (Auth::check() && !Auth::user()->is_admin) {
             return redirect(Auth::user()->routePath());
         }
         return $next($request);

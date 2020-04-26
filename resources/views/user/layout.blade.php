@@ -45,10 +45,9 @@
                 <div class="navbar-brand header-logo">
                     <a href="/" class="b-brand">
 
-                        <img src="/images/logo2.png" alt="logo" class="logo">
-                        {{-- <div class="b-bg">
-                            <i class="feather icon-trending-up"></i>
-                        </div> --}}
+                        <div class="">
+                            <img src="/images/logo2.png" alt="logo" class="logo">
+                        </div>
                         <span class="b-title">{{env('APP_NAME')}}</span>
                     </a>
                     <a class="mobile-menu" id="mobile-collapse"><span></span></a>
@@ -163,11 +162,10 @@
             <div class="m-header">
                 <a class="mobile-menu" id="mobile-collapse1"><span></span></a>
                 <a href="/" class="b-brand">
-                    <img src="/images/logo2.png" alt="logo" class="logo">
-                    {{-- <div class="b-bg">
-                        <i class="feather icon-trending-up"></i>
+                    <div class="">
+                        <img src="/images/logo2.png" alt="logo" class="logo">
                     </div>
-                    <span class="b-title">{{env('APP_NAME')}}</span> --}}
+                    <span class="b-title">{{env('APP_NAME')}}</span>
                 </a>
             </div>
             <a class="mobile-menu" id="mobile-header" href="#!">

@@ -44,11 +44,10 @@
             <div class="navbar-wrapper">
                 <div class="navbar-brand header-logo">
                     <a href="/" class="b-brand">
-                        <img src="/images/logo2.png" alt="logo" class="logo">
-                        {{-- <div class="b-bg">
-                            <i class="feather icon-trending-up"></i>
-                        </div> --}}
-                        {{-- <span class="b-title">{{env('APP_NAME')}}</span> --}}
+                        <div class="">
+                            <img src="/images/logo2.png" alt="logo" class="logo">
+                        </div>
+                        <span class="b-title">{{env('APP_NAME')}}</span>
                     </a>
                     <a class="mobile-menu" id="mobile-collapse"><span></span></a>
                 </div>
@@ -95,7 +94,10 @@
             <div class="m-header">
                 <a class="mobile-menu" id="mobile-collapse1"><span></span></a>
                 <a href="/" class="b-brand">
-                    <img src="/images/logo2.png" alt="logo" class="logo">
+                    <div class="">
+                        <img src="/images/logo2.png" alt="logo" class="logo">
+                    </div>
+                    <span class="b-title">{{env('APP_NAME')}}</span>
                     {{-- <div class="b-bg">
                         <i class="feather icon-trending-up"></i>
                     </div>

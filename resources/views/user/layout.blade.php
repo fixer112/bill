@@ -44,9 +44,10 @@
             <div class="navbar-wrapper">
                 <div class="navbar-brand header-logo">
                     <a href="/" class="b-brand">
-                        <div class="b-bg">
+                        <img src="/images/logo2.png" alt="logo" class="logo">
+                        {{-- <div class="b-bg">
                             <i class="feather icon-trending-up"></i>
-                        </div>
+                        </div> --}}
                         <span class="b-title">{{env('APP_NAME')}}</span>
                     </a>
                     <a class="mobile-menu" id="mobile-collapse"><span></span></a>

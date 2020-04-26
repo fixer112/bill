@@ -7,6 +7,7 @@ use App\Http\Resources\Transaction as TransactionResource;
 use App\Referral;
 //use App\Traits\Referral;
 use App\Rules\checkBalance;
+use App\Rules\checkOldPassword;
 use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
@@ -14,6 +15,8 @@ use App\Traits\Payment;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -44,6 +47,66 @@ class UserController extends Controller
         $compact = compact('referrals', 'directReferral', 'indirectReferral');
 
         return view('user.index', $compact);
+    }
+
+    public function getEditUser(User $user)
+    {
+        $this->authorize('update', $user);
+
+        return view("user.edit");
+    }
+
+    public function editUser(User $user)
+    {
+        $data = [
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
+            'pic' => 'nullable|image|max:250',
+
+        ];
+
+        if (request()->email != $user->email) {
+            $data['email'] = 'required|email|unique:users';
+
+        }
+
+        if (Auth::user()->is_admin) {
+            $data['number'] = 'required|numeric';
+            $data['password'] = 'nullable|min:5|string|confirmed';
+
+        } else {
+            $data['password'] = 'nullable|min:5|string|confirmed|required_with:old_password';
+            $data['old_password'] = ['required', 'string', new checkOldPassword($user)];
+
+        }
+
+        if (request()->pic) {
+
+            if (Storage::disk('public')->has($user->profile)) {
+                Storage::disk('public')->delete($user->profile);
+            }
+
+            $id = request()->file('pic');
+            $path = $id->store('profile', ['disk' => 'public']);
+
+            $user->update([
+                'profile' => $path,
+            ]);
+
+        }
+        if (request()->password) {
+            $user->update(['password' => request()->password]);
+        }
+
+        $user->update(request()->except('pic', 'old_password', 'password_confirmation', 'password'));
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => "Profile was edited",
+        ]);
+
+        return $this->jsonWebBack('success', 'Profile Updated');
     }
 
     public function getSubscribe(User $user)

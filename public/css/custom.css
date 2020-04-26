@@ -14,18 +14,23 @@
     background: linear-gradient(-135deg, #1dc4e9 0%, #1de9b6 100%);
 }
 
+
 /* Profile container */
+
 .profile {
     margin: 20px 0;
 }
 
+
 /* Profile sidebar */
+
 .profile-sidebar {
     padding: 20px 0 10px 0;
     background: #fff;
 }
 
-.profile-userpic img {
+.profile-userpic img,
+.profile-userpic {
     float: none;
     display: block;
     margin: auto;
@@ -34,6 +39,8 @@
     -webkit-border-radius: 50% !important;
     -moz-border-radius: 50% !important;
     border-radius: 50% !important;
+    width: 150px;
+    height: 150px;
 }
 
 .profile-usertitle {
@@ -112,7 +119,9 @@
     margin-left: -2px;
 }
 
+
 /* Profile Content */
+
 .profile-content {
     padding: 20px;
     background: #fff;
@@ -120,10 +129,9 @@
 }
 
 .pcoded-trigger {
-
     width: 100%;
-
 }
+
 
 /* .pcoded-navbar .pcoded-inner-navbar li>a>.pcoded-micon+.pcoded-mtext {
     top: 14px;
@@ -187,6 +195,7 @@ section.pricing {
     transition: all 0.2s;
 }
 
+
 /* Hover Effects on Card */
 
 @media (min-width: 992px) {
@@ -195,7 +204,6 @@ section.pricing {
         margin-bottom: .25rem;
         box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
     }
-
     .pricing .card:hover .btn {
         opacity: 1;
     }

@@ -14,7 +14,7 @@
 @guest
 <section class="container">
     <div class="row mt-4">
-        <div class="{{-- col-md-12 col-lg-10 --}}col-8 mx-auto">
+        <div class="{{-- col-md-12 col-lg-10 --}}col-lg-8 mx-auto">
             <div id="verticalTab">
                 <div class="row no-gutters">
                     <div class="col-md-3 my-0 my-md-4">

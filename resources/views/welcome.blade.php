@@ -2,13 +2,19 @@
 @section('title','Home')
 @section('head')
 <script src="https://js.paystack.co/v1/inline.js"></script>
+<style>
+    .side {
+        height: 273px;
+        width: 165px;
+    }
+</style>
 @endsection
 @section('content')
 {{-- @json(config("settings.bills.data")) --}}
 @guest
 <section class="container">
     <div class="row mt-4">
-        <div class="col-md-12 col-lg-10">
+        <div class="{{-- col-md-12 col-lg-10 --}}col-8 mx-auto">
             <div id="verticalTab">
                 <div class="row no-gutters">
                     <div class="col-md-3 my-0 my-md-4">
@@ -106,13 +112,14 @@
         ============================================= -->
         <div class="col-lg-2 mt-4 mt-lg-0">
             <div class="row">
-                <div class="col-6 col-lg-12 text-center"> <a href="#"><img src="images/slider/small-banner-7.jpg" alt=""
-                            title="" class="img-fluid rounded shadow-md"></a> </div>
-                <div class="col-6 col-lg-12 mt-lg-3 text-center"> <a href=""><img src="images/slider/small-banner-8.jpg"
-                            alt="" title="" class="img-fluid rounded shadow-md"></a> </div>
+                @for ($i =0 ; $i <2 ; $i++) <div class="col-6 col-lg-12 mt-lg-3 text-center"> <a href=""><img
+                            src="/{{$sides->random()}}" alt="" title="" class="img-fluid rounded shadow-md side"></a>
             </div>
+            @endfor
+
         </div>
-        <!-- Banner end -->
+    </div>
+    <!-- Banner end -->
 
     </div>
 </section>
@@ -126,12 +133,10 @@
           ============================================= -->
             <div class="col-lg-12">
                 <div class="owl-carousel owl-theme slideshow single-slider">
-                    <div class="item"><a href="#"><img class="img-fluid" src="images/slider/banner-1.jpg"
-                                alt="banner 1" /></a>
+                    @foreach ($sliders as $slider)
+                    <div class="item"><a href="#"><img class="img-fluid" src="/{{$slider}}" alt="banner 1" /></a>
                     </div>
-                    <div class="item"><a href="#"><img class="img-fluid" src="images/slider/banner-2.jpg"
-                                alt="banner 2" /></a>
-                    </div>
+                    @endforeach
                 </div>
             </div><!-- Slideshow end -->
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Traits\BillPayment;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         if (!Session::has('balance')) {
             try {
                 $this->balance();
@@ -32,7 +34,17 @@ class HomeController extends Controller
                 //throw $th;
             }
         }
-        return view('welcome');
+
+        $sides = Storage::disk('root')->files('images/side');
+        $sides = collect($sides);
+
+        $sliders = Storage::disk('root')->files('images/slider');
+        $sliders = $sliders;
+        Storage::disk('root')->delete("images/slider/.DS_Store");
+        //return $sliders;
+        //return Storage::disk('root')->mimeType($sliders[1]);
+
+        return view('welcome', compact('sides', 'sliders'));
     }
 
     public function pricing()

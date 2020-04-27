@@ -40,6 +40,7 @@ class UserController extends Controller
 
         //return $user->getReferralLevel();
         //$lastSub = $user->subscriptions->last();
+
         $referrals = $user->getReferralChildren();
         $directReferral = $referrals->where('level', 1);
         $indirectReferral = $referrals->where('level', '!=', 1);

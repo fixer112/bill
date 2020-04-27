@@ -5,7 +5,7 @@
 <style>
     .side {
         height: 273px;
-        width: 165px;
+        width: 100%;
     }
 </style>
 @endsection
@@ -14,7 +14,7 @@
 @guest
 <section class="container">
     <div class="row mt-4">
-        <div class="{{-- col-md-12 col-lg-10 --}}col-lg-8 mx-auto">
+        <div class="col-md-12 col-lg-9">
             <div id="verticalTab">
                 <div class="row no-gutters">
                     <div class="col-md-3 my-0 my-md-4">
@@ -28,11 +28,7 @@
 
                         <div class="resp-tabs-container bg-light shadow-md rounded h-100 p-3">
 
-                            <p class="text-danger ml-3">
-                                Please make sure to you input a valid mobile number as payment is made before phone
-                                number validated.<br>
-                                For any complain or refund request please click <a href="/contact">here</a>
-                            </p>
+
 
                             <h4 class="ml-3">GUEST</h4>
 
@@ -98,6 +94,10 @@
                             </script>
                             <!-- Data Recharge end -->
 
+                            <p class="text-danger ml-3 text-center">
+
+                                For any complain or refund request please click <a href="/contact">here</a>
+                            </p>
 
                             <h5 class="mb-4 text-center"><a href="/register"> REGISTER NOW TO ENJOY AMAZING
                                     DISCOUNTS</a></h5>
@@ -110,7 +110,7 @@
 
         <!-- Banner
         ============================================= -->
-        <div class="col-lg-2 mt-4 mt-lg-0">
+        <div class="col-lg-3 mt-4 mt-lg-0">
             <div class="row">
                 @for ($i =0 ; $i <2 ; $i++) <div class="col-6 col-lg-12 mt-lg-3 text-center"> <a href=""><img
                             src="/{{$sides->random()}}" alt="" title="" class="img-fluid rounded shadow-md side"></a>
@@ -206,7 +206,7 @@
         </div>
     </div>
 </div><!-- Tabs end -->
-<div class="container">
+<!--<div class="container">
     <section class="section pricing bg-light shadow-md rounded px-5 mb-3">
         <div class="container">
             <div class="row">
@@ -295,19 +295,19 @@
             </div>
         </div>
     </section>
-</div>
+</div>-->
 <!-- Refer & Earn -->
 <div class="container">
     <section class="section bg-light shadow-md rounded px-5">
         <h2 class="text-9 font-weight-600 text-center">Refer & Earn</h2>
-        <p class="lead text-center mb-5">Refer your friends and earn up to $20.</p>
+        <p class="lead text-center mb-5">Refer your friends and earn as much as possible.</p>
         <div class="row">
             <div class="col-md-4">
                 <div class="featured-box style-4">
                     <div class="featured-box-icon bg-light-4 text-primary rounded-circle"> <i
                             class="fas fa-bullhorn"></i> </div>
                     <h3>You Refer Friends</h3>
-                    <p class="text-3">Share your referral link with friends. They get $10.</p>
+                    <p class="text-3">Share your referral link with friends. They get {{currencySymbol()}}100.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -321,9 +321,11 @@
             <div class="col-md-4">
                 <div class="featured-box style-4">
                     <div class="featured-box-icon bg-light-4 text-primary rounded-circle"> <i
-                            class="fas fa-dollar-sign"></i> </div>
+                            class="{{-- fas fa-dollar-sign --}} text-center font-weight-bold">{{currencySymbol()}}</i>
+                    </div>
                     <h3>Earn You</h3>
-                    <p class="text-3">You get $20. You can us these credits to take recharge.</p>
+                    <p class="text-3">You get {{currencySymbol()}}50. You can us these credits to make bill payments.
+                    </p>
                 </div>
             </div>
         </div>

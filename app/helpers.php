@@ -37,7 +37,7 @@ function wholeNumberFormat(float $number)
 
 function currencySymbol()
 {
-    return 'NGN';
+    return '₦';
 }
 
 function currencyFormat(float $number)

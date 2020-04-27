@@ -16,6 +16,11 @@
         {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> --}}
         <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/css/login.css">
+        <style>
+            .brand-wrapper .logo {
+                height: auto;
+            }
+        </style>
     </head>
 
     <body>

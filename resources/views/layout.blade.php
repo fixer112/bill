@@ -28,7 +28,9 @@
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
         <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+        <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/js/script.js"></script>
+
 
         @yield('head')
 
@@ -56,7 +58,7 @@
           ============================================= -->
                             <div class="logo">
                                 <a href="/" title="{{env('APP_DESCRIPTION')}}"><img src="images/logo.png"
-                                        alt="{{env('APP_NAME')}}" width="127" height="29" /></a>
+                                        alt="{{env('APP_NAME')}}" {{-- width="127" height="29" --}} /></a>
                             </div><!-- Logo end -->
 
                         </div>
@@ -293,16 +295,17 @@
 
 
         <!-- Script -->
-        <script src="/vendor/jquery/jquery.min.js"></script>
+
 
         <script src="/js/notify.js"></script>
         </script>
-        <script src="https://unpkg.com/@popperjs/core@2"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
         <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
         <script src="/vendor/easy-responsive-tabs/easy-responsive-tabs.js"></script>
         <script src="/js/theme.js"></script>
-
+        @yield('js')
 
 
 
@@ -322,6 +325,10 @@
         });
         
         element.parent().addClass('active');
+
+            $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        });
 
         
         </script>

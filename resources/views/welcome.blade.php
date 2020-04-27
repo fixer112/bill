@@ -145,7 +145,7 @@
 @endauth
 
 <!-- Tabs -->
-<div class="section pt-4 pb-3">
+{{-- <div class="section pt-4 pb-3">
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item"> <a class="nav-link active" id="mobile-recharge-tab" data-toggle="tab"
@@ -205,7 +205,8 @@
             </div>
         </div>
     </div>
-</div><!-- Tabs end -->
+</div> --}}
+<!-- Tabs end -->
 <!--<div class="container">
     <section class="section pricing bg-light shadow-md rounded px-5 mb-3">
         <div class="container">
@@ -320,10 +321,11 @@
             </div>
             <div class="col-md-4">
                 <div class="featured-box style-4">
-                    <div class="featured-box-icon bg-light-4 text-primary rounded-circle"> <i
-                            class="{{-- fas fa-dollar-sign --}} text-center font-weight-bold">{{currencySymbol()}}</i>
+                    <div class="featured-box-icon bg-light-4 text-primary text-center rounded-circle"> <i
+                            class="{{-- fas fa-dollar-sign --}} font-weight-bold mx-auto"
+                            style="font-size: 2.9rem;">{{currencySymbol()}}</i>
                     </div>
-                    <h3>Earn You</h3>
+                    <h3>You Earn</h3>
                     <p class="text-3">You get {{currencySymbol()}}50. You can us these credits to make bill payments.
                     </p>
                 </div>

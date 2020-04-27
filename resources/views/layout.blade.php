@@ -30,6 +30,11 @@
         <link rel="stylesheet" type="text/css" href="/css/custom.css" />
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/js/script.js"></script>
+        <style>
+            .logo {
+                margin-top: 10px;
+            }
+        </style>
 
 
         @yield('head')
@@ -208,7 +213,7 @@
                                 <div class="featured-box text-center">
                                     <div class="featured-box-icon"> <i class="fas fa-bullhorn"></i> </div>
                                     <h4>Refer & Earn</h4>
-                                    <p>Invite a friend to sign up and earn up to $100.</p>
+                                    <p>Invite a friend to sign up and earn as much as possible.</p>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
@@ -230,7 +235,8 @@
                                             src="images/payment/visa.png" alt="visa" title="Visa"></a></li>
 
                                 <li><a href="#" target="_blank"> <img data-toggle="tooltip"
-                                            src="images/payment/paypal.png" alt="paypal" title="PayPal"></a></li>
+                                            src="images/payment/paystack.png" alt="paystack" title="Paystack" width="90"
+                                            height="34"></a></li>
 
                                 <li><a href="#" target="_blank"> <img data-toggle="tooltip"
                                             src="images/payment/mastercard.png" alt="discover" title="Discover"></a>
@@ -254,13 +260,6 @@
                                             class="fab fa-facebook-f"></i></a></li>
                                 <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/"
                                         target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                                <li class="social-icons-google"><a data-toggle="tooltip" href="http://www.google.com/"
-                                        target="_blank" title="Google"><i class="fab fa-google"></i></a></li>
-                                <li class="social-icons-linkedin"><a data-toggle="tooltip"
-                                        href="http://www.linkedin.com/" target="_blank" title="Linkedin"><i
-                                            class="fab fa-linkedin-in"></i></a></li>
-                                <li class="social-icons-youtube"><a data-toggle="tooltip" href="http://www.youtube.com/"
-                                        target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a></li>
                                 <li class="social-icons-instagram"><a data-toggle="tooltip"
                                         href="http://www.instagram.com/" target="_blank" title="Instagram"><i
                                             class="fab fa-instagram"></i></a></li>

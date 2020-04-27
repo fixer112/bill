@@ -33,7 +33,7 @@ return [
     ],
 
     'subscriptions' => [
-        'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 10, 'rate_limit' => 100, 'bills' => [
+        'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 20, 'rate_limit' => 100, 'bills' => [
             'airtime' => [
                 'mtn' => 1,
                 'airtel' => 1,
@@ -48,7 +48,7 @@ return [
             ],
         ],
         ],
-        'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 12, 'rate_limit' => 200, 'bills' => [
+        'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'bills' => [
             'airtime' => [
                 'mtn' => 1.5,
                 'airtel' => 1,
@@ -63,7 +63,7 @@ return [
             ],
         ],
         ],
-        'gold' => ['amount' => 30000, 'discount' => 10, 'bonus' => 13, 'rate_limit' => 500, 'bills' => [
+        'gold' => ['amount' => 30000, 'discount' => 10, 'bonus' => 20, 'rate_limit' => 500, 'bills' => [
             'airtime' => [
                 'mtn' => 2,
                 'airtel' => 1.5,
@@ -78,7 +78,7 @@ return [
             ],
         ],
         ],
-        'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 15, 'rate_limit' => 1000, 'bills' => [
+        'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 1000, 'bills' => [
             'airtime' => [
                 'mtn' => 3,
                 'airtel' => 2.5,

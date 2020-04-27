@@ -42,7 +42,7 @@ function currencySymbol()
 
 function currencyFormat(float $number)
 {
-    return currencySymbol() . ' ' . numberFormat($number);
+    return currencySymbol() . '' . numberFormat($number);
 }
 
 function generateRef(User $user = null)

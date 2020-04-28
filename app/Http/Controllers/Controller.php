@@ -125,6 +125,8 @@ class Controller extends BaseController
 
     public function test()
     {
+        /* throw new Exception('My first Sentry error!');
+        return; */
         return fetchDataInfo();
         //return $this->data2();
         //return $this->fetchDataInfo('glo');

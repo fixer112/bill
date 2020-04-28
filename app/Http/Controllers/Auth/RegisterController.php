@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Activity;
 use App\Http\Controllers\Controller;
+use App\Notifications\UserCreated;
 use App\Providers\RouteServiceProvider;
 use App\Transaction;
 use App\User;
@@ -112,6 +113,12 @@ class RegisterController extends Controller
         ]);
 
         $user->giveReferralBounus($amount, 'Registration Bonus', true);
+
+        try {
+            $user->notify(new UserCreated($user));
+        } catch (\Exception $e) {
+            //dump("Mail not sent : {$e->getMessage()}");
+        }
 
         return redirect($user->routePath());
 

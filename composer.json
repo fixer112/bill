@@ -17,6 +17,7 @@
         "laravel/helpers": "^1.2",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "sentry/sentry-laravel": "1.7.1",
         "yabacon/paystack-php": "^2.1"
     },
     "require-dev": {

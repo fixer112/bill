@@ -3,7 +3,7 @@
 <h4 class="text-6 mb-4">Airtime Recharge</h4>
 <div id="airtime">
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="mobileNumber">Mobile Number</label>
                 <input type="number" min="11" class="form-control @error('number') is-invalid @enderror" name="number"
@@ -42,7 +42,7 @@
 
             <input name="network_code" v-model="network_code" required readonly hidden />
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="amount">Amount</label>
                 <div class="input-group">

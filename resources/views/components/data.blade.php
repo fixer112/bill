@@ -4,7 +4,7 @@
 <h4 class="text-6 mb-4">Data Subscription </h4>
 <div id="data">
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="mobileNumber">Mobile Number</label>
                 <input type="text" min="11" class="form-control @error('number') is-invalid @enderror" name="number"
@@ -33,7 +33,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="form-group" v-if="network!=''">
                 <label>Data Plan</label>
                 <select class="custom-select @error('network') is-invalid @enderror" required v-model="plan">

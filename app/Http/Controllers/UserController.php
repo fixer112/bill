@@ -494,12 +494,11 @@ class UserController extends Controller
         ]);
 
         $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
-
-        if (env('ENABLE_TEST_MODE')) {
-            return $this->jsonWebRedirect('success', $desc, $user->routePath(), 'test');
-        }
-
         $ref = generateRef($user);
+
+        if (!env('ENABLE_BILL_PAYMENT')) {
+            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        }
 
         $result = $this->airtime(request()->amount, request()->number, $network_code, $ref);
 
@@ -578,12 +577,13 @@ class UserController extends Controller
 
         $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
-        if (env('ENABLE_TEST_MODE')) {
-            return $this->jsonWebRedirect('success', $desc, $user->routePath(), 'test');
-        }
-        //return request()->all();
-
         $ref = generateRef($user);
+
+        if (!env('ENABLE_BILL_PAYMENT')) {
+            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        }
+
+        //return request()->all();
 
         if ($network == 'mtn') {
             $result = $this->dataMtn(request()->amount, request()->number, $network_code, $ref);

@@ -254,9 +254,9 @@ class AdminController extends Controller
         $user->transactions()->delete();
         $user->userActivities()->delete();
         $user->referrals()->delete();
-        /* $user->update([
-        'is_reseller' => 0,
-        ]); */
+        $user->update([
+            'is_reseller' => 0,
+        ]);
         //$user->delete();
         return redirect($user->routePath());
 

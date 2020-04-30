@@ -344,7 +344,7 @@
         <center>
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright © <a href="/">{{env('APP_NAME')}}</a> 2019</span>
+                    <span>Copyright © <a href="/">{{env('APP_NAME')}}</a> {{date('Y')}}</span>
                     | <span>Developed by <a href="https://altechtic.com">Altechtic Solutions</a></span>
                 </div>
             </div>

@@ -326,7 +326,7 @@
                             style="font-size: 2.9rem;">{{currencySymbol()}}</i>
                     </div>
                     <h3>You Earn</h3>
-                    <p class="text-3">You get {{currencySymbol()}}50. You can us these credits to make bill payments.
+                    <p class="text-3">You get {{currencySymbol()}}50. You can use this credits to make bill payments.
                     </p>
                 </div>
             </div>

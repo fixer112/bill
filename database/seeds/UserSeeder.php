@@ -37,6 +37,17 @@ class UserSeeder extends Seeder
                 // 'api_token' => Str::random(60),
             ]);
 
+            $user = User::create([
+                'balance' => 0,
+                'login' => 'user',
+                'first_name' => 'Tester',
+                'last_name' => 'User',
+                'email' => 'test@test.com',
+                'password' => 'abula112',
+                'is_reseller' => 0,
+                'api_token' => 'abcde12345', //Str::random(60),
+            ]);
+
         } else {
             $user = User::create([
                 //'balance' => 1200,
@@ -57,7 +68,7 @@ class UserSeeder extends Seeder
                 'email' => 'test@test.com',
                 'password' => 'abula112',
                 'is_reseller' => 1,
-                'api_token' => 'abcde12345'//Str::random(60),
+                'api_token' => 'abcde12345', //Str::random(60),
             ]);
 
             $tran = Transaction::create([

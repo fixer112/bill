@@ -33,11 +33,12 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('/wallet/referral', 'AdminController@referralHistory');
             Route::get('/search/users', 'AdminController@searchUsers');
 
+            Route::get('/test', 'Controller@test');
+
+            Route::get('test/{user}', 'Controller@testUser');
+
+            Route::get('/clear_test', 'AdminController@clearTestData');
         });
-
-        Route::get('/test', 'Controller@test');
-
-        Route::get('test/{user}', 'Controller@testUser');
 
         #User
         Route::prefix('user')->group(function () {

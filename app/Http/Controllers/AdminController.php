@@ -101,9 +101,11 @@ class AdminController extends Controller
         $totalDebit = $trans->where('type', 'debit');
         $totalCredit = $trans->where('type', 'credit');
 
-        $credit = $transactions->where('type', 'credit');
+        $query = $query->get();
 
-        $debit = $transactions->where('type', 'debit');
+        $credit = $query->where('type', 'credit');
+
+        $debit = $query->where('type', 'debit');
 
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();

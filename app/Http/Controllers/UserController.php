@@ -314,9 +314,11 @@ class UserController extends Controller
         $totalDebit = $user->transactions->where('type', 'debit');
         $totalCredit = $user->transactions->where('type', 'credit');
 
-        $credit = $q->where('type', 'credit')->get();
+        $q = $q->get();
 
-        $debit = $q->where('type', 'debit')->get();
+        $credit = $q->where('type', 'credit'); //->get();
+
+        $debit = $q->where('type', 'debit'); //->get();
 
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();

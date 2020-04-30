@@ -1,6 +1,5 @@
 <?php
 
-use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,9 +35,9 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
         });
 
-        Route::get('test/{user}', function (User $user) {
-            return calPercentageAmount(100, 200); //calDiscountAmount(10, $user->calDiscount());
-        });
+        Route::get('/test', 'Controller@test');
+
+        Route::get('test/{user}', 'Controller@testUser');
 
         #User
         Route::prefix('user')->group(function () {
@@ -90,6 +89,5 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
     });
 
-    Route::get('/test', 'Controller@test');
     //Route::get('/home', 'HomeController@index')->name('home');
 });

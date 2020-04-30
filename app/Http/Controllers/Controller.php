@@ -125,6 +125,14 @@ class Controller extends BaseController
 
     }
 
+    public function testUser(User $user)
+    {
+        $user->notify(new UserCreated($user));
+        return $user->email;
+
+        return calPercentageAmount(100, 200); //calDiscountAmount(10, $user->calDiscount());
+    }
+
     public function test()
     {
         /*  throw new Exception('Error Testing');
@@ -136,9 +144,6 @@ class Controller extends BaseController
 
         }
         return; */
-        $user = User::find(3);
-
-        return $user->notify(new UserCreated($user));
 
         return fetchDataInfo();
         //return $this->data2();

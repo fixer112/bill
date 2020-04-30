@@ -348,9 +348,7 @@
                     Coming Soon</h2>
                 <p class="lead">Download our app for the fastest, most convenient way to send Recharge.
                 </p>
-                <p>Ridens mediocritatem ius an, eu nec magna imperdiet. Mediocrem qualisque in has. Enim
-                    utroque perfecto id mei, ad eam tritani labores facilisis, ullum sensibus no cum.
-                    Eius eleifend in quo.</p>
+                <p>{{env('APP_DESCRIPTION')}}</p>
                 <ul>
                     <li>Recharge</li>
                     <li>Bill Payment</li>

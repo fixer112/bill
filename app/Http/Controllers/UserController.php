@@ -320,8 +320,8 @@ class UserController extends Controller
 
         $debit = $q->where('type', 'debit'); //->get();
 
-        $reasons = Transaction::pluck('reason')->unique();
-        $types = Transaction::pluck('type')->unique();
+        $reasons = $user->transactions->pluck('reason')->unique();
+        $types = $user->transactions->pluck('type')->unique();
 
         //$transactions = $query->paginate(100);
         //$transactions->paginate(1);

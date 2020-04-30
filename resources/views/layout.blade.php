@@ -14,6 +14,18 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <meta property="og:title" content="@yield('title') | {{env('APP_NAME')}}" />
+        <meta property="og:description" content="@yield('desc',env('APP_DESCRIPTION'))" />
+        <meta property="og:url" content="{{url()->current()}}" />
+        <meta property="og:site_name" content="{{env('APP_NAME')}}" />
+        <meta property="og:image" content="{{url('/images/logo2.png')}}" />
+        <meta name="twitter:card" content="@yield('desc',env('APP_DESCRIPTION'))" />
+        <meta name="twitter:url" content="{{url()->current()}}" />
+        <meta name="twitter:title" content="@yield('title') | {{env('APP_NAME')}}" />
+        <meta name="twitter:description" content="@yield('desc',env('APP_DESCRIPTION'))" />
+        <meta name="twitter:image:src" content="{{url('/images/logo2.png')}}" />
+        <meta name="twitter:site" content="@moniwallet" />
+
         <!-- Web Fonts
 ============================================= -->
         <link rel='stylesheet'
@@ -256,12 +268,13 @@
                             <p>Keep in touch</p>
                             <ul class="social-icons">
                                 <li class="social-icons-facebook"><a data-toggle="tooltip"
-                                        href="http://www.facebook.com/" target="_blank" title="Facebook"><i
+                                        href="http://www.facebook.com/moniwallet" target="_blank" title="Facebook"><i
                                             class="fab fa-facebook-f"></i></a></li>
-                                <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/"
-                                        target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                <li class="social-icons-twitter"><a data-toggle="tooltip"
+                                        href="http://www.twitter.com/moniwallet" target="_blank" title="Twitter"><i
+                                            class="fab fa-twitter"></i></a></li>
                                 <li class="social-icons-instagram"><a data-toggle="tooltip"
-                                        href="http://www.instagram.com/" target="_blank" title="Instagram"><i
+                                        href="http://www.instagram.com/moniwallet" target="_blank" title="Instagram"><i
                                             class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
@@ -271,7 +284,7 @@
                     <div class="footer-copyright">
                         <ul class="nav justify-content-center">
                             <li class="nav-item"> <a class="nav-link active" href="/about">About Us</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="#">Faq</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/faq">Faq</a> </li>
                             <li class="nav-item"> <a class="nav-link" href="/contact">Contact</a> </li>
                             <li class="nav-item"> <a class="nav-link" href="/support">Support</a> </li>
                             <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Us</a> </li>

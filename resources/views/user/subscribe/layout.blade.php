@@ -13,6 +13,18 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <meta property="og:title" content="@yield('title') | {{env('APP_NAME')}}" />
+        <meta property="og:description" content="@yield('desc',env('APP_DESCRIPTION'))" />
+        <meta property="og:url" content="{{url()->current()}}" />
+        <meta property="og:site_name" content="{{env('APP_NAME')}}" />
+        <meta property="og:image" content="{{url('/images/logo2.png')}}" />
+        <meta name="twitter:card" content="@yield('desc',env('APP_DESCRIPTION'))" />
+        <meta name="twitter:url" content="{{url()->current()}}" />
+        <meta name="twitter:title" content="@yield('title') | {{env('APP_NAME')}}" />
+        <meta name="twitter:description" content="@yield('desc',env('APP_DESCRIPTION'))" />
+        <meta name="twitter:image:src" content="{{url('/images/logo2.png')}}" />
+        <meta name="twitter:site" content="@moniwallet" />
+
         <!-- Web Fonts
 ============================================= -->
         <link rel='stylesheet'

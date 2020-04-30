@@ -62,7 +62,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'referral' => \Questocat\Referral\Http\Middleware\CheckReferral::class,
+        'referral' => \Devi\MultiReferral\Http\Middleware\CheckReferral::class,
         'subscribed' => \App\Http\Middleware\Subscribed::class,
         'unsubscribed' => \App\Http\Middleware\UnSubscribed::class,
         'webRouteEnabled' => \App\Http\Middleware\webRouteEnabled::class,

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\UserCreated;
 use App\Traits\BillPayment;
 use App\Traits\Payment;
 use App\Transaction;
+use App\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -134,6 +136,10 @@ class Controller extends BaseController
 
         }
         return; */
+        $user = User::find(4);
+
+        return $user->notify(new UserCreated($user));
+
         return fetchDataInfo();
         //return $this->data2();
         //return $this->fetchDataInfo('glo');

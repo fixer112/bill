@@ -70,9 +70,9 @@ class User extends Authenticatable
 
     public function upgradeList()
     {
+        $keys = array_keys(config("settings.subscriptions"));
         if ($this->is_reseller) {
             //$sub = config("subscriptions.{$this->lastSub()->name}");
-            $keys = array_keys(config("settings.subscriptions"));
             $key = array_search($this->lastSub()->name, $keys);
             $lastSub = config("settings.subscriptions.{$this->lastSub()->name}");
 
@@ -98,7 +98,9 @@ class User extends Authenticatable
             // return $keys;
 
         }
-        return "";
+
+        return config("settings.subscriptions");
+        //return "";
     }
 
     public function getReferralParents()
@@ -143,22 +145,6 @@ class User extends Authenticatable
                 'desc' => $desc,
                 'ref' => generateRef($u),
             ]);
-
-            if ($isReferral) {
-                $this->update([
-                    'balance' => $this->balance + $amount,
-                ]);
-                Transaction::create([
-                    'amount' => $amount,
-                    'balance' => $this->balance,
-                    'type' => 'credit',
-                    'desc' => $desc,
-                    'ref' => generateRef($user),
-                    'user_id' => $this->id,
-                    'reason' => 'top-up',
-                ]);
-
-            }
 
         });
     }

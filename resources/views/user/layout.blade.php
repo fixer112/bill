@@ -122,17 +122,20 @@
 
 
 
-                        @if(request()->user->is_reseller)
+
                         <li class="nav-item pcoded-menu-caption">
                             <label>Subscription</label>
                         </li>
-
+                        @if(request()->user->is_reseller)
                         <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/subscriptions"
                                 class="nav-link"><span class="pcoded-micon"><i
                                         class="fa fa-money-bill-alt"></i></span><span
                                     class="pcoded-mtext">History</span></a>
                         </li>
-                        {{-- {{json_encode(request()->user->upgradeList())}} --}}
+                        @endif
+
+                        {{-- @json(request()->user->upgradeList()) --}}
+
                         @can('upgrade',request()->user)
                         <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/subscription/upgrade"
                                 class="nav-link text-danger"><span class="pcoded-micon"><i
@@ -140,7 +143,7 @@
                                     Now</span></a>
                         </li>
                         @endcan
-                        @endif
+
 
                         {{-- <li class="nav-item pcoded-hasmenu">
                             <a class=""><span class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span

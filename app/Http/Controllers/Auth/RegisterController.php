@@ -6,10 +6,12 @@ use App\Activity;
 use App\Http\Controllers\Controller;
 use App\Notifications\UserCreated;
 use App\Providers\RouteServiceProvider;
+use App\Transaction;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -91,15 +93,32 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        $amount = 100;
+        if (Cookie::has('referral')) {
+            $amount = 100;
+
+            $user->update([
+                'balance' => $user->balance + $amount,
+            ]);
+            Transaction::create([
+                'amount' => $amount,
+                'balance' => $user->balance,
+                'type' => 'credit',
+                'desc' => "Registration bonus",
+                'ref' => generateRef($user),
+                'user_id' => $user->id,
+                'reason' => 'top-up',
+            ]);
+
+            $user->giveReferralBounus($amount, 'Registration Bonus', true);
+        }
+
+        Cookie::queue(Cookie::forget('referral'));
 
         $activity = Activity::create([
             'user_id' => $user->id,
             'admin_id' => Auth::id(),
             'summary' => 'Account created',
         ]);
-
-        $user->giveReferralBounus($amount, 'Registration Bonus', true);
 
         try {
             $user->notify(new UserCreated($user));

@@ -250,10 +250,10 @@ class AdminController extends Controller
     public function clearTestData()
     {
         $user = User::where('login', 'user')->first();
-        $user->subscriptions->delete();
-        $user->transactions->delete();
-        $user->userActivities->delete();
-        $user->referrals->delete();
+        $user->subscriptions()->delete();
+        $user->transactions()->delete();
+        $user->userActivities()->delete();
+        $user->referrals()->delete();
         $user->delete();
         return redirect('/admin');
 

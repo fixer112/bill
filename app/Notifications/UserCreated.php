@@ -44,6 +44,7 @@ class UserCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->subject('Welcome to ' . env("APP_NAME"))
             ->greeting("Hello {$this->user->full_name}!")
             ->line('You have successfully registered on ' . url('/') . '.')
             ->action('Dashboard', url($this->user->routePath()))

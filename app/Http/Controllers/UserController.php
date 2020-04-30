@@ -481,7 +481,7 @@ class UserController extends Controller
         $this->validate(request(), [
             //'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
-            'number' => "required|string|'digits:11'",
+            'number' => "required|string|digits:11",
 
             //'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
@@ -552,7 +552,7 @@ class UserController extends Controller
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
             //'discount_amount' => ["required", "numeric", new checkBalance($user)],
             //'details' => "required|string",
-            'number' => "required|string|'digits:11'",
+            'number' => "required|string|digits:11",
             //'network_code' => ["required", "string", new checkNetwork()],
             //'network_code' => "required|string",
             'amount' => "required|numeric",

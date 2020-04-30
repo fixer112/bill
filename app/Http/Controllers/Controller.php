@@ -136,7 +136,7 @@ class Controller extends BaseController
 
         }
         return; */
-        $user = User::find(4);
+        $user = User::find(3);
 
         return $user->notify(new UserCreated($user));
 

@@ -145,10 +145,10 @@ class Controller extends BaseController
         }
         return; */
 
-        return fetchDataInfo();
+        //return fetchDataInfo();
         //return $this->data2();
         //return $this->fetchDataInfo('glo');
-        //return $this->balance();
+        return $this->balance();
         return $this->airtime(50, '08106813749', '77777', generateRef());
     }
 }

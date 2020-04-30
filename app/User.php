@@ -143,6 +143,23 @@ class User extends Authenticatable
                 'desc' => $desc,
                 'ref' => generateRef($u),
             ]);
+
+            if ($isReferral) {
+                $this->update([
+                    'balance' => $this->balance + $amount,
+                ]);
+                Transaction::create([
+                    'amount' => $amount,
+                    'balance' => $this->balance,
+                    'type' => 'credit',
+                    'desc' => $desc,
+                    'ref' => generateRef($user),
+                    'user_id' => $this->id,
+                    'reason' => 'top-up',
+                ]);
+
+            }
+
         });
     }
 

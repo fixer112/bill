@@ -13,7 +13,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                     </div>
-                    <input name="amount" min="2000" type="number" step=".01"
+                    <input name="amount" min="1000" type="number" step=".01"
                         class="form-control @error('amount') is-invalid @enderror" required placeholder="Enter Amount">
                 </div>
                 @error('amount')

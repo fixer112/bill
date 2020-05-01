@@ -24,7 +24,7 @@ return [
                 'glo' => 1,
             ],
             'data' => [
-                'mtn' => 2,
+                'mtn' => 4.7,
                 'airtel' => 0,
                 '9mobile' => 0,
                 'glo' => 1,
@@ -41,7 +41,7 @@ return [
                 'glo' => 1.2,
             ],
             'data' => [
-                'mtn' => 3.2,
+                'mtn' => 7.1,
                 'airtel' => 1,
                 '9mobile' => 1,
                 'glo' => 2,
@@ -56,7 +56,7 @@ return [
                 'glo' => 1.7,
             ],
             'data' => [
-                'mtn' => 6.5,
+                'mtn' => 9.5,
                 'airtel' => 1,
                 '9mobile' => 1,
                 'glo' => 3,
@@ -71,7 +71,7 @@ return [
                 'glo' => 2.0,
             ],
             'data' => [
-                'mtn' => 10,
+                'mtn' => 11,
                 'airtel' => 1.5,
                 '9mobile' => 1.5,
                 'glo' => 5,
@@ -86,7 +86,7 @@ return [
                 'glo' => 2.9,
             ],
             'data' => [
-                'mtn' => 15,
+                'mtn' => 16.6,
                 'airtel' => 2.5,
                 '9mobile' => 2.5,
                 'glo' => 7,

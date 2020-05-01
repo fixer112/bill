@@ -118,7 +118,7 @@ function getLastString($string, $delimiter = '-')
 function getDataInfo()
 {
     //return json_decode(Storage::get('data.json'), true)['data'];
-    if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24 * 5)) {
+    if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24)) {
         config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
 
     } else {
@@ -165,16 +165,16 @@ function fetchDataInfo()
         [
             'id' => "Mtn-1GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 450,
-            'price' => 450,
+            'topup_amount' => 420,
+            'price' => 420,
             'data_amount' => "1000",
             'validity' => "30 days",
         ],
         [
             'id' => "Mtn-2GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 900,
-            'price' => 900,
+            'topup_amount' => 840,
+            'price' => 840,
             'data_amount' => "2000",
             'validity' => "30 days",
         ],
@@ -182,16 +182,16 @@ function fetchDataInfo()
         [
             'id' => "Mtn-3GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 1300,
-            'price' => 1300,
+            'topup_amount' => 1250,
+            'price' => 1250,
             'data_amount' => "3000",
             'validity' => "30 days",
         ],
         [
             'id' => "Mtn-5GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 2000,
-            'price' => 2000,
+            'topup_amount' => 1950,
+            'price' => 1950,
             'data_amount' => "5000",
             'validity' => "30 days",
         ],

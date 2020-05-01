@@ -33,52 +33,52 @@ return [
     ],
 
     'subscriptions' => [
-        'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 20, 'rate_limit' => 100, 'bills' => [
+        'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 20, 'rate_limit' => 100, 'portal' => false, 'bills' => [
             'airtime' => [
-                'mtn' => 1,
-                'airtel' => 1,
-                '9mobile' => 1,
-                'glo' => 1.2,
-            ],
-            'data' => [
-                'mtn' => 7.1,
-                'airtel' => 1,
-                '9mobile' => 1,
-                'glo' => 2,
-            ],
-        ],
-        ],
-        'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'bills' => [
-            'airtime' => [
-                'mtn' => 1.5,
-                'airtel' => 1,
-                '9mobile' => 1,
-                'glo' => 1.7,
-            ],
-            'data' => [
-                'mtn' => 9.5,
-                'airtel' => 1,
-                '9mobile' => 1,
-                'glo' => 3,
-            ],
-        ],
-        ],
-        'gold' => ['amount' => 30000, 'discount' => 10, 'bonus' => 20, 'rate_limit' => 500, 'bills' => [
-            'airtime' => [
-                'mtn' => 2,
-                'airtel' => 1.5,
-                '9mobile' => 1.5,
+                'mtn' => 2.0,
+                'airtel' => 1.8,
+                '9mobile' => 1.8,
                 'glo' => 2.0,
             ],
             'data' => [
-                'mtn' => 11,
-                'airtel' => 1.5,
-                '9mobile' => 1.5,
+                'mtn' => 7.1,
+                'airtel' => 1.8,
+                '9mobile' => 1.8,
+                'glo' => 4,
+            ],
+        ],
+        ],
+        'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'portal' => false, 'bills' => [
+            'airtime' => [
+                'mtn' => 2.5,
+                'airtel' => 2.2,
+                '9mobile' => 2.2,
+                'glo' => 2.5,
+            ],
+            'data' => [
+                'mtn' => 9.5,
+                'airtel' => 2.2,
+                '9mobile' => 2.2,
                 'glo' => 5,
             ],
         ],
         ],
-        'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 1000, 'bills' => [
+        /* 'gold' => ['amount' => 30000, 'discount' => 10, 'bonus' => 20, 'rate_limit' => 500, 'bills' => [
+        'airtime' => [
+        'mtn' => 2,
+        'airtel' => 1.5,
+        '9mobile' => 1.5,
+        'glo' => 2.0,
+        ],
+        'data' => [
+        'mtn' => 11,
+        'airtel' => 1.5,
+        '9mobile' => 1.5,
+        'glo' => 5,
+        ],
+        ],
+        ], */
+        'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
             'airtime' => [
                 'mtn' => 3,
                 'airtel' => 2.5,

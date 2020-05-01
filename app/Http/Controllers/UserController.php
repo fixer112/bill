@@ -389,7 +389,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $this->validate(request(), [
-            'amount' => "required|numeric|min:1000",
+            'amount' => "required|numeric|min:2000",
         ]);
 
         $amount = request()->amount;

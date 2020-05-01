@@ -58,6 +58,16 @@
 
                         </tr>
 
+                        <tr>
+                            <td>PORTAL OWNER</td>
+                            <td> - </td>
+                            <td> - </td>
+                            @foreach ( config("settings.subscriptions") as $name => $item)
+                            <td>{{$item['portal'] ? 'YES' : 'NO'}}</td>
+                            @endforeach
+
+                        </tr>
+
                 </tbody>
             </table>
         </div>

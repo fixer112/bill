@@ -32,7 +32,7 @@
                         @endforeach
                         <tr>
                             <td>API TROTTLE LIMIT/MINUTE</td>
-                            <td> 60 </td>
+                            <td> 0 </td>
                             <td> 60 </td>
                             @foreach ( config("settings.subscriptions") as $name => $item)
                             <td>{{$item['rate_limit']}}</td>

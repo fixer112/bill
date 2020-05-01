@@ -103,6 +103,7 @@ class User extends Authenticatable
         //return "";
     }
 
+     
     public function getReferralParents()
     {
         $parents = $this->findAndSaveAllParents();
@@ -222,12 +223,12 @@ class User extends Authenticatable
     public function minFund()
     {
         if (!$this->is_reseller) {
-            return numberFormat(200);
+            return 200;
         }
 
         $sub = config("settings.subscriptions.{$this->lastSub()->name}");
 
-        return numberFormat(calPercentageAmount($sub['amount'], $sub['bonus']));
+        return calPercentageAmount($sub['amount'], $sub['bonus']);
     }
 
     public function profilePic()

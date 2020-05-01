@@ -121,7 +121,7 @@ class RegisterController extends Controller
         ]);
 
         try {
-            $user->notify(new UserCreated($user));
+            $user->notify(new UserCreated());
         } catch (\Exception $e) {
             //dump("Mail not sent : {$e->getMessage()}");
         }

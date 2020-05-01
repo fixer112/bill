@@ -3,24 +3,26 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserCreated extends Notification implements ShouldQueue
+class alert extends Notification
 {
-
     use Queueable;
 
-    //public $user;
+    public $desc;
+    public $is_tran;
+    //public $is_error;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(String $desc, bool $tran = true)
     {
-        //$this->user = $user;
+        $this->desc = $desc;
+        $this->is_tran = $tran;
+        //$this->is_error = $error;
     }
 
     /**
@@ -42,12 +44,18 @@ class UserCreated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Welcome to ' . env("APP_NAME"))
+        $mail = (new MailMessage)
             ->greeting("Hello {$notifiable->full_name}!")
-            ->line('You have successfully registered on ' . url('/') . '.')
-            ->line('Thank you for choosing ' . env("APP_NAME") . '!')
-            ->action('Go to Profile', url($notifiable->routePath()));
+            ->line($this->desc);
+
+        if ($this->is_tran) {
+            $mail = $mail->subject('Transaction Alert')->action('View History', url("user/wallet/{$notifiable->id}/history"));
+        }
+
+        /* if ($this->is_error) {
+        $mail->error();
+        } */
+        return $mail;
     }
 
     /**

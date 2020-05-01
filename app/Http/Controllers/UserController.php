@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Http\Resources\Transaction as TransactionResource;
-use App\Referral;
+use App\Notifications\alert;
 //use App\Traits\Referral;
+use App\Referral;
 use App\Rules\checkBalance;
 use App\Rules\checkOldPassword;
 use App\Subscription;
@@ -224,6 +225,14 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         //$this->app($user, $activity->summary, 'Payment Approved');
 
         return $this->jsonWebRedirect('success', $activity->summary, "/user/$activity->user_id");
@@ -404,7 +413,99 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         return $this->jsonWebRedirect('success', "Withrawal of {$amount} to wallet successfull", $user->routePath());
+
+    }
+
+    public function getTransfer(User $user)
+    {
+        $this->authorize('update', $user);
+        return view('user.wallet.transfer');
+
+    }
+
+    public function transfer(User $user)
+    {
+        $this->authorize('update', $user);
+        $this->validate(request(), [
+            'amount' => ["required", "numeric", new checkBalance($user),'min:100'],
+            'username' => "required|exists:users,login",
+        ]);
+
+        $u = User::where('login',request()->username)->first();
+        
+        $amount = request()->amount;
+
+        $u->update([
+            'balance' => $u->balanace + $amount,
+        ]);
+
+        $user->update([
+            'balance' => $user->balanace - $amount,
+        ]);
+
+        $descTo = "Transfer of {$amount} from {$user->login}";
+        
+        $tranTo = Transaction::create([
+            'amount' => $amount,
+            'balance' => $u->balance,
+            'type' => 'credit',
+            'desc' => "{$descTo}",
+            'ref' => generateRef($u),
+            'user_id' => $u->id,
+            //'reason' => 'top-up',
+        ]);
+
+        $activityTo = Activity::create([
+            'user_id' => $u->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $descTo,
+        ]);
+
+        try {
+
+            $u->notify(new alert($descTo));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+
+        $descFrom = "Transfer of {$amount} to {$u->login}";
+        
+        $tranTo = Transaction::create([
+            'amount' => $amount,
+            'balance' => $user->balance,
+            'type' => 'debit',
+            'desc' => "{$descFrom}",
+            'ref' => generateRef($user),
+            'user_id' => $user->id,
+            //'reason' => 'top-up',
+        ]);
+
+        $activityTo = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $descFrom,
+        ]);
+
+        try {
+
+            $u->notify(new alert($descFrom));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        return $this->jsonWebRedirect('success', "{$descFrom}", $user->routePath());
 
     }
 
@@ -450,6 +551,13 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
 
         //return view('user.wallet.fund');
@@ -529,6 +637,14 @@ class UserController extends Controller
             'admin_id' => auth()->user()->id,
             'summary' => $desc,
         ]);
+
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
         //return request()->all();
@@ -621,6 +737,14 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
 
     }
@@ -657,6 +781,14 @@ class UserController extends Controller
         $this->authorize('delete', $user);
 
         $user->update(['is_active' => !$user->is_active]);
+
+        try {
+
+            $user->notify(new alert("Your Account is {$user->status()}", false));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         return $this->jsonWebRedirect('success', "User {$user->status()}", $user->routePath());
 

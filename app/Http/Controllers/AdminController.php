@@ -245,6 +245,14 @@ class AdminController extends Controller
             'summary' => $desc,
         ]);
 
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
 
     }

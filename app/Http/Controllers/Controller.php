@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\UserCreated;
+use App\Notifications\alert;
 use App\Traits\BillPayment;
 use App\Traits\Payment;
 use App\Transaction;
@@ -127,7 +127,12 @@ class Controller extends BaseController
 
     public function testUser(User $user)
     {
-        $user->notify(new UserCreated($user));
+        /* return (new UserCreated())
+        ->toMail($user->email); */
+
+        $user->notify(new alert("Your Account is suspended", false));
+        //$user->notify(new UserCreated());
+
         return $user->email;
 
         return calPercentageAmount(100, 200); //calDiscountAmount(10, $user->calDiscount());

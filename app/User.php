@@ -103,7 +103,6 @@ class User extends Authenticatable
         //return "";
     }
 
-     
     public function getReferralParents()
     {
         $parents = $this->findAndSaveAllParents();

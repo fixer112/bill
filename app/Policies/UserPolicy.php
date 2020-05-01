@@ -93,6 +93,7 @@ class UserPolicy
 
     public function upgrade(User $user, User $model)
     {
+
         return $user->id == $model->id && count($model->upgradeList()) > 0; //&& $model->is_reseller;
     }
 

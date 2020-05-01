@@ -129,6 +129,11 @@ class UserController extends Controller
     public function getUpgrade(User $user)
     {
         $this->authorize('upgrade', $user);
+        if (!request()->user->lastSub()) {
+            abort(503);
+        }
+        //return $user->lastSub();
+
         //return $user->upgradeList();
 
         return view('user.subscribe.upgrade');
@@ -379,7 +384,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $this->validate(request(), [
-            'amount' => "required|numeric|min:1000",
+            'amount' => "required|numeric|min:2000",
         ]);
 
         $amount = request()->amount;
@@ -443,7 +448,6 @@ class UserController extends Controller
         $u = User::where('login', request()->username)->first();
 
         $amount = request()->amount;
-
         //return $user;
         //return $user->balance - $amount;
         $u->update([

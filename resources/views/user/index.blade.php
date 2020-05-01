@@ -107,7 +107,8 @@
                     {{request()->user->type()}} Account
                     @if (request()->user->is_reseller)
                     <div>
-                        <span class="badge badge-primary badge-pill">{{request()->user->lastSub()->name}}</span>
+                        <span
+                            class="badge badge-primary badge-pill">{{request()->user->lastSub() ? request()->user->lastSub()->name : 'Awaiting Subscription'}}</span>
                     </div>
                     @endif
                 </div>

@@ -1,7 +1,10 @@
 <?php
 namespace App\Traits;
 
+use App\Mail\lowBalance;
+use Exception;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 trait BillPayment
@@ -24,8 +27,27 @@ trait BillPayment
         //Session::put('balance', [0, time()]);
 
         if (Session::has('balance') && time() - Session::get('balance')[1] < 300) {
+            if (Session::get('balance')[0] <= env('ALERT_MIN_BALANCE', 0)) {
 
-            //return time() - Session::get('balance')[1];
+                if (!Session::has('mailSent')) {
+                    try {
+                        Mail::to('support@moniwallet.com')->send(new lowBalance(session('balance')[0]));
+                    } catch (Exception $e) {
+                    }
+                    Session::put('mailSent', time());
+
+                }
+
+                if (Session::has('mailSent') && time() - Session::get('mailSent') > env('BALANCE_ALERT_INTERVAL', 3600)) {
+                    try {
+                        Mail::to('support@moniwallet.com')->send(new lowBalance(session('balance')[0]));
+                    } catch (Exception $e) {
+                    }
+                }
+            } else {
+                Session::forget('mailSent');
+            }
+
             return session('balance')[0];
         }
 

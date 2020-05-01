@@ -436,24 +436,26 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
         $this->validate(request(), [
-            'amount' => ["required", "numeric", new checkBalance($user),'min:100'],
+            'amount' => ["required", "numeric", new checkBalance($user), 'min:100'],
             'username' => "required|exists:users,login",
         ]);
 
-        $u = User::where('login',request()->username)->first();
-        
+        $u = User::where('login', request()->username)->first();
+
         $amount = request()->amount;
 
+        //return $user;
+        //return $user->balance - $amount;
         $u->update([
-            'balance' => $u->balanace + $amount,
+            'balance' => $u->balance + $amount,
         ]);
 
         $user->update([
-            'balance' => $user->balanace - $amount,
+            'balance' => $user->balance - $amount,
         ]);
 
         $descTo = "Transfer of {$amount} from {$user->login}";
-        
+
         $tranTo = Transaction::create([
             'amount' => $amount,
             'balance' => $u->balance,
@@ -478,9 +480,8 @@ class UserController extends Controller
             //throw $th;
         }
 
-
         $descFrom = "Transfer of {$amount} to {$u->login}";
-        
+
         $tranTo = Transaction::create([
             'amount' => $amount,
             'balance' => $user->balance,

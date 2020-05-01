@@ -95,6 +95,9 @@
                             <ul class="pcoded-submenu">
                                 <li class=""><a href="/user/wallet/{{request()->user->id}}/fund" class="">Top up</a>
                                 </li>
+                                <li class=""><a href="/user/wallet/{{request()->user->id}}/transfer"
+                                        class="">Transfer</a>
+                                </li>
                                 <li class=""><a href="/user/wallet/{{request()->user->id}}/history" class="">History</a>
                                 </li>
                             </ul>

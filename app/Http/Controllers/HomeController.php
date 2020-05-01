@@ -49,6 +49,26 @@ class HomeController extends Controller
 
     public function pricing()
     {
-        return view('pricing');
+        return view('pages.pricing');
+    }
+
+    public function about()
+    {
+        return view('pages.about');
+    }
+
+    public function terms()
+    {
+        return view('pages.terms');
+    }
+
+    public function privacy()
+    {
+        return view('pages.privacy');
+    }
+
+    public function contact()
+    {
+        return view('pages.contact');
     }
 }

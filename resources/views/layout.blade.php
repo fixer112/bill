@@ -285,14 +285,14 @@
                         <ul class="nav justify-content-center">
                             <li class="nav-item"> <a class="nav-link active" href="/about">About Us</a> </li>
                             <li class="nav-item"> <a class="nav-link" href="/contact">Contact Us</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Use</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Service</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="/privacy">Privacy Policy</a> </li>
                             {{-- <li class="nav-item"> <a class="nav-link" href="/support">Support</a> </li> --}}
                             {{-- <li class="nav-item"> <a class="nav-link" href="/faq">Faq</a> </li> --}}
-                            {{-- <li class="nav-item"> <a class="nav-link" href="/privacy">Privacy Policy</a> </li> --}}
                         </ul>
                         <p class="copyright-text">Copyright © {{date('Y')}} <a href="/">{{env('APP_NAME')}}</a>. All
                             Rights
-                            Reserved|Developed by <a href="https://altechtic.com">Altechtic Solutions</a></p>
+                            Reserved | Developed by <a href="https://altechtic.com">Altechtic Solutions</a></p>
 
                     </div>
                 </div>

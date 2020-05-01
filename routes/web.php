@@ -20,6 +20,10 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         }); */
         Route::get('/', 'HomeController@index');
         Route::get('pricing', 'HomeController@pricing');
+        Route::get('about', 'HomeController@about');
+        Route::get('terms', 'HomeController@terms');
+        Route::get('privacy', 'HomeController@privacy');
+        Route::get('contact', 'HomeController@contact');
 
         Auth::routes();
     });

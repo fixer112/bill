@@ -232,7 +232,7 @@
                                 <div class="featured-box text-center">
                                     <div class="featured-box-icon"> <i class="far fa-life-ring"></i> </div>
                                     <h4>24X7 Support</h4>
-                                    <p>We re here to help. Have a query and need help ? <a href="#">Click here</a></p>
+                                    <p>We re here to help. Have a query and need help ? <a href="/contact">Click here</a></p>
                                 </div>
                             </div>
                         </div>

@@ -60,6 +60,9 @@ class UserController extends Controller
 
     public function editUser(User $user)
     {
+        $this->authorize('update', $user);
+
+        //return request()->all();
         $data = [
             'first_name' => 'required|string|max:20',
             'last_name' => 'required|string|max:20',
@@ -68,7 +71,7 @@ class UserController extends Controller
         ];
 
         if (request()->email != $user->email) {
-            $data['email'] = 'required|email|unique:users';
+            $data['email'] = 'required|email:rfc,dns,strict,spoof,filter|unique:users';
 
         }
 
@@ -81,6 +84,8 @@ class UserController extends Controller
             $data['old_password'] = ['required', 'string', new checkOldPassword($user)];
 
         }
+
+        $this->validate(request(), $data);
 
         if (request()->pic) {
 

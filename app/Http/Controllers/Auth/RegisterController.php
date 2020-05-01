@@ -6,6 +6,7 @@ use App\Activity;
 use App\Http\Controllers\Controller;
 use App\Notifications\UserCreated;
 use App\Providers\RouteServiceProvider;
+use App\Referral;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;

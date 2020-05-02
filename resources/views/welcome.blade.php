@@ -303,23 +303,24 @@
         <h2 class="text-9 font-weight-600 text-center">Refer & Earn</h2>
         <p class="lead text-center mb-5">Refer your friends and earn as much as possible.</p>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="featured-box style-4">
                     <div class="featured-box-icon bg-light-4 text-primary rounded-circle"> <i
                             class="fas fa-bullhorn"></i> </div>
                     <h3>You Refer Friends</h3>
-                    <p class="text-3">Share your referral link with friends. They get {{currencySymbol()}}100.</p>
+                    <p class="text-3">Share your referral link with friends.</p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="featured-box style-4">
                     <div class="featured-box-icon bg-light-4 text-primary rounded-circle"> <i
                             class="fas fa-sign-in-alt"></i> </div>
                     <h3>Your Friends Register</h3>
-                    <p class="text-3">Your friends Register with using your referral link.</p>
+                    <p class="text-3">Your friends Register with using your referral link and you get
+                        {{currencySymbol()}}100, on their first payment</p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-6">
                 <div class="featured-box style-4">
                     <div class="featured-box-icon bg-light-4 text-primary text-center rounded-circle"> <i
                             class="{{-- fas fa-dollar-sign --}} font-weight-bold mx-auto"
@@ -329,7 +330,7 @@
                     <p class="text-3">You get {{currencySymbol()}}50. You can use this credits to make bill payments.
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="text-center pt-4"> <a href="/register" class="btn btn-primary">Sign Up Now</a>
         </div>

@@ -327,9 +327,9 @@ class UserController extends Controller
             //return $q->get();
             return TransactionResource::collection($q->get());
         }
-        
+
         $pagination = $q->paginate(100);
-        
+
         $transactions = $pagination->sortByDesc('created_at');
 
         $totalDebit = $user->transactions->where('type', 'debit');
@@ -348,7 +348,7 @@ class UserController extends Controller
         //$transactions->paginate(1);
         //return $transactions;
 
-        $compact = compact('transactions','pagination', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types');
+        $compact = compact('transactions', 'pagination', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types');
 
         return view('user.wallet.history', $compact);
     }
@@ -372,13 +372,12 @@ class UserController extends Controller
         });
 
         $pagination = $query->paginate(100);
-        
-        $transactions = $pagination->sortByDesc('created_at');
 
+        $transactions = $pagination->sortByDesc('created_at');
 
         //$referrals = $Referral::get();
 
-        $compact = compact('transactions','pagination', 'from', 'to', 'ref');
+        $compact = compact('transactions', 'pagination', 'from', 'to', 'ref');
 
         return view('user.referral.history', $compact);
     }
@@ -617,10 +616,11 @@ class UserController extends Controller
 
         $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
 
+        //return $this->isDublicate($user, $discount_amount, 'airtime');
+
         if ($this->isDublicate($user, $discount_amount, 'airtime')) {
             return $this->jsonWebBack('error', dublicateMessage());
         }
-        return;
 
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
@@ -712,9 +712,9 @@ class UserController extends Controller
 
         $discount_amount = calDiscountAmount($price, dataDiscount($user)[$network]);
 
-        // if ($this->isDublicate($user, $discount_amount, 'data')) {
-        //     return $this->jsonWebBack('error', dublicateMessage());
-        // }
+        if ($this->isDublicate($user, $discount_amount, 'data')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
 
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [

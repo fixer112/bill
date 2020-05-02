@@ -27,7 +27,7 @@ function guestPaystack(amount, data, key) {
     amount = amount >= 2500 ? +amount + 50 : amount;
     var handler = PaystackPop.setup({
         key: key,
-        amount: amount * 100,
+        amount: calcCharges(amount ) * 100,
         currency: "NGN",
         email: "guestpayment@altechtic.com",
         metadata: data,

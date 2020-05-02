@@ -33,15 +33,6 @@
             .brand-wrapper .logo {
                 height: auto;
             }
-
-            .form-control::-webkit-input-placeholder {
-                color: black !important;
-                opacity: 0.5 !important;
-            }
-
-            label {
-                cursor: pointer;
-            }
         </style>
     </head>
 

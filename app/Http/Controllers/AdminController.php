@@ -41,11 +41,9 @@ class AdminController extends Controller
         $type = request()->type ? request()->type : '';
         $sub_type = request()->sub_type ? request()->sub_type : '';
 
-        $users = User::get();
+        $users = User::where('is_admin',0)->get();
         $subscriptions = array_keys(config('settings.subscriptions'));
         $sub_types = [...['guest', 'individual'], ...$subscriptions];
-
-        $trans = Transaction::get();
 
         $query = Transaction::whereBetween('transactions.created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type, $sub_type) {
             if ($reason != '') {
@@ -95,6 +93,9 @@ class AdminController extends Controller
             });
         }
 
+        $trans = Transaction::get();
+        //$trans =$transactions;
+        $transactions=$transactions->sortByDesc('created_at');
         //return $sub_type;
         //return $transactions;
 
@@ -160,7 +161,8 @@ class AdminController extends Controller
                 }
             });
         }
-
+        
+        $transactions=$transactions->sortByDesc('created_at');
         $referrals = Referral::get();
 
 //return $sub_types;

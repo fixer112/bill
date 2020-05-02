@@ -98,6 +98,10 @@
                                 <li class=""><a href="/user/wallet/{{request()->user->id}}/transfer"
                                         class="">Transfer</a>
                                 </li>
+                                @can('debit',request()->user)
+                                <li class=""><a href="/user/wallet/{{request()->user->id}}/debit" class="">Debit</a>
+                                </li>
+                                @endcan
                                 <li class=""><a href="/user/wallet/{{request()->user->id}}/history" class="">History</a>
                                 </li>
                             </ul>

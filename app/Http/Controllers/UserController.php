@@ -523,6 +523,56 @@ class UserController extends Controller
 
     }
 
+    public function getDebitWallet(User $user)
+    {
+        $this->authorize('debit', $user);
+        return view('user.wallet.debit');
+    }
+
+    public function debitWallet(User $user)
+    {
+        $this->authorize('debit', $user);
+
+        $this->validate(request(), [
+            'amount' => ["required", "numeric"],
+            'desc' => "required|string|max:100",
+        ]);
+
+        $amount = request()->amount;
+        $desc = request()->desc;
+        $fullDesc = "{$amount} debited from wallet. Description: " . $desc;
+
+        $user->update([
+            'balance' => $user->balance - $amount,
+        ]);
+
+        $tran = Transaction::create([
+            'amount' => $amount,
+            'balance' => $user->balance,
+            'type' => 'debit',
+            'desc' => "{$desc}",
+            'ref' => generateRef($user),
+            'user_id' => $user->id,
+            'reason' => 'debit',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $desc,
+        ]);
+
+        try {
+
+            $user->notify(new alert($fullDesc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return $this->jsonWebRedirect('success', $fullDesc, $user->routePath());
+
+    }
+
     public function getFundWallet(User $user)
     {
         $this->authorize('view', $user);

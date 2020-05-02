@@ -102,6 +102,11 @@ class UserPolicy
         return $user->id == $model->id && $model->is_reseller;
     }
 
+    public function debit(User $user, User $model)
+    {
+        return false;
+    }
+
     public function before($user, $ability)
     {
 

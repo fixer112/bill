@@ -29,6 +29,6 @@ class massMail extends Mailable
      */
     public function build()
     {
-        //return $this->view('view.name');
+        //return $this->view('view.name')->subject('Test Queued Email');
     }
 }

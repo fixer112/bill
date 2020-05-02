@@ -498,7 +498,7 @@ class UserController extends Controller
             'desc' => "{$descFrom}",
             'ref' => generateRef($user),
             'user_id' => $user->id,
-            //'reason' => 'top-up',
+            'reason' => 'transfer',
         ]);
 
         $activityTo = Activity::create([

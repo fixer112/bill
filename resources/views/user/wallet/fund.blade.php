@@ -75,7 +75,7 @@
               currency: "NGN",
               first_name:'{{request()->user->fname}}',
               last_name:'{{request()->user->lname}}',
-              phone:'{{$user->number}}',
+              phone:'{{request()->user->number}}',
               
               //ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
               metadata: {

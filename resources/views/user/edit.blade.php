@@ -94,7 +94,7 @@ $admin = request()->user->is_admin;
                     <div class="form-group">
                         <label>Old Password</label>
                         <div class="input-group">
-                            <input type="text" class="form-control @error('old_password') is-invalid @enderror"
+                            <input type="password" class="form-control @error('old_password') is-invalid @enderror"
                                 name="old_password">
                             @error('old_password')
                             <span class="invalid-feedback" role="alert">
@@ -107,7 +107,7 @@ $admin = request()->user->is_admin;
                     <div class="form-group">
                         <label>New Password</label>
                         <div class="input-group">
-                            <input type="text" class="form-control @error('password') is-invalid @enderror"
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
                                 name="password">
                             @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -119,7 +119,7 @@ $admin = request()->user->is_admin;
                     <div class="form-group">
                         <label>Confirm Password</label>
                         <div class="input-group">
-                            <input type="text" class="form-control @error('password') is-invalid @enderror"
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
                                 name="password_confirmation">
                             @error('password')
                             <span class="invalid-feedback" role="alert">

@@ -56,7 +56,13 @@
                 evidence of transfer on whatsapp to +2349049392607.
             </p>
             <p>
-                <b>Account Details</b>
+                <h4 class="text-danger">Account Details</h4>
+                <b>Bank:</b> <i>Sterling bank</i>
+                <br>
+                <b>Account Name:</b> <i>Ologunebi olatunde</i>
+                <br>
+                <b>Account Number:</b> <i>0050951795</i>
+
 
             </p>
         </div>

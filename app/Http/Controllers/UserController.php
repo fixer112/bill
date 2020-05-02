@@ -565,9 +565,7 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        if ($user->transactions->where('reason', 'top-up')->get() == 1) {
-            $user->giveReferralBounus(100, "Referral bonus for first time top-up", true);
-        }
+        giveReferralBonus($user);
 
         try {
 

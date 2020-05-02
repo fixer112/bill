@@ -5,7 +5,7 @@
 <form action="{{ route('register') }}" method="POST">
     @csrf
     <div class="form-group">
-        <label for="usernmae" class="sr-only">Username</label>
+        <label for="usernmae" class="">Username</label>
         <input type="text" name="login" id="username" class="form-control @error('login') is-invalid @enderror"
             placeholder="Username" value="{{old('login')}}" required>
         @error('login')
@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-group">
-        <label for="email" class="sr-only">Email</label>
+        <label for="email" class="">Email</label>
         <input type="email" name="email" id="email" value="{{old('email')}}"
             class="form-control @error('email') is-invalid @enderror" placeholder="Email Address" required>
         @error('email')
@@ -27,7 +27,7 @@
     </div>
 
     <div class="form-group">
-        <label class="sr-only">First Name</label>
+        <label class="">First Name</label>
         <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror"
             placeholder="First Name" value="{{old('first_name')}}" required>
         @error('first_name')
@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-group">
-        <label class="sr-only">Last Name</label>
+        <label class="">Last Name</label>
         <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror"
             placeholder="Last Name" value="{{old('last_name')}}" required>
         @error('last_name')
@@ -49,7 +49,7 @@
     </div>
 
     <div class="form-group">
-        <label class="sr-only">Mobile Number</label>
+        <label class="">Mobile Number</label>
         <input type="text" name="number" class="form-control @error('number') is-invalid @enderror"
             placeholder="Mobile number" value="{{old('number')}}" required>
         @error('number')
@@ -60,7 +60,7 @@
     </div>
 
     <div class="form-group">
-        <label class="sr-only">User Type</label>
+        <label class="">User Type</label>
         <select name="reseller" class="custom-select @error('reseller') is-invalid @enderror" required>
             <option value="">Choose Type</option>
             <option value="1">Reseller</option>
@@ -77,7 +77,7 @@
 
 
     <div class="form-group mb-4">
-        <label for="password" class="sr-only">Password</label>
+        <label for="password" class="">Password</label>
         <input type="password" name="password" id="password"
             class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
         @error('password')
@@ -88,7 +88,7 @@
     </div>
 
     <div class="form-group mb-4">
-        <label for="password" class="sr-only">Password Confirmation</label>
+        <label for="password" class="">Password Confirmation</label>
         <input type="password" name="password_confirmation" id="password"
             class="form-control @error('password') is-invalid @enderror" placeholder="Confirm Password" required>
         @error('password')

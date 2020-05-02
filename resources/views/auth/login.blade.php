@@ -5,7 +5,7 @@
 <form action="{{ route('login') }}" method="POST">
     @csrf
     <div class="form-group">
-        <label for="usernmae" class="sr-only">Username</label>
+        <label for="usernmae" class="">Username</label>
         <input type="text" name="login" id="username" class="form-control @error('login') is-invalid @enderror"
             placeholder="Username" required>
         @error('login')
@@ -15,7 +15,7 @@
         @enderror
     </div>
     <div class="form-group mb-4">
-        <label for="password" class="sr-only">Password</label>
+        <label for="password" class="">Password</label>
         <input type="password" name="password" id="password"
             class="form-control @error('username') is-invalid @enderror" placeholder="Password">
         @error('password')

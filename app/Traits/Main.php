@@ -36,4 +36,11 @@ trait Main
         return false;
 
     }
+    function giveReferralBonus($user)
+    {
+        if ($user->transactions->where('reason', 'top-up')->count() == 1) {
+            $user->giveReferralBounus(100, "Referral bonus for first time top-up", true);
+        }
+
+    }
 }

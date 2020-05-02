@@ -154,7 +154,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Type</span>
                             </div>
-                            <select class="custom-select" name="reason" aria-label="Small">
+                            <select class="custom-select" name="type" aria-label="Small">
                                 <option value="">All</option>
                                 @foreach ($types as $t)
                                 <option value="{{$t}}" {{$t == $type ? 'selected': ''}}>{{ucfirst($t)}}</option>

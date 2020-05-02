@@ -150,7 +150,7 @@ class Controller extends BaseController
         }
         return; */
 
-        //return fetchDataInfo();
+        return fetchDataInfo();
         //return $this->data2();
         //return $this->fetchDataInfo('glo');
         return $this->balance();

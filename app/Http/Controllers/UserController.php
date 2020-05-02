@@ -198,7 +198,7 @@ class UserController extends Controller
             //$newSubAmount = config("settings.subscriptions.{$newSub}.amount");
             $bonus = config("settings.subscriptions.{$newSub}.bonus");
 
-            $user->giveReferralBounus($amount, 'Subscription bunus');
+            $user->giveReferralBounus($amount, 'Subscription bonus');
 
         }
 
@@ -561,6 +561,10 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
+        if ($user->transactions->where('reason', 'top-up')->get() == 1) {
+            $user->giveReferralBounus(100, "Referral bonus for first time top-up", true);
+        }
+
         try {
 
             $user->notify(new alert($desc));
@@ -611,6 +615,7 @@ class UserController extends Controller
         if ($this->isDublicate($user, $discount_amount, 'airtime')) {
             return $this->jsonWebBack('error', dublicateMessage());
         }
+        return;
 
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [

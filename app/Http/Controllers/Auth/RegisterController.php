@@ -6,7 +6,6 @@ use App\Activity;
 use App\Http\Controllers\Controller;
 use App\Notifications\UserCreated;
 use App\Providers\RouteServiceProvider;
-use App\Referral;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -93,26 +92,26 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        /* $amount = 100;
         if (Cookie::has('referral')) {
-            $amount = 100;
-            $desc = 'Registration Bonus';
+        $desc = 'Registration Bonus';
 
-            $user->update([
-                'referral_balance' => $user->referral_balance + $amount,
-            ]);
+        $user->update([
+        'referral_balance' => $user->referral_balance + $amount,
+        ]);
 
-            Referral::create([
-                'user_id' => $user->id,
-                'amount' => $amount,
-                'balance' => $user->referral_balance,
-                'referral_id' => $user->id,
-                'level' => 0,
-                'desc' => $desc,
-                'ref' => generateRef($user),
-            ]);
+        Referral::create([
+        'user_id' => $user->id,
+        'amount' => $amount,
+        'balance' => $user->referral_balance,
+        'referral_id' => $user->id,
+        'level' => 0,
+        'desc' => $desc,
+        'ref' => generateRef($user),
+        ]);
 
-            $user->giveReferralBounus($amount, "{$desc} from {$user->login}", true);
-        }
+        $user->giveReferralBounus($amount, "{$desc} from {$user->login}", true);
+        } */
 
         Cookie::queue(Cookie::forget('referral'));
 

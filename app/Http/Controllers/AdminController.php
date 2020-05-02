@@ -259,16 +259,16 @@ class AdminController extends Controller
 
     public function clearTestData()
     {
-        $user = User::where('login', 'user')->first();
-        $user->subscriptions()->delete();
-        $user->transactions()->delete();
-        $user->userActivities()->delete();
-        $user->referrals()->delete();
-        $user->update([
-            'is_reseller' => 0,
-        ]);
-        //$user->delete();
-        return redirect($user->routePath());
+        /* $user = User::where('login', 'user')->first();
+    $user->subscriptions()->delete();
+    $user->transactions()->delete();
+    $user->userActivities()->delete();
+    $user->referrals()->delete();
+    $user->update([
+    'is_reseller' => 0,
+    ]);
+    //$user->delete();
+    return redirect($user->routePath()); */
 
     }
 }

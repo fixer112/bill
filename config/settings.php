@@ -11,7 +11,7 @@ return [
 
     ],
     'referral' => [
-        'commision' => [1 => ['bonus' => 5.0, 'refer_bonus' => 50, 'point' => 100], 2 => ['bonus' => 3.0, 'refer_bonus' => 25, 'point' => 50], 3 => ['bonus' => 1.5, 'refer_bonus' => 10, 'point' => 20]],
+        'commision' => [1 => ['bonus' => 5.0, 'refer_bonus' => 100, 'point' => 100], 2 => ['bonus' => 3.0, 'refer_bonus' => 50, 'point' => 50], 3 => ['bonus' => 1.5, 'refer_bonus' => 25, 'point' => 20]],
         'levels' => ['novice' => 0, 'manager' => 10000, 'super manager' => 20000],
     ],
 

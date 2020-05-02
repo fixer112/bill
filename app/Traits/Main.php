@@ -19,8 +19,9 @@ trait Main
     {
         $dublicate = $user->transactions->where('amount', $amount)->where('reason', $reason)->first();
 
+        $seconds = request()->wantsJson() ? 60 : 180;
         if ($dublicate) {
-            if (now()->diffInMinutes($dublicate->created_at) < 3);
+            if (now()->diffInSeconds($dublicate->created_at) < $seconds);
             {
                 return true;
             }

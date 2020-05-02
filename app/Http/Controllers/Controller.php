@@ -140,6 +140,7 @@ class Controller extends BaseController
 
     public function test()
     {
+        //return generateRef();
         /*  throw new Exception('Error Testing');
         try {
 

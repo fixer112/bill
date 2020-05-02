@@ -2,15 +2,13 @@
 
 namespace App\Mail;
 
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class bulkMail extends Mailable
+class massMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $user;
     public $html;
     /**
@@ -18,10 +16,9 @@ class bulkMail extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, $html)
+    public function __construct($user, $html)
     {
         $this->user = $user;
-
         $this->html = $html;
     }
 
@@ -32,6 +29,6 @@ class bulkMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.bulkmail');
+        //return $this->view('view.name');
     }
 }

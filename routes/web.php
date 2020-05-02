@@ -85,7 +85,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
         #Payment Verification
 
-        Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+        Route::get('/logout', 'Auth\LoginController@logout');
     });
 
     Route::prefix('verify')->group(function () {

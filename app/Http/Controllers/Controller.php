@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\bulkMail;
 use App\Mail\lowBalance;
+use App\Mail\massMail;
 use App\Notifications\alert;
 use App\Traits\BillPayment;
 use App\Traits\Payment;
@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 
 class Controller extends BaseController
@@ -135,8 +136,11 @@ class Controller extends BaseController
         //return (new lowBalance(12));
 
         //return Mail::to('support@moniwallet.com')->queue(new bulkMail('<b>test</b>'));
+        //return;
+        Artisan::call('cache:clear');
+        Artisan::call('view:clear');
 
-        return new bulkMail($user, '<b>test</b>');
+        return new massMail($user, '<b>test</b>');
 
         return Mail::to('support@moniwallet.com')->send(new lowBalance(10));
 

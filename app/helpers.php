@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Storage;
 
 //if (!function_exists("calPercentage")) {
 
+function dublicateMessage($message = "Dublicate Transaction, please try again in 3 minutes")
+{
+    return $message;
+}
+
 function successMessage($message = "An error occured, Please try again later")
 {
     return ['success' => $message];

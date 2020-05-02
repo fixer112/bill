@@ -608,6 +608,10 @@ class UserController extends Controller
 
         $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
 
+        if ($this->isDublicate($user, $discount_amount, 'airtime')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
+
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
             'discount_amount' => [new checkBalance($user)],
@@ -698,6 +702,10 @@ class UserController extends Controller
 
         $discount_amount = calDiscountAmount($price, dataDiscount($user)[$network]);
 
+        if ($this->isDublicate($user, $discount_amount, 'data')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
+
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
@@ -738,7 +746,7 @@ class UserController extends Controller
             'desc' => "{$desc}",
             'ref' => $ref,
             'user_id' => $user->id,
-            'reason' => 'airtime',
+            'reason' => 'data',
         ]);
 
         $activity = Activity::create([

@@ -1,6 +1,6 @@
 function calcCharges(amount) {
     amount = +amount;
-    var flatFee = 100;
+    var flatFee = 100 / 2;
     var charges = 1.5 / 100;
 
     amount = amount < 2500 ? amount : amount + flatFee;
@@ -27,7 +27,7 @@ function guestPaystack(amount, data, key) {
     amount = amount >= 2500 ? +amount + 50 : amount;
     var handler = PaystackPop.setup({
         key: key,
-        amount: calcCharges(amount ) * 100,
+        amount: calcCharges(amount) * 100,
         currency: "NGN",
         email: "guestpayment@altechtic.com",
         metadata: data,

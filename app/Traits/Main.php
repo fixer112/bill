@@ -15,4 +15,18 @@ trait Main
         return $amount > $user->balance ? false : true;
     }
 
+    function isDublicate(User $user, $amount, $reason)
+    {
+        $dublicate = $user->transactions->where('amount', $amount)->where('reason', $reason)->first();
+
+        if ($dublicate) {
+            if (now()->diffInMinutes($dublicate->created_at) < 3);
+            {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
 }

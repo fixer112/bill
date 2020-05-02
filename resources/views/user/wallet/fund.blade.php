@@ -29,6 +29,7 @@
             </div>
             <button class="btn btn-primary btn-block" type="submit">Continue</button>
         </form>
+
     </div>
 </div>
 @else
@@ -49,6 +50,16 @@
             </div>
             <button class="btn btn-primary btn-block" type="submit">Continue</button>
         </form>
+        <div class="alert alert-danger">
+            <p>
+                You can also fund your wallet by transfering to the account details below, and send a screenshot of
+                evidence of transfer on whatsapp to +2349049392607.
+            </p>
+            <p>
+                <b>Account Details</b>
+
+            </p>
+        </div>
     </div>
 </div>
 <script>

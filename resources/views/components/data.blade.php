@@ -40,7 +40,7 @@
                     <option value="">Select Plan</option>
                     <template v-for="data,key in plans">
                         <option :value='key'>@{{this.getLastString(data["id"])}} - @{{data["topup_currency"]}}
-                            @{{data["price"]}} - @{{data["validity"]}}
+                            @{{data["price"]}} - @{{data["validity"]}} - (@{{data["type"].toUpperCase()}})
                             {{-- {{getLastString($value[0]['id'])}} --}}
                         </option>
 

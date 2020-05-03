@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmail;
-use App\Mail\contact;
 use App\Mail\lowBalance;
 use App\Mail\massMail;
 use App\Notifications\alert;
@@ -159,25 +158,10 @@ class Controller extends BaseController
 
     public function test()
     {
-        //return generateRef();
-        /*  throw new Exception('Error Testing');
-        try {
 
-        throw new Exception('Error Testing');
-
-        } catch (Exception $e) {
-
-        }
-        return; */
-
-        //return fetchDataInfo();
-        //return $this->data2();
-        //return $this->fetchDataInfo('glo');
-        //return new contact("<b>This is a test</b>");
-        return new contact('<b>Test</b> test');
-        return Mail::to('support@moniwallet.com')->queue(new contact(User::find(1), 'Test'));
-
-        return $this->balance();
+        //return $this->balance();
+        return fetchDataInfo();
+        return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());
     }
 }

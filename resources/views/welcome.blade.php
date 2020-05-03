@@ -12,7 +12,7 @@
 @section('content')
 {{-- @json(config("settings.bills.data")) --}}
 @guest
-<section class="container">
+<section class="container mb-3">
     <div class="row mt-4">
         <div class="col-md-12 col-lg-9">
             <div id="verticalTab">

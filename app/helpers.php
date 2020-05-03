@@ -154,6 +154,7 @@ function fetchDataInfo()
             $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
                 $plan['price'] = ceil($plan['price'] / 5) * 5;
                 $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
+                $plan['type'] = 'direct';
 
                 return [$k => $plan];
             });
@@ -175,6 +176,7 @@ function fetchDataInfo()
             'price' => 420,
             'data_amount' => "1000",
             'validity' => "30 days",
+            'type' => 'sme',
         ],
         [
             'id' => "Mtn-2GB",
@@ -183,6 +185,7 @@ function fetchDataInfo()
             'price' => 840,
             'data_amount' => "2000",
             'validity' => "30 days",
+            'type' => 'sme',
         ],
 
         [
@@ -192,6 +195,7 @@ function fetchDataInfo()
             'price' => 1250,
             'data_amount' => "3000",
             'validity' => "30 days",
+            'type' => 'sme',
         ],
         [
             'id' => "Mtn-5GB",
@@ -200,6 +204,7 @@ function fetchDataInfo()
             'price' => 1950,
             'data_amount' => "5000",
             'validity' => "30 days",
+            'type' => 'sme',
         ],
     ];
 

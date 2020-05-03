@@ -73,6 +73,9 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/data', 'UserController@getData');
                 Route::post('/{user}/data', 'UserController@postData');
 
+                Route::get('/{user}/cable', 'UserController@getCable');
+                Route::post('/{user}/cable', 'UserController@postCable');
+
                 Route::get('/{user}/subscriptions/', 'UserController@subscriptions');
 
                 Route::get('/{user}/api/documentation/', 'UserController@apiDocumentation');

@@ -156,16 +156,16 @@
                         </li>
                         @endif
 
-                        {{-- @json(request()->user->upgradeList()) --}}
+                        {{--   @json(request()->user->upgradeList())  --}}
 
                         @can('upgrade',request()->user)
-                        @if(request()->user->lastSub())
+                        {{--  @if(request()->user->lastSub())  --}}
                         <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/subscription/upgrade"
                                 class="nav-link text-danger"><span class="pcoded-micon"><i
                                         class="fa fa-sync"></i></span><span class="pcoded-mtext">Upgrade
                                     Now</span></a>
                         </li>
-                        @endif
+                        {{--   @endif  --}}
                         @endcan
 
 

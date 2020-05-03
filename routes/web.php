@@ -36,6 +36,8 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('/wallet/history', 'AdminController@walletHistory');
             Route::get('/wallet/referral', 'AdminController@referralHistory');
             Route::get('/search/users', 'AdminController@searchUsers');
+            Route::get('/contact', 'AdminController@getContact');
+            Route::post('/contact', 'AdminController@contact');
 
             Route::get('/test', 'Controller@test');
 

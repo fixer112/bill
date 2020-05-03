@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Mail\contact;
 use App\Referral;
 use App\Traits\Main;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -261,6 +263,33 @@ class AdminController extends Controller
         }
 
         return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
+
+    }
+
+    public function getContact()
+    {
+        $this->authorize('massMail', User::class);
+
+        return view('admin.contact');
+    }
+    public function contact()
+    {
+        $this->authorize('massMail', User::class);
+        $this->validate(request(), [
+            'subject' => 'required|String',
+            'content' => 'required|String',
+        ]);
+        //return request()->all();
+
+        $users = User::where('is_admin', 0)->get();
+        $subject = request()->subject;
+        $content = request()->content;
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->queue(new contact($subject, $content));
+        }
+
+        return $this->jsonWebBack('success', "Mass Email Sent");
 
     }
 

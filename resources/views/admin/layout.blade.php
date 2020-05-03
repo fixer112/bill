@@ -45,6 +45,7 @@
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/css/custom.css">
         <script src="/js/script.js"></script>
+        <script src="/assets/js/vendor-all.min.js"></script>
         @yield('head')
 
     </head>
@@ -99,6 +100,16 @@
                                     class="pcoded-micon"><i class="fa fa-users"></i></span><span
                                     class="pcoded-mtext">Users</span></a>
                         </li>
+
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>Administration</label>
+                        </li>
+                        @can('massMail',App\User::class)
+                        <li class="nav-item"><a href="/admin/contact" class="nav-link"><span class="pcoded-micon"><i
+                                        class="fa fa-envelope-square"></i></span><span class="pcoded-mtext">Send Mass
+                                    Mail</span></a>
+                        </li>
+                        @endcan
 
 
                     </ul>
@@ -227,7 +238,7 @@
             <p>Sorry for the inconvenience!</p>
         </div>
     <![endif]-->
-        <script src="/assets/js/vendor-all.min.js"></script>
+
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
         <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>

@@ -93,13 +93,18 @@ class UserPolicy
 
     public function upgrade(User $user, User $model)
     {
-
+        //return true;
         return $user->id == $model->id && count($model->upgradeList()) > 0; //&& $model->is_reseller;
     }
 
     public function reseller(User $user, User $model)
     {
         return $user->id == $model->id && $model->is_reseller;
+    }
+
+    public function massMail(User $user)
+    {
+        return false;
     }
 
     public function debit(User $user, User $model)

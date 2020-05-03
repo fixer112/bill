@@ -6,19 +6,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class massMail extends Mailable
+class contact extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+
+    public $subject;
     public $html;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user, $html)
+    public function __construct($subject, $html)
     {
-        $this->user = $user;
+        $this->subject = $subject;
         $this->html = $html;
     }
 
@@ -29,6 +30,6 @@ class massMail extends Mailable
      */
     public function build()
     {
-        //return $this->view('view.name')->subject('Test Queued Email');
+        return $this->view('mail.contact')->subject($this->subject);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmail;
+use App\Mail\contact;
 use App\Mail\lowBalance;
 use App\Mail\massMail;
 use App\Notifications\alert;
@@ -140,6 +142,9 @@ class Controller extends BaseController
         Artisan::call('cache:clear');
         Artisan::call('view:clear');
 
+        $details = ['email' => 'gmail.com'];
+        return SendEmail::dispatch($details);
+
         return new massMail($user, '<b>test</b>');
 
         return Mail::to('support@moniwallet.com')->send(new lowBalance(10));
@@ -168,6 +173,10 @@ class Controller extends BaseController
         //return fetchDataInfo();
         //return $this->data2();
         //return $this->fetchDataInfo('glo');
+        //return new contact("<b>This is a test</b>");
+        return new contact('<b>Test</b> test');
+        return Mail::to('support@moniwallet.com')->queue(new contact(User::find(1), 'Test'));
+
         return $this->balance();
         return $this->airtime(50, '08106813749', '77777', generateRef());
     }

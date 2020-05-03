@@ -615,7 +615,7 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
-        giveReferralBonus($user);
+        $this->giveReferralBonus($user);
 
         try {
 

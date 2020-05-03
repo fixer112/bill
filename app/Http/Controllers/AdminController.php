@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Referral;
+use App\Traits\Main;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    use Main;
+
     public function __construct()
     {
         $this->middleware('admin');
@@ -247,7 +250,7 @@ class AdminController extends Controller
             'summary' => $desc,
         ]);
 
-        giveReferralBonus($user);
+        $this->giveReferralBonus($user);
 
         try {
 

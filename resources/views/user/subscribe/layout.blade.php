@@ -39,6 +39,15 @@
         <link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.theme.default.min.css" /> --}}
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
         <script src="/js/script.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'UA-165374331-1');
+        </script>
 
 
 

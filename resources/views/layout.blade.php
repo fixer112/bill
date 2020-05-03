@@ -42,6 +42,15 @@
         <link rel="stylesheet" type="text/css" href="/css/custom.css" />
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/js/script.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'UA-165374331-1');
+        </script>
         <style>
             .logo {
                 margin-top: 10px;
@@ -232,7 +241,8 @@
                                 <div class="featured-box text-center">
                                     <div class="featured-box-icon"> <i class="far fa-life-ring"></i> </div>
                                     <h4>24X7 Support</h4>
-                                    <p>We re here to help. Have a query and need help ? <a href="/contact">Click here</a></p>
+                                    <p>We re here to help. Have a query and need help ? <a href="/contact">Click
+                                            here</a></p>
                                 </div>
                             </div>
                         </div>

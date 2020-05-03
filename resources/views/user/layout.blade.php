@@ -45,6 +45,15 @@
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/css/custom.css">
         <script src="/js/script.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'UA-165374331-1');
+        </script>
         @yield('head')
 
     </head>

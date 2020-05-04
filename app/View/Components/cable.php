@@ -13,10 +13,10 @@ class cable extends Component
      *
      * @return void
      */
-    public function __construct($dat,$guest=false)
+    public function __construct($dat,bool $guest)
     {
         $this->dat = $dat;
-        $this->guest =$guest;
+        $this->guest = $guest;
 
     }
 

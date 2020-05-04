@@ -6,7 +6,7 @@
     <div class="col-10 mx-auto card p-5">
         <form action="{{url()->current()}}" method="POST" id="cable-form">
             @csrf
-            <x-cable :dat="cableDiscount(request()->user)" />
+            <x-cable :dat="cableDiscount(request()->user)" guest="0"/>
         </form>
     </div>
 </div>

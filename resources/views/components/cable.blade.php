@@ -87,7 +87,7 @@
                 </div>
             </div>
             
-            @if(!$guest)
+           @if(!$guest)
             <div class="form-group">
                 <label>Confirm Password</label>
                 <div class="input-group">

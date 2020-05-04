@@ -394,6 +394,7 @@ class UserController extends Controller
 
         $this->validate(request(), [
             'amount' => "required|numeric|min:2000",
+            'password' => ["required",new checkOldPassword($user)],
         ]);
 
         $amount = request()->amount;
@@ -452,6 +453,7 @@ class UserController extends Controller
         $this->validate(request(), [
             'amount' => ["required", "numeric", new checkBalance($user), 'min:100'],
             'username' => "required|exists:users,login",
+            'password' => ["required",new checkOldPassword($user)],
         ]);
 
         $u = User::where('login', request()->username)->first();
@@ -644,11 +646,16 @@ class UserController extends Controller
         $bills = config("settings.bills.airtime");
 
         //return $bills;
-
-        $this->validate(request(), [
-            //'network_code' => ["required", "string", new checkNetwork()],
+$data =[
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
-        ]);
+];
+
+ if(!request()->wantsJson()){
+                    $data['password'] = ["required",new checkOldPassword($user)];
+            }
+
+
+        $this->validate(request(), $data);
 
         $network = request()->network;
         $network_code = $networks[$network];
@@ -705,15 +712,19 @@ class UserController extends Controller
         $bills = config("settings.bills.data");
 
 //return request()->network_code;
-        $this->validate(request(), [
+        $data= [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            //'discount_amount' => ["required", "numeric", new checkBalance($user)],
-            //'details' => "required|string",
             'number' => "required|string|digits:11",
-            //'network_code' => ["required", "string", new checkNetwork()],
-            //'network_code' => "required|string",
             'amount' => "required|numeric",
-        ]);
+        ];
+
+            if(!request()->wantsJson()){
+                    $data['password'] = ["required",new checkOldPassword($user)];
+            }
+
+        $this->validate(request(), $data);
+
+
 
         //return request()->amount;
 
@@ -769,10 +780,10 @@ class UserController extends Controller
 
     public function postCable(User $user)
     {
-        $bills = config("settings.bills.cable");
+        $bills = getCable();
 
         //return request()->all();
-        $this->validate(request(), [
+        $data = [
             'amount' => "required|numeric",
             'type' => "required|in:" . implode(',', array_keys($bills)),
             'smart_no' => "required|string",
@@ -780,18 +791,25 @@ class UserController extends Controller
             'number' => "nullable|string|digits:11",
             'customer_name' => "required_unless:type,startime",
             'customer_number' => "required_unless:type,startime",
-        ]);
+            
+        ];
+
+        if(!request()->wantsJson()){
+            $data['password'] = ["required",new checkOldPassword($user)];
+        }
+        $this->validate(request(), $data);
 
         $type = request()->type;
         $planKey = array_search(request()->amount, array_column($bills[$type], 'amount'));
         $plan = $bills[$type][$planKey];
-        $price = $plan['price'];
+        $charges = calDiscountAmount($plan['charges'], cableDiscount($user)[$type]);
+        $price = $plan['price'] + $charges;
         $formatPrice = currencyFormat($price);
 
         $details = strtoupper($type) . '-' . $plan["name"] . " - {$formatPrice} - {$plan['duration']}";
 
         $smart_no = request()->smart_no;
-        $discount_amount = calDiscountAmount($price, cableDiscount($user)[$type]);
+        $discount_amount = $price;
         $desc = "Cable Subscription of {$details} for smart no {$smart_no}";
         //return $discount_amount;
 

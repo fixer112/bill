@@ -30,6 +30,17 @@
                         @endfor
 
                         @endforeach
+
+                        @foreach (config("settings.bills.cable") as $key => $value )
+                        <tr>
+                            <td>{{strtoupper($key)}} (Charges Discount)</td>
+                            <td>0% </td>
+                            <td>{{config("settings.individual.bills.cable.$key")}}%</td>
+                            @foreach ( config("settings.subscriptions") as $name => $item)
+                            <td>{{$item['bills']['cable'][$key]}}%</td>
+                            @endforeach
+                        </tr>
+                        @endforeach
                         <tr>
                             <td>API TROTTLE LIMIT/MINUTE</td>
                             <td> 0 </td>
@@ -39,6 +50,7 @@
                             @endforeach
 
                         </tr>
+
                         <tr>
                             <td>BALANCE AFTER SETUP</td>
                             <td> - </td>
@@ -103,6 +115,54 @@
                                 <td>{{getLastString($item['id'])}}</td>
                                 <td>{{currencyFormat($item['price'])}}</td>
                                 <td>{{$item['validity']}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endforeach
+        <div class="">
+            <a href="/register">
+                <button class="btn btn-block btn-primary text-uppercase text-white">Sign
+                    Up As Reseller</button>
+            </a>
+        </div>
+    </section>
+
+    <section class="section bg-light shadow-md rounded px-5 my-3">
+        <h2 class="text-9 font-weight-600 text-center mb-4">Cable Tv Pricing</h2>
+        @foreach ( config("settings.bills.cable") as $key=> $item)
+        <div class="card mb-3 p-2">
+            <a data-toggle="collapse" href="#{{$key}}" role="button" aria-expanded="false" aria-controls="{{$key}}">
+                <h4 class=" font-weight-600 text-center">{{strtoupper($key)}}
+                </h4>
+            </a>
+            <div class="collapse" id="{{$key}}">
+                <div class="table-responsive mb-2">
+                    <table class="table table-hover ">
+                        <thead>
+                            <th>Plan</th>
+                            <th>Price</th>
+                            <th>Charges</th>
+                            <th>Total</th>
+                            <th>Duration</th>
+
+                        </thead>
+                        <tbody>
+                            {{-- @json(getCable()) --}}
+
+
+                            {{-- @json(config("settings.bills.cable")) --}}
+                            @foreach ( getCable()[$key] as $plan => $item)
+
+                            <tr>
+                                <td>{{strtoupper($item['name'])}}</td>
+                                <td>{{currencyFormat($item['price'])}}</td>
+                                <td>{{currencyFormat($item['charges'])}}</td>
+                                <td>{{currencyFormat($item['price'] + $item['charges'])}}</td>
+                                <td>{{$item['duration']}}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -33,7 +33,7 @@
                     :disabled="plans == ''">
                     <option value="">Select Plan</option>
                     <template v-for="p,key in plans">
-                        <option :value="key">@{{p['name'].toUpperCase()}} - @{{p['price']}} -
+                        <option :value="key">@{{p['name'].toUpperCase()}} - @{{p['price'] + p['charges']}} -
                             @{{p['duration']}}</option>
                     </template>
                     {{--  @foreach ($dat as $key => $discount )
@@ -49,14 +49,18 @@
             <input name="amount" readonly required hidden v-model="amount" />
 
             <div class="form-group">
-                <label>Discount Amount at @{{bonus}}%</label>
+                <label>Charges Discount at @{{bonus}}%</label>
                 <div class="input-group">
                     <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                     </div>
 
-                    <input class="form-control" type="number" name="discount_amount" required v-model="discountAmount"
+                    <input class="form-control @error('discount_amount') is-invalid @enderror" type="number" name="discount_amount" required v-model="discountAmount"
                         readonly>
-
+                    @error('discount_amount')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
 
@@ -82,7 +86,21 @@
 
                 </div>
             </div>
-
+            
+            @if(!$guest)
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <div class="input-group">
+                    <input class="form-control @error('password') is-invalid @enderror" name="password" type="password"
+                        placeholder="Confirm your password to continue" required>
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
+            @endif
             <input name="customer_number" v-model="cus_number" hidden required />
             <input name="invoice_no" v-model="invoice" hidden required />
 
@@ -105,7 +123,7 @@
         plan:"",
         discountAmount:"",
         data:@json($dat),
-        bills:@json(config("settings.bills.cable")),
+        bills:@json(getCable()),
         bonus:0,
         info:"",
         cus_number:"",
@@ -156,7 +174,8 @@
             plan(n){
                 var plan = this.bills[this.type][n];
                 this.amount = this.bills[this.type][n]['amount'];
-                this.discountAmount = this.bills[this.type][n]['price'] - ((this.bonus / 100) * this.bills[this.type][n]['price']);
+                var charges = plan['charges'] - ((this.bonus / 100) * plan['charges']) ;
+                this.discountAmount = this.bills[this.type][n]['price'] + charges;
                 this.details = 'Cable Subscription of ' + this.type.toUpperCase() + '-' + plan["name"] + '- ' + plan["price"] + ' - '+ plan["duration"] +' for smart no '+this.number;
             },
             number(n){

@@ -78,6 +78,30 @@ function calcCharges($amount)
 
 }
 
+function getCable()
+{
+    $bills = $bills = config("settings.bills.cable");
+
+    foreach ($bills as $k => $cable) {
+        foreach ($cable as $key => $plan) {
+            if ($plan['price'] < 5000) {
+                $charges = 100;
+            } elseif ($plan['price'] >= 5000 && $plan['price'] < 10000) {
+                $charges = 150;
+            } else {
+                $charges = 200;
+
+            }
+
+            $bills[$k][$key]['charges'] = $charges;
+
+        }
+    }
+
+    return collect($bills)->toArray();
+
+}
+
 function airtimeDiscount(User $user = null)
 {
 

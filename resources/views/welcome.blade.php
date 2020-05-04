@@ -39,7 +39,7 @@
                                 <div class="resp-tab-content resp-tab-content-active" style="display:block"
                                     aria-labelledby="tab_item-0">
 
-                                    <x-airtime :dat="airtimeDiscount()" />
+                                    <x-airtime :dat="airtimeDiscount()" guest="1" />
                                 </div>
 
                             </form>

@@ -747,16 +747,19 @@ class UserController extends Controller
             //'network_code' => "required|string",
             'amount' => "required|numeric",
         ]);
+
+        //return request()->amount;
+
         $network = request()->network;
         $network_code = $networks[$network];
-        $planKey = array_search(request()->amount, array_column($bills, 'data_amount'));
+        $planKey = array_search(request()->amount, array_column($bills[$network], 'data_amount'));
         $plan = $bills[$network][$planKey];
         $price = $plan['price'];
         $formatPrice = currencyFormat($price);
 
         $details = getLastString($plan["id"]) . " - {$formatPrice} - {$plan['validity']}";
 
-        //return $price;
+        //return $plan;
 
         $discount_amount = calDiscountAmount($price, dataDiscount($user)[$network]);
 

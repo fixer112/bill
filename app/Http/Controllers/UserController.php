@@ -825,6 +825,17 @@ class UserController extends Controller
 
     }
 
+    public function getCable(User $user)
+    {
+        $this->authorize('view', $user);
+
+        return view('user.bill.cable');
+    }
+
+    public function postCable(User $user)
+    {
+    }
+
     public function apiReset(User $user)
     {
         $this->authorize('view', $user);

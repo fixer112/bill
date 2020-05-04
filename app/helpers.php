@@ -114,6 +114,21 @@ function dataDiscount(User $user = null)
 
 }
 
+function cableDiscount(User $user = null)
+{
+    if (!$user) {
+
+        return [
+            'startime' => 0,
+            'gotv' => 0,
+            'dstv' => 0,
+        ];
+
+    }
+
+    return !$user->is_reseller ? config("settings.individual.bills.cable") : config("settings.subscriptions.{$user->lastSub()->name}.bills.cable");
+
+}
 function getLastString($string, $delimiter = '-')
 {
     $strings = explode($delimiter, $string);

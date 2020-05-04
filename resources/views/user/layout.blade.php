@@ -141,8 +141,8 @@
                                 class="nav-link"><span class="pcoded-micon"><i class="fa fa-globe"></i></span><span
                                     class="pcoded-mtext">Data</span></a>
                         </li>
-                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/data"
-                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-globe"></i></span><span
+                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/cable"
+                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-television"></i></span><span
                                     class="pcoded-mtext">Cable Tv</span></a>
                         </li>
 

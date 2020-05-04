@@ -8,6 +8,146 @@ return [
             'airtel' => ['min' => 50, 'max' => 50000],
             '9mobile' => ['min' => 50, 'max' => 50000],
             'glo' => ['min' => 50, 'max' => 50000]],
+        'cable' => [
+            'startime' => [
+                [
+                    'name' => 'nova',
+                    'price' => 900,
+                    'amount' => 900,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'basic',
+                    'price' => 1300,
+                    'amount' => 1300,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'classic',
+                    'price' => 1900,
+                    'amount' => 1900,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'super',
+                    'price' => 3800,
+                    'amount' => 3800,
+                    'duration' => '1 month',
+                ],
+            ],
+            'gotv' => [
+                [
+                    'name' => 'lite',
+                    'price' => 400,
+                    'amount' => 400,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'value',
+                    'price' => 1250,
+                    'amount' => 1250,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'plus',
+                    'price' => 1900,
+                    'amount' => 1900,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'max',
+                    'price' => 3200,
+                    'amount' => 3200,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'super',
+                    'price' => 3800,
+                    'amount' => 3800,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'lite',
+                    'price' => 1050,
+                    'amount' => 1050,
+                    'duration' => '4 month',
+                ],
+                [
+                    'name' => 'jinja',
+                    'price' => 1600,
+                    'amount' => 1600,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'jolli',
+                    'price' => 2400,
+                    'amount' => 2400,
+                    'duration' => '1 month',
+                ],
+            ],
+            'dstv' => [
+                [
+                    'name' => 'access',
+                    'price' => 2000,
+                    'amount' => 2000,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'family',
+                    'price' => 4000,
+                    'amount' => 4000,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'compact',
+                    'price' => 6800,
+                    'amount' => 6800,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'compact plus',
+                    'price' => 10650,
+                    'amount' => 10650,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'premium',
+                    'price' => 15800,
+                    'amount' => 15800,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'premium asia',
+                    'price' => 17700,
+                    'amount' => 17700,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'asian bouquet',
+                    'price' => 5400,
+                    'amount' => 5400,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'fta plus',
+                    'price' => 1600,
+                    'amount' => 1600,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'yanga',
+                    'price' => 2500,
+                    'amount' => 2500,
+                    'duration' => '1 month',
+                ],
+                [
+                    'name' => 'confam',
+                    'price' => 4500,
+                    'amount' => 4500,
+                    'duration' => '1 month',
+                ],
+            ],
+        ],
 
     ],
     'referral' => [
@@ -29,6 +169,11 @@ return [
                 '9mobile' => 0,
                 'glo' => 1,
             ],
+            'cable' => [
+                'startime' => 0,
+                'gotv' => 0,
+                'dstv' => 0,
+            ],
         ],
     ],
 
@@ -46,6 +191,11 @@ return [
                 '9mobile' => 1.8,
                 'glo' => 4,
             ],
+            'cable' => [
+                'startime' => 0,
+                'gotv' => 0,
+                'dstv' => 0,
+            ],
         ],
         ],
         'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'portal' => false, 'bills' => [
@@ -60,6 +210,11 @@ return [
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
                 'glo' => 5,
+            ],
+            'cable' => [
+                'startime' => 0,
+                'gotv' => 0,
+                'dstv' => 0,
             ],
         ],
         ],
@@ -90,6 +245,11 @@ return [
                 'airtel' => 2.5,
                 '9mobile' => 2.5,
                 'glo' => 7,
+            ],
+            'cable' => [
+                'startime' => 0,
+                'gotv' => 0,
+                'dstv' => 0,
             ],
         ],
         ],

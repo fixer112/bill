@@ -134,9 +134,9 @@ class UserController extends Controller
     public function getUpgrade(User $user)
     {
         $this->authorize('upgrade', $user);
-        if (!request()->user->lastSub()) {
-            abort(503);
-        }
+        // if (!request()->user->lastSub()) {
+        //     abort(503);
+        // }
         //return $user->lastSub();
 
         //return $user->upgradeList();

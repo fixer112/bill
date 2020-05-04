@@ -665,8 +665,9 @@ class UserController extends Controller
         $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
 
         //return $this->isDublicate($user, $discount_amount, 'airtime');
+        $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
 
-        if ($this->isDublicate($user, $discount_amount, 'airtime')) {
+        if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
             return $this->jsonWebBack('error', dublicateMessage());
         }
 
@@ -675,7 +676,6 @@ class UserController extends Controller
             'discount_amount' => [new checkBalance($user)],
         ]);
 
-        $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
         $ref = generateRef($user);
 
         if (!env('ENABLE_BILL_PAYMENT')) {
@@ -686,40 +686,7 @@ class UserController extends Controller
 
         //return $result;
 
-        if (is_array($result) && isset($result['error'])) {
-            return $this->jsonWebBack('error', $result['error']);
-        }
-
-        $user->update([
-            'balance' => $user->balance - $discount_amount,
-        ]);
-
-        $tran = Transaction::create([
-            'amount' => $discount_amount,
-            'balance' => $user->balance,
-            'type' => 'debit',
-            'desc' => "{$desc}",
-            'ref' => $ref,
-            'user_id' => $user->id,
-            'reason' => 'airtime',
-        ]);
-
-        $activity = Activity::create([
-            'user_id' => $user->id,
-            'admin_id' => auth()->user()->id,
-            'summary' => $desc,
-        ]);
-
-        try {
-
-            $user->notify(new alert($desc));
-
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-
-        return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
-        //return request()->all();
+        return $this->saveTransaction($user, 'airtime', $discount_amount, $desc, $ref, $result);
 
     }
 
@@ -762,8 +729,9 @@ class UserController extends Controller
         //return $plan;
 
         $discount_amount = calDiscountAmount($price, dataDiscount($user)[$network]);
+        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
-        if ($this->isDublicate($user, $discount_amount, 'data')) {
+        if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
             return $this->jsonWebBack('error', dublicateMessage());
         }
 
@@ -772,15 +740,11 @@ class UserController extends Controller
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
-        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
-
         $ref = generateRef($user);
 
         if (!env('ENABLE_BILL_PAYMENT')) {
             return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         }
-
-        //return request()->all();
 
         if ($network == 'mtn') {
             $result = $this->dataMtn(request()->amount, request()->number, $network_code, $ref);
@@ -792,39 +756,7 @@ class UserController extends Controller
 
         //return $result;
 
-        if (is_array($result) && isset($result['error'])) {
-            return $this->jsonWebBack('error', $result['error']);
-        }
-
-        $user->update([
-            'balance' => $user->balance - $discount_amount,
-        ]);
-
-        $tran = Transaction::create([
-            'amount' => $discount_amount,
-            'balance' => $user->balance,
-            'type' => 'debit',
-            'desc' => "{$desc}",
-            'ref' => $ref,
-            'user_id' => $user->id,
-            'reason' => 'data',
-        ]);
-
-        $activity = Activity::create([
-            'user_id' => $user->id,
-            'admin_id' => auth()->user()->id,
-            'summary' => $desc,
-        ]);
-
-        try {
-
-            $user->notify(new alert($desc));
-
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-
-        return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
+        return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result);
 
     }
 
@@ -837,6 +769,68 @@ class UserController extends Controller
 
     public function postCable(User $user)
     {
+        $bills = config("settings.bills.cable");
+
+        //return request()->all();
+        $this->validate(request(), [
+            'amount' => "required|numeric",
+            'type' => "required|in:" . implode(',', array_keys($bills)),
+            'smart_no' => "required|string",
+            'invoice_no' => "required_unless:type,startime",
+            'number' => "nullable|string|digits:11",
+            'customer_name' => "required_unless:type,startime",
+            'customer_number' => "required_unless:type,startime",
+        ]);
+
+        $type = request()->type;
+        $planKey = array_search(request()->amount, array_column($bills[$type], 'amount'));
+        $plan = $bills[$type][$planKey];
+        $price = $plan['price'];
+        $formatPrice = currencyFormat($price);
+
+        $details = strtoupper($type) . '-' . $plan["name"] . " - {$formatPrice} - {$plan['duration']}";
+
+        $smart_no = request()->smart_no;
+        $discount_amount = calDiscountAmount($price, cableDiscount($user)[$type]);
+        $desc = "Cable Subscription of {$details} for smart no {$smart_no}";
+        //return $discount_amount;
+
+        if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
+
+        request()->merge(['discount_amount' => $discount_amount]);
+        $this->validate(request(), [
+            'discount_amount' => [new checkBalance($user)],
+        ]);
+
+        //$number = request()->number;
+
+        $ref = generateRef($user);
+
+        if (!env('ENABLE_BILL_PAYMENT')) {
+            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        }
+
+        if ($type == 'startime') {
+            $result = $this->startimeCable(request()->amount, $smart_no, request()->number);
+
+        } else {
+            $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, request()->number);
+        }
+
+        if (is_array($result) && isset($result['error'])) {
+            return $this->jsonWebBack('error', $result['error']);
+        }
+
+        if (!isset($result['exchangeReference'])) {
+            return $this->jsonWebBack('error', 'An error ocurred');
+        }
+
+        $ref = $result['exchangeReference'] ?? $ref;
+
+        return $this->saveTransaction($user, 'cable', $discount_amount, $desc, $ref, $result);
+
     }
 
     public function apiReset(User $user)

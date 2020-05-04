@@ -101,6 +101,8 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         Route::get('/airtime/{reference}', 'Controller@guestAirtime');
         Route::get('/data/{reference}', 'Controller@guestData');
 
+        Route::get('/smart_no/{type}/{number}', 'Controller@verifySmartCard');
+
     });
 
     //Route::get('/home', 'HomeController@index')->name('home');

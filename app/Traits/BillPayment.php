@@ -177,4 +177,52 @@ trait BillPayment
 
     }
 
+    public static function cableInfo($bill, $no)
+    {
+        $response = Http::get(self::link('customercheck', "bill={$bill}&smartno={$no}"))->throw();
+
+        $result = $response->json();
+        unset($result['code']);
+        return $result;
+
+    }
+
+    public static function startimeCable($amount, $smart_no, $number)
+    {
+        if (!env("ENABLE_BILL_PAYMENT")) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
+
+        self::balance();
+
+        $response = Http::get(self::link('startimes', "phone={$number}&amt={$amount}&smartno={$smart_no}"))->throw();
+
+        if (isset(self::checkError($response->json())['error'])) {
+            return self::checkError($response->json());
+
+        }
+
+        return $response->json();
+
+    }
+
+    public static function cable($type, $amount, $smart_no, $customer_name, $customer_number, $invoice, $number)
+    {
+        if (!env("ENABLE_BILL_PAYMENT")) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
+
+        self::balance();
+
+        $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$smart_no}&billtype={$type}&customernumber={$customer_number}"))->throw();
+
+        if (isset(self::checkError($response->json())['error'])) {
+            return self::checkError($response->json());
+
+        }
+
+        return $response->json();
+
+    }
+
 }

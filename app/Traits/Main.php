@@ -15,9 +15,9 @@ trait Main
         return $amount > $user->balance ? false : true;
     }
 
-    function isDublicate(User $user, $amount, $reason)
+    function isDublicate(User $user, $amount, $desc, $reason)
     {
-        $dublicate = $user->transactions->where('amount', $amount)->where('reason', $reason)->first();
+        $dublicate = $user->transactions->where('amount', $amount)->where('reason', $reason)->where('desc', $desc)->first();
 
         //return $dublicate;
 

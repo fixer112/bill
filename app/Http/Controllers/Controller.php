@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Jobs\SendEmail;
 use App\Mail\lowBalance;
 use App\Mail\massMail;
@@ -130,6 +131,50 @@ class Controller extends BaseController
 
     }
 
+    public function verifySmartCard($type, $number)
+    {
+        return $this->cableInfo($type, $number);
+
+    }
+
+    public function saveTransaction(User $user, $type, $discount_amount, $desc, $ref, $result)
+    {
+        if (is_array($result) && isset($result['error'])) {
+            return $this->jsonWebBack('error', $result['error']);
+        }
+
+        $user->update([
+            'balance' => $user->balance - $discount_amount,
+        ]);
+
+        $tran = Transaction::create([
+            'amount' => $discount_amount,
+            'balance' => $user->balance,
+            'type' => 'debit',
+            'desc' => "{$desc}",
+            'ref' => $ref,
+            'user_id' => $user->id,
+            'reason' => $type,
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => $desc,
+        ]);
+
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
+
+    }
+
     public function testUser(User $user)
     {
         /* return (new UserCreated())
@@ -160,6 +205,7 @@ class Controller extends BaseController
     {
 
         //return $this->balance();
+        return $this->cableInfo('dstv', '7036717423');
         return fetchDataInfo();
         return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());

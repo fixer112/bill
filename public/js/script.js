@@ -61,3 +61,23 @@ function processPayment(data, balance, billEnabled, errorMessage, key) {
     guestPaystack(data['amount'], data, key);
 
 }
+
+function wpChat(){
+    $('.floating-wpp').floatingWhatsApp({
+
+        phone: '2349049392607',
+
+        size: '50px',
+
+        position:"right",
+
+	    popupMessage: 'Hello!!!, how can we help you',
+
+	    showPopup: true,
+
+	    //message: 'Message To Send',
+
+	    headerTitle: 'MoniWallet Whatsapp'
+
+	  });
+}

@@ -41,6 +41,8 @@
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
         <link rel="stylesheet" type="text/css" href="/css/custom.css" />
         <script src="/vendor/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/floating-wpp.min.js"></script>
+        <link rel="stylesheet" href="/css/floating-wpp.min.css">
         <script src="/js/script.js"></script>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
@@ -306,6 +308,7 @@
 
                     </div>
                 </div>
+                <div class="floating-wpp"></div>
             </footer><!-- Footer end -->
 
         </div><!-- Document Wrapper end -->
@@ -332,7 +335,9 @@
 
 
         <script>
+           
             $(document).ready(function () {
+                wpChat();
         $('#verticalTab').easyResponsiveTabs({
         type: 'vertical', //Types: default, vertical, accordion
         });

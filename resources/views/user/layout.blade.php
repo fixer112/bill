@@ -44,6 +44,10 @@
         <link rel="stylesheet" href="/assets/plugins/notification/css/notification.min.css">
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/css/custom.css">
+
+         <script src="/vendor/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/floating-wpp.min.js"></script>
+        <link rel="stylesheet" href="/css/floating-wpp.min.css">
         <script src="/js/script.js"></script>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
@@ -315,8 +319,10 @@
             </div>
             <p>Sorry for the inconvenience!</p>
         </div>
+        <div class="floating-wpp"></div>
     <![endif]-->
-        <script src="/assets/js/vendor-all.min.js"></script>
+
+        {{-- <script src="/assets/js/vendor-all.min.js"></script> --}}
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
         <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -335,7 +341,17 @@
         <script src="/assets/plugins/notification/js/bootstrap-growl.min.js"></script> --}}
         {{-- <script src="/assets/js/pages/dashboard-custom.js"></script> --}}
         @yield('js')
+        <script type="text/javascript">
+
+  $(function () {
+    $('.floating-wpp').floatingWhatsApp({
+      phone: '5491133359850'
+    });
+  });
+</script>
+
         <script>
+             
             $( document ).ready(function() {
                // $.stickysidebarscroll(".scroll-div",{offset: {top: 10, bottom: 200}});
                 var url = window.location;
@@ -371,6 +387,7 @@
                 </div>
             </div>
         </center>
+        
     </body>
 
 </html>

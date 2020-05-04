@@ -201,14 +201,14 @@ return [
         'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'portal' => false, 'bills' => [
             'airtime' => [
                 'mtn' => 2.5,
-                'airtel' => 2.2,
-                '9mobile' => 2.2,
-                'glo' => 2.5,
+                'airtel' => 2.0,
+                '9mobile' => 2.0,
+                'glo' => 2.2,
             ],
             'data' => [
                 'mtn' => 9.5,
-                'airtel' => 2.2,
-                '9mobile' => 2.2,
+                'airtel' => 2.0,
+                '9mobile' => 2.0,
                 'glo' => 5,
             ],
             'cable' => [
@@ -218,24 +218,31 @@ return [
             ],
         ],
         ],
-        /* 'gold' => ['amount' => 30000, 'discount' => 10, 'bonus' => 20, 'rate_limit' => 500, 'bills' => [
-        'airtime' => [
-        'mtn' => 2,
-        'airtel' => 1.5,
-        '9mobile' => 1.5,
-        'glo' => 2.0,
-        ],
-        'data' => [
-        'mtn' => 11,
-        'airtel' => 1.5,
-        '9mobile' => 1.5,
-        'glo' => 5,
-        ],
-        ],
-        ], */
+       
         'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
             'airtime' => [
                 'mtn' => 3,
+                'airtel' => 2.2,
+                '9mobile' => 2.2,
+                'glo' => 2.5,
+            ],
+            'data' => [
+                'mtn' => 15,
+                'airtel' => 2.2,
+                '9mobile' => 2.2,
+                'glo' => 7,
+            ],
+            'cable' => [
+                'startime' => 90,
+                'gotv' => 90,
+                'dstv' => 90,
+            ],
+        ],
+        ],
+
+        'super' => ['amount' => 150000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 5000, 'portal' => true, 'bills' => [
+            'airtime' => [
+                'mtn' => 3.3,
                 'airtel' => 2.5,
                 '9mobile' => 2.5,
                 'glo' => 2.9,
@@ -244,7 +251,7 @@ return [
                 'mtn' => 16.6,
                 'airtel' => 2.5,
                 '9mobile' => 2.5,
-                'glo' => 7,
+                'glo' => 8,
             ],
             'cable' => [
                 'startime' => 90,

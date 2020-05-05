@@ -102,7 +102,7 @@ class Controller extends BaseController
 
         $ref = generateRef();
 
-        if ($tranx->data->metadata->network == 'mtn') {
+        if ($tranx->data->metadata->network == 'mtn_sme') {
 
             $result = $this->dataMtn($tranx->data->metadata->amount, $tranx->data->metadata->number, $tranx->data->metadata->network_code, $ref);
 
@@ -206,8 +206,8 @@ class Controller extends BaseController
 
         //return $this->balance();
         //return $this->cableInfo('dstv', '7036717423');
-       // return getCable()['startime'];
-       return fetchDataInfo();
+        // return getCable()['startime'];
+        return fetchDataInfo();
         return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());
     }

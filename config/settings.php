@@ -1,6 +1,6 @@
 <?php
 return [
-    'mobile_networks' => ['mtn' => '15','mtn_sme' => '15','mtn_direct' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
+    'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'mtn_direct' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
     'bills' => [
 
         'airtime' => [
@@ -165,7 +165,7 @@ return [
             ],
             'data' => [
                 'mtn_sme' => 4.7,
-                'mtn_direct' => 0.7,
+                //'mtn_direct' => 0.7,
                 'airtel' => 0,
                 '9mobile' => 0,
                 'glo' => 1,
@@ -188,7 +188,7 @@ return [
             ],
             'data' => [
                 'mtn_sme' => 7.1,
-                'mtn_direct' => 2.0,
+                //'mtn_direct' => 2.0,
                 'airtel' => 1.8,
                 '9mobile' => 1.8,
                 'glo' => 4,
@@ -209,7 +209,7 @@ return [
             ],
             'data' => [
                 'mtn_sme' => 9.5,
-                'mtn_direct' => 2.5,
+                //'mtn_direct' => 2.5,
                 'airtel' => 2.0,
                 '9mobile' => 2.0,
                 'glo' => 5,
@@ -221,7 +221,7 @@ return [
             ],
         ],
         ],
-       
+
         'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
             'airtime' => [
                 'mtn' => 3,
@@ -231,7 +231,7 @@ return [
             ],
             'data' => [
                 'mtn_sme' => 15,
-                'mtn_direct' => 3,
+                //'mtn_direct' => 3,
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
                 'glo' => 7,
@@ -253,7 +253,7 @@ return [
             ],
             'data' => [
                 'mtn_sme' => 16.6,
-                'mtn_direct' => 3.3,
+                //'mtn_direct' => 3.3,
                 'airtel' => 2.5,
                 '9mobile' => 2.5,
                 'glo' => 8,

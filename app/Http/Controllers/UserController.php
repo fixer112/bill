@@ -643,6 +643,9 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $networks = config("settings.mobile_networks");
+        unset($networks['mtn_sme']);
+        unset($networks['mtn_direct']);
+
         $bills = config("settings.bills.airtime");
 
         //return $bills;
@@ -708,6 +711,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $networks = config("settings.mobile_networks");
+        unset($networks['mtn']);
         $bills = config("settings.bills.data");
 
 //return request()->network_code;
@@ -739,6 +743,8 @@ class UserController extends Controller
         $discount_amount = calDiscountAmount($price, dataDiscount($user)[$network]);
         $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
+        //return $desc;
+
         if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
             return $this->jsonWebBack('error', dublicateMessage());
         }
@@ -754,7 +760,7 @@ class UserController extends Controller
             return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         }
 
-        if ($network == 'mtn') {
+        if ($network == 'mtn_sme') {
             $result = $this->dataMtn(request()->amount, request()->number, $network_code, $ref);
 
         } else {

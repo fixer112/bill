@@ -134,13 +134,11 @@ function dataDiscount(User $user = null)
         ];
 
     }
-    $individual = config("settings.individual.bills.data");
-    unset($individual['mtn_direct']);
 
-    $reseller = config("settings.subscriptions.{$user->lastSub()->name}.bills.data");
-    unset($reseller['mtn_direct']);
+    $datas = !$user->is_reseller ? config("settings.individual.bills.data") : config("settings.subscriptions.{$user->lastSub()->name}.bills.data");
+    unset($datas['mtn_direct']);
 
-    return !$user->is_reseller ? $individual : $reseller;
+    return $datas;
 
 }
 

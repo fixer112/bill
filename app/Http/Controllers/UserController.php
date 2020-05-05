@@ -835,10 +835,10 @@ class UserController extends Controller
         }
 
         if ($type == 'startimes') {
-            $result = $this->startimeCable(request()->amount, $smart_no, request()->number);
+            $result = $this->startimeCable(request()->amount, $smart_no, $user->number);
 
         } else {
-            $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, request()->number);
+            $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, $user->number);
         }
 
         if (is_array($result) && isset($result['error'])) {

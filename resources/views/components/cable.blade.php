@@ -54,8 +54,8 @@
                     <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                     </div>
 
-                    <input class="form-control @error('discount_amount') is-invalid @enderror" type="number" name="discount_amount" required v-model="discountAmount"
-                        readonly>
+                    <input class="form-control @error('discount_amount') is-invalid @enderror" type="number"
+                        name="discount_amount" required v-model="discountAmount" readonly>
                     @error('discount_amount')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -86,8 +86,8 @@
 
                 </div>
             </div>
-            
-           @if(!$guest)
+
+            @if(!$guest)
             <div class="form-group">
                 <label>Confirm Password</label>
                 <div class="input-group">
@@ -111,7 +111,7 @@
 </div>
 
 <script>
-    var airtime = new Vue({
+    var cable = new Vue({
     el: '#cable',
     data: function() {
     return {

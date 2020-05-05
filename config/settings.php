@@ -1,6 +1,6 @@
 <?php
 return [
-    'mobile_networks' => ['mtn' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
+    'mobile_networks' => ['mtn' => '15','mtn_sme' => '15','mtn_direct' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
     'bills' => [
 
         'airtime' => [
@@ -164,7 +164,8 @@ return [
                 'glo' => 1,
             ],
             'data' => [
-                'mtn' => 4.7,
+                'mtn_sme' => 4.7,
+                'mtn_direct' => 0.7,
                 'airtel' => 0,
                 '9mobile' => 0,
                 'glo' => 1,
@@ -186,7 +187,8 @@ return [
                 'glo' => 2.0,
             ],
             'data' => [
-                'mtn' => 7.1,
+                'mtn_sme' => 7.1,
+                'mtn_direct' => 2.0,
                 'airtel' => 1.8,
                 '9mobile' => 1.8,
                 'glo' => 4,
@@ -206,7 +208,8 @@ return [
                 'glo' => 2.2,
             ],
             'data' => [
-                'mtn' => 9.5,
+                'mtn_sme' => 9.5,
+                'mtn_direct' => 2.5,
                 'airtel' => 2.0,
                 '9mobile' => 2.0,
                 'glo' => 5,
@@ -227,7 +230,8 @@ return [
                 'glo' => 2.5,
             ],
             'data' => [
-                'mtn' => 15,
+                'mtn_sme' => 15,
+                'mtn_direct' => 3,
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
                 'glo' => 7,
@@ -248,7 +252,8 @@ return [
                 'glo' => 2.9,
             ],
             'data' => [
-                'mtn' => 16.6,
+                'mtn_sme' => 16.6,
+                'mtn_direct' => 3.3,
                 'airtel' => 2.5,
                 '9mobile' => 2.5,
                 'glo' => 8,

@@ -394,7 +394,7 @@ class UserController extends Controller
 
         $this->validate(request(), [
             'amount' => "required|numeric|min:2000",
-            'password' => ["required",new checkOldPassword($user)],
+            'password' => ["required", new checkOldPassword($user)],
         ]);
 
         $amount = request()->amount;
@@ -453,7 +453,7 @@ class UserController extends Controller
         $this->validate(request(), [
             'amount' => ["required", "numeric", new checkBalance($user), 'min:100'],
             'username' => "required|exists:users,login",
-            'password' => ["required",new checkOldPassword($user)],
+            'password' => ["required", new checkOldPassword($user)],
         ]);
 
         $u = User::where('login', request()->username)->first();
@@ -646,14 +646,13 @@ class UserController extends Controller
         $bills = config("settings.bills.airtime");
 
         //return $bills;
-$data =[
+        $data = [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
-];
+        ];
 
- if(!request()->wantsJson()){
-                    $data['password'] = ["required",new checkOldPassword($user)];
-            }
-
+        if (!request()->wantsJson()) {
+            $data['password'] = ["required", new checkOldPassword($user)];
+        }
 
         $this->validate(request(), $data);
 
@@ -712,19 +711,17 @@ $data =[
         $bills = config("settings.bills.data");
 
 //return request()->network_code;
-        $data= [
+        $data = [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'number' => "required|string|digits:11",
             'amount' => "required|numeric",
         ];
 
-            if(!request()->wantsJson()){
-                    $data['password'] = ["required",new checkOldPassword($user)];
-            }
+        if (!request()->wantsJson()) {
+            $data['password'] = ["required", new checkOldPassword($user)];
+        }
 
         $this->validate(request(), $data);
-
-
 
         //return request()->amount;
 
@@ -791,11 +788,11 @@ $data =[
             'number' => "nullable|string|digits:11",
             'customer_name' => "required_unless:type,startime",
             'customer_number' => "required_unless:type,startime",
-            
+
         ];
 
-        if(!request()->wantsJson()){
-            $data['password'] = ["required",new checkOldPassword($user)];
+        if (!request()->wantsJson()) {
+            $data['password'] = ["required", new checkOldPassword($user)];
         }
         $this->validate(request(), $data);
 

@@ -206,7 +206,8 @@ class Controller extends BaseController
 
         //return $this->balance();
         //return $this->cableInfo('dstv', '7036717423');
-        return getCable()['startime'];
+       // return getCable()['startime'];
+       return fetchDataInfo();
         return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());
     }

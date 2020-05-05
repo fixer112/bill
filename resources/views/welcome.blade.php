@@ -22,6 +22,8 @@
                             <li class="resp-tab-item resp-tab-active"><span><i class="fas fa-phone"></i></span> Airtime
                             </li>
                             <li class="resp-tab-item"><span><i class="fas fa-globe"></i></span>Data</li>
+
+                            <li class="resp-tab-item"><span><i class="fas fa-tv"></i></span>Cable Tv</li>
                         </ul>
                     </div>
                     <div class="col-md-9">
@@ -72,7 +74,7 @@
 
                                 <div class="resp-tab-content" aria-labelledby="tab_item-1">
 
-                                    <x-data :dat="dataDiscount()" />
+                                    <x-data :dat="dataDiscount()" guest="true" />
                                 </div>
                             </form>
                             <script>
@@ -93,6 +95,40 @@
                                 });
                             </script>
                             <!-- Data Recharge end -->
+
+
+                            <!-- Cable -->
+
+                            <form id="cable-home">
+
+                                <div class="resp-tab-content" aria-labelledby="tab_item-2">
+
+                                    <x-cable :dat="cableDiscount()" guest="true" />
+                                </div>
+                            </form>
+                            <script>
+                                document.getElementById('cable-home').addEventListener("submit",function(event){
+                            
+                                    event.preventDefault();
+                                    var d = {
+                                                reason: 'cable',
+                                                amount:cable.discountAmount,
+                                                details:cable.details,
+
+                                            };
+                                    $.notify({
+                                    // options
+                                    message: "Cable Coming Soon to guest user, please register to use for registered user and enjoy amazing discounts",
+                                    }, {
+                                    // settings
+                                    type: 'danger'
+                                    });
+                                    //console.log(data);
+                                    //processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
+                                    });
+                            </script>
+
+                            <!-- Cable end -->
 
                             <p class="text-danger ml-3 text-center">
 

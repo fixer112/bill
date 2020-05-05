@@ -126,7 +126,8 @@ function dataDiscount(User $user = null)
     if (!$user) {
 
         return [
-            'mtn' => 0,
+            'mtn_sme' => 0,
+            'mtn_direct' => 0,
             'airtel' => 0,
             '9mobile' => 0,
             'glo' => 0,
@@ -178,7 +179,10 @@ function fetchDataInfo()
 
     $datas = [];
     $networks = config('settings.mobile_networks');
+
     unset($networks['mtn']);
+    unset($networks['mtn_direct']);
+    unset($networks['mtn_sme']);
 
     foreach ($networks as $key => $value) {
 
@@ -193,6 +197,7 @@ function fetchDataInfo()
             $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
                 $plan['price'] = ceil($plan['price'] / 5) * 5;
                 $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
+                //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
                 $plan['type'] = 'direct';
 
                 return [$k => $plan];
@@ -207,7 +212,7 @@ function fetchDataInfo()
     }
     //return $datas;
     //$datas['time'] = time();
-    $datas['mtn'] = [
+    $datas['mtn_sme'] = [
         [
             'id' => "Mtn-1GB",
             'topup_currency' => "NGN",
@@ -248,5 +253,5 @@ function fetchDataInfo()
     ];
 
     Storage::put('data.json', json_encode(['data' => $datas, 'time' => time()]));
-    return $datas;
+    return array_reverse($datas);
 }

@@ -194,8 +194,8 @@ trait BillPayment
         }
 
         self::balance();
-
-        $response = Http::get(self::link('startimes', "phone={$number}&amt={$amount}&smartno={$smart_no}"))->throw();
+        //phone={$number}&
+        $response = Http::get(self::link('startimes', "amt={$amount}&smartno={$smart_no}"))->throw();
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -213,8 +213,8 @@ trait BillPayment
         }
 
         self::balance();
-
-        $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$smart_no}&billtype={$type}&customernumber={$customer_number}"))->throw();
+        //phone={$number}&
+        $response = Http::get(self::link('multichoice', "amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$smart_no}&billtype={$type}&customernumber={$customer_number}"))->throw();
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());

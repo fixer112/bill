@@ -26,6 +26,7 @@ class AdminController extends Controller
         $users = User::get();
 
         $referrals = Referral::ordered()->get()->take(10);
+
         $transactions = Transaction::ordered()->get()->take(10);
 
         $compact = compact('users', 'transactions', 'referrals');

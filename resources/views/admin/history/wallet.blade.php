@@ -180,6 +180,7 @@
                             <th>Type</th>
                             <th>Reason</th>
                             <th>Desc</th>
+                            <th>PlathForm</th>
                             <th>Created At</th>
                         </thead>
                         <tbody>
@@ -209,6 +210,7 @@
                                 </td>
                                 <td>{{$transaction->reason}}</td>
                                 <td>{{$transaction->desc}}</td>
+                                <td>{{$transaction->plathform}}</td>
                                 <td>{{$transaction->created_at}}</td>
                             </tr>
                             @endforeach

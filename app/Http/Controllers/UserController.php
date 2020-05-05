@@ -834,7 +834,7 @@ class UserController extends Controller
             return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         }
 
-        if ($type == 'startime') {
+        if ($type == 'startimes') {
             $result = $this->startimeCable(request()->amount, $smart_no, request()->number);
 
         } else {

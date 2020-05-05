@@ -149,6 +149,9 @@
         this.invoice = response.data.invoice;
         this.submit = true;
         console.log(this.info);
+        }else if(response.data == ''){
+            this.name = "Unable to validate smartcard";
+        
         }else{
         this.name = 'SmartCard number does not exist';
         }

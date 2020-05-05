@@ -28,7 +28,7 @@
         <meta name="twitter:description" content="@yield('desc',env('APP_DESCRIPTION'))" />
         <meta name="twitter:image:src" content="{{url('/images/logo2.png')}}" />
         <meta name="twitter:site" content="@moniwallet" />
-        <script>
+        {{--  <script>
             (function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
             h._hjSettings={hjid:1629436,hjsv:6};
@@ -37,7 +37,7 @@
             r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
             a.appendChild(r);
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-        </script>
+        </script>  --}}
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" href="/assets/fonts/fontawesome/css/fontawesome-all.min.css">
         <link rel="stylesheet" href="/assets/plugins/animation/css/animate.min.css">
@@ -45,10 +45,11 @@
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/css/custom.css">
 
-         <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="/js/floating-wpp.min.js"></script>
         <link rel="stylesheet" href="/css/floating-wpp.min.css">
         <script src="/js/script.js"></script>
+
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
         <script>
@@ -341,18 +342,10 @@
         <script src="/assets/plugins/notification/js/bootstrap-growl.min.js"></script> --}}
         {{-- <script src="/assets/js/pages/dashboard-custom.js"></script> --}}
         @yield('js')
-        <script type="text/javascript">
-
-  $(function () {
-    $('.floating-wpp').floatingWhatsApp({
-      phone: '5491133359850'
-    });
-  });
-</script>
 
         <script>
-             
             $( document ).ready(function() {
+                wpChat();
                // $.stickysidebarscroll(".scroll-div",{offset: {top: 10, bottom: 200}});
                 var url = window.location;
                 var link =url.origin + url.pathname;
@@ -387,7 +380,21 @@
                 </div>
             </div>
         </center>
-        
+        @if(!Auth::user()->is_admin)
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/5eb1911781d25c0e58490940/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+            })();
+        </script>
+        <!--End of Tawk.to Script-->
+        @endif
     </body>
 
 </html>

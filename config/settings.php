@@ -9,7 +9,7 @@ return [
             '9mobile' => ['min' => 50, 'max' => 50000],
             'glo' => ['min' => 50, 'max' => 50000]],
         'cable' => [
-            'startime' => [
+            'startimes' => [
                 [
                     'name' => 'nova',
                     'price' => 900,
@@ -171,7 +171,7 @@ return [
                 'glo' => 1,
             ],
             'cable' => [
-                'startime' => 20,
+                'startimes' => 20,
                 'gotv' => 20,
                 'dstv' => 20,
             ],
@@ -194,7 +194,7 @@ return [
                 'glo' => 4,
             ],
             'cable' => [
-                'startime' => 50,
+                'startimes' => 50,
                 'gotv' => 50,
                 'dstv' => 50,
             ],
@@ -215,7 +215,7 @@ return [
                 'glo' => 5,
             ],
             'cable' => [
-                'startime' => 70,
+                'startimes' => 70,
                 'gotv' => 70,
                 'dstv' => 70,
             ],
@@ -237,7 +237,7 @@ return [
                 'glo' => 7,
             ],
             'cable' => [
-                'startime' => 90,
+                'startimes' => 90,
                 'gotv' => 90,
                 'dstv' => 90,
             ],
@@ -259,7 +259,7 @@ return [
                 'glo' => 8,
             ],
             'cable' => [
-                'startime' => 90,
+                'startimes' => 90,
                 'gotv' => 90,
                 'dstv' => 90,
             ],

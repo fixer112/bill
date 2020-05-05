@@ -150,7 +150,7 @@
                                 <div class="pro-head">
                                     <img src="{{Auth::user()->profilePic()}}" class="img-radius"
                                         alt="User-Profile-Image">
-                                    <span>{{Auth::user()->full_name}}</span>
+                                    <span>{{Auth::user()->full_name}} ({{Auth::user()->login}})</span>
                                     <a href="/logout" class="dud-logout" title="Logout">
                                         <i class="feather icon-log-out"></i>
                                     </a>

@@ -101,8 +101,8 @@
                 </div>
             </div>
             @endif
-            <input name="customer_number" v-model="cus_number" hidden required />
-            <input name="invoice_no" v-model="invoice" hidden required />
+            <input name="customer_number" v-model="cus_number" hidden />
+            <input name="invoice_no" v-model="invoice" hidden />
 
 
         </div>

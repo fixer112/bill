@@ -712,6 +712,7 @@ class UserController extends Controller
 
         $networks = config("settings.mobile_networks");
         unset($networks['mtn']);
+        unset($networks['mtn_direct']);
         $bills = config("settings.bills.data");
 
 //return request()->network_code;

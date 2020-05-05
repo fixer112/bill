@@ -43,7 +43,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
             Route::get('test/{user}', 'Controller@testUser');
 
-            Route::get('/clear_test', 'AdminController@clearTestData');
+            Route::get('/data', 'Controller@refreshData');
         });
 
         #User

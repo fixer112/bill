@@ -17,6 +17,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class Controller extends BaseController
 {
@@ -172,6 +173,14 @@ class Controller extends BaseController
         }
 
         return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
+
+    }
+
+    public function refreshData()
+    {
+        Storage::delete('data.json');
+        getDataInfo();
+        return json_decode(Storage::get('data.json'), true)['data'];
 
     }
 

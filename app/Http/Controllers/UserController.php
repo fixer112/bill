@@ -841,13 +841,15 @@ class UserController extends Controller
             $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, $user->number);
         }
 
+        // return $result;
+
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
         }
 
-        if (!isset($result['exchangeReference'])) {
-            return $this->jsonWebBack('error', 'An error ocurred');
-        }
+        /* if (!isset($result['exchangeReference'])) {
+        return $this->jsonWebBack('error', 'An error ocurred');
+        } */
 
         $ref = $result['exchangeReference'] ?? $ref;
 

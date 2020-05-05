@@ -63,6 +63,20 @@ trait BillPayment
 
     }
 
+    public static function testbill()
+    {
+        $result = [
+            'code' => '100',
+            'message' => "Recharge successful!",
+            'exchangeReference' => "api_5eb1a8d78ad93",
+            'user_ref' => "Olo5eb1a8d68e39a",
+        ];
+        //return $result;
+
+        return self::checkError($result);
+
+    }
+
     public static function checkError($response)
     {
 

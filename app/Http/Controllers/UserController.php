@@ -791,10 +791,10 @@ class UserController extends Controller
             'amount' => "required|numeric",
             'type' => "required|in:" . implode(',', array_keys($bills)),
             'smart_no' => "required|string",
-            'invoice_no' => "required_unless:type,startime",
+            'invoice_no' => "required_unless:type,startimes",
             'number' => "nullable|string|digits:11",
-            'customer_name' => "required_unless:type,startime",
-            'customer_number' => "required_unless:type,startime",
+            'customer_name' => "required_unless:type,startimes",
+            'customer_number' => "required_unless:type,startimes",
 
         ];
 

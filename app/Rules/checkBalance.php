@@ -27,7 +27,7 @@ class checkBalance implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $value < $this->user->balance;
+        return $value <= $this->user->balance;
     }
 
     /**

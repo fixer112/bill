@@ -68,6 +68,10 @@ class Controller extends BaseController
 
         $ref = generateRef();
 
+        if (!env('ENABLE_BILL_PAYMENT')) {
+            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        }
+
         $result = $this->airtime($amount, $tranx->data->metadata->number, $tranx->data->metadata->network_code, $ref);
 
         //return $result;
@@ -99,9 +103,15 @@ class Controller extends BaseController
             return $this->jsonWebBack('error', $tranx['error']);
         }
 
+        //return json_decode(json_encode($tranx), true);
+
         $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
         $ref = generateRef();
+
+        if (!env('ENABLE_BILL_PAYMENT')) {
+            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        }
 
         if ($tranx->data->metadata->network == 'mtn_sme') {
 
@@ -217,7 +227,7 @@ class Controller extends BaseController
         //return $this->balance();
         //return $this->cableInfo('dstv', '7036717423');
         // return getCable()['startime'];
-        return $this->testbill();
+
         return fetchDataInfo();
         return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());

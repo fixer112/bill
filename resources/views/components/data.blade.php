@@ -9,7 +9,7 @@
                 <label for="mobileNumber">Mobile Number</label>
                 <input type="text" min="11" class="form-control @error('number') is-invalid @enderror" name="number"
                     required placeholder="Enter Mobile Number" data-toggle="tooltip"
-                    title="Please make sure you input a valid mobile number.">
+                    title="Please make sure you input a valid mobile number." v-model="number">
                 <div id="error" class="is-invalid text-danger"></div>
                 @error('number')
                 <span class="invalid-feedback" role="alert">
@@ -122,6 +122,7 @@
         plans:"",
         plan:"",
         details:"",
+        number:"",
         
     }
   }, 

@@ -57,10 +57,18 @@ class User extends Authenticatable
         if ($this->is_admin) {
             return 'admin';
         }
-        if (!$this->lastSub()) {
+
+        if (!$this->is_reseller) {
             return 'individual';
+
         }
+
+        if (!$this->lastSub()) {
+            return 'reseller (Awaiting)';
+        }
+
         return $this->lastSub()->name;
+
     }
 
     public function lastSub()

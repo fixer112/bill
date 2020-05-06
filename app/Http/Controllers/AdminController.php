@@ -215,6 +215,8 @@ class AdminController extends Controller
             });
         }
 
+        $users = $users->sortByDesc('created_at');
+
         $admins = $users->where('is_admin', 1);
         $nonAdmins = $users->where('is_admin', 0);
 
@@ -227,6 +229,7 @@ class AdminController extends Controller
     {
         $this->validate(request(), [
             'amount' => 'required|numeric|min:1',
+            //'password' => ["required", new checkOldPassword(Auth::user())],
         ]);
 
         $user->update([

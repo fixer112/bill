@@ -538,6 +538,7 @@ class UserController extends Controller
         $this->validate(request(), [
             'amount' => ["required", "numeric"],
             'desc' => "required|string|max:100",
+            //'password' => ["required", new checkOldPassword(Auth::user())],
         ]);
 
         $amount = request()->amount;

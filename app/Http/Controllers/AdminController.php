@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Mail\bulkMail;
 use App\Mail\contact;
 use App\Referral;
 use App\Traits\Main;
@@ -287,7 +288,7 @@ class AdminController extends Controller
         $content = request()->content;
 
         foreach ($users as $user) {
-            Mail::to($user->email)->queue(new contact($subject, $content));
+            Mail::to($user->email)->later(now()->addMinutes(5), new bulkMail($subject, $content));
         }
 
         return $this->jsonWebBack('success', "Mass Email Sent");

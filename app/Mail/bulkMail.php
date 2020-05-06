@@ -6,12 +6,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class contact extends Mailable
+class bulkMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $subject;
     public $html;
+    public $footer;
     /**
      * Create a new message instance.
      *
@@ -21,6 +22,7 @@ class contact extends Mailable
     {
         $this->subject = $subject;
         $this->html = $html;
+        $this->footer = "<p>Thank you for choosing MoniWallet</p>";
     }
 
     /**
@@ -30,6 +32,7 @@ class contact extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.contact')->subject($this->subject);
+        return;
+        return $this->view('mail.bulk')->subject($this->subject);
     }
 }

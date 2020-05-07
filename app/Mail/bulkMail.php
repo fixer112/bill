@@ -33,7 +33,6 @@ class bulkMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return;
-        return $this->view('mail.bulk')->subject($this->subject);
+        return $this->view('mail.bulk')->subject(env("APP_NAME") . ' ' . $this->subject);
     }
 }

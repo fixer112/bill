@@ -108,7 +108,7 @@
     that
     has
     borrowed airtime will not receive the data top up because the airtime (or part) would have been deducted before
-    conversion. This applies to all network except MTN.
+    conversion.
     <p class="text-primary font-weight-bold">
         To Check Data balance:
         Airtel: *123*10# or *140#, 9Mobile: *228#, MTN: *461*4# or *131*4#, GLO: *127*0#

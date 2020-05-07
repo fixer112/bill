@@ -183,13 +183,16 @@ function fetchDataInfo()
     $datas = [];
     $networks = config('settings.mobile_networks');
 
-    unset($networks['mtn']);
+    //unset($networks['mtn']);
     //unset($networks['mtn_direct']);
-    // unset($networks['mtn_sme']);
+    unset($networks['mtn_sme']);
+
+    //return $networks;
 
     foreach ($networks as $key => $value) {
 
         $data = config("settings.bills.data.{$key}");
+        //return $data;
 
         if ($data == null) {
 
@@ -206,6 +209,7 @@ function fetchDataInfo()
                 return [$k => $plan];
             });
 
+            $fetchData = $fetchData->sortBy('price')->values()->all();
             //return $fetchData->toArray();
 
             $datas[$key] = $fetchData;

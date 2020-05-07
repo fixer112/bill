@@ -645,7 +645,7 @@ class UserController extends Controller
 
         $networks = config("settings.mobile_networks");
         unset($networks['mtn_sme']);
-        unset($networks['mtn_direct']);
+        //unset($networks['mtn_direct']);
 
         $bills = config("settings.bills.airtime");
 
@@ -712,8 +712,8 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $networks = config("settings.mobile_networks");
-        unset($networks['mtn']);
-        unset($networks['mtn_direct']);
+        //unset($networks['mtn']);
+        //unset($networks['mtn_direct']);
         $bills = config("settings.bills.data");
 
 //return request()->network_code;

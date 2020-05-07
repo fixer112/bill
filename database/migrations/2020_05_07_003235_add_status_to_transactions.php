@@ -27,7 +27,7 @@ class AddStatusToTransactions extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn('approved');
+            $table->dropColumn('status');
 
         });
     }

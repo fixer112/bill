@@ -1,6 +1,16 @@
 <script src="{{ asset('js/axios.js')}}"></script>
 <script src="{{ asset('js/vue.js')}}"></script>
 
+<div id="row">
+    <div id="col-12">
+        @if(env('CABLE_ALERT'))
+        <div class="alert alert-danger rounded m-3">
+            {!! env('CABLE_ALERT') !!}
+        </div>
+        @endif
+    </div>
+</div>
+
 <h4 class="text-6 mb-4">Cable Tv</h4>
 <div id="cable">
     <div class="row">

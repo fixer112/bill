@@ -1,5 +1,14 @@
 <script src="{{ asset('js/vue.js')}}"></script>
 
+<div id="row">
+    <div id="col-12">
+        @if(env('DATA_ALERT'))
+        <div class="alert alert-danger rounded m-3">
+            {!! env('DATA_ALERT') !!}
+        </div>
+        @endif
+    </div>
+</div>
 
 <h4 class="text-6 mb-4">Data Subscription </h4>
 <div id="data">

@@ -164,7 +164,7 @@ return [
                 'glo' => 1,
             ],
             'data' => [
-                'mtn_sme' => 4.7,
+                'mtn_sme' => 4.5,
                 'mtn_direct' => 0.7,
                 'airtel' => 0,
                 '9mobile' => 0,
@@ -187,7 +187,7 @@ return [
                 'glo' => 2.0,
             ],
             'data' => [
-                'mtn_sme' => 7.1,
+                'mtn_sme' => 7,
                 'mtn_direct' => 2.0,
                 'airtel' => 1.8,
                 '9mobile' => 1.8,
@@ -208,7 +208,7 @@ return [
                 'glo' => 2.2,
             ],
             'data' => [
-                'mtn_sme' => 9.5,
+                'mtn_sme' => 9,
                 'mtn_direct' => 2.5,
                 'airtel' => 2.0,
                 '9mobile' => 2.0,
@@ -230,7 +230,7 @@ return [
                 'glo' => 2.5,
             ],
             'data' => [
-                'mtn_sme' => 15,
+                'mtn_sme' => 12, //15,
                 'mtn_direct' => 3,
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
@@ -252,7 +252,7 @@ return [
                 'glo' => 2.9,
             ],
             'data' => [
-                'mtn_sme' => 16.6,
+                'mtn_sme' => 15, //16.6,
                 'mtn_direct' => 3.3,
                 'airtel' => 2.5,
                 '9mobile' => 2.5,

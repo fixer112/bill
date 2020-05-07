@@ -220,8 +220,8 @@ function fetchDataInfo()
         [
             'id' => "Mtn-1GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 420,
-            'price' => 420,
+            'topup_amount' => 400,
+            'price' => 400,
             'data_amount' => "1000",
             'validity' => "30 days",
             'type' => 'sme',
@@ -229,8 +229,8 @@ function fetchDataInfo()
         [
             'id' => "Mtn-2GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 840,
-            'price' => 840,
+            'topup_amount' => 800,
+            'price' => 800,
             'data_amount' => "2000",
             'validity' => "30 days",
             'type' => 'sme',
@@ -239,8 +239,8 @@ function fetchDataInfo()
         [
             'id' => "Mtn-3GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 1250,
-            'price' => 1250,
+            'topup_amount' => 1200,
+            'price' => 1200,
             'data_amount' => "3000",
             'validity' => "30 days",
             'type' => 'sme',
@@ -248,8 +248,8 @@ function fetchDataInfo()
         [
             'id' => "Mtn-5GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 1950,
-            'price' => 1950,
+            'topup_amount' => 1900,
+            'price' => 1900,
             'data_amount' => "5000",
             'validity' => "30 days",
             'type' => 'sme',

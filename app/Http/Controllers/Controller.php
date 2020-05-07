@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Jobs\SendEmail;
-use App\Mail\bulkMail;
 use App\Mail\lowBalance;
 use App\Mail\massMail;
 use App\Notifications\alert;
@@ -184,6 +183,10 @@ class Controller extends BaseController
             //throw $th;
         }
 
+        if (request()->wantsJson()) {
+            return $tran;
+        }
+
         return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
 
     }
@@ -206,6 +209,7 @@ class Controller extends BaseController
         //return;
         Artisan::call('cache:clear');
         Artisan::call('view:clear');
+        return;
 
         $details = ['email' => 'gmail.com'];
         return SendEmail::dispatch($details);
@@ -228,7 +232,7 @@ class Controller extends BaseController
         //return $this->balance();
         //return $this->cableInfo('dstv', '7036717423');
         // return getCable()['startime'];
-        return new bulkMail('Test', '<b>Testing</b> This is a test');
+        //return new bulkMail('Test', '<b>Testing</b> This is a test');
         return fetchDataInfo();
         return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());

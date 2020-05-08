@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('queue:work --stop-when-empty')->everyFiveMinutes();
+        $schedule->command('queue:work database --stop-when-empty')->everyFiveMinutes();
         $schedule->command('queue:retry all')->daily();
 
         $schedule->command('backup:clean')->daily()->at('01:00');

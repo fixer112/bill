@@ -53,30 +53,37 @@
                                     <img src="/images/logo.png" alt="logo" class="logo">
                                 </div>
 
-                                @if(session('success'))
-                                <div class="alert alert-success rounded mt-3 text-center">
-                                    {{session('success')}}
+                                <div class="card-body">
+                                    @if (session('status'))
+                                    <div class="alert alert-success" role="alert">
+                                        {{ session('status') }}
+                                    </div>
+                                    @endif
+
+                                    @if(session('success'))
+                                    <div class="alert alert-success rounded mt-3 text-center">
+                                        {{session('success')}}
+                                    </div>
+                                    @endif
+
+                                    @if(session('error'))
+                                    <div class="alert alert-danger rounded mt-3 text-center">
+                                        {{session('error')}}
+                                    </div>
+                                    @endif
+
+                                    @yield('content')
+
+                                    <nav class="login-card-footer-nav">
+                                        <a href="/terms">Terms of us.</a>
+                                        <a href="/privacy">Privacy policy</a>
+                                    </nav>
                                 </div>
-                                @endif
-
-                                @if(session('error'))
-                                <div class="alert alert-danger rounded mt-3 text-center">
-                                    {{session('error')}}
-                                </div>
-                                @endif
-
-                                @yield('content')
-
-                                <nav class="login-card-footer-nav">
-                                    <a href="/terms">Terms of us.</a>
-                                    <a href="/privacy">Privacy policy</a>
-                                </nav>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
         </main>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>

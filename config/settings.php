@@ -222,7 +222,7 @@ return [
         ],
         ],
 
-        'premium' => ['amount' => 50000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
+        'premium' => ['amount' => 60000, 'discount' => 0.7, 'bonus' => 10, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
             'airtime' => [
                 'mtn' => 3,
                 'airtel' => 2.2,
@@ -244,26 +244,26 @@ return [
         ],
         ],
 
-        'super' => ['amount' => 150000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 5000, 'portal' => true, 'bills' => [
-            'airtime' => [
-                'mtn' => 3.3,
-                'airtel' => 2.5,
-                '9mobile' => 2.5,
-                'glo' => 2.9,
-            ],
-            'data' => [
-                'mtn_sme' => 15, //16.6,
-                'mtn' => 3.3,
-                'airtel' => 2.5,
-                '9mobile' => 2.5,
-                'glo' => 8,
-            ],
-            'cable' => [
-                'startimes' => 90,
-                'gotv' => 90,
-                'dstv' => 90,
-            ],
-        ],
-        ],
+        /* 'super' => ['amount' => 150000, 'discount' => 0.7, 'bonus' => 20, 'rate_limit' => 5000, 'portal' => true, 'bills' => [
+    'airtime' => [
+    'mtn' => 3.3,
+    'airtel' => 2.5,
+    '9mobile' => 2.5,
+    'glo' => 2.9,
+    ],
+    'data' => [
+    'mtn_sme' => 15, //16.6,
+    'mtn' => 3.3,
+    'airtel' => 2.5,
+    '9mobile' => 2.5,
+    'glo' => 8,
+    ],
+    'cable' => [
+    'startimes' => 90,
+    'gotv' => 90,
+    'dstv' => 90,
+    ],
+    ],
+    ], */
     ],
 ];

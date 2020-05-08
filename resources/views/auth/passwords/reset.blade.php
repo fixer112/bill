@@ -4,7 +4,9 @@
 <p class="login-card-description">Reset Password</p>
 <form action="{{ route('password.update') }}" method="POST">
     @csrf
+
     <input type="hidden" name="token" value="{{ $token }}">
+
     <div class="form-group">
         <label for="usernmae" class="">Email</label>
         <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email"

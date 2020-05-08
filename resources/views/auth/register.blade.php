@@ -63,8 +63,8 @@
         <label class="">User Type</label>
         <select name="reseller" class="custom-select @error('reseller') is-invalid @enderror" required>
             <option value="">Choose Type</option>
-            <option value="1">Reseller</option>
             <option value="0">Individual</option>
+            <option value="1">Reseller</option>
 
         </select>
         @error('reseller')

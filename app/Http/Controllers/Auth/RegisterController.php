@@ -10,7 +10,6 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -113,7 +112,7 @@ class RegisterController extends Controller
         $user->giveReferralBounus($amount, "{$desc} from {$user->login}", true);
         } */
 
-        Cookie::queue(Cookie::forget('referral'));
+        //Cookie::queue(Cookie::forget('referral'));
 
         $activity = Activity::create([
             'user_id' => $user->id,

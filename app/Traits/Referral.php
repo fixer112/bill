@@ -12,6 +12,7 @@ trait Referral
 
     public static function referralCommision(int $level)
     {
-        return config("settings.referral.commision.{$level}");
+        $comissions = config("settings.referral.commision");
+        return $comissions[$level] ?? 0;
     }
 }

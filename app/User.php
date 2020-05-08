@@ -123,7 +123,7 @@ class User extends Authenticatable
                 $comission = $this->referralCommision($level);
                 $u = User::find($userId);
 
-                if ($u) {
+                if ($u && $level == 1) {
                     array_push($users, ['user' => $u, 'level' => $level, 'comission' => $comission]);
                 }
 
@@ -139,6 +139,16 @@ class User extends Authenticatable
             $comission = $parent['comission'];
             $u = $parent['user'];
             $cA = !$isReferral ? calPercentageAmount($amount, ($comission['bonus'] * $multiples)) : calPercentageAmount($amount, ($comission['refer_bonus'] * $multiples));
+
+            $referedBefore = Referral::where('user_id', $u->id)->where('referral_id', $this->id)->exists();
+            $cummulative = $this->transactions->where('type', 'credit')->where('reason', 'top-up')->sum('amount');
+
+            if ($isReferral) {
+                if ($referedBefore || $cummulative < 1000) {
+                    return;
+                }
+            }
+
             $u->update([
                 'referral_balance' => $u->referral_balance + $cA,
                 'points' => $u->points + ($comission['point'] * $multiples),

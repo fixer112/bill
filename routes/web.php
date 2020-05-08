@@ -81,13 +81,17 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/api/documentation/', 'UserController@apiDocumentation');
                 Route::get('/{user}/api/reset/', 'UserController@apiReset');
 
+                Route::get('/{user}/contact', 'UserController@getContact');
+                Route::post('/{user}/contact', 'UserController@contact');
+
             });
 
             Route::middleware(['unsubscribed'])->group(function () {
                 Route::get('/{user}/subscribe/', 'UserController@getSubscribe')->name('subscribe');
+                Route::get('/{user}/subscription/downgrade/', 'UserController@downgrade');
             });
-
             Route::get('/{user}/subscription/upgrade/', 'UserController@getUpgrade');
+
         });
 
         #Payment Verification

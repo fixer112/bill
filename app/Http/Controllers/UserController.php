@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Http\Resources\Transaction as TransactionResource;
-use App\Notifications\alert;
+use App\Mail\bulkMail;
 //use App\Traits\Referral;
+use App\Notifications\alert;
 use App\Referral;
 use App\Rules\checkBalance;
 use App\Rules\checkOldPassword;
@@ -900,6 +901,41 @@ class UserController extends Controller
         }
 
         return $this->jsonWebRedirect('success', "User {$user->status()}", $user->routePath());
+
+    }
+
+    public function getContact(User $user)
+    {
+        $this->authorize('massMail', User::class);
+
+        return view('user.contact');
+    }
+
+    public function contact(User $user)
+    {
+        $this->authorize('massMail', User::class);
+        $this->validate(request(), [
+            'subject' => 'required|String',
+            'content' => 'required|String',
+        ]);
+        //return request()->all();
+
+        $subject = request()->subject;
+        $content = request()->content;
+
+        Mail::to($user->email)->send(new bulkMail($subject, $content));
+
+        return $this->jsonWebBack('success', "Email Sent");
+
+    }
+
+    public function downgrade(User $user)
+    {
+        $user->update([
+            'is_reseller' => 0,
+        ]);
+
+        return $this->jsonWebRedirect('success', "Successfully downgraded to individual account", $user->routePath());
 
     }
 

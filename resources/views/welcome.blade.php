@@ -363,7 +363,7 @@
                     </div>
                     <h3>You Earn</h3>
                     <p class="text-3">
-                        You get {{currencySymbol()}}200, on their first cummulative payment of 1000.
+                        You get {{currencySymbol()}}200, on their first cummulative payment of 1,000.
                         ({{currencySymbol()}}20,000 bonus on 100 referrals).
                         <br>
                         You also earn 100 points per referral, and eligible for {{currencySymbol()}}20,000 naira cash

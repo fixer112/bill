@@ -391,7 +391,7 @@
                 </div>
             </div>
         </center>
-        @if(!Auth::user()->is_admin)
+        @if(!Auth::user()->is_admin && env('APP_ENV') =='production')
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

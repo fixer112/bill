@@ -47,6 +47,8 @@ class UserController extends Controller
         $directReferral = $referrals->where('level', 1);
         $indirectReferral = $referrals->where('level', '!=', 1);
 
+        //request()->session()->flash('error', 'Pin Successfully Changed');
+
         $compact = compact('referrals', 'directReferral', 'indirectReferral');
 
         return view('user.index', $compact);
@@ -246,7 +248,7 @@ class UserController extends Controller
 
         //$this->app($user, $activity->summary, 'Payment Approved');
 
-        return $this->jsonWebRedirect('success', $activity->summary, "/user/$activity->user_id");
+        return $this->jsonWebBack('success', $activity->summary/* , "/user/$activity->user_id" */);
 
     }
 
@@ -437,7 +439,7 @@ class UserController extends Controller
             //throw $th;
         }
 
-        return $this->jsonWebRedirect('success', "Withrawal of {$amount} to wallet successfull", $user->routePath());
+        return $this->jsonWebBack('success', "Withrawal of {$amount} to wallet successfull"/* , $user->routePath() */);
 
     }
 
@@ -522,7 +524,7 @@ class UserController extends Controller
             //throw $th;
         }
 
-        return $this->jsonWebRedirect('success', "{$descFrom}", $user->routePath());
+        return $this->jsonWebBack('success', "{$descFrom}"/* , $user->routePath() */);
 
     }
 
@@ -573,7 +575,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
-        return $this->jsonWebRedirect('success', $fullDesc, $user->routePath());
+        return $this->jsonWebBack('success', $fullDesc/* , $user->routePath() */);
 
     }
 
@@ -628,7 +630,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
-        return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
+        return $this->jsonWebBack('success', "{$amount} added to wallet"/* , $user->routePath() */);
 
         //return view('user.wallet.fund');
     }
@@ -900,7 +902,7 @@ class UserController extends Controller
             //throw $th;
         }
 
-        return $this->jsonWebRedirect('success', "User {$user->status()}", $user->routePath());
+        return $this->jsonWebBack('success', "User {$user->status()}"/* , $user->routePath() */);
 
     }
 

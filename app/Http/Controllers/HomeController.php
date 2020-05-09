@@ -43,6 +43,7 @@ class HomeController extends Controller
         Storage::disk('root')->delete("images/slider/.DS_Store");
         //return $sliders;
         //return Storage::disk('root')->mimeType($sliders[1]);
+        //request()->session()->flash('success', 'Pin Successfully Changed');
 
         return view('welcome', compact('sides', 'sliders'));
     }

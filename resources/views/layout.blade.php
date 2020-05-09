@@ -43,6 +43,7 @@
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="/js/floating-wpp.min.js"></script>
         <link rel="stylesheet" href="/css/floating-wpp.min.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/js/script.js"></script>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
@@ -192,82 +193,82 @@
             <!-- Content -->
             <div id="content">
                 <section class="container">
-                    <div id="row">
+                    {{-- <div id="row">
                         <div id="col-12">
 
                             @if(session('success'))
                             <div class="alert alert-success rounded mt-3">
                                 {{session('success')}}
-                            </div>
-                            @endif
+            </div>
+            @endif
 
-                            @if(session('error'))
-                            <div class="alert alert-danger rounded m-3">
-                                {{session('error')}}
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                </section>
-                @yield('content')
+            @if(session('error'))
+            <div class="alert alert-danger rounded m-3">
+                {{session('error')}}
+            </div>
+        </div>
+        @endif
+        </div> --}}
+        </section>
+        @yield('content')
 
-            </div><!-- Content end -->
+        </div><!-- Content end -->
 
-            <!-- Footer -->
-            <footer id="footer">
-                <section class="section bg-light shadow-md pt-4 pb-3">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6 col-md-3">
-                                <div class="featured-box text-center">
-                                    <div class="featured-box-icon"> <i class="fas fa-lock"></i> </div>
-                                    <h4>100% Secure Payments</h4>
-                                    <p>Moving your card details to a much more secured place.</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-3">
-                                <div class="featured-box text-center">
-                                    <div class="featured-box-icon"> <i class="fas fa-thumbs-up"></i> </div>
-                                    <h4>Trust pay</h4>
-                                    <p>100% Payment Protection. Easy Return Policy.</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-3">
-                                <div class="featured-box text-center">
-                                    <div class="featured-box-icon"> <i class="fas fa-bullhorn"></i> </div>
-                                    <h4>Refer & Earn</h4>
-                                    <p>Invite a friend to sign up and earn as much as possible.</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-3">
-                                <div class="featured-box text-center">
-                                    <div class="featured-box-icon"> <i class="far fa-life-ring"></i> </div>
-                                    <h4>24X7 Support</h4>
-                                    <p>We re here to help. Have a query and need help ? <a href="/contact">Click
-                                            here</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <div class="container mt-4">
+        <!-- Footer -->
+        <footer id="footer">
+            <section class="section bg-light shadow-md pt-4 pb-3">
+                <div class="container">
                     <div class="row">
-                        <div class="col-md-4 mb-3 mb-md-0">
-                            <p>Payment</p>
-                            <ul class="payments-types">
-                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
-                                            src="images/payment/visa.png" alt="visa" title="Visa"></a></li>
-
-                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
-                                            src="images/payment/paystack.png" alt="paystack" title="Paystack" width="90"
-                                            height="34"></a></li>
-
-                                <li><a href="#" target="_blank"> <img data-toggle="tooltip"
-                                            src="images/payment/mastercard.png" alt="discover" title="Discover"></a>
-                                </li>
-                            </ul>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="featured-box text-center">
+                                <div class="featured-box-icon"> <i class="fas fa-lock"></i> </div>
+                                <h4>100% Secure Payments</h4>
+                                <p>Moving your card details to a much more secured place.</p>
+                            </div>
                         </div>
-                        {{--  <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="col-sm-6 col-md-3">
+                            <div class="featured-box text-center">
+                                <div class="featured-box-icon"> <i class="fas fa-thumbs-up"></i> </div>
+                                <h4>Trust pay</h4>
+                                <p>100% Payment Protection. Easy Return Policy.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="featured-box text-center">
+                                <div class="featured-box-icon"> <i class="fas fa-bullhorn"></i> </div>
+                                <h4>Refer & Earn</h4>
+                                <p>Invite a friend to sign up and earn as much as possible.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="featured-box text-center">
+                                <div class="featured-box-icon"> <i class="far fa-life-ring"></i> </div>
+                                <h4>24X7 Support</h4>
+                                <p>We re here to help. Have a query and need help ? <a href="/contact">Click
+                                        here</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <p>Payment</p>
+                        <ul class="payments-types">
+                            <li><a href="#" target="_blank"> <img data-toggle="tooltip" src="images/payment/visa.png"
+                                        alt="visa" title="Visa"></a></li>
+
+                            <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                        src="images/payment/paystack.png" alt="paystack" title="Paystack" width="90"
+                                        height="34"></a></li>
+
+                            <li><a href="#" target="_blank"> <img data-toggle="tooltip"
+                                        src="images/payment/mastercard.png" alt="discover" title="Discover"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    {{--  <div class="col-md-4 mb-3 mb-md-0">
                             <p>Subscribe</p>
                             <div class="input-group newsletter">
                                 <input class="form-control" placeholder="Your Email Address" name="newsletterEmail"
@@ -276,40 +277,40 @@
                                     <button class="btn btn-secondary" type="submit">Subscribe</button>
                                 </span> </div>
                         </div>  --}}
-                        <div class="col-md-4 offset-md-4 d-flex align-items-md-end flex-column">
-                            <p>Keep in touch</p>
-                            <ul class="social-icons">
-                                <li class="social-icons-facebook"><a data-toggle="tooltip"
-                                        href="http://www.facebook.com/moniwallet" target="_blank" title="Facebook"><i
-                                            class="fab fa-facebook-f"></i></a></li>
-                                <li class="social-icons-twitter"><a data-toggle="tooltip"
-                                        href="http://www.twitter.com/moniwallet" target="_blank" title="Twitter"><i
-                                            class="fab fa-twitter"></i></a></li>
-                                <li class="social-icons-instagram"><a data-toggle="tooltip"
-                                        href="http://www.instagram.com/moniwallet" target="_blank" title="Instagram"><i
-                                            class="fab fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="footer-copyright">
-                        <ul class="nav justify-content-center">
-                            <li class="nav-item"> <a class="nav-link active" href="/about">About Us</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="/contact">Contact Us</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Service</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="/privacy">Privacy Policy</a> </li>
-                            {{-- <li class="nav-item"> <a class="nav-link" href="/support">Support</a> </li> --}}
-                            {{-- <li class="nav-item"> <a class="nav-link" href="/faq">Faq</a> </li> --}}
+                    <div class="col-md-4 offset-md-4 d-flex align-items-md-end flex-column">
+                        <p>Keep in touch</p>
+                        <ul class="social-icons">
+                            <li class="social-icons-facebook"><a data-toggle="tooltip"
+                                    href="http://www.facebook.com/moniwallet" target="_blank" title="Facebook"><i
+                                        class="fab fa-facebook-f"></i></a></li>
+                            <li class="social-icons-twitter"><a data-toggle="tooltip"
+                                    href="http://www.twitter.com/moniwallet" target="_blank" title="Twitter"><i
+                                        class="fab fa-twitter"></i></a></li>
+                            <li class="social-icons-instagram"><a data-toggle="tooltip"
+                                    href="http://www.instagram.com/moniwallet" target="_blank" title="Instagram"><i
+                                        class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <p class="copyright-text">Copyright © {{date('Y')}} <a href="/">{{env('APP_NAME')}}</a>. All
-                            Rights
-                            Reserved | Developed by <a href="https://altechtic.com">Altechtic Solutions</a></p>
-
                     </div>
                 </div>
-                <div class="floating-wpp"></div>
-            </footer><!-- Footer end -->
+            </div>
+            <div class="container">
+                <div class="footer-copyright">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item"> <a class="nav-link active" href="/about">About Us</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="/contact">Contact Us</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="/terms">Terms of Service</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="/privacy">Privacy Policy</a> </li>
+                        {{-- <li class="nav-item"> <a class="nav-link" href="/support">Support</a> </li> --}}
+                        {{-- <li class="nav-item"> <a class="nav-link" href="/faq">Faq</a> </li> --}}
+                    </ul>
+                    <p class="copyright-text">Copyright © {{date('Y')}} <a href="/">{{env('APP_NAME')}}</a>. All
+                        Rights
+                        Reserved | Developed by <a href="https://altechtic.com">Altechtic Solutions</a></p>
+
+                </div>
+            </div>
+            <div class="floating-wpp"></div>
+        </footer><!-- Footer end -->
 
         </div><!-- Document Wrapper end -->
 
@@ -335,6 +336,33 @@
 
 
         <script>
+            var alerted = localStorage.getItem('alerted');
+            @if (env('GENERAL_ALERT'))
+            if(!alerted){
+
+                swal("",'{{env("GENERAL_ALERT")}}',{
+                
+                });
+                localStorage.setItem('alerted',true);
+            }
+            @endif
+
+            @if (session('success'))
+            
+            swal("",'{{session('success')}}',"success",{
+            buttons: true,
+            //dangerMode: true,
+            });
+            @endif
+
+            
+            @if (session('error'))
+            
+            swal("",'{{session('error')}}',"error",{
+            buttons: true,
+            dangerMode: true,
+            });
+            @endif
             $(document).ready(function () {
                // wpChat();
         $('#verticalTab').easyResponsiveTabs({

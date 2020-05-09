@@ -45,6 +45,7 @@
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/css/custom.css">
         <script src="/js/script.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/assets/js/vendor-all.min.js"></script>
         @yield('head')
 
@@ -176,24 +177,24 @@
                     <div class="pcoded-inner-content">
                         <div class="main-body">
                             <div class="page-wrapper">
-                                @if(session('success'))
+                                {{-- @if(session('success'))
                                 <div class="alert alert-success rounded">
                                     {{session('success')}}
-                                </div>
-                                @endif
-
-                                @if(session('error'))
-                                <div class="alert alert-danger rounded">
-                                    {{session('error')}}
-                                </div>
-                                @endif
-                                {{-- {{Auth::user()->lastSub()}} --}}
-                                @yield('content')
                             </div>
+                            @endif
+
+                            @if(session('error'))
+                            <div class="alert alert-danger rounded">
+                                {{session('error')}}
+                            </div>
+                            @endif --}}
+                            {{-- {{Auth::user()->lastSub()}} --}}
+                            @yield('content')
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <!--[if lt IE 11]>
         <div class="ie-warning">
@@ -258,6 +259,40 @@
         {{-- <script src="/assets/js/pages/dashboard-custom.js"></script> --}}
         @yield('js')
         <script>
+            var dashboard = "{{Auth::user()->routePath()}}";
+            
+            //console.log(dashboard);
+
+            @if (session('success'))
+            
+            swal("",'{{session('success')}}',"success",{
+            buttons: ["Stay Here", "Dashbord"],
+            //dangerMode: true,
+            })
+            .then((home) => {
+            if (home) {
+            
+            location.replace(dashboard);
+            } else {
+            
+            }
+            });
+            @endif
+            
+            @if (session('error'))
+            
+            swal("",'{{session('error')}}',"error",{
+            buttons: ["Stay Here", "Dashboard"],
+            dangerMode: true,
+            })
+            .then((home) => {
+            if (home) {
+            location.replace(dashboard);
+            } else {
+            
+            }
+            });
+            @endif
             $( document ).ready(function() {
                // $.stickysidebarscroll(".scroll-div",{offset: {top: 10, bottom: 200}});
                 var url = window.location;

@@ -26,7 +26,7 @@ class Controller extends BaseController
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, BillPayment;
 
-    public function jsonWebBack($type, $message)
+    public function jsonWebBack($type, $message, $ref = null)
     {
         if (request()->wantsJson()) {
             $data = [$type => $message];
@@ -188,7 +188,7 @@ class Controller extends BaseController
             return $tran;
         }
 
-        return $this->jsonWebRedirect('success', $desc, $user->routePath(), $ref);
+        return $this->jsonWebBack('success' /* , $desc, $user->routePath() */, $ref);
 
     }
 

@@ -33,6 +33,8 @@ class AdminController extends Controller
         $compact = compact('users', 'transactions', 'referrals');
 
         //return $users;
+        //request()->session()->flash('error', 'Pin Successfully Changed');
+
         return view('admin.index', $compact);
     }
 
@@ -267,7 +269,7 @@ class AdminController extends Controller
             //throw $th;
         }
 
-        return $this->jsonWebRedirect('success', "{$amount} added to wallet", $user->routePath());
+        return $this->jsonWebBack('success', "{$amount} added to wallet"/* , $user->routePath() */);
 
     }
 

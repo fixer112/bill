@@ -48,6 +48,7 @@
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="/js/floating-wpp.min.js"></script>
         <link rel="stylesheet" href="/css/floating-wpp.min.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/js/script.js"></script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -270,24 +271,24 @@
                     <div class="pcoded-inner-content">
                         <div class="main-body">
                             <div class="page-wrapper">
-                                @if(session('success'))
+                                {{-- @if(session('success'))
                                 <div class="alert alert-success rounded">
                                     {{session('success')}}
-                                </div>
-                                @endif
-
-                                @if(session('error'))
-                                <div class="alert alert-danger rounded">
-                                    {{session('error')}}
-                                </div>
-                                @endif
-                                {{-- {{request()->user->lastSub()}} --}}
-                                @yield('content')
                             </div>
+                            @endif
+
+                            @if(session('error'))
+                            <div class="alert alert-danger rounded">
+                                {{session('error')}}
+                            </div>
+                            @endif --}}
+                            {{-- {{request()->user->lastSub()}} --}}
+                            @yield('content')
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <!--[if lt IE 11]>
         <div class="ie-warning">
@@ -355,6 +356,52 @@
         @yield('js')
 
         <script>
+            var alerted = localStorage.getItem('alerted');
+
+            @if (env('GENERAL_ALERT'))
+            
+            if(!alerted){
+            swal("",'{{env("GENERAL_ALERT")}}',{
+            
+            });
+            localStorage.setItem('alerted',true);
+            }
+            
+
+            @endif
+
+            var dashbord = "{{request()->user->routePath()}}";
+            @if (session('success'))
+            
+            swal("",'{{session('success')}}',"success",{
+            buttons: ["Stay Here", "Dashbord"],
+            //dangerMode: true,
+            })
+            .then((home) => {
+            if (home) {
+            
+            location.replace(dashbord);
+            } else {
+            
+            }
+            });
+            @endif
+            
+            @if (session('error'))
+            
+            swal("",'{{session('error')}}',"error",{
+            buttons: ["Stay Here", "Dashboard"],
+            dangerMode: true,
+            })
+            .then((home) => {
+            if (home) {
+            location.replace(dashbord);
+            } else {
+            
+            }
+            });
+            @endif
+
             $( document ).ready(function() {
                 wpChat();
                // $.stickysidebarscroll(".scroll-div",{offset: {top: 10, bottom: 200}});

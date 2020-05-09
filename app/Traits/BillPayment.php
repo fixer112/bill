@@ -260,11 +260,6 @@ trait BillPayment
 
         $response = Http::post("https://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
 
-        /* if (isset(self::checkError($response->json())['error'])) {
-        return self::checkError($response->json());
-
-        } */
-
         return $response;
 
     }

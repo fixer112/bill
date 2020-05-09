@@ -55,7 +55,7 @@ body {
     margin-bottom: 20px;
     min-height: 45px;
     font-size: 13px;
-    line-height: 15;
+    /* line-height: 15; */
     font-weight: normal;
 }
 
@@ -119,9 +119,13 @@ body {
     color: #919aa3;
 }
 
-.form-control::-webkit-input-placeholder {
-    color: black !important;
-    opacity: 0.5 !important;
+input,
+textarea {
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 

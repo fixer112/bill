@@ -691,9 +691,9 @@ class UserController extends Controller
 
         $ref = generateRef($user);
 
-        if (!env('ENABLE_BILL_PAYMENT')) {
-            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        }
+        /*  if (!env('ENABLE_BILL_PAYMENT')) {
+        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        } */
 
         $result = $this->airtime(request()->amount, request()->number, $network_code, $ref);
 
@@ -761,9 +761,9 @@ class UserController extends Controller
 
         $ref = generateRef($user);
 
-        if (!env('ENABLE_BILL_PAYMENT')) {
-            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        }
+        /* if (!env('ENABLE_BILL_PAYMENT')) {
+        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        } */
 
         if ($network == 'mtn_sme') {
             $result = $this->dataMtn(request()->amount, request()->number, $network_code, $ref);
@@ -834,9 +834,9 @@ class UserController extends Controller
 
         $ref = generateRef($user);
 
-        if (!env('ENABLE_BILL_PAYMENT')) {
-            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        }
+        /* if (!env('ENABLE_BILL_PAYMENT')) {
+        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        } */
 
         if ($type == 'startimes') {
             $result = $this->startimeCable(request()->amount, $smart_no, $user->number);

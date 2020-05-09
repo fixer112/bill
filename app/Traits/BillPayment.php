@@ -239,4 +239,34 @@ trait BillPayment
 
     }
 
+    public static function sms($message, $numbers, $sender, $route = 1, $vtype = 1)
+    {
+        if (!env("ENABLE_BILL_PAYMENT")) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
+
+        self::balance();
+
+        $user = env('MANG_USER');
+        $pass = env('MANG_PASS');
+        $data = [
+            'username' => $user,
+            'password' => $pass,
+            'mobile' => $numbers,
+            'sender' => $sender,
+            'route' => $route,
+            'vtype' => $vtype,
+        ];
+
+        $response = Http::post("https://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
+
+        /* if (isset(self::checkError($response->json())['error'])) {
+        return self::checkError($response->json());
+
+        } */
+
+        return $response;
+
+    }
+
 }

@@ -159,15 +159,15 @@ return [
         'bills' => [
             'airtime' => [
                 'mtn' => 0.7,
-                'airtel' => 0,
-                '9mobile' => 0,
+                'airtel' => 0.5,
+                '9mobile' => 0.5,
                 'glo' => 1,
             ],
             'data' => [
                 'mtn_sme' => 4.5,
                 'mtn' => 0.7,
-                'airtel' => 0,
-                '9mobile' => 0,
+                'airtel' => 0.5,
+                '9mobile' => 0.5,
                 'glo' => 1,
             ],
             'cable' => [

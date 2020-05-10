@@ -96,7 +96,7 @@ class AdminController extends Controller
         if (in_array($sub_type, $subscriptions)) {
 
             $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
-                if ($transaction->user->lastSub()) {
+                if ($transaction->user && $transaction->user->lastSub()) {
                     return $transaction->user->lastSub()->name == $sub_type;
                 }
             });
@@ -165,7 +165,7 @@ class AdminController extends Controller
         if (in_array($sub_type, $subscriptions)) {
 
             $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
-                if ($transaction->user->lastSub()) {
+                if ($transaction->user && $transaction->user->lastSub()) {
                     return $transaction->user->lastSub()->name == $sub_type;
                 }
             });

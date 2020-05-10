@@ -50,14 +50,20 @@
 
     <div class="form-group">
         <label class="">Mobile Number</label>
-        <input type="text" name="number" class="form-control @error('number') is-invalid @enderror"
-            placeholder="Mobile number" value="{{old('number')}}" required>
-        @error('number')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">+234</span>
+            </div>
+            <input type="text" name="number" class="form-control @error('number') is-invalid @enderror"
+                placeholder="Mobile number" value="{{old('number')}}" required>
+            @error('number')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+        </div>
     </div>
+
 
     <div class="form-group">
         <label class="">User Type</label>

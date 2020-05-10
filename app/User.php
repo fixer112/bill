@@ -8,6 +8,7 @@ use Devi\MultiReferral\Models\ReferralList;
 use Devi\MultiReferral\Traits\MultiReferral;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -180,6 +181,16 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
+    }
+
+    public function getFormattedNumberAttribute()
+    {
+        //if (strlen($this->attributes['number']) > 10) {
+
+        return Str::substr($this->attributes['number'], -10);
+        //}
+
+        //return $this->attributes['number'];
     }
 
     public function isMode()

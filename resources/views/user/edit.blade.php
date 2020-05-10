@@ -69,8 +69,11 @@ $admin = request()->user->is_admin;
                     <div class="form-group">
                         <label>Mobile Number</label>
                         <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">+234</span>
+                            </div>
                             <input type="text" class="form-control @error('number') is-invalid @enderror" name="number"
-                                value="{{request()->user->number}}" {{!$admin ? 'required' :''}}>
+                                value="{{request()->user->formatted_number}}" {{!$admin ? 'required' :''}}>
                             @error('number')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

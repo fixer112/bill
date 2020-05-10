@@ -41,6 +41,8 @@ trait BillPayment
                 if (Session::has('mailSent') && time() - Session::get('mailSent') > env('BALANCE_ALERT_INTERVAL', 3600)) {
                     try {
                         Mail::to('support@moniwallet.com')->send(new lowBalance(session('balance')[0]));
+                        Mail::to('moniwalletng@gmail.com')->send(new lowBalance(session('balance')[0]));
+
                     } catch (Exception $e) {
                     }
                 }

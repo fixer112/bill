@@ -73,11 +73,11 @@ class AdminController extends Controller
 
         $pagination = $query->paginate(100);
         //return $pagination;
-        $transactions = $pagination;
+        $transactions = $query->get();
 
         if ($sub_type == 'guest') {
 
-            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+            $transactions = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
 
                 return $transaction->user->id == '';
 
@@ -86,7 +86,7 @@ class AdminController extends Controller
 
         if ($sub_type == 'individual') {
 
-            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+            $transactions = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
 
                 return $transaction->user->is_reseller == 0;
 
@@ -95,7 +95,7 @@ class AdminController extends Controller
 
         if (in_array($sub_type, $subscriptions)) {
 
-            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+            $transactions = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
                 if ($transaction->user && $transaction->user->lastSub()) {
                     return $transaction->user->lastSub()->name == $sub_type;
                 }
@@ -113,9 +113,9 @@ class AdminController extends Controller
 
         $query = $query->get();
 
-        $credit = $query->where('type', 'credit');
+        $credit = $transactions->where('type', 'credit');
 
-        $debit = $query->where('type', 'debit');
+        $debit = $transactions->where('type', 'debit');
 
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();
@@ -155,7 +155,7 @@ class AdminController extends Controller
 
         if ($sub_type == 'individual') {
 
-            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+            $transactions = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
 
                 return $transaction->user->is_reseller == 0;
 
@@ -164,7 +164,7 @@ class AdminController extends Controller
 
         if (in_array($sub_type, $subscriptions)) {
 
-            $transactions = $pagination->filter(function ($transaction) use ($sub_type, $subscriptions) {
+            $transactions = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
                 if ($transaction->user && $transaction->user->lastSub()) {
                     return $transaction->user->lastSub()->name == $sub_type;
                 }

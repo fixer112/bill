@@ -73,7 +73,9 @@ class Controller extends BaseController
             return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         }
 
-        $result = $this->airtime($amount, $tranx->data->metadata->number, $tranx->data->metadata->network_code, $ref);
+        $number = nigeriaNumber($tranx->data->metadata->number);
+
+        $result = $this->airtime($amount, $number, $tranx->data->metadata->network_code, $ref);
 
         //return $result;
 
@@ -114,13 +116,15 @@ class Controller extends BaseController
             return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         }
 
+        $number = nigeriaNumber($tranx->data->metadata->number);
+
         if ($tranx->data->metadata->network == 'mtn_sme') {
 
-            $result = $this->dataMtn($tranx->data->metadata->amount, $tranx->data->metadata->number, $tranx->data->metadata->network_code, $ref);
+            $result = $this->dataMtn($tranx->data->metadata->amount, $number, $tranx->data->metadata->network_code, $ref);
 
         } else {
 
-            $result = $this->data($tranx->data->metadata->amount, $tranx->data->metadata->number, $tranx->data->metadata->network_code, $ref);
+            $result = $this->data($tranx->data->metadata->amount, $number, $tranx->data->metadata->network_code, $ref);
         }
 
         //return $result;
@@ -129,7 +133,7 @@ class Controller extends BaseController
             return $this->jsonWebBack('error', $result['error']);
         }
 
-        $desc = "Data subscription of " . strtoupper($tranx->data->metadata->network) . " " . $tranx->data->metadata->details . " to " . $tranx->data->metadata->number;
+        $desc = "Data subscription of " . strtoupper($tranx->data->metadata->network) . " " . $tranx->data->metadata->details . " to " . $number;
 
         $tran = Transaction::create([
             'amount' => $amount,
@@ -145,6 +149,8 @@ class Controller extends BaseController
 
     public function verifySmartCard($type, $number)
     {
+        $number = nigeriaNumber($number);
+
         return $this->cableInfo($type, $number);
 
     }

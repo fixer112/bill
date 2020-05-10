@@ -15,15 +15,20 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="mobileNumber">Mobile Number</label>
-                <input type="number" min="11" class="form-control @error('number') is-invalid @enderror" name="number"
-                    required placeholder="Enter Mobile Number" v-model="number" data-toggle="tooltip"
-                    title="Please make sure you input a valid mobile number.">
-                <div id="error" class="is-invalid text-danger"></div>
-                @error('number')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">+234</span>
+                    </div>
+                    <input type="text" class="form-control @error('number') is-invalid @enderror" name="number" required
+                        placeholder="Enter Mobile Number" v-model="number" data-toggle="tooltip"
+                        title="Please make sure you input a valid mobile number.">
+                    <div id="error" class="is-invalid text-danger"></div>
+                    @error('number')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
             </div>
 
             {{--  <div class="form-group">

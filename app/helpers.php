@@ -265,3 +265,14 @@ function fetchDataInfo()
     Storage::put('data.json', json_encode(['data' => $datas, 'time' => time()]));
     return $datas;
 }
+
+function formatedNumber($number)
+{
+
+    return Str::substr($number, -10);
+}
+
+function nigeriaNumber($number)
+{
+    return "0" . formatedNumber($number);
+}

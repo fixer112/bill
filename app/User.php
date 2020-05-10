@@ -193,6 +193,11 @@ class User extends Authenticatable
         //return $this->attributes['number'];
     }
 
+    public function getNigeriaNumberAttribute()
+    {
+        return "0{$this->formatted_number}";
+    }
+
     public function isMode()
     {
         return $this->is_admin ? true : false;

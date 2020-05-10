@@ -81,7 +81,7 @@ class UserController extends Controller
 
         if (Auth::user()->is_admin) {
             if (request()->number != $user->number) {
-                $data['number'] = 'required|numeric|unique:users|phone';
+                $data['number'] = 'required|string|unique:users|phone';
             }
             $data['password'] = 'nullable|min:5|string|confirmed';
 
@@ -673,7 +673,7 @@ class UserController extends Controller
         $this->validate(request(), [
             //'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
-            'number' => "required|string|digits:11",
+            'number' => "required|string|phone",
 
             //'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
@@ -698,7 +698,10 @@ class UserController extends Controller
         return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         } */
 
-        $result = $this->airtime(request()->amount, request()->number, $network_code, $ref);
+        $number = nigeriaNumber(request()->number);
+        //return $number;
+
+        $result = $this->airtime(request()->amount, $number, $network_code, $ref);
 
         //return $result;
 
@@ -725,7 +728,7 @@ class UserController extends Controller
 //return request()->network_code;
         $data = [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            'number' => "required|string|digits:11",
+            'number' => "required|string|phone",
             'amount' => "required|numeric",
         ];
 
@@ -768,12 +771,14 @@ class UserController extends Controller
         return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         } */
 
+        $number = nigeriaNumber(request()->number);
+
         if ($network == 'mtn_sme') {
-            $result = $this->dataMtn(request()->amount, request()->number, $network_code, $ref);
+            $result = $this->dataMtn(request()->amount, $number, $network_code, $ref);
 
         } else {
 
-            $result = $this->data(request()->amount, request()->number, $network_code, $ref);
+            $result = $this->data(request()->amount, $number, $network_code, $ref);
         }
 
         //return $result;
@@ -799,7 +804,7 @@ class UserController extends Controller
             'type' => "required|in:" . implode(',', array_keys($bills)),
             'smart_no' => "required|string",
             'invoice_no' => "required_unless:type,startimes",
-            'number' => "nullable|string|digits:11",
+            'number' => "nullable|string|phone",
             'customer_name' => "required_unless:type,startimes",
             'customer_number' => "required_unless:type,startimes",
 
@@ -841,11 +846,13 @@ class UserController extends Controller
         return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         } */
 
+        $number = request()->number ? nigeriaNumber(request()->number) : $user->nigeria_number;
+
         if ($type == 'startimes') {
-            $result = $this->startimeCable(request()->amount, $smart_no, $user->number);
+            $result = $this->startimeCable(request()->amount, $smart_no, $number);
 
         } else {
-            $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, $user->number);
+            $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, $number);
         }
 
         // return $result;

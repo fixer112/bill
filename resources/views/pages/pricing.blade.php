@@ -20,98 +20,100 @@
                     @endphp --}}
 
                     @foreach (config("settings.bills.airtime") as $key =>$value )
-                    
-                     <tr>
+
+                    <tr>
                         <td>{{strtoupper($key)}} AIRTIME</td>
                         <td>0% {{-- @json(config("settings.individual.bills.data.{$key}")) --}}</td>
                         <td>{{config("settings.individual.bills.airtime.{$key}")}}%</td>
-                        
+
                         @foreach ( config("settings.subscriptions") as $name => $item)
                         <td>{{$item['bills']['airtime'][$key]}}%</td>
                         @endforeach
-                        </tr>
-                       
+                    </tr>
 
-                        @endforeach
+
+                    @endforeach
 
 
                     @foreach (config("settings.bills.data") as $key =>$value )
-                    
-                     <tr>
+
+                    <tr>
                         <td>{{strtoupper($key)}} DATA</td>
                         <td>0% {{-- @json(config("settings.individual.bills.data.{$key}")) --}}</td>
                         <td>{{config("settings.individual.bills.data.{$key}")}}%</td>
-                        
+
                         @foreach ( config("settings.subscriptions") as $name => $item)
                         <td>{{$item['bills']['data'][$key]}}%</td>
                         @endforeach
-                        </tr>
-                       
-
-                        @endforeach
+                    </tr>
 
 
-                        {{--  @foreach (config("settings.bills.data") as $key =>$value )
+                    @endforeach
+
+
+                    {{--  @foreach (config("settings.bills.data") as $key =>$value )
                     @for ($i =0 ; $i <2 ; $i++) <tr>
                         <td>{{strtoupper($key)}} {{strtoupper($keys[$i])}}</td>
-                        <td>0%</td>
-                        <td>{{config("settings.individual.bills.{$keys[$i]}.$key")}}%</td>
+                    <td>0%</td>
+                    <td>{{config("settings.individual.bills.{$keys[$i]}.$key")}}%</td>
+                    @foreach ( config("settings.subscriptions") as $name => $item)
+                    <td>{{$item['bills'][$keys[$i]][$key]}}%</td>
+                    @endforeach
+                    </tr>
+                    @endfor
+
+                    @endforeach --}}
+
+                    @foreach (config("settings.bills.cable") as $key => $value )
+                    <tr>
+                        <td>{{strtoupper($key)}} (Charges Discount)</td>
+                        <td>0% </td>
+                        <td>{{config("settings.individual.bills.cable.$key")}}%</td>
                         @foreach ( config("settings.subscriptions") as $name => $item)
-                        <td>{{$item['bills'][$keys[$i]][$key]}}%</td>
+                        <td>{{$item['bills']['cable'][$key]}}%</td>
                         @endforeach
-                        </tr>
-                        @endfor
-
-                        @endforeach --}}
-
-                        @foreach (config("settings.bills.cable") as $key => $value )
-                        <tr>
-                            <td>{{strtoupper($key)}} (Charges Discount)</td>
-                            <td>0% </td>
-                            <td>{{config("settings.individual.bills.cable.$key")}}%</td>
-                            @foreach ( config("settings.subscriptions") as $name => $item)
-                            <td>{{$item['bills']['cable'][$key]}}%</td>
-                            @endforeach
-                        </tr>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td>API TROTTLE LIMIT/MINUTE</td>
+                        <td> 0 </td>
+                        <td> 60 </td>
+                        @foreach ( config("settings.subscriptions") as $name => $item)
+                        <td>{{$item['rate_limit']}}</td>
                         @endforeach
-                        <tr>
-                            <td>API TROTTLE LIMIT/MINUTE</td>
-                            <td> 0 </td>
-                            <td> 60 </td>
-                            @foreach ( config("settings.subscriptions") as $name => $item)
-                            <td>{{$item['rate_limit']}}</td>
-                            @endforeach
 
-                        </tr>
+                    </tr>
 
-                        <tr>
-                            <td>BALANCE AFTER SETUP</td>
-                            <td> - </td>
-                            <td> - </td>
-                            @foreach ( config("settings.subscriptions") as $name => $item)
-                            <td>{{currencyFormat(calPercentageAmount($item['amount'],$item['bonus']))}}</td>
-                            @endforeach
+                    <tr>
+                        <td>BALANCE AFTER SETUP</td>
+                        <td> - </td>
+                        <td> - </td>
+                        @foreach ( config("settings.subscriptions") as $name => $item)
+                        <td>{{currencyFormat(calPercentageAmount($item['amount'],$item['bonus']))}}</td>
+                        @endforeach
 
-                        </tr>
-                        <tr>
-                            <td>SETUP CAPITAL</td>
-                            <td> - </td>
-                            <td> - </td>
-                            @foreach ( config("settings.subscriptions") as $name => $item)
-                            <td>{{currencyFormat($item['amount'])}}</td>
-                            @endforeach
+                    </tr>
+                    <tr>
+                        <td>SETUP CAPITAL</td>
+                        <td> - </td>
+                        <td> - </td>
+                        @foreach ( config("settings.subscriptions") as $name => $item)
+                        <td> {!! $name == 'premium' ? '<strike>'.currencyFormat(150000).'<br></strike>' : '' !!}
+                            {{currencyFormat($item['amount'])}}
+                        </td>
+                        @endforeach
 
-                        </tr>
+                    </tr>
 
-                        <tr>
-                            <td>PORTAL OWNER</td>
-                            <td> - </td>
-                            <td> - </td>
-                            @foreach ( config("settings.subscriptions") as $name => $item)
-                            <td>{{$item['portal'] ? 'YES' : 'NO'}}</td>
-                            @endforeach
+                    <tr>
+                        <td>PORTAL OWNER</td>
+                        <td> - </td>
+                        <td> - </td>
+                        @foreach ( config("settings.subscriptions") as $name => $item)
+                        <td>{{$item['portal'] ? 'YES' : 'NO'}}</td>
+                        @endforeach
 
-                        </tr>
+                    </tr>
 
                 </tbody>
             </table>

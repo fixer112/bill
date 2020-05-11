@@ -679,9 +679,10 @@ class UserController extends Controller
         ]);
 
         $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
-
+        
+        $number = nigeriaNumber(request()->number);
         //return $this->isDublicate($user, $discount_amount, 'airtime');
-        $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . request()->number;
+        $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . $number;
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
             return $this->jsonWebBack('error', dublicateMessage());
@@ -698,7 +699,6 @@ class UserController extends Controller
         return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         } */
 
-        $number = nigeriaNumber(request()->number);
         //return $number;
 
         $result = $this->airtime(request()->amount, $number, $network_code, $ref);

@@ -673,13 +673,13 @@ class UserController extends Controller
         $this->validate(request(), [
             //'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
-            'number' => "required|string|phone",
+            'number' => "required|string",
 
             //'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
         $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
-        
+
         $number = nigeriaNumber(request()->number);
         //return $this->isDublicate($user, $discount_amount, 'airtime');
         $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . $number;
@@ -728,7 +728,7 @@ class UserController extends Controller
 //return request()->network_code;
         $data = [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            'number' => "required|string|phone",
+            'number' => "required|string",
             'amount' => "required|numeric",
         ];
 

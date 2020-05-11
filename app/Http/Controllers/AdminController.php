@@ -24,7 +24,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $users = User::get();
+        $users = User::where('is_admin',0)->get();
 
         $referrals = Referral::ordered()->get()->take(10);
 
@@ -79,7 +79,7 @@ class AdminController extends Controller
 
             $transactions = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
 
-                return $transaction->user->id == '';
+                return $transaction->user_id == '';
 
             });
         }

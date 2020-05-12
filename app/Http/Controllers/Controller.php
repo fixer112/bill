@@ -411,8 +411,8 @@ class Controller extends BaseController
     public function test()
     {
 
-        return $this->reserveAccount(User::find(3));
         return $this->sms('This is a test', '3567u65', 'MoniWallet');
+        return $this->reserveAccount(User::find(3));
         return $this->verifyTransfer("MNFY|20200512181838|000258");
 
         //return $this->balance();

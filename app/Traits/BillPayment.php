@@ -243,9 +243,9 @@ trait BillPayment
 
     public static function sms($message, $numbers, $sender, $route = 1, $vtype = 1)
     {
-        if (!env("ENABLE_BILL_PAYMENT")) {
-            return errorMessage(env("ERROR_MESSAGE"));
-        }
+        /* if (!env("ENABLE_BILL_PAYMENT")) {
+        return errorMessage(env("ERROR_MESSAGE"));
+        } */
 
         self::balance();
 
@@ -260,7 +260,9 @@ trait BillPayment
             'vtype' => $vtype,
         ];
 
-        $response = Http::post("https://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
+        //return http_build_query($data);
+
+        $response = Http::get("https://www.mobileairtimeng.com/smsapi/bulksms.php?" . http_build_query($data))->throw();
 
         return $response;
 

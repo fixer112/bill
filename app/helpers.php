@@ -252,8 +252,8 @@ function fetchDataInfo()
         [
             'id' => "Mtn-5GB",
             'topup_currency' => "NGN",
-            'topup_amount' => 1900,
-            'price' => 1900,
+            'topup_amount' => 2000,
+            'price' => 2000,
             'data_amount' => "5000",
             'validity' => "30 days",
             'type' => 'sme',

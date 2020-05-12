@@ -44,6 +44,8 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('test/{user}', 'Controller@testUser');
 
             Route::get('/data', 'Controller@refreshData');
+
+            Route::get('/update_users/{id?}', 'Controller@updateUsers');
         });
 
         #User
@@ -112,4 +114,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
     Route::get('/home', function () {
         return redirect('/');
     })->name('home');
+
+    Route::get('/hook/transfer', 'Controller@monifyTransfer');
+
 });

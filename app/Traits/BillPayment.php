@@ -252,8 +252,8 @@ trait BillPayment
         $user = env('MANG_USER');
         $pass = env('MANG_PASS');
         $data = [
-            'username' => $user,
-            'password' => $pass,
+            'username' => '08067710909',
+            'password' => '4a44f7f99d37c646b7ab1',
             'mobile' => $numbers,
             'sender' => $sender,
             'route' => $route,

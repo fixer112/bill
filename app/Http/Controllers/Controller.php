@@ -9,6 +9,7 @@ use App\Mail\lowBalance;
 use App\Mail\massMail;
 use App\Notifications\alert;
 use App\Traits\BillPayment;
+use App\Traits\Main;
 use App\Traits\Payment;
 use App\Transaction;
 use App\User;
@@ -17,12 +18,13 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class Controller extends BaseController
 {
-    use BillPayment, Payment;
+    use BillPayment, Payment, Main;
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, BillPayment;
 
@@ -233,8 +235,177 @@ class Controller extends BaseController
         return calPercentageAmount(100, 200); //calDiscountAmount(10, $user->calDiscount());
     }
 
+    public function auth()
+    {
+        $response = Http::withHeaders([
+            "Authorization" => "Basic " . base64_encode(env('MONIFY_KEY') . ':' . env('MONIFY_SECRET')),
+        ])->post(env('MONIFY_URL') . "/api/v1/auth/login");
+
+        return $response['responseBody']['accessToken'];
+
+    }
+
+    public function reserveAccount(User $user)
+    {
+        $authkey = $this->auth();
+
+        $data = [
+            "accountName" => $user->full_name,
+            "accountReference" => $user->login,
+            "currencyCode" => "NGN",
+            "contractCode" => env('MONIFY_CODE'),
+            "customerName" => $user->full_name,
+            "customerEmail" => $user->email,
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => "application/json",
+
+        ])
+            ->withToken($authkey)
+            ->get(env('MONIFY_URL') . "/api/v1/bank-transfer/reserved-accounts/{$user->login}");
+
+        if ($response['requestSuccessful'] == true) {
+            return $this->updateUser($user, $response['responseBody']);
+            return $response['responseBody'];
+        }
+
+        $response = Http::withHeaders([
+            'Content-Type' => "application/json",
+
+        ])
+            ->withToken($authkey)
+            ->post(env('MONIFY_URL') . '/api/v1/bank-transfer/reserved-accounts', $data);
+
+        return $this->updateUser($user, $response['responseBody']);
+
+        return $response['responseBody'];
+    }
+
+    public function monifyTransfer()
+    {
+        //return request()->accountDetails['accountName'];
+
+        $this->validate(request(), [
+            "transactionReference" => 'required|string|unique:transactions,ref',
+            "paymentReference" => 'required|string',
+            "amountPaid" => 'required|numeric',
+            "totalPayable" => 'required|numeric',
+            "paidOn" => 'required|string',
+            "paymentStatus" => 'required|string',
+            "accountReference" => 'required|string|exists:users,login',
+            "paymentDescription" => 'required|string',
+            "transactionHash" => 'required|string',
+            "accountDetails.accountName" => 'required|string',
+            "accountDetails.bankCode" => 'required|string',
+            "accountDetails.accountNumber" => 'required|string',
+            "product.reference" => 'required|string|exists:users,account_reference',
+        ]);
+
+        $verify = $this->verifyTransfer(request()->transactionReference);
+        //return $verify;
+        if (!$verify || !$verify['requestSuccessful'] || $verify['responseBody']['paymentStatus'] != "PAID") {
+            return ['error' => 'Transaction not available'];
+        }
+
+        $body = $verify['responseBody'];
+        $user = User::where('account_reference', request()->product['reference'])->first();
+        $charges = (0.1 / 100) * $body['amount'];
+        $charges = $charges > 250 ? 250 : $charges;
+        $amount = $body['amount'] - $charges;
+        $balance = $user->balance + $amount;
+        $user->update(['balance' => $balance]);
+
+        $desc = "Wallet funding by Transfer ({$body['paymentDescription']})";
+
+        $transaction = Transaction::create([
+            'amount' => $amount,
+            'balance' => $user->balance,
+            'type' => 'credit',
+            'desc' => $desc,
+            'ref' => request()->transactionReference,
+            'user_id' => $user->id,
+            'is_online' => 0,
+            'bank_name' => request()->accountDetails['accountName'],
+            'bank_code' => request()->accountDetails['bankCode'],
+            'bank_acc' => request()->accountDetails['accountNumber'],
+            //'reason' => 'top-up',
+        ]);
+
+        $activity = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => 1,
+            'summary' => $desc,
+        ]);
+
+        $this->giveReferralBonus($user);
+
+        try {
+
+            $user->notify(new alert($desc));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        return $transaction;
+    }
+
+    public function verifyTransfer($ref)
+    {
+        $authkey = $this->auth();
+
+        $response = Http::withHeaders([
+            'Content-Type' => "application/json",
+
+        ])
+            ->withToken($authkey)
+            ->get(env('MONIFY_URL') . "/api/v1/merchant/transactions/query/?transactionReference={$ref}");
+
+        return $response;
+
+    }
+
+    public function updateUser(User $user, $reserved)
+    {
+        if ($user->account_number == '' || $user->account_reference == '' || $user->bank_name) {
+            $user->update([
+                'account_number' => $reserved['accountNumber'],
+                'account_reference' => $reserved['reservationReference'],
+                'bank_name' => $reserved['bankName'],
+            ]);
+        }
+        return $user;
+    }
+
+    public function updateUsers($id)
+    {
+        $users = User::where('is_admin', 0)->where('id', '>=', $id)->get();
+
+        $correcteds = [];
+
+        $users->each(function ($user) use ($collecteds) {
+            if ($user->ref == '' || $user->ref_reserved == '') {
+                $reserved = $this->reserveAccount($user);
+                /* $user->update([
+                'account_number' => $reserved['accountNumber'],
+                'account_reference' => $reserved['reservationReference'],
+                'bank_name' => $reserved['bankName'],
+                ]); */
+
+                array_push($collecteds, $user);
+
+            }
+        });
+
+        return [$users->last()->id, $correcteds];
+
+    }
+
     public function test()
     {
+
+        return $this->reserveAccount(User::find(2));
 
         //return $this->balance();
         //return $this->cableInfo('dstv', '7036717423');

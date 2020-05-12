@@ -102,6 +102,13 @@
                         </div>
                         <div class="input-group input-group-sm my-1 mr-1">
                             <div class="input-group-prepend">
+                                <span class="input-group-text">Desc</span>
+                            </div>
+                            <input type="text" name="ref" placeholder="Search by description" value="{{$desc}}"
+                                class="form-control" aria-label="Small">
+                        </div>
+                        <div class="input-group input-group-sm my-1 mr-1">
+                            <div class="input-group-prepend">
                                 <span class="input-group-text">Ref</span>
                             </div>
                             <input type="text" name="ref" placeholder="Search by ref" value="{{$ref}}"

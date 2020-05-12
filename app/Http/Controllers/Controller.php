@@ -239,8 +239,8 @@ class Controller extends BaseController
         //return $this->balance();
         //return $this->cableInfo('dstv', '7036717423');
         // return getCable()['startime'];
-        return $this->sms('This is a test', '3567u65', 'MoniWallet');
         return fetchDataInfo();
+        return $this->sms('This is a test', '3567u65', 'MoniWallet');
         return new bulkMail('Test', '<b>Testing</b> This is a test');
         return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());

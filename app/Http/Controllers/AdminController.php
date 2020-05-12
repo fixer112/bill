@@ -24,7 +24,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $users = User::where('is_admin',0)->get();
+        $users = User::where('is_admin', 0)->get();
 
         $referrals = Referral::ordered()->get()->take(10);
 
@@ -47,6 +47,7 @@ class AdminController extends Controller
         $to = $to->endOfDay();
         $reason = request()->reason ? request()->reason : '';
         $ref = request()->ref ? request()->ref : '';
+        $desc = request()->desc ? request()->desc : '';
         $type = request()->type ? request()->type : '';
         $sub_type = request()->sub_type ? request()->sub_type : '';
 
@@ -54,7 +55,7 @@ class AdminController extends Controller
         $subscriptions = array_keys(config('settings.subscriptions'));
         $sub_types = [...['guest', 'individual'], ...$subscriptions];
 
-        $query = Transaction::whereBetween('transactions.created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type, $sub_type) {
+        $query = Transaction::whereBetween('transactions.created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type, $sub_type, $desc) {
             if ($reason != '') {
                 $query->where('reason', $reason);
 
@@ -66,6 +67,11 @@ class AdminController extends Controller
 
             if ($type != '') {
                 $query->where('type', $type);
+
+            }
+
+            if ($desc != '') {
+                $query->where('desc', 'LIKE', "%{$desc}%");
 
             }
 
@@ -122,7 +128,7 @@ class AdminController extends Controller
 
         //return $sub_types;
 
-        $compact = compact('transactions', 'pagination', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types');
+        $compact = compact('transactions', 'pagination', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types', 'desc');
 
         return view('admin.history.wallet', $compact);
 
@@ -135,16 +141,22 @@ class AdminController extends Controller
         $to = request()->to ? Carbon::parse(request()->to) : now();
         $to = $to->endOfDay();
         $ref = request()->ref ? request()->ref : '';
+        $desc = request()->desc ? request()->desc : '';
+
         $sub_type = request()->sub_type ? request()->sub_type : '';
 
         $users = User::get();
         $subscriptions = array_keys(config('settings.subscriptions'));
         $sub_types = [...['individual'], ...$subscriptions];
 
-        $query = Referral::whereBetween('referrals.created_at', [$from, $to])->where(function ($query) use ($ref, $sub_type) {
+        $query = Referral::whereBetween('referrals.created_at', [$from, $to])->where(function ($query) use ($ref, $sub_type, $desc) {
 
             if ($ref != '') {
                 $query->where('ref', 'LIKE', "%{$ref}%");
+
+            }
+            if ($desc != '') {
+                $query->where('desc', 'LIKE', "%{$desc}%");
 
             }
 
@@ -176,7 +188,7 @@ class AdminController extends Controller
 
 //return $sub_types;
 
-        $compact = compact('transactions', 'pagination', 'referrals', 'users', 'from', 'to', 'ref', 'sub_type', 'sub_types');
+        $compact = compact('transactions', 'pagination', 'referrals', 'users', 'from', 'to', 'ref', 'sub_type', 'sub_types', 'desc');
 
         return view('admin.history.referral', $compact);
 

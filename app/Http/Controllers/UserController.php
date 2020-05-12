@@ -684,16 +684,16 @@ class UserController extends Controller
         //return $this->isDublicate($user, $discount_amount, 'airtime');
         $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . $number;
 
-        if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
-            return $this->jsonWebBack('error', dublicateMessage());
-        }
-
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
             'discount_amount' => [new checkBalance($user)],
         ]);
 
         $ref = generateRef($user);
+
+        if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
 
         /*  if (!env('ENABLE_BILL_PAYMENT')) {
         return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
@@ -756,10 +756,6 @@ class UserController extends Controller
 
         //return $desc;
 
-        if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
-            return $this->jsonWebBack('error', dublicateMessage());
-        }
-
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
@@ -772,6 +768,10 @@ class UserController extends Controller
         } */
 
         $number = nigeriaNumber(request()->number);
+
+        if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
 
         if ($network == 'mtn_sme') {
             $result = $this->dataMtn(request()->amount, $number, $network_code, $ref);
@@ -829,10 +829,6 @@ class UserController extends Controller
         $desc = "Cable Subscription of {$details} for smart no {$smart_no}";
         //return $discount_amount;
 
-        if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
-            return $this->jsonWebBack('error', dublicateMessage());
-        }
-
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
             'discount_amount' => [new checkBalance($user)],
@@ -847,6 +843,10 @@ class UserController extends Controller
         } */
 
         $number = request()->number ? nigeriaNumber(request()->number) : $user->nigeria_number;
+
+        if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
 
         if ($type == 'startimes') {
             $result = $this->startimeCable(request()->amount, $smart_no, $number);

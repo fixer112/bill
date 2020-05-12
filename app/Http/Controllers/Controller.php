@@ -293,13 +293,13 @@ class Controller extends BaseController
             "totalPayable" => 'required|numeric',
             "paidOn" => 'required|string',
             "paymentStatus" => 'required|string',
-            "accountReference" => 'required|string|exists:users,login',
+            //"accountReference" => 'required|string|exists:users,login',
             "paymentDescription" => 'required|string',
             "transactionHash" => 'required|string',
             "accountDetails.accountName" => 'required|string',
             "accountDetails.bankCode" => 'required|string',
             "accountDetails.accountNumber" => 'required|string',
-            "product.reference" => 'required|string|exists:users,account_reference',
+            "product.reference" => 'required|string|exists:users,login',
         ]);
 
         $verify = $this->verifyTransfer(request()->transactionReference);
@@ -309,12 +309,13 @@ class Controller extends BaseController
         }
 
         $body = $verify['responseBody'];
-        $user = User::where('account_reference', request()->product['reference'])->first();
-        $charges = (0.1 / 100) * $body['amount'];
-        $charges = $charges > 250 ? 250 : $charges;
+        $user = User::where('login', request()->product['reference'])->first();
+        $charges = (env("MONIFY_FEE", 0.5) / 100) * $body['amount'];
+        $charges = $charges > env("MONIFY_CAP", 250) ? env("MONIFY_CAP", 250) : $charges;
         $amount = $body['amount'] - $charges;
         $balance = $user->balance + $amount;
         $user->update(['balance' => $balance]);
+        $paymentDescription = request()->paymentDescription;
 
         $desc = "Wallet funding by Transfer ({$body['paymentDescription']})";
 
@@ -353,13 +354,13 @@ class Controller extends BaseController
 
     public function verifyTransfer($ref)
     {
-        $authkey = $this->auth();
+        //$authkey = $this->auth();
 
         $response = Http::withHeaders([
             'Content-Type' => "application/json",
+            "Authorization" => "Basic " . base64_encode(env('MONIFY_KEY') . ':' . env('MONIFY_SECRET')),
 
         ])
-            ->withToken($authkey)
             ->get(env('MONIFY_URL') . "/api/v1/merchant/transactions/query/?transactionReference={$ref}");
 
         return $response;
@@ -402,8 +403,15 @@ class Controller extends BaseController
 
     }
 
+    public function hook()
+    {
+
+    }
+
     public function test()
     {
+
+        return $this->verifyTransfer("MNFY|20200512181838|000258");
 
         return $this->reserveAccount(User::find(2));
 

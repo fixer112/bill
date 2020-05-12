@@ -102,6 +102,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
     });
 
     Route::prefix('verify')->group(function () {
+        Route::post('/hook', 'Controller@hook');
         Route::get('/subscribe/{reference}', 'UserController@subscribe');
         Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
         Route::get('/airtime/{reference}', 'Controller@guestAirtime');
@@ -115,6 +116,6 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         return redirect('/');
     })->name('home');
 
-    Route::get('/hook/transfer', 'Controller@monifyTransfer');
+    Route::post('/hook/transfer', 'Controller@monifyTransfer');
 
 });

@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('backup:monitor')->daily()->at('03:00');
 
-        $schedule->command('reseller:remind')->weekly();
+        $schedule->command('reseller:remind 3')->weekly();
 
     }
 

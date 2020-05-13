@@ -10,6 +10,26 @@
 <div class="row" id="fund">
     <div class="col-10 mx-auto card p-5">
         <h4 class="text-6 mb-4">Fund Wallet by Admin</h4>
+        <div class="alert alert-success">
+            <p>
+                You can also fund your wallet by transfering to the account details below, the account is unique to your
+                wallet.
+                <br>
+                Transfer charges of {{env("MONIFY_FEE",0.5)}}% applies.
+                <br><br>
+                Your wallet will be funded automatically within 5 mins of transfer.
+            </p>
+            <p>
+                <h4 class="text-danger">Account Details</h4>
+                <b>Bank:</b> <i>{{request()->user->bank_name}}</i>
+                <br>
+                <b>Account Name:</b> <i>MoniWallet-{{request()->user->full_name}} (Name used during registration)</i>
+                <br>
+                <b>Account Number:</b> <i>{{request()->user->account_number}}</i>
+
+
+            </p>
+        </div>
         <form method="POST" accept="{{url()->current()}}">
             @csrf
             <div class="form-group">
@@ -36,6 +56,25 @@
 <div class="row" id="fund">
     <div class="col-10 mx-auto card p-5">
         <h4 class="text-6 mb-4">Fund Wallet</h4>
+        <div class="alert alert-success">
+            <p>
+                You can also fund your wallet by transfering to the account details below, the account is unique to your
+                wallet. <br>
+                Transfer charges of {{env("MONIFY_FEE",0.5)}}% applies.
+                <br><br>
+                Your wallet will be funded automatically within 5 mins of transfer.
+            </p>
+            <p>
+                <h4 class="text-danger">Account Details</h4>
+                <b>Bank:</b> <i>{{request()->user->bank_name}}</i>
+                <br>
+                <b>Account Name:</b> <i>MoniWallet-{{request()->user->full_name}} (Name used during registration)</i>
+                <br>
+                <b>Account Number:</b> <i>{{request()->user->account_number}}</i>
+
+
+            </p>
+        </div>
         <form ref="fund" @submit.prevent="payWithPaystack">
             {{-- @csrf --}}
             <div class="form-group">
@@ -50,22 +89,7 @@
             </div>
             <button class="btn btn-primary btn-block" type="submit">Continue</button>
         </form>
-        <div class="alert alert-danger">
-            <p>
-                You can also fund your wallet by transfering to the account details below, and send a screenshot of
-                evidence of transfer on whatsapp to +2349049392607.
-            </p>
-            <p>
-                <h4 class="text-danger">Account Details</h4>
-                <b>Bank:</b> <i>Sterling bank</i>
-                <br>
-                <b>Account Name:</b> <i>Ologunebi olatunde</i>
-                <br>
-                <b>Account Number:</b> <i>0050951795</i>
 
-
-            </p>
-        </div>
     </div>
 </div>
 <script>

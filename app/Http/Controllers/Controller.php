@@ -289,7 +289,7 @@ class Controller extends BaseController
         //return request()->accountDetails['accountName'];
 
         $this->validate(request(), [
-            //"transactionReference" => 'required|string|unique:transactions,ref',
+            "transactionReference" => 'required|string|unique:transactions,ref',
             "paymentReference" => 'required|string',
             "amountPaid" => 'required|numeric',
             "totalPayable" => 'required|numeric',

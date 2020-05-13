@@ -317,8 +317,9 @@ class Controller extends BaseController
         $balance = $user->balance + $amount;
         $user->update(['balance' => $balance]);
         $paymentDescription = request()->paymentDescription;
+        $currencyAmount = currencyFormat($amount);
 
-        $desc = "Wallet funding by Transfer ({$body['paymentDescription']})";
+        $desc = "Wallet funding of {{$currencyAmount}} by Transfer ({$body['paymentDescription']})";
 
         $transaction = Transaction::create([
             'amount' => $amount,

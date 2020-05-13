@@ -277,6 +277,7 @@ class Controller extends BaseController
             ->withToken($authkey)
             ->post(env('MONIFY_URL') . '/api/v1/bank-transfer/reserved-accounts', $data);
 
+        //return $response;
         return $this->updateUser($user, $response['responseBody']);
 
         return $response['responseBody'];
@@ -379,13 +380,13 @@ class Controller extends BaseController
         return $user;
     }
 
-    public function updateUsers($id)
+    public function updateUsers($id = 0)
     {
         $users = User::where('is_admin', 0)->where('id', '>=', $id)->get();
 
-        $correcteds = [];
+        $collecteds = [];
 
-        $users->each(function ($user) use ($collecteds) {
+        $users->each(function ($user) use (&$collecteds) {
             if ($user->ref == '' || $user->ref_reserved == '') {
                 $reserved = $this->reserveAccount($user);
                 /* $user->update([
@@ -399,7 +400,7 @@ class Controller extends BaseController
             }
         });
 
-        return [$users->last()->id, $correcteds];
+        return [$users->last()->id, $collecteds];
 
     }
 
@@ -411,16 +412,16 @@ class Controller extends BaseController
     public function test()
     {
 
+        return fetchDataInfo();
+        return $this->fetchDataInfo('glo');
+        return $this->reserveAccount(User::find(2));
         return $this->sms('This is a test', '3567u65', 'MoniWallet');
-        return $this->reserveAccount(User::find(3));
         return $this->verifyTransfer("MNFY|20200512181838|000258");
 
         //return $this->balance();
         //return $this->cableInfo('dstv', '7036717423');
         // return getCable()['startime'];
-        return fetchDataInfo();
         return new bulkMail('Test', '<b>Testing</b> This is a test');
-        return $this->fetchDataInfo('airtel');
         return $this->airtime(50, '08106813749', '77777', generateRef());
     }
 }

@@ -168,7 +168,7 @@ return [
                 'mtn' => 0.7,
                 'airtel' => 0.5,
                 '9mobile' => 0.5,
-                'glo' => 1,
+                //'glo' => 1,
             ],
             'cable' => [
                 'startimes' => 20,
@@ -191,7 +191,7 @@ return [
                 'mtn' => 2.0,
                 'airtel' => 1.8,
                 '9mobile' => 1.8,
-                'glo' => 4,
+                //'glo' => 4,
             ],
             'cable' => [
                 'startimes' => 50,
@@ -212,7 +212,7 @@ return [
                 'mtn' => 2.5,
                 'airtel' => 2.0,
                 '9mobile' => 2.0,
-                'glo' => 5,
+                //'glo' => 5,
             ],
             'cable' => [
                 'startimes' => 70,
@@ -234,7 +234,7 @@ return [
                 'mtn' => 3,
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
-                'glo' => 7,
+                //'glo' => 7,
             ],
             'cable' => [
                 'startimes' => 90,

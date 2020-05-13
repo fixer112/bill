@@ -327,7 +327,7 @@ class UserController extends Controller
 
             }
 
-        }); //->get();
+        })->orderBy('created_at','desc'); //->get();
 
         if (request()->wantsJson()) {
             //return $q->get();
@@ -375,7 +375,7 @@ class UserController extends Controller
 
             }
 
-        });
+        })->orderBy('created_at','desc');
 
         $pagination = $query->paginate(100);
 

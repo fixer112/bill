@@ -75,7 +75,7 @@ class AdminController extends Controller
 
             }
 
-        });
+        })->orderBy('created_at','desc');
 
         $pagination = $query->paginate(100);
         //return $pagination;
@@ -160,7 +160,7 @@ class AdminController extends Controller
 
             }
 
-        });
+        })->orderBy('created_at','desc');
 
         $pagination = $query->paginate(100);
         $transactions = $pagination;
@@ -211,7 +211,7 @@ class AdminController extends Controller
                 return $query->where('is_reseller', 0);
             }
 
-        }); /* ->filter(function ($user) use ($type) {
+        })->orderBy('created_at','desc'); /* ->filter(function ($user) use ($type) {
         if ($user->lastSub()) {
         return $user->lastSub()->name == $type;
         }

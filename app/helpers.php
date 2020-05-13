@@ -186,6 +186,7 @@ function fetchDataInfo()
     //unset($networks['mtn']);
     //unset($networks['mtn_direct']);
     unset($networks['mtn_sme']);
+    unset($networks['glo']);
 
     //return $networks;
 

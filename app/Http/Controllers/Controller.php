@@ -319,7 +319,7 @@ class Controller extends BaseController
         $paymentDescription = request()->paymentDescription;
         $currencyAmount = currencyFormat($amount);
 
-        $desc = "Wallet funding of {{$currencyAmount}} by Transfer ({$body['paymentDescription']})";
+        $desc = "Wallet funding of {$currencyAmount} by Transfer ({$body['paymentDescription']})";
 
         $transaction = Transaction::create([
             'amount' => $amount,

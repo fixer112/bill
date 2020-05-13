@@ -2,6 +2,7 @@
 
 use App\Traits\BillPayment;
 use App\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
 //if (!function_exists("calPercentage")) {
@@ -179,61 +180,45 @@ function getDataInfo()
 
 function fetchDataInfo()
 {
+    //Artisan::call('cache:clear');
+    //Artisan::call('view:clear');
+    Artisan::call('config:clear');
 
     $datas = [];
     $networks = config('settings.mobile_networks');
-
-    //unset($networks['mtn']);
-    //unset($networks['mtn_direct']);
     unset($networks['mtn_sme']);
-    //unset($networks['glo']);
-
-    //return $networks;
 
     foreach ($networks as $key => $value) {
 
-        $data = config("settings.bills.data.{$key}");
-        //return $data;
+        $fetchData = BillPayment::fetchDataInfo($key);
+        $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
+            $plan['price'] = ceil($plan['price'] / 5) * 5;
+            $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
+            //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
+            $plan['type'] = 'direct';
 
-        if ($data == null) {
+            return [$k => $plan];
+        });
 
-            $fetchData = BillPayment::fetchDataInfo($key);
+        $fetchData = $fetchData->sortBy('price')->values()->all();
+        //return $fetchData->toArray();
 
-            //return $fetchData;
+        $datas[$key] = $fetchData;
 
-            $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
-                $plan['price'] = ceil($plan['price'] / 5) * 5;
-                $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
-                //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
-                $plan['type'] = 'direct';
-
-                return [$k => $plan];
+        if (isset($datas['glo'])) {
+            $filters = [[25, 50, 100], ["250", "500", "1000"]];
+            $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
+                //foreach ($filters as $key => $filter) {
+                return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
+                // }
             });
 
-            $fetchData = $fetchData->sortBy('price')->values()->all();
-            //return $fetchData->toArray();
+            $glo = $glo->sortBy('price')->values()->all();
 
-            $datas[$key] = $fetchData;
-
-            if (isset($datas['glo'])) {
-                $filters = [[25, 50, 100], ["250", "500", "1000"]];
-                $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
-                    //foreach ($filters as $key => $filter) {
-                    return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
-                    // }
-                });
-
-                $glo = $glo->sortBy('price')->values()->all();
-
-                $datas['glo'] = $glo;
-            }
+            $datas['glo'] = $glo;
         }
-
     }
-    //return $datas;
-    //$datas['time'] = time();
-
-    /*  $datas['mtn_sme'] */$sme = [
+    $sme = [
         [
             'id' => "Mtn-1GB",
             'topup_currency' => "NGN",
@@ -271,26 +256,6 @@ function fetchDataInfo()
             'validity' => "30 days",
             'type' => 'sme',
         ],
-    ];
-
-    $glo = [
-        [
-            'id' => "D-MFIN-6-105MB",
-            'topup_currency' => "NGN",
-            'topup_amount' => '100',
-            'price' => '100',
-            'data_amount' => "105",
-            'validity' => "1 day",
-        ],
-        [
-            'id' => "D-MFIN-6-350MB",
-            'topup_currency' => "NGN",
-            'topup_amount' => '205',
-            'price' => '205',
-            'data_amount' => "105",
-            'validity' => "2 day",
-        ],
-
     ];
 
     $datas = array_merge(array('mtn_sme' => $sme) + $datas);

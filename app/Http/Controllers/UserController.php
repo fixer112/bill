@@ -327,7 +327,7 @@ class UserController extends Controller
 
             }
 
-        })->orderBy('created_at','desc'); //->get();
+        })->orderBy('created_at', 'desc'); //->get();
 
         if (request()->wantsJson()) {
             //return $q->get();
@@ -375,7 +375,7 @@ class UserController extends Controller
 
             }
 
-        })->orderBy('created_at','desc');
+        })->orderBy('created_at', 'desc');
 
         $pagination = $query->paginate(100);
 
@@ -592,7 +592,6 @@ class UserController extends Controller
     {
 
         $tranx = $this->validatePayment($reference, 'top-up');
-        // return \json_encode($tranx);
 
         if (is_array($tranx) && isset($tranx['error'])) {
             return $this->jsonWebBack('error', $tranx['error']);
@@ -620,7 +619,7 @@ class UserController extends Controller
 
         $activity = Activity::create([
             'user_id' => $tranx->data->metadata->user_id,
-            'admin_id' => auth()->user()->id,
+            'admin_id' => auth()->check() ? auth()->user()->id : 1,
             'summary' => $desc,
         ]);
 
@@ -949,6 +948,29 @@ class UserController extends Controller
 
         return $this->jsonWebRedirect('success', "Successfully downgraded to individual account", $user->routePath());
 
+    }
+
+    public function hook()
+    {
+        $this->validate(request(), [
+            'data.reference' => 'required|String',
+        ]);
+
+        $reference = request()->data['reference'];
+
+        if (request()->event == "charge.success") {
+            $tranx = $this->validateHookPayment($reference);
+
+            if (is_array($tranx) && isset($tranx['error'])) {
+                return $this->jsonWebBack('error', $tranx['error']);
+            }
+
+            if ($tranx->data->metadata->reason == 'top-up') {
+                return $this->fundWallet($reference);
+
+            }
+
+        }
     }
 
 }

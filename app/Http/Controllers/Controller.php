@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class Controller extends BaseController
 {
@@ -288,7 +289,7 @@ class Controller extends BaseController
         //return request()->accountDetails['accountName'];
 
         $this->validate(request(), [
-            "transactionReference" => 'required|string|unique:transactions,ref',
+            //"transactionReference" => 'required|string|unique:transactions,ref',
             "paymentReference" => 'required|string',
             "amountPaid" => 'required|numeric',
             "totalPayable" => 'required|numeric',
@@ -302,6 +303,19 @@ class Controller extends BaseController
             "accountDetails.accountNumber" => 'required|string',
             "product.reference" => 'required|string|exists:users,login',
         ]);
+
+        $secret = env("MONIFY_SECRET");
+        $pref = request()->paymentReference;
+        $tref = request()->transactionReference;
+        $amountPaid = request()->amountPaid;
+        $paidOn = request()->paidOn;
+
+        /* $password = "$secret|$pref|$amountPaid|$paidOn|$tref";
+        $verify = hash('sha512', $password);
+        //return Hash::check($password, request()->transactionHash);
+        // return $verify == request()->transactionHash;
+        $verify = password_verify($verify, request()->transactionHash);
+        return var_dump($verify); */
 
         $verify = $this->verifyTransfer(request()->transactionReference);
         //return $verify;
@@ -402,11 +416,6 @@ class Controller extends BaseController
         });
 
         return [$users->last()->id, $collecteds];
-
-    }
-
-    public function hook()
-    {
 
     }
 

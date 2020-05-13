@@ -102,7 +102,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
     });
 
     Route::prefix('verify')->group(function () {
-        Route::post('/hook', 'Controller@hook');
+        Route::post('/hook', 'UserController@hook');
         Route::get('/subscribe/{reference}', 'UserController@subscribe');
         Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
         Route::get('/airtime/{reference}', 'Controller@guestAirtime');

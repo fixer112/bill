@@ -206,7 +206,7 @@ function fetchDataInfo()
         $datas[$key] = $fetchData;
 
         if (isset($datas['glo'])) {
-            $filters = [[25, 50, 100], ["250", "500", "1000"]];
+            $filters = [[25, 50, 100, 1000], ["250", "500", "1000", "2500"]];
             $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
                 //foreach ($filters as $key => $filter) {
                 return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);

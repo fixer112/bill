@@ -186,7 +186,7 @@ function fetchDataInfo()
     //unset($networks['mtn']);
     //unset($networks['mtn_direct']);
     unset($networks['mtn_sme']);
-    unset($networks['glo']);
+    //unset($networks['glo']);
 
     //return $networks;
 
@@ -215,6 +215,18 @@ function fetchDataInfo()
 
             $datas[$key] = $fetchData;
 
+            if (isset($datas['glo'])) {
+                $filters = [[25, 50, 100], ["250", "500", "1000"]];
+                $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
+                    //foreach ($filters as $key => $filter) {
+                    return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
+                    // }
+                });
+
+                $glo = $glo->sortBy('price')->values()->all();
+
+                $datas['glo'] = $glo;
+            }
         }
 
     }
@@ -259,6 +271,26 @@ function fetchDataInfo()
             'validity' => "30 days",
             'type' => 'sme',
         ],
+    ];
+
+    $glo = [
+        [
+            'id' => "D-MFIN-6-105MB",
+            'topup_currency' => "NGN",
+            'topup_amount' => '100',
+            'price' => '100',
+            'data_amount' => "105",
+            'validity' => "1 day",
+        ],
+        [
+            'id' => "D-MFIN-6-350MB",
+            'topup_currency' => "NGN",
+            'topup_amount' => '205',
+            'price' => '205',
+            'data_amount' => "105",
+            'validity' => "2 day",
+        ],
+
     ];
 
     $datas = array_merge(array('mtn_sme' => $sme) + $datas);

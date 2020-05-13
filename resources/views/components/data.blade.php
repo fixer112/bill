@@ -54,7 +54,7 @@
                     <option value="">Select Plan</option>
                     <template v-for="data,key in plans">
                         <option :value='key'>@{{this.getLastString(data["id"])}} - @{{data["topup_currency"]}}
-                            @{{data["price"]}} - @{{data["validity"]}} - (@{{data["type"].toUpperCase()}})
+                            @{{data["topup_amount"]}} - @{{data["validity"]}} - (@{{data["type"].toUpperCase()}})
                             {{-- {{getLastString($value[0]['id'])}} --}}
                         </option>
 
@@ -72,6 +72,7 @@
 
             <input name="amount" v-model="amount" required readonly hidden />
             <input name="details" v-model="details" required readonly hidden />
+            <input name="price" v-model="price" required readonly hidden />
 
 
             <div class="form-group">
@@ -125,6 +126,7 @@
     el: '#data',
     data: function() {
     return {
+        price:"",
         amount:"",
         discountAmount:"",
         data:@json($dat),
@@ -148,12 +150,14 @@
         watch:{
 
             plan(n){
-                this.amount = this.bills[this.network][n]['data_amount'];
+                this.amount = this.bills[this.network][n]['topup_amount'];
+
+                this.price = this.bills[this.network][n]['price'];
 
                
-                this.discountAmount = this.bills[this.network][n]['price'] -((this.bonus / 100) * this.bills[this.network][n]['price']);
+                this.discountAmount = this.bills[this.network][n]['topup_amount'] -((this.bonus / 100) * this.bills[this.network][n]['topup_amount']);
 
-                this.details = getLastString(this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["price"]+ '-'+ this.bills[this.network][n]["validity"];
+                this.details = getLastString(this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["topup_amount"]+ '-'+ this.bills[this.network][n]["validity"];
                 
             },
             

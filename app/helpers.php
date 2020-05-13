@@ -187,14 +187,14 @@ function fetchDataInfo()
     $datas = [];
     $networks = config('settings.mobile_networks');
     unset($networks['mtn_sme']);
-    unset($networks['glo']);
+    //unset($networks['glo']);
 
     foreach ($networks as $key => $value) {
 
         $fetchData = BillPayment::fetchDataInfo($key);
         $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
-            $plan['price'] = ceil($plan['price'] / 5) * 5;
-            $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
+            //$plan['price'] = ceil($plan['price'] / 5) * 5;
+            //$plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
             //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
             $plan['type'] = 'direct';
 
@@ -206,25 +206,25 @@ function fetchDataInfo()
 
         $datas[$key] = $fetchData;
 
-        if (isset($datas['glo'])) {
-            $filters = [[25, 50, 100, 1000], ["250", "500", "1000", "2500"]];
-            $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
-                //foreach ($filters as $key => $filter) {
-                return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
-                // }
-            });
+        /* if (isset($datas['glo'])) {
+    $filters = [[25, 50, 100, 1000], ["250", "500", "1000", "2500"]];
+    $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
+    //foreach ($filters as $key => $filter) {
+    return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
+    // }
+    });
 
-            $glo = $glo->sortBy('price')->values()->all();
+    $glo = $glo->sortBy('price')->values()->all();
 
-            $datas['glo'] = $glo;
-        }
+    $datas['glo'] = $glo;
+    } */
     }
     $sme = [
         [
             'id' => "Mtn-1GB",
             'topup_currency' => "NGN",
             'topup_amount' => 400,
-            'price' => 400,
+            'price' => 1000,
             'data_amount' => "1000",
             'validity' => "30 days",
             'type' => 'sme',
@@ -233,7 +233,7 @@ function fetchDataInfo()
             'id' => "Mtn-2GB",
             'topup_currency' => "NGN",
             'topup_amount' => 800,
-            'price' => 800,
+            'price' => 2000,
             'data_amount' => "2000",
             'validity' => "30 days",
             'type' => 'sme',
@@ -243,7 +243,7 @@ function fetchDataInfo()
             'id' => "Mtn-3GB",
             'topup_currency' => "NGN",
             'topup_amount' => 1200,
-            'price' => 1200,
+            'price' => 3000,
             'data_amount' => "3000",
             'validity' => "30 days",
             'type' => 'sme',
@@ -252,7 +252,7 @@ function fetchDataInfo()
             'id' => "Mtn-5GB",
             'topup_currency' => "NGN",
             'topup_amount' => 2000,
-            'price' => 2000,
+            'price' => 5000,
             'data_amount' => "5000",
             'validity' => "30 days",
             'type' => 'sme',

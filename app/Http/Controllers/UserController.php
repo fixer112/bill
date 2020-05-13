@@ -728,7 +728,7 @@ class UserController extends Controller
         $data = [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
             'number' => "required|string",
-            'amount' => "required|numeric",
+            'price' => "required|numeric",
         ];
 
         if (!request()->wantsJson()) {
@@ -741,19 +741,22 @@ class UserController extends Controller
 
         $network = request()->network;
         $network_code = $networks[$network];
-        $planKey = array_search(request()->amount, array_column($bills[$network], 'data_amount'));
+        $planKey = array_search(request()->price, array_column($bills[$network], 'price'));
         $plan = $bills[$network][$planKey];
         $price = $plan['price'];
+        $amount = $plan['topup_amount'];
+
         $formatPrice = currencyFormat($price);
 
         $details = getLastString($plan["id"]) . " - {$formatPrice} - {$plan['validity']}";
 
-        //return $plan;
+        //return $price;
 
-        $discount_amount = calDiscountAmount($price, dataDiscount($user)[$network]);
+        $discount_amount = calDiscountAmount($amount, dataDiscount($user)[$network]);
         $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
         //return $desc;
+        return $discount_amount;
 
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [
@@ -773,11 +776,11 @@ class UserController extends Controller
         }
 
         if ($network == 'mtn_sme') {
-            $result = $this->dataMtn(request()->amount, $number, $network_code, $ref);
+            $result = $this->dataMtn($price, $number, $network_code, $ref);
 
         } else {
 
-            $result = $this->data(request()->amount, $number, $network_code, $ref);
+            $result = $this->data($price, $number, $network_code, $ref);
         }
 
         //return $result;

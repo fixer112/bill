@@ -57,6 +57,7 @@
                                             network:airtime.network,
                                             network_code:airtime.network_code,
                                             number:airtime.number,
+                                            //price:airtime.price,
 
                                         };
                                 //console.log(data['reason']);
@@ -88,6 +89,7 @@
                                             network_code:data.network_code,
                                             number:data.number,
                                             details:data.details,
+                                            price:data.price,
 
                                         };
                                 //console.log(data);

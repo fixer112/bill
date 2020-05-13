@@ -123,11 +123,11 @@ class Controller extends BaseController
 
         if ($tranx->data->metadata->network == 'mtn_sme') {
 
-            $result = $this->dataMtn($tranx->data->metadata->amount, $number, $tranx->data->metadata->network_code, $ref);
+            $result = $this->dataMtn($tranx->data->metadata->price, $number, $tranx->data->metadata->network_code, $ref);
 
         } else {
 
-            $result = $this->data($tranx->data->metadata->amount, $number, $tranx->data->metadata->network_code, $ref);
+            $result = $this->data($tranx->data->metadata->price, $number, $tranx->data->metadata->network_code, $ref);
         }
 
         //return $result;

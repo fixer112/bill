@@ -340,7 +340,7 @@
             @if (env('GENERAL_ALERT'))
             if(!alerted){
 
-                swal("",'{{env("GENERAL_ALERT")}}',{
+                swal("",`{{env("GENERAL_ALERT")}}`,{
                 
                 });
                 localStorage.setItem('alerted',true);

@@ -32,6 +32,8 @@ trait BillPayment
                 if (!Session::has('mailSent')) {
                     try {
                         Mail::to('support@moniwallet.com')->send(new lowBalance(session('balance')[0]));
+                        Mail::to('moniwalletng@gmail.com')->send(new lowBalance(session('balance')[0]));
+
                     } catch (Exception $e) {
                     }
                     Session::put('mailSent', time());
@@ -45,6 +47,8 @@ trait BillPayment
 
                     } catch (Exception $e) {
                     }
+                    Session::put('mailSent', time());
+
                 }
             } else {
                 Session::forget('mailSent');

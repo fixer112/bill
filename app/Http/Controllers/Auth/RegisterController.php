@@ -114,7 +114,8 @@ class RegisterController extends Controller
 
         //Cookie::queue(Cookie::forget('referral'));
 
-        //$reserved = $this->reserveAccount($user);
+        $reserved = $this->reserveAccount($user);
+
         /* $user->update([
         'account_number' => $reserved['accountNumber'],
         'account_reference' => $reserved['reservationReference'],

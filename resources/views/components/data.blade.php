@@ -53,7 +53,7 @@
                 <select class="custom-select @error('network') is-invalid @enderror" required v-model="plan">
                     <option value="">Select Plan</option>
                     <template v-for="data,key in plans">
-                        <option :value='key'>@{{this.getLastString(data["id"])}} - @{{data["topup_currency"]}}
+                        <option :value='key'>@{{(data["id"])}} - @{{data["topup_currency"]}}
                             @{{data["topup_amount"]}} - @{{data["validity"]}} - (@{{data["type"].toUpperCase()}})
                             {{-- {{getLastString($value[0]['id'])}} --}}
                         </option>
@@ -167,7 +167,7 @@
                
                 this.discountAmount = this.bills[this.network][n]['topup_amount'] -((this.bonus / 100) * this.bills[this.network][n]['topup_amount']);
 
-                this.details = getLastString(this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["topup_amount"]+ '-'+ this.bills[this.network][n]["validity"];
+                this.details = (this.bills[this.network][n]["id"])+ '-'+ this.bills[this.network][n]["topup_amount"]+ '-'+ this.bills[this.network][n]["validity"];
                 
             },
             

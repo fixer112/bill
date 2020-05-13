@@ -748,7 +748,7 @@ class UserController extends Controller
 
         $formatPrice = currencyFormat($price);
 
-        $details = getLastString($plan["id"]) . " - {$formatPrice} - {$plan['validity']}";
+        $details = ($plan["id"]) . " - {$formatPrice} - {$plan['validity']}";
 
         //return $price;
 

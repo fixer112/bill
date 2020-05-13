@@ -147,7 +147,7 @@
                         <tbody>
                             @foreach ( config("settings.bills.data.{$key}") as $plan => $item)
                             <tr>
-                                <td>{{getLastString($item['id'])}}</td>
+                                <td>{{($item['id'])}}</td>
                                 <td>{{currencyFormat($item['topup_amount'])}}</td>
                                 <td>{{$item['validity']}}</td>
                             </tr>

@@ -255,18 +255,17 @@ trait BillPayment
 
         $user = env('MANG_USER');
         $pass = env('MANG_PASS');
+
         $data = [
-            'username' => '08067710909',
-            'password' => '4a44f7f99d37c646b7ab1',
+            'username' => $user,
+            'password' => $pass,
             'mobile' => $numbers,
             'sender' => $sender,
             'route' => $route,
             'vtype' => $vtype,
         ];
 
-        //return http_build_query($data);
-
-        $response = Http::get("https://www.mobileairtimeng.com/smsapi/bulksms.php?" . http_build_query($data))->throw();
+        $response = Http::post("http://www.mobileairtimeng.com/smsapi/bulksms.php?", $data)->throw();
 
         return $response;
 

@@ -88,6 +88,16 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
+                    @error('amount')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    @error('price')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
             @if(!$guest)

@@ -756,7 +756,7 @@ class UserController extends Controller
         $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
         //return $desc;
-        return $discount_amount;
+        //return $discount_amount;
 
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [

@@ -215,6 +215,7 @@ class UserController extends Controller
         $user->update([
             'balance' => $user->balance + calPercentageAmount($amount, $bonus),
             'rate_limit' => $limit,
+            'is_reseller' => 1,
         ]);
 
         $tran = Transaction::create([

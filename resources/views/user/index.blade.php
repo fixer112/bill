@@ -102,6 +102,7 @@
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
                     {{request()->user->full_name}} ({{request()->user->status()}})
+
                 </div>
                 <div class="profile-usertitle-job">
                     {{request()->user->type()}} Account

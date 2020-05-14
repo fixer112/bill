@@ -6,7 +6,7 @@
         <div class="card theme-bg bitcoin-wallet">
             <div class="card-block">
                 <h5 class="text-white mb-2">Total Admins</h5>
-                <h2 class="text-white mb-2 f-w-300">{{$admins->count()}}</h2>
+                <h2 class="text-white mb-2 f-w-300">{{$totalAdmins->count()}}</h2>
                 {{--  <span class="text-white d-block">Ratings by Market Capitalization</span> --}}
                 <i class="fa fa-user f-70 text-white"></i>
             </div>
@@ -17,6 +17,30 @@
         <div class="card theme-bg bitcoin-wallet">
             <div class="card-block">
                 <h5 class="text-white mb-2">Total Users</h5>
+                <h2 class="text-white mb-2 f-w-300">{{$totalNonAdmins->count()}}</h2>
+                {{--  <span class="text-white d-block">Ratings by Market Capitalization</span> --}}
+                <i class="fa fa-user f-70 text-white"></i>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card theme-bg bitcoin-wallet">
+            <div class="card-block">
+                <h5 class="text-white mb-2">Admins</h5>
+                <h2 class="text-white mb-2 f-w-300">{{$admins->count()}}</h2>
+                {{--  <span class="text-white d-block">Ratings by Market Capitalization</span> --}}
+                <i class="fa fa-user f-70 text-white"></i>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="card theme-bg bitcoin-wallet">
+            <div class="card-block">
+                <h5 class="text-white mb-2">Users</h5>
                 <h2 class="text-white mb-2 f-w-300">{{$nonAdmins->count()}}</h2>
                 {{--  <span class="text-white d-block">Ratings by Market Capitalization</span> --}}
                 <i class="fa fa-user f-70 text-white"></i>

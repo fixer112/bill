@@ -112,7 +112,7 @@ class AdminController extends Controller
         $trans = Transaction::get();
         //$trans =$transactions;
 
-        $transactions = $transactions->paginate(100);
+        $transactions = $query->paginate(100);
         $t = $query->get();
         //$transactions = $pagination;
         //return $sub_type;

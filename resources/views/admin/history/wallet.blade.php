@@ -225,7 +225,7 @@
                     </table>
                 </div>
             </div>
-            <div class="mx-auto">{{$pagination->appends(request()->except('page'))->links()}}
+            <div class="mx-auto">{{$transactions->appends(request()->except('page'))->links()}}
             </div>
         </div>
     </div>

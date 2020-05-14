@@ -183,6 +183,11 @@ class User extends Authenticatable
         return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
     }
 
+    public function setNumberAttribute($value)
+    {
+        $this->attributes['number'] = formatedNumber($value);
+    }
+
     public function getFormattedNumberAttribute()
     {
         //if (strlen($this->attributes['number']) > 10) {

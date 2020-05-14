@@ -701,8 +701,12 @@ class UserController extends Controller
         } */
 
         //return $number;
+        if ($network == 'mtn') {
+            $result = $this->mtnAirtime(request()->amount, $number, $ref);
 
-        $result = $this->airtime(request()->amount, $number, $network_code, $ref);
+        } else {
+            $result = $this->airtime(request()->amount, $number, $network_code, $ref);
+        }
 
         //return $result;
 

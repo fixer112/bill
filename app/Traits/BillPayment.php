@@ -110,12 +110,30 @@ trait BillPayment
 
     }
 
+    public static function mtnAirtime($amount, $phoneNumber, $ref)
+    {
+        if (!env("ENABLE_BILL_PAYMENT")) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
+
+        self::balance();
+
+        $response = Http::get(self::link('msharesell', "phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
+
+        if (isset(self::checkError($response->json())['error'])) {
+            return self::checkError($response->json());
+
+        }
+
+        return $response->json();
+    }
+
     public static function airtime($amount, $phoneNumber, $networkCode, $ref)
     {
         // return self::link(null, "network=15&phone=xxxxx&amt=500&user_ref=xxx");
-        /* if (!env("ENABLE_BILL_PAYMENT")) {
-        return errorMessage(env("ERROR_MESSAGE"));
-        } */
+        if (!env("ENABLE_BILL_PAYMENT")) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
 
         self::balance();
 

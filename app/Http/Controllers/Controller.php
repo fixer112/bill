@@ -78,7 +78,13 @@ class Controller extends BaseController
 
         $number = nigeriaNumber($tranx->data->metadata->number);
 
-        $result = $this->airtime($amount, $number, $tranx->data->metadata->network_code, $ref);
+        if ($tranx->data->metadata->network_code == '15') {
+            $result = $this->mtnAirtime($amount, $number, $ref);
+
+        } else {
+
+            $result = $this->airtime($amount, $number, $tranx->data->metadata->network_code, $ref);
+        }
 
         //return $result;
 
@@ -421,7 +427,9 @@ class Controller extends BaseController
 
     public function test()
     {
+
         return $this->fetchDataInfo(request()->type ?? 'glo');
+        return $this->mtnAirtime(50, '', 'mtntest');
 
         return $this->sms('This is a test', '3567u65', 'MoniWallet');
 

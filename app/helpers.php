@@ -180,8 +180,6 @@ function getDataInfo()
 
 function fetchDataInfo()
 {
-    //Artisan::call('cache:clear');
-    //Artisan::call('view:clear');
     Artisan::call('config:clear');
 
     $datas = [];

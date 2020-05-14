@@ -139,6 +139,7 @@ class UserController extends Controller
 
     public function getUpgrade(User $user)
     {
+        $isUpgrade = $user->lastSub() ? true : false;
         $this->authorize('upgrade', $user);
         // if (!request()->user->lastSub()) {
         //     abort(503);
@@ -147,7 +148,7 @@ class UserController extends Controller
 
         //return $user->upgradeList();
 
-        return view('user.subscribe.upgrade');
+        return view('user.subscribe.upgrade', compact('isUpgrade'));
 
     }
 

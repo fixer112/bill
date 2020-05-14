@@ -20,11 +20,13 @@
         </div>
 
 
+
         <button class="btn btn-primary btn-block" type="submit">Subscribe</button>
         {{--  </form> --}}
     </div>
-    <script>
-        new Vue({
+</form>
+<script>
+    new Vue({
     el: '#subscribe',
     data: function() {
     return {
@@ -76,4 +78,4 @@
 
             }
             });
-    </script>
+</script>

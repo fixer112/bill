@@ -93,6 +93,11 @@
                                     class="pcoded-mtext">Referral</span></a>
                         </li>
 
+                        <li class="nav-item"><a href="/admin/subscriptions" class="nav-link"><span
+                                    class="pcoded-micon"><i class="fa fa-money-bill"></i></span><span
+                                    class="pcoded-mtext">Subscription</span></a>
+                        </li>
+
                         <li class="nav-item pcoded-menu-caption">
                             <label>Search</label>
                         </li>

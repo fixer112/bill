@@ -975,6 +975,11 @@ class UserController extends Controller
 
             }
 
+            if ($tranx->data->metadata->reason == 'subscription') {
+                return $this->subscribe($reference);
+
+            }
+
             if ($tranx->data->metadata->reason == 'airtime') {
                 return $this->guestAirtime($reference);
 

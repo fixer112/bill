@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Notifications\remindReseller;
 use App\User;
 use Illuminate\Console\Command;
 
@@ -40,12 +39,14 @@ class AwaitingResellers extends Command
     public function handle()
     {
         $count = 0;
-        $resellers = User::where('is_reseller', 1)->get();
-        $resellers->each(function ($user) use (&$count) {
-            if (!$user->lastSub() && $user->created_at->diffInDays(now()) >= $this->argument('days')) {
+        $resellers = User::where('is_reseller', 1)->chunk(100, function ($users) {
+            foreach ($users as $user) {
+                if (!$user->lastSub() && $user->created_at->diffInDays(now()) >= $this->argument('days')) {
 
-                $count++;
-                $user->notify(new remindReseller());
+                    $count++;
+                    $user->notify(new remindReseller());
+
+                }
 
             }
         });

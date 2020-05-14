@@ -29,13 +29,15 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('queue:retry all')->daily();
 
-        $schedule->command('backup:clean')->daily()->at('01:00');
+        $schedule->command('backup:clean')->daily()->at('1:00');
 
         $schedule->command('backup:run --only-db')->daily()->at('02:00');
 
         $schedule->command('backup:monitor')->daily()->at('03:00');
 
-        $schedule->command('reseller:remind 3')->weekly();
+        $schedule->command('reseller:remind 3')->weeklyOn(1, '8:00');
+
+        $schedule->command('user:remindFund 7')->weeklyOn(6, '8:00');
 
     }
 

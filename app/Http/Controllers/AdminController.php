@@ -297,8 +297,8 @@ class AdminController extends Controller
         $nonAdmins = $users->where('is_admin', 0);
 
         $totalUsers = User::get();
-        $totalAdmins = $users->where('is_admin', 1);
-        $totalNonAdmins = $users->where('is_admin', 0);
+        $totalAdmins = $totalUsers->where('is_admin', 1);
+        $totalNonAdmins = $totalUsers->where('is_admin', 0);
 
         $compact = compact('users', 'totalAdmins', 'totalNonAdmins', 'u', 'sub_type', 'sub_types', 'search', 'admins', 'nonAdmins');
 

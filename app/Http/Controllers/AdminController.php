@@ -77,7 +77,7 @@ class AdminController extends Controller
 
             }
 
-        });
+        })->orderBy('id', 'desc')->get();
 
         //return $pagination;
         //$transactions = $query;
@@ -112,8 +112,8 @@ class AdminController extends Controller
         $trans = Transaction::get();
         //$trans =$transactions;
 
-        $transactions = $query->orderBy('id', 'desc')->paginate(config("settings.per_page"));
-        $t = $query->get();
+        $transactions = $query;
+        //$t = $query->get();
         //$transactions = $pagination;
         //return $sub_type;
         //return $transactions;
@@ -123,9 +123,9 @@ class AdminController extends Controller
 
         //$query = $query->get();
 
-        $credit = $t->where('type', 'credit');
+        $credit = $transactions->where('type', 'credit');
 
-        $debit = $t->where('type', 'debit');
+        $debit = $transactions->where('type', 'debit');
 
         $reasons = Transaction::pluck('reason')->unique();
         $types = Transaction::pluck('type')->unique();
@@ -164,7 +164,7 @@ class AdminController extends Controller
 
             }
 
-        });
+        })->orderBy('id', 'desc')->get();
 
         //$transactions = $query;
 
@@ -186,12 +186,12 @@ class AdminController extends Controller
             });
         }
 
-        $transactions = $query->orderBy('id', 'desc')->paginate(config("settings.per_page"));
-        $r = $query->get();
+        $transactions = $query;
+        //$r = $query->get();
         //$transactions = $pagination;
         $referrals = Referral::get();
 
-        $compact = compact('transactions', 'referrals', 'users', 'from', 'to', 'ref', 'sub_type', 'sub_types', 'desc', 'r');
+        $compact = compact('transactions', 'referrals', 'users', 'from', 'to', 'ref', 'sub_type', 'sub_types', 'desc');
 
         return view('admin.history.referral', $compact);
 
@@ -219,7 +219,7 @@ class AdminController extends Controller
 
             }
 
-        })->select('subscriptions.*');
+        })->select('subscriptions.*')->orderBy('subscriptions.id', 'desc')->get();
 
         //$subscriptions = $query;
 
@@ -243,15 +243,15 @@ class AdminController extends Controller
 
         // return $sub_type;
 
-        $subscriptions = $query->orderBy('subscriptions.id', 'desc')->paginate(config("settings.per_page"));
-        $s = $query->get();
+        $subscriptions = $query;
+        //$s = $query->get();
         // $subscriptions = $pagination;
 
         //$subscriptions = $subscriptions->sortByDesc('created_at');
 
         //return $subscriptions;
 
-        $compact = compact('subscriptions', 'totalSubscriptions', 'from', 'to', 'ref', 'sub_type', 'sub_types', 's');
+        $compact = compact('subscriptions', 'totalSubscriptions', 'from', 'to', 'ref', 'sub_type', 'sub_types');
 
         return view('admin.history.subscription', $compact);
 
@@ -264,43 +264,48 @@ class AdminController extends Controller
         $subscriptions = array_keys(config('settings.subscriptions'));
         $sub_types = [...['individual'], ...$subscriptions];
 
-        $query = User::where(function ($query) use ($search, $sub_type) {
+        $query = User::where(function ($q) use ($search, $sub_type) {
             if ($search != '') {
-                $query->where('first_name', 'LIKE', "%{$search}%")->orWhere('last_name', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->orWhere('login', 'LIKE', "%{$search}%");
+                $q->where('first_name', 'LIKE', "%{$search}%")->orWhere('last_name', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->orWhere('login', 'LIKE', "%{$search}%");
 
             }
 
             if ($sub_type == 'individual') {
-                return $query->where('is_reseller', 0);
+                return $q->where('is_reseller', 0);
             }
 
-        }); /* ->filter(function ($user) use ($type) {
+        })->orderBy('id', 'desc')->take(config("settings.per_page"))->get();
+        //->paginate(1);
+        /* ->filter(function ($user) use ($type) {
         if ($user->lastSub()) {
         return $user->lastSub()->name == $type;
         }
         }) */;
 
+        //return ($query);
+
         if (in_array($sub_type, $subscriptions)) {
 
-            $users = $query->filter(function ($user) use ($sub_type, $subscriptions) {
+            $query = $query->filter(function ($user) use ($sub_type, $subscriptions) {
                 if ($user->lastSub()) {
                     return $user->lastSub()->name == $sub_type;
                 }
             });
         }
-
         //$pagination = $query->paginate(config("settings.per_page"));
-        $users = $query->orderBy('id', 'desc')->paginate(config("settings.per_page"));
-        $u = $query->get();
+
+        $users = $query;
+        //$u = $query; //->get(); //->get();
+        //return $users;
 
         $admins = $users->where('is_admin', 1);
         $nonAdmins = $users->where('is_admin', 0);
 
-        $totalUsers = User::get();
-        $totalAdmins = $totalUsers->where('is_admin', 1);
-        $totalNonAdmins = $totalUsers->where('is_admin', 0);
+        //$totalUsers = User::get();
+        $totalAdmins = User::where('is_admin', 1);
+        $totalNonAdmins = User::where('is_admin', 0);
 
-        $compact = compact('users', 'totalAdmins', 'totalNonAdmins', 'u', 'sub_type', 'sub_types', 'search', 'admins', 'nonAdmins');
+        $compact = compact('users', 'totalAdmins', 'totalNonAdmins', 'sub_type', 'sub_types', 'search', 'admins', 'nonAdmins');
 
         return view('admin.search.user', $compact);
     }

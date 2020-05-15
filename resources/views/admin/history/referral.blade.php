@@ -50,10 +50,11 @@
                         <h6 class="m-t-50 m-b-0"> Referral Transactions</h6>
                     </div>
                     <div class="col text-right">
-                        <h3 class="text-c-green f-w-300">{{currencyFormat($r->sum('amount'))}}
+                        <h3 class="text-c-green f-w-300">{{currencyFormat($transactions->sum('amount'))}}
                         </h3>
                         <span class="text-muted d-block"> Refferal Amount </span>
-                        <span class="badge theme-bg text-white m-t-20">{{wholeNumberFormat($r->count())}}</span>
+                        <span
+                            class="badge theme-bg text-white m-t-20">{{wholeNumberFormat($transactions->count())}}</span>
                     </div>
                 </div>
             </div>
@@ -161,10 +162,10 @@
                     </table>
                 </div>
             </div>
-            <div class="mx-auto">{{$transactions->appends(request()->except('page'))->links()}}
-            </div>
+            {{-- <div class="mx-auto">{{$transactions->appends(request()->except('page'))->links()}} --}}
         </div>
     </div>
+</div>
 
 </div>
 @endsection

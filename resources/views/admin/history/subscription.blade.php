@@ -54,9 +54,10 @@
                     </div>
                     <div class="col text-right">
                         <h3 class="text-c-green f-w-300">
-                            {{currencyFormat($s->sum('amount'))}}</h3>
+                            {{currencyFormat($subscriptions->sum('amount'))}}</h3>
                         <span class="text-muted d-block">Total Amount </span>
-                        <span class="badge theme-bg text-white m-t-20">{{wholeNumberFormat($s->count())}}</span>
+                        <span
+                            class="badge theme-bg text-white m-t-20">{{wholeNumberFormat($subscriptions->count())}}</span>
                     </div>
                 </div>
             </div>
@@ -174,10 +175,10 @@
                     </table>
                 </div>
             </div>
-            <div class="mx-auto">{{$subscriptions->appends(request()->except('page'))->links()}}
-            </div>
+            {{-- <div class="mx-auto">{{$subscriptions->appends(request()->except('page'))->links()}} --}}
         </div>
     </div>
+</div>
 </div>
 
 </div>

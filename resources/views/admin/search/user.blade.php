@@ -124,10 +124,10 @@
                     </table>
                 </div>
             </div>
-            <div class="mx-auto">{{$users->appends(request()->except('page'))->links()}}
-            </div>
+            {{-- <div class="mx-auto">{{$users->appends(request()->except('page'))->links()}} --}}
         </div>
     </div>
+</div>
 
 </div>
 @endsection

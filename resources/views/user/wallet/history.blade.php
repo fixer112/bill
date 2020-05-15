@@ -217,10 +217,10 @@
                     </table>
                 </div>
             </div>
-            <div class="mx-auto">{{$transactions->appends(request()->except('page'))->links()}}
-            </div>
+            {{-- <div class="mx-auto">{{$transactions->appends(request()->except('page'))->links()}} --}}
         </div>
     </div>
+</div>
 
 </div>
 @endsection

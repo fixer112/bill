@@ -28,9 +28,9 @@ class AdminController extends Controller
     {
         $users = User::where('is_admin', 0)->get();
 
-        $referrals = Referral::ordered()->get()->take(10);
+        $referrals = Referral::ordered()->get()->take(config("settings.recent_page"));
 
-        $transactions = Transaction::ordered()->get()->take(10);
+        $transactions = Transaction::ordered()->get()->take(config("settings.recent_page"));
 
         $compact = compact('users', 'transactions', 'referrals');
 
@@ -112,7 +112,7 @@ class AdminController extends Controller
         $trans = Transaction::get();
         //$trans =$transactions;
 
-        $transactions = $query->paginate(100);
+        $transactions = $query->paginate(config("settings.per_page"));
         $t = $query->get();
         //$transactions = $pagination;
         //return $sub_type;
@@ -186,7 +186,7 @@ class AdminController extends Controller
             });
         }
 
-        $transactions = $query->paginate(100);
+        $transactions = $query->paginate(config("settings.per_page"));
         $r = $query->get();
         //$transactions = $pagination;
         $referrals = Referral::get();
@@ -243,7 +243,7 @@ class AdminController extends Controller
 
         // return $sub_type;
 
-        $subscriptions = $query->paginate(100);
+        $subscriptions = $query->paginate(config("settings.per_page"));
         $s = $query->get();
         // $subscriptions = $pagination;
 
@@ -289,8 +289,8 @@ class AdminController extends Controller
             });
         }
 
-        //$pagination = $query->paginate(100);
-        $users = $query->paginate(100);
+        //$pagination = $query->paginate(config("settings.per_page"));
+        $users = $query->paginate(config("settings.per_page"));
         $u = $query->get();
 
         $admins = $users->where('is_admin', 1);

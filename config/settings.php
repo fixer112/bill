@@ -1,5 +1,7 @@
 <?php
 return [
+    'recent_page' => 10,
+    'per_page' => 1000,
     'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
     'bills' => [
 
@@ -158,7 +160,7 @@ return [
     'individual' => [
         'bills' => [
             'airtime' => [
-                'mtn' => 3, //0.7,
+                'mtn' => 2, //0.7,
                 'airtel' => 0.5,
                 '9mobile' => 0.5,
                 'glo' => 1,

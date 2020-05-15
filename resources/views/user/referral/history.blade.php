@@ -64,7 +64,7 @@
                         <h6 class="m-t-50 m-b-0"> Referral Transactions</h6>
                     </div>
                     <div class="col text-right">
-                        <h3 class="text-c-green f-w-300">{{currencyFormat($transactions->sum('amount'))}}
+                        <h3 class="text-c-green f-w-300">{{currencyFormat($t->sum('amount'))}}
                         </h3>
                         <span class="text-muted d-block"> Refferal Amount </span>
                         <span
@@ -144,7 +144,7 @@
                     </table>
                 </div>
             </div>
-            <div class="mx-auto">{{$pagination->appends(request()->except('page'))->links()}}
+            <div class="mx-auto">{{$transactions->appends(request()->except('page'))->links()}}
             </div>
         </div>
     </div>

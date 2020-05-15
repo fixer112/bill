@@ -336,9 +336,9 @@ class UserController extends Controller
             return TransactionResource::collection($q->get());
         }
 
-        $pagination = $q->paginate(100);
+        $transactions = $q->paginate(config("settings.per_page"));
 
-        $transactions = $pagination->sortByDesc('created_at');
+        //$transactions = $pagination->sortByDesc('created_at');
 
         $totalDebit = $user->transactions->where('type', 'debit');
         $totalCredit = $user->transactions->where('type', 'credit');
@@ -352,11 +352,11 @@ class UserController extends Controller
         $reasons = $user->transactions->pluck('reason')->unique();
         $types = $user->transactions->pluck('type')->unique();
 
-        //$transactions = $query->paginate(100);
+        //$transactions = $query->paginate(config("settings.per_page"));
         //$transactions->paginate(1);
         //return $transactions;
 
-        $compact = compact('transactions', 'pagination', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types');
+        $compact = compact('transactions', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types');
 
         return view('user.wallet.history', $compact);
     }
@@ -379,13 +379,15 @@ class UserController extends Controller
 
         })->orderBy('created_at', 'desc');
 
-        $pagination = $query->paginate(100);
+        $transactions = $query->paginate(config("settings.per_page"));
 
-        $transactions = $pagination->sortByDesc('created_at');
+        //$transactions = $pagination->sortByDesc('created_at');
+
+        $t = $query->get();
 
         //$referrals = $Referral::get();
 
-        $compact = compact('transactions', 'pagination', 'from', 'to', 'ref');
+        $compact = compact('transactions', 'from', 'to', 'ref', 't');
 
         return view('user.referral.history', $compact);
     }

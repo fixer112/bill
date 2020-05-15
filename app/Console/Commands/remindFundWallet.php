@@ -48,7 +48,7 @@ class remindFundWallet extends Command
                     if (!$user->is_reseller || ($user->lastSub() && $user->is_reseller)) {
 
                         $count++;
-                        $user->notify(new remindUserFund());
+                        $user->notify((new remindUserFund())->delay(now()->addSeconds(60)));
 
                     }
                 }

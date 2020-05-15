@@ -751,9 +751,9 @@ class UserController extends Controller
         $price = $plan['price'];
         $amount = $plan['topup_amount'];
 
-        $formatPrice = currencyFormat($price);
+        $formatAmount = currencyFormat($amount);
 
-        $details = ($plan["id"]) . " - {$formatPrice} - {$plan['validity']}";
+        $details = ($plan["id"]) . " - {$formatAmount} - {$plan['validity']}";
 
         //return $price;
 

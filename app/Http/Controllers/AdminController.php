@@ -77,7 +77,7 @@ class AdminController extends Controller
 
             }
 
-        })->orderBy('created_at', 'desc');
+        });
 
         //return $pagination;
         //$transactions = $query;
@@ -112,7 +112,7 @@ class AdminController extends Controller
         $trans = Transaction::get();
         //$trans =$transactions;
 
-        $transactions = $query->paginate(config("settings.per_page"));
+        $transactions = $query->orderBy('id', 'desc')->paginate(config("settings.per_page"));
         $t = $query->get();
         //$transactions = $pagination;
         //return $sub_type;
@@ -164,7 +164,7 @@ class AdminController extends Controller
 
             }
 
-        })->orderBy('created_at', 'desc');
+        });
 
         //$transactions = $query;
 
@@ -186,7 +186,7 @@ class AdminController extends Controller
             });
         }
 
-        $transactions = $query->paginate(config("settings.per_page"));
+        $transactions = $query->orderBy('id', 'desc')->paginate(config("settings.per_page"));
         $r = $query->get();
         //$transactions = $pagination;
         $referrals = Referral::get();
@@ -219,7 +219,7 @@ class AdminController extends Controller
 
             }
 
-        })->select('subscriptions.*')->orderBy('subscriptions.created_at', 'desc');
+        })->select('subscriptions.*');
 
         //$subscriptions = $query;
 
@@ -243,7 +243,7 @@ class AdminController extends Controller
 
         // return $sub_type;
 
-        $subscriptions = $query->paginate(config("settings.per_page"));
+        $subscriptions = $query->orderBy('subscriptions.id', 'desc')->paginate(config("settings.per_page"));
         $s = $query->get();
         // $subscriptions = $pagination;
 
@@ -274,7 +274,7 @@ class AdminController extends Controller
                 return $query->where('is_reseller', 0);
             }
 
-        })->orderBy('created_at', 'desc'); /* ->filter(function ($user) use ($type) {
+        }); /* ->filter(function ($user) use ($type) {
         if ($user->lastSub()) {
         return $user->lastSub()->name == $type;
         }
@@ -290,7 +290,7 @@ class AdminController extends Controller
         }
 
         //$pagination = $query->paginate(config("settings.per_page"));
-        $users = $query->paginate(config("settings.per_page"));
+        $users = $query->orderBy('id', 'desc')->paginate(config("settings.per_page"));
         $u = $query->get();
 
         $admins = $users->where('is_admin', 1);

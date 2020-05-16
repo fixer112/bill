@@ -283,7 +283,7 @@ trait BillPayment
             'vtype' => $vtype,
         ];
 
-        $response = Http::post("http://www.mobileairtimeng.com/smsapi/bulksms.php?", $data)->throw();
+        $response = Http::post("https://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
 
         return $response;
 

@@ -81,7 +81,7 @@ class UserController extends Controller
 
         if (Auth::user()->is_admin) {
             if (request()->number != $user->number) {
-                $data['number'] = 'required|string|unique:users|phone';
+                $data['number'] = 'required|string|unique:users';
             }
             $data['password'] = 'nullable|min:5|string|confirmed';
 

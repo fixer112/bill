@@ -700,16 +700,20 @@ class UserController extends Controller
 
         $ref = generateRef($user);
 
-        /*  if (!env('ENABLE_BILL_PAYMENT')) {
-        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        } */
-
         //return $number;
         if ($network == 'mtn_sns') {
-        $result = $this->mtnAirtime(request()->amount, $number, $ref);
+            if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
+                return $this->jsonWebBack('error', dublicateMessage());
+            }
+
+            $result = $this->mtnAirtime(request()->amount, $number, $ref);
 
         } else {
-        $result = $this->airtime(request()->amount, $number, $network_code, $ref);
+            if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
+                return $this->jsonWebBack('error', dublicateMessage());
+            }
+
+            $result = $this->airtime(request()->amount, $number, $network_code, $ref);
         }
 
         //return $result;
@@ -776,10 +780,6 @@ class UserController extends Controller
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
-        /* if (!env('ENABLE_BILL_PAYMENT')) {
-        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        } */
-
         $number = nigeriaNumber(request()->number);
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
@@ -789,9 +789,18 @@ class UserController extends Controller
         $ref = generateRef($user);
 
         if ($network == 'mtn_sme') {
+
+            if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
+                return $this->jsonWebBack('error', dublicateMessage());
+            }
+
             $result = $this->dataMtn($price, $number, $network_code, $ref);
 
         } else {
+
+            if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
+                return $this->jsonWebBack('error', dublicateMessage());
+            }
 
             $result = $this->data($price, $number, $network_code, $ref);
         }
@@ -825,9 +834,10 @@ class UserController extends Controller
 
         ];
 
-        if (!request()->wantsJson()) {
-            $data['password'] = ["required", new checkOldPassword($user)];
-        }
+        /* if (!request()->wantsJson()) {
+        } */
+
+        $data['password'] = ["required", new checkOldPassword($user)];
         $this->validate(request(), $data);
 
         $type = request()->type;
@@ -853,10 +863,6 @@ class UserController extends Controller
 
         $ref = generateRef($user);
 
-        /* if (!env('ENABLE_BILL_PAYMENT')) {
-        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        } */
-
         $number = request()->number ? nigeriaNumber(request()->number) : $user->nigeria_number;
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
@@ -864,9 +870,17 @@ class UserController extends Controller
         }
 
         if ($type == 'startimes') {
+            if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
+                return $this->jsonWebBack('error', dublicateMessage());
+            }
+
             $result = $this->startimeCable(request()->amount, $smart_no, $number);
 
         } else {
+            if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
+                return $this->jsonWebBack('error', dublicateMessage());
+            }
+
             $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, $number);
         }
 

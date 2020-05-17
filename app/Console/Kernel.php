@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('reseller:remind 3')->daily();
 
-        $schedule->command('user:remindFund 5')->daily();
+        $schedule->command('user:remindFund 5')->weekly();
 
     }
 

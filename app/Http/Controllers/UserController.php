@@ -665,9 +665,9 @@ class UserController extends Controller
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
         ];
 
-        if (!request()->wantsJson()) {
-            $data['password'] = ["required", new checkOldPassword($user)];
-        }
+        /*  if (!request()->wantsJson()) {
+        } */
+        $data['password'] = ["required", new checkOldPassword($user)];
 
         $this->validate(request(), $data);
 
@@ -694,26 +694,27 @@ class UserController extends Controller
             'discount_amount' => [new checkBalance($user)],
         ]);
 
-        $ref = generateRef($user);
-
         if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
             return $this->jsonWebBack('error', dublicateMessage());
         }
+
+        $ref = generateRef($user);
 
         /*  if (!env('ENABLE_BILL_PAYMENT')) {
         return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         } */
 
         //return $number;
-        if ($network == 'mtn_sns') {
-            $result = $this->mtnAirtime(request()->amount, $number, $ref);
+        /* if ($network == 'mtn_sns') {
+        $result = $this->mtnAirtime(request()->amount, $number, $ref);
 
         } else {
-            $result = $this->airtime(request()->amount, $number, $network_code, $ref);
-        }
+        $result = $this->airtime(request()->amount, $number, $network_code, $ref);
+        } */
 
         //return $result;
 
+        $result = [];
         return $this->saveTransaction($user, 'airtime', $discount_amount, $desc, $ref, $result);
 
     }
@@ -743,9 +744,9 @@ class UserController extends Controller
             'price' => "required|numeric",
         ];
 
-        if (!request()->wantsJson()) {
-            $data['password'] = ["required", new checkOldPassword($user)];
-        }
+        /* if (!request()->wantsJson()) {
+        } */
+        $data['password'] = ["required", new checkOldPassword($user)];
 
         $this->validate(request(), $data);
 
@@ -775,8 +776,6 @@ class UserController extends Controller
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ]);
 
-        $ref = generateRef($user);
-
         /* if (!env('ENABLE_BILL_PAYMENT')) {
         return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         } */
@@ -786,6 +785,8 @@ class UserController extends Controller
         if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
             return $this->jsonWebBack('error', dublicateMessage());
         }
+
+        $ref = generateRef($user);
 
         if ($network == 'mtn_sme') {
             $result = $this->dataMtn($price, $number, $network_code, $ref);

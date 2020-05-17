@@ -39,7 +39,7 @@ class AwaitingResellers extends Command
     public function handle()
     {
         $count = 0;
-        $resellers = User::where('is_reseller', 1)->chunk(100, function ($users) {
+        $resellers = User::where('is_reseller', 1)->chunk(100, function ($users) use (&$count) {
             foreach ($users as $user) {
                 if (!$user->lastSub() && $user->created_at->diffInDays(now()) >= $this->argument('days')) {
 

@@ -724,10 +724,10 @@ class UserController extends Controller
     public function postData(User $user)
     {
         $this->authorize('view', $user);
-        unset($networks['mtn_sns']);
         //return request()->all();
-
+        
         $networks = config("settings.mobile_networks");
+        unset($networks['mtn_sns']);
         //unset($networks['mtn']);
         //unset($networks['mtn_direct']);
         $bills = config("settings.bills.data");

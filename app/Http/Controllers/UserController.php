@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Http\Resources\Referral as ReferralResource;
 use App\Http\Resources\Transaction as TransactionResource;
 use App\Mail\bulkMail;
 //use App\Traits\Referral;
@@ -332,11 +333,10 @@ class UserController extends Controller
         })->orderBy('created_at', 'desc'); //->get();
 
         if (request()->wantsJson()) {
-            //return $q->get();
             return TransactionResource::collection($q->get());
         }
 
-        $transactions = $q;
+        $transactions = $q->get();
 
         //$transactions = $pagination->sortByDesc('created_at');
 
@@ -378,6 +378,10 @@ class UserController extends Controller
             }
 
         })->orderBy('created_at', 'desc');
+
+        if (request()->wantsJson()) {
+            return ReferralResource::collection($q->get());
+        }
 
         $transactions = $query->get();
 
@@ -725,7 +729,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
         //return request()->all();
-        
+
         $networks = config("settings.mobile_networks");
         unset($networks['mtn_sns']);
         //unset($networks['mtn']);

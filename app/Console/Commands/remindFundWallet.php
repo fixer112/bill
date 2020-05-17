@@ -43,7 +43,7 @@ class remindFundWallet extends Command
         $users = User::where('is_admin', 0)->chunk(100, function ($users) use (&$count) {
             foreach ($users as $user) {
                 $tran = $user->transactions->where('reason', 'top-up')->sortByDesc('created_at')->first();
-                if (!$tran || ($tran && $tran->created_at->diffInDays(now()) >= $this->argument('days'))) {
+                if (!$tran || ($tran && $tran->created_at->diffInDays(now()) >= $this->argument('days') && $user->balance < 500)) {
 
                     if (!$user->is_reseller || ($user->lastSub() && $user->is_reseller)) {
 

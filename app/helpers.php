@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 //if (!function_exists("calPercentage")) {
 function dublicateMessage($message = null)
 {
-    $min = (request()->wantsJson() ? 60 : 180) / 60;
+    $min = (request()->wantsJson() ? 60 : 600) / 60;
     $message = $message == null ? "Dublicate Transaction, please try again in {$min} Minutes" : $message;
     return $message;
 }

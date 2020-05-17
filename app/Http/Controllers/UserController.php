@@ -648,6 +648,7 @@ class UserController extends Controller
     public function postAirtime(User $user)
     {
         $this->authorize('view', $user);
+        //return request()->all();
 
         $networks = config("settings.mobile_networks");
         unset($networks['mtn_sme']);
@@ -700,7 +701,7 @@ class UserController extends Controller
         } */
 
         //return $number;
-        if ($network == 'mtn') {
+        if ($network == 'mtn_sns') {
             $result = $this->mtnAirtime(request()->amount, $number, $ref);
 
         } else {
@@ -723,6 +724,8 @@ class UserController extends Controller
     public function postData(User $user)
     {
         $this->authorize('view', $user);
+        unset($networks['mtn_sns']);
+        //return request()->all();
 
         $networks = config("settings.mobile_networks");
         //unset($networks['mtn']);

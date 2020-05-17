@@ -20,9 +20,10 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">+234</span>
                     </div>
-                    <input type="text" class="form-control @error('number') is-invalid @enderror" value="{{old('number')}}" name="number" required
-                        placeholder="Enter Mobile Number" data-toggle="tooltip"
-                        title="Please make sure you input a valid mobile number." v-model="number">
+                    <input type="text" class="form-control @error('number') is-invalid @enderror"
+                        value="{{old('number')}}" name="number" required placeholder="Enter Mobile Number"
+                        data-toggle="tooltip" title="Please make sure you input a valid mobile number."
+                        v-model="number">
                     <div id="error" class="is-invalid text-danger"></div>
                     @error('number')
                     <span class="invalid-feedback" role="alert">

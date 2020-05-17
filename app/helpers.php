@@ -185,7 +185,7 @@ function fetchDataInfo()
     $datas = [];
     $networks = config('settings.mobile_networks');
     unset($networks['mtn_sme']);
-    //unset($networks['glo']);
+    unset($networks['mtn_sns']);
 
     foreach ($networks as $key => $value) {
 

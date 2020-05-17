@@ -2,11 +2,12 @@
 return [
     'recent_page' => 10,
     'per_page' => 1000,
-    'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
+    'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'mtn_sns' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
     'bills' => [
 
         'airtime' => [
             'mtn' => ['min' => 50, 'max' => 50000],
+            'mtn_sns' => ['min' => 50, 'max' => 50000],
             'airtel' => ['min' => 50, 'max' => 50000],
             '9mobile' => ['min' => 50, 'max' => 50000],
             'glo' => ['min' => 50, 'max' => 50000]],
@@ -160,14 +161,15 @@ return [
     'individual' => [
         'bills' => [
             'airtime' => [
-                'mtn' => 2, //0.7,
+                'mtn_sns' => 2,
+                'mtn' => 0.7,
                 'airtel' => 0.5,
                 '9mobile' => 0.5,
                 'glo' => 1,
             ],
             'data' => [
-                'mtn_sme' => 4.5,
                 'mtn' => 0.7,
+                'mtn_sme' => 4.5,
                 'airtel' => 0.5,
                 '9mobile' => 0.5,
                 'glo' => 1,
@@ -183,7 +185,8 @@ return [
     'subscriptions' => [
         'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 20, 'rate_limit' => 100, 'portal' => false, 'bills' => [
             'airtime' => [
-                'mtn' => 3, //2.0,
+                'mtn_sns' => 3,
+                'mtn' => 2.0,
                 'airtel' => 1.8,
                 '9mobile' => 1.8,
                 'glo' => 2.0,
@@ -204,7 +207,8 @@ return [
         ],
         'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'portal' => false, 'bills' => [
             'airtime' => [
-                'mtn' => 3, //2.5,
+                'mtn_sns' => 3,
+                'mtn' => 2.5,
                 'airtel' => 2.0,
                 '9mobile' => 2.0,
                 'glo' => 2.2,
@@ -226,7 +230,8 @@ return [
 
         'premium' => ['amount' => 60000, 'discount' => 0.7, 'bonus' => 10, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
             'airtime' => [
-                'mtn' => 4, //3,
+                'mtn_sns' => 4,
+                'mtn' => 3,
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
                 'glo' => 2.5,

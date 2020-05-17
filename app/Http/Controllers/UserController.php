@@ -705,16 +705,16 @@ class UserController extends Controller
         } */
 
         //return $number;
-        /* if ($network == 'mtn_sns') {
+        if ($network == 'mtn_sns') {
         $result = $this->mtnAirtime(request()->amount, $number, $ref);
 
         } else {
         $result = $this->airtime(request()->amount, $number, $network_code, $ref);
-        } */
+        }
 
         //return $result;
 
-        $result = [];
+        //$result = [];
         return $this->saveTransaction($user, 'airtime', $discount_amount, $desc, $ref, $result);
 
     }

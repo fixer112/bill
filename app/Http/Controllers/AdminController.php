@@ -55,7 +55,9 @@ class AdminController extends Controller
 
         $users = User::where('is_admin', 0)->get();
         $subscriptions = array_keys(config('settings.subscriptions'));
-        $sub_types = [...['guest', 'individual'], ...$subscriptions];
+        //$sub_types = [...['guest', 'individual'], ...$subscriptions];
+        $sub_types = array_merge(['guest', 'individual'], $subscriptions);
+        //return $sub_types;
 
         $query = Transaction::whereBetween('transactions.created_at', [$from, $to])->where(function ($query) use ($reason, $ref, $type, $sub_type, $desc) {
             if ($reason != '') {
@@ -151,7 +153,8 @@ class AdminController extends Controller
 
         $users = User::get();
         $subscriptions = array_keys(config('settings.subscriptions'));
-        $sub_types = [...['individual'], ...$subscriptions];
+        //$sub_types = [...['individual'], ...$subscriptions];
+        $sub_types = array_merge(['individual'], $subscriptions);
 
         $query = Referral::whereBetween('referrals.created_at', [$from, $to])->where(function ($query) use ($ref, $sub_type, $desc) {
 
@@ -210,7 +213,8 @@ class AdminController extends Controller
         //return $totalSubscriptions;
 
         $subs = array_keys(config('settings.subscriptions'));
-        $sub_types = [...['individual'], ...$subs];
+        //$sub_types = [...['individual'], ...$subs];
+        $sub_types = array_merge(['guest', 'individual'], $subs);
 
         $query = Subscription::join('transactions', 'subscriptions.transaction_id', '=', 'transactions.id')->whereBetween('subscriptions.created_at', [$from, $to])->where(function ($query) use ($ref) {
 
@@ -262,7 +266,9 @@ class AdminController extends Controller
         $search = request()->search ?? '';
         $sub_type = request()->sub_type ? request()->sub_type : '';
         $subscriptions = array_keys(config('settings.subscriptions'));
-        $sub_types = [...['individual'], ...$subscriptions];
+        //$sub_types = [...['individual'], ...$subscriptions];
+        $sub_types = array_merge(['individual'], $subscriptions);
+        //return $sub_types;
 
         $query = User::where(function ($q) use ($search, $sub_type) {
             if ($search != '') {

@@ -269,21 +269,22 @@ trait BillPayment
         return errorMessage(env("ERROR_MESSAGE"));
         } */
 
-        self::balance();
-
         $user = env('MANG_USER');
         $pass = env('MANG_PASS');
 
         $data = [
             'username' => $user,
             'password' => $pass,
+            'message' => $message,
             'mobile' => $numbers,
             'sender' => $sender,
             'route' => $route,
             'vtype' => $vtype,
         ];
 
-        $response = Http::post("https://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
+        self::balance();
+
+        $response = Http::asForm()->post("https://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
 
         return $response;
 

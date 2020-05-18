@@ -170,10 +170,6 @@ class Controller extends BaseController
             return $this->jsonWebBack('error', $result['error']);
         }
 
-        $user->update([
-            'balance' => $user->balance - $discount_amount,
-        ]);
-
         $tran = Transaction::create([
             'amount' => $discount_amount,
             'balance' => $user->balance,
@@ -189,6 +185,10 @@ class Controller extends BaseController
             'user_id' => $user->id,
             'admin_id' => auth()->user()->id,
             'summary' => $desc,
+        ]);
+
+        $user->update([
+            'balance' => $user->balance - $discount_amount,
         ]);
 
         try {
@@ -428,10 +428,11 @@ class Controller extends BaseController
     public function test()
     {
 
+        return;
+
+        return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '', 'MoniWallet');
         return $this->fetchDataInfo(request()->type ?? 'glo');
         return $this->mtnAirtime(50, '', 'mtntest');
-
-        return $this->sms('This is a test', '3567u65', 'MoniWallet');
 
         return fetchDataInfo();
         return $this->reserveAccount(User::find(2));

@@ -11,6 +11,18 @@
 </div>
 
 <h4 class="text-6 mb-4">Data Subscription </h4>
+<div class="alert alert-danger mt-2 p-3 rounded">
+    <h5 class="text-danger font-weight-bold">NOTICE</h5>
+    Data top up will come in as airtime but would be automatically converted to the particular bundle. A recipient
+    that
+    has
+    borrowed airtime will not receive the data top up because the airtime (or part) would have been deducted before
+    conversion.
+    <p class="text-primary font-weight-bold">
+        To Check Data balance:
+        Airtel: *123*10# or *140#, 9Mobile: *228#, MTN: *461*4# or *131*4#, GLO: *127*0#
+    </p>
+</div>
 <div id="data">
     <div class="row">
         <div class="col-md-6">
@@ -119,18 +131,7 @@
         <button class="btn btn-primary btn-block" type="submit">Continue</button>
     </div>
 </div>
-<div class="alert alert-danger mt-2 p-3 rounded">
-    <h5 class="text-danger font-weight-bold">NOTICE</h5>
-    Data top up will come in as airtime but would be automatically converted to the particular bundle. A recipient
-    that
-    has
-    borrowed airtime will not receive the data top up because the airtime (or part) would have been deducted before
-    conversion.
-    <p class="text-primary font-weight-bold">
-        To Check Data balance:
-        Airtel: *123*10# or *140#, 9Mobile: *228#, MTN: *461*4# or *131*4#, GLO: *127*0#
-    </p>
-</div>
+
 
 <script>
     var data = new Vue({

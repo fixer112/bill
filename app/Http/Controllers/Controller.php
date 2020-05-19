@@ -42,7 +42,7 @@ class Controller extends BaseController
         request()->session()->flash($type, $message);
 
         //return $message;
-        return url()->previous() == url()->current() && !request()->isMethod('post') ? $message : back();
+        return url()->previous() /*  == url()->current() && !request()->isMethod('post') */ ? back() : $message;
 
     }
     public function jsonWebRedirect($type, $message, $link, $ref = null)

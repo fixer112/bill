@@ -661,38 +661,37 @@ class UserController extends Controller
         $bills = config("settings.bills.airtime");
 
         //return $bills;
-        $data = [
-            'network' => "required|string|in:" . implode(',', array_keys($networks)),
-        ];
 
-        /*  if (!request()->wantsJson()) {
-        } */
-        $data['password'] = ["required", new checkOldPassword($user)];
+        $network = request()->network;
+        request()->merge(['network' => strtolower(request()->network)]);
+        $this->validate(request(), [
+            'network' => "required|string|in:" . implode(',', array_keys($networks)),
+        ]);
+
+        $network_code = $networks[$network];
+        $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
+
+        request()->merge(['discount_amount' => $discount_amount]);
+
+        $data = [
+
+            'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
+            'number' => "required|string",
+            'discount_amount' => ['required', "numeric", new checkBalance($user)],
+            'password' => ["required", new checkOldPassword($user)],
+        ];
 
         $this->validate(request(), $data);
 
-        $network = request()->network;
-        $network_code = $networks[$network];
-
-        request()->merge(['network' => strtolower(request()->network)]);
-        $this->validate(request(), [
-            //'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
-            'number' => "required|string",
-
-            //'discount_amount' => ["required", "numeric", new checkBalance($user)],
-        ]);
-
-        $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
+        //return $data;
 
         $number = nigeriaNumber(request()->number);
         //return $this->isDublicate($user, $discount_amount, 'airtime');
         $desc = "Recharge of " . strtoupper($network) . " " . currencyFormat(request()->amount) . " to " . $number;
 
-        request()->merge(['discount_amount' => $discount_amount]);
-        $this->validate(request(), [
-            'discount_amount' => [new checkBalance($user)],
-        ]);
+        /* $this->validate(request(), [
+        'discount_amount' => [new checkBalance($user)],
+        ]); */
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
             return $this->jsonWebBack('error', dublicateMessage());
@@ -741,22 +740,12 @@ class UserController extends Controller
         //unset($networks['mtn_direct']);
         $bills = config("settings.bills.data");
 
-//return request()->network_code;
-        $data = [
-            'network' => "required|string|in:" . implode(',', array_keys($networks)),
-            'number' => "required|string",
-            'price' => "required|numeric",
-        ];
-
-        /* if (!request()->wantsJson()) {
-        } */
-        $data['password'] = ["required", new checkOldPassword($user)];
-
-        $this->validate(request(), $data);
-
-        //return request()->amount;
-
         $network = request()->network;
+        request()->merge(['network' => strtolower(request()->network)]);
+        $this->validate(request(), [
+            'network' => "required|string|in:" . implode(',', array_keys($networks)),
+        ]);
+
         $network_code = $networks[$network];
         $planKey = array_search(request()->price, array_column($bills[$network], 'price'));
         $plan = $bills[$network][$planKey];
@@ -767,18 +756,19 @@ class UserController extends Controller
 
         $details = ($plan["id"]) . " - {$formatAmount} - {$plan['validity']}";
 
-        //return $price;
-
         $discount_amount = calDiscountAmount($amount, dataDiscount($user)[$network]);
-        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
-
-        //return $desc;
-        //return $discount_amount;
-
         request()->merge(['discount_amount' => $discount_amount]);
-        $this->validate(request(), [
+
+        $data = [
+            'number' => "required|string",
+            'price' => "required|numeric",
+            'password' => ["required", new checkOldPassword($user)],
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
-        ]);
+        ];
+
+        $this->validate(request(), $data);
+
+        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
 
         $number = nigeriaNumber(request()->number);
 
@@ -804,8 +794,6 @@ class UserController extends Controller
 
             $result = $this->data($price, $number, $network_code, $ref);
         }
-
-        //return $result;
 
         return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result);
 

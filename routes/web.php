@@ -114,7 +114,11 @@ Route::middleware(['webRouteEnabled'])->group(function () {
     });
 
     Route::get('/home', function () {
+        if (auth()->check()) {
+            return redirect(auth()->user()->routePath());
+        }
         return redirect('/');
+
     })->name('home');
 
     Route::post('/hook/transfer', 'Controller@monifyTransfer');

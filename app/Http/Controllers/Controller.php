@@ -170,6 +170,10 @@ class Controller extends BaseController
             return $this->jsonWebBack('error', $result['error']);
         }
 
+        $user->update([
+            'balance' => $user->balance - $discount_amount,
+        ]);
+
         $tran = Transaction::create([
             'amount' => $discount_amount,
             'balance' => $user->balance,
@@ -185,10 +189,6 @@ class Controller extends BaseController
             'user_id' => $user->id,
             'admin_id' => auth()->user()->id,
             'summary' => $desc,
-        ]);
-
-        $user->update([
-            'balance' => $user->balance - $discount_amount,
         ]);
 
         try {

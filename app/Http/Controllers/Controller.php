@@ -158,7 +158,6 @@ class Controller extends BaseController
 
     public function verifySmartCard($type, $number)
     {
-        $number = nigeriaNumber($number);
 
         return $this->cableInfo($type, $number);
 
@@ -428,7 +427,9 @@ class Controller extends BaseController
     public function test()
     {
 
-        return;
+        //return;
+
+        return $this->cableInfo('dstv', '7036717423');
 
         return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '', 'MoniWallet');
         return $this->fetchDataInfo(request()->type ?? 'glo');
@@ -439,7 +440,6 @@ class Controller extends BaseController
         return $this->verifyTransfer("MNFY|20200512181838|000258");
 
         //return $this->balance();
-        //return $this->cableInfo('dstv', '7036717423');
         // return getCable()['startime'];
         return new bulkMail('Test', '<b>Testing</b> This is a test');
         return $this->airtime(50, '08106813749', '77777', generateRef());

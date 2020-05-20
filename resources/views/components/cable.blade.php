@@ -148,7 +148,7 @@
         this.name = "Validating SmartCard  Number .....";
         this.info = "";
         this.submit = false;
-        console.log(this.bank_code);
+        console.log('/verify/smart_no/'+this.type+'/'+this.number);
         axios.get('/verify/smart_no/'+this.type+'/'+this.number)
         .then(response => {
         console.log(response.data)
@@ -176,7 +176,7 @@
         watch:{
 
             type(n){
-                //console.log(n);
+                console.log(n);
                 this.name = "";
                 this.number = "";
                 this.plans = this.bills[n];
@@ -186,6 +186,7 @@
             },
             plan(n){
                 var plan = this.bills[this.type][n];
+                console.log(plan);
                 this.amount = this.bills[this.type][n]['amount'];
                 var charges = plan['charges'] - ((this.bonus / 100) * plan['charges']) ;
                 this.discountAmount = this.bills[this.type][n]['price'] + charges;

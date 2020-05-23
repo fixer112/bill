@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 //if (!function_exists("calPercentage")) {
 function dublicateMessage($message = null)
 {
-    $min = (request()->wantsJson() ? 60 : 600) / 60;
+    $min = (request()->wantsJson() ? 60 : env("DUBLICATE_LIMIT", 180)) / 60;
     $message = $message == null ? "Dublicate Transaction, please try again in {$min} Minutes" : $message;
     return $message;
 }
@@ -279,4 +279,9 @@ function convertDataAmount($number)
 {
     $gb = $number / 1000;
     return $number < 1000 ? "{$number}MB" : "{$gb}GB";
+}
+function calSmsUnit($message)
+{
+    $length = strlen($message);
+    return $length <= 160 ? 1 : ceil($length / 160);
 }

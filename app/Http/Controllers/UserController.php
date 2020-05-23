@@ -72,6 +72,7 @@ class UserController extends Controller
             'first_name' => 'required|string|max:20',
             'last_name' => 'required|string|max:20',
             'pic' => 'nullable|image|max:250',
+            'sms_notify' => 'nullable|boolean',
 
         ];
 
@@ -82,7 +83,7 @@ class UserController extends Controller
 
         if (Auth::user()->is_admin) {
             if (request()->number != $user->number) {
-                $data['number'] = 'required|string|unique:users';
+                $data['number'] = 'required|numeric|digits_between:10,11|unique:users';
             }
             $data['password'] = 'nullable|min:5|string|confirmed';
 
@@ -246,7 +247,7 @@ class UserController extends Controller
 
         try {
 
-            $user->notify(new alert($desc));
+            $user->notify(new alert($desc, $tran));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -441,7 +442,7 @@ class UserController extends Controller
 
         try {
 
-            $user->notify(new alert($desc));
+            $user->notify(new alert($desc, $tran));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -500,7 +501,7 @@ class UserController extends Controller
 
         try {
 
-            $u->notify(new alert($descTo));
+            $u->notify(new alert($descTo, $tranTo));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -508,7 +509,7 @@ class UserController extends Controller
 
         $descFrom = "Transfer of {$amount} to {$u->login}";
 
-        $tranTo = Transaction::create([
+        $tranFrom = Transaction::create([
             'amount' => $amount,
             'balance' => $user->balance,
             'type' => 'debit',
@@ -518,7 +519,7 @@ class UserController extends Controller
             'reason' => 'transfer',
         ]);
 
-        $activityTo = Activity::create([
+        $activityFrom = Activity::create([
             'user_id' => $user->id,
             'admin_id' => auth()->user()->id,
             'summary' => $descFrom,
@@ -526,7 +527,7 @@ class UserController extends Controller
 
         try {
 
-            $u->notify(new alert($descFrom));
+            $u->notify(new alert($descFrom, $tranFrom));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -578,7 +579,7 @@ class UserController extends Controller
 
         try {
 
-            $user->notify(new alert($fullDesc));
+            $user->notify(new alert($fullDesc, $tran));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -632,7 +633,7 @@ class UserController extends Controller
 
         try {
 
-            $user->notify(new alert($desc));
+            $user->notify(new alert($desc, $tran));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -676,7 +677,7 @@ class UserController extends Controller
         $data = [
 
             'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
-            'number' => "required|string",
+            'number' => "required|numeric|digits_between:10,11",
             'discount_amount' => ['required', "numeric", new checkBalance($user)],
             'password' => ["required", new checkOldPassword($user)],
         ];
@@ -760,7 +761,7 @@ class UserController extends Controller
         request()->merge(['discount_amount' => $discount_amount]);
 
         $data = [
-            'number' => "required|string",
+            'number' => "required|numeric|digits_between:10,11",
             'price' => "required|numeric",
             'password' => ["required", new checkOldPassword($user)],
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
@@ -816,7 +817,7 @@ class UserController extends Controller
             'type' => "required|in:" . implode(',', array_keys($bills)),
             'smart_no' => "required|string",
             'invoice_no' => "required_unless:type,startimes",
-            'number' => "nullable|string",
+            'number' => "nullable|numeric|digits_between:10,11",
             'customer_name' => "required_unless:type,startimes",
             'customer_number' => "required_unless:type,startimes",
 
@@ -847,6 +848,7 @@ class UserController extends Controller
             'discount_amount' => [new checkBalance($user)],
         ]);
 
+        //return request()->amount;
         //$number = request()->number;
 
         $ref = generateRef($user);
@@ -872,7 +874,7 @@ class UserController extends Controller
             $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, $number);
         }
 
-        // return $result;
+        //return $result;
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
@@ -923,7 +925,7 @@ class UserController extends Controller
 
         try {
 
-            $user->notify(new alert("Your Account is {$user->status()}", false));
+            $user->notify(new alert("Your Account is {$user->status()}"));
 
         } catch (\Throwable $th) {
             //throw $th;

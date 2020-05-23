@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->boolean('is_active')->default(1);
             $table->boolean('is_admin')->default(0);
             $table->boolean('is_reseller')->default(0);
-            $table->decimal('balance')->default(0.0);
-            $table->decimal('referral_balance')->default(0.0);
+            $table->decimal('balance', 13, 2)->default(0.0);
+            $table->decimal('referral_balance', 13, 2)->default(0.0);
             $table->string('profile')->nullable();
             $table->string('email')->unique();
             $table->bigInteger('points')->default(0);

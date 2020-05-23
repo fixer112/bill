@@ -1,7 +1,6 @@
 <?php
 namespace App\Traits;
 
-use App\GuestTransaction;
 use App\Transaction;
 use App\User;
 use Yabacon\Paystack;
@@ -92,7 +91,7 @@ trait Payment
 
         }
 
-        if (GuestTransaction::where('ref', $reference)->first()) {
+        if (Transaction::where('ref', $reference)->first()) {
             return ['error' => "Payment {$reference} already approved"];
 
         }

@@ -64,6 +64,27 @@ $admin = request()->user->is_admin;
                         </div>
 
                     </div>
+                    @if (!request()->user->is_admin)
+                    <div class="form-group">
+                        <label>SMS Notification <span class="text-danger text-small">(You will be charged
+                                N{{env('SMS_CHARGE',2.5)}} per sms
+                                notification) </span> (Comming soon)</label>
+                        <div class="input-group">
+                            <select disabled class="custom-select @error('sms_notify') is-invalid @enderror"
+                                name="sms_notify">
+                                <option value="1" {{request()->user->sms_notify ? 'selected' :'' }}>Enabled
+                                </option>
+                                <option value="0" {{request()->user->sms_notify ? '': 'selected' }}>Disabled
+                                </option>
+                            </select>
+                            @error('sms_notify')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    @endif
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -93,7 +114,9 @@ $admin = request()->user->is_admin;
                             @enderror
                         </div>
                     </div>
+
                     @if (!Auth::user()->is_admin)
+
                     <div class="form-group">
                         <label>Old Password</label>
                         <div class="input-group">

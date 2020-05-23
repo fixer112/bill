@@ -192,7 +192,7 @@ class Controller extends BaseController
 
         try {
 
-            $user->notify(new alert($desc));
+            $user->notify(new alert($desc, $tran));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -233,7 +233,7 @@ class Controller extends BaseController
 
         return Mail::to('support@moniwallet.com')->send(new lowBalance(10));
 
-        $user->notify(new alert("Your Account is suspended", false));
+        $user->notify(new alert("Your Account is suspended"));
         //$user->notify(new UserCreated());
 
         return $user->email;
@@ -330,8 +330,8 @@ class Controller extends BaseController
 
         $body = $verify['responseBody'];
         $user = User::where('login', request()->product['reference'])->first();
-        $charges = (env("MONIFY_FEE", 0.5) / 100) * $body['amount'];
-        $charges = $charges > env("MONIFY_CAP", 250) ? env("MONIFY_CAP", 250) : $charges;
+        $charges = (env("MONIFY_FEE", 2) / 100) * $body['amount'];
+        //$charges = $charges > env("MONIFY_CAP", 250) ? env("MONIFY_CAP", 250) : $charges;
         $amount = $body['amount'] - $charges;
         $balance = $user->balance + $amount;
         $user->update(['balance' => $balance]);
@@ -364,7 +364,7 @@ class Controller extends BaseController
 
         try {
 
-            $user->notify(new alert($desc));
+            $user->notify(new alert($desc, $transaction));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -429,9 +429,9 @@ class Controller extends BaseController
 
         //return;
 
+        //return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '09049941820', 'MoniWallet');
         return $this->cableInfo('dstv', '7036717423');
 
-        return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '', 'MoniWallet');
         return $this->fetchDataInfo(request()->type ?? 'glo');
         return $this->mtnAirtime(50, '', 'mtntest');
 

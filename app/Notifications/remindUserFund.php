@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Channels\SmsChannel;
+use App\Traits\BillPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -9,7 +11,7 @@ use Illuminate\Notifications\Notification;
 
 class remindUserFund extends Notification implements ShouldQueue
 {
-    use Queueable;
+    use Queueable, BillPayment;
 
     /**
      * Create a new notification instance.
@@ -29,7 +31,7 @@ class remindUserFund extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', SmsChannel::class];
     }
 
     /**
@@ -61,5 +63,19 @@ class remindUserFund extends Notification implements ShouldQueue
         return [
             //
         ];
+    }
+
+    /**
+     * Get the sms representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return mixed
+     */
+    public function toSMS($notifiable)
+    {
+        $message = "Hello {$notifiable->first_name}, We noticed its been a while you funded your wallet.
+    Please fund your wallet by transfering to {$notifiable->account_number}({$notifiable->bank_name})";
+        //return $this->sms($message, $notifiable->nigeria_number);
+
     }
 }

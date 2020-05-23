@@ -123,8 +123,6 @@ class AdminController extends Controller
         $totalDebit = $trans->where('type', 'debit');
         $totalCredit = $trans->where('type', 'credit');
 
-        //$query = $query->get();
-
         $credit = $transactions->where('type', 'credit');
 
         $debit = $transactions->where('type', 'debit');
@@ -352,7 +350,7 @@ class AdminController extends Controller
 
         try {
 
-            $user->notify(new alert($desc));
+            $user->notify(new alert($desc, $tran));
 
         } catch (\Throwable $th) {
             //throw $th;

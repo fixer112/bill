@@ -24,6 +24,11 @@ class Transaction extends Model
         return $this->hasOne('App\Subscription');
     }
 
+    public function sms_notifications()
+    {
+        return $this->hasMany('App\SmsNotification')->ordered();
+    }
+
     public function scopeOrdered($query)
     {
         return $query->orderBy('created_at', 'desc');

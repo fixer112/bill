@@ -263,7 +263,7 @@ trait BillPayment
 
     }
 
-    public static function sms($message, $numbers, $sender, $route = 1, $vtype = 1)
+    public static function sms($message, $numbers, $sender = "MoniWallet", $route = 1, $vtype = 1)
     {
         /* if (!env("ENABLE_BILL_PAYMENT")) {
         return errorMessage(env("ERROR_MESSAGE"));
@@ -275,7 +275,7 @@ trait BillPayment
         $data = [
             'username' => $user,
             'password' => $pass,
-            'message' => $message,
+            'message' => ($message),
             'mobile' => $numbers,
             'sender' => $sender,
             'route' => $route,

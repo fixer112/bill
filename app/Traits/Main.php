@@ -17,11 +17,11 @@ trait Main
 
     function isDublicate(User $user, $amount, $desc, $reason)
     {
-        $dublicate = $user->transactions->where('amount', $amount)/* ->where('reason', $reason) */->where('desc', $desc)->first();
+        $dublicate = $user->transactions->where('amount', $amount) /* ->where('reason', $reason) */->where('desc', $desc)->first();
 
         //return $dublicate;
 
-        $seconds = request()->wantsJson() ? 60 : 600;
+        $seconds = request()->wantsJson() ? 60 : env("DUBLICATE_LIMIT", 180);
         if ($dublicate) {
             //return now()->diffInSeconds($dublicate->created_at);
             //return $seconds;

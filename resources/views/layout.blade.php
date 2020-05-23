@@ -281,13 +281,13 @@
                         <p>Keep in touch</p>
                         <ul class="social-icons">
                             <li class="social-icons-facebook"><a data-toggle="tooltip"
-                                    href="http://www.facebook.com/moniwallet" target="_blank" title="Facebook"><i
+                                    href="{{config("settings.social.facebook")}}" target="_blank" title="Facebook"><i
                                         class="fab fa-facebook-f"></i></a></li>
                             <li class="social-icons-twitter"><a data-toggle="tooltip"
-                                    href="http://www.twitter.com/moniwallet" target="_blank" title="Twitter"><i
+                                    href="{{config("settings.social.twitter")}}" target="_blank" title="Twitter"><i
                                         class="fab fa-twitter"></i></a></li>
                             <li class="social-icons-instagram"><a data-toggle="tooltip"
-                                    href="http://www.instagram.com/moniwallet" target="_blank" title="Instagram"><i
+                                    href="{{config("settings.social.instagram")}}" target="_blank" title="Instagram"><i
                                         class="fab fa-instagram"></i></a></li>
                         </ul>
                     </div>

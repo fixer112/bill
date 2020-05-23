@@ -2,6 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Channels\SmsChannel;
+use App\Traits\BillPayment;
+use App\Traits\Notify;
+use App\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -9,20 +13,20 @@ use Illuminate\Notifications\Notification;
 
 class alert extends Notification implements ShouldQueue
 {
-    use Queueable;
+    use Queueable, BillPayment, Notify;
 
     public $desc;
-    public $is_tran;
+    public $tran;
     //public $is_error;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(String $desc, bool $tran = true)
+    public function __construct(String $desc, Transaction $tran = null)
     {
         $this->desc = $desc;
-        $this->is_tran = $tran;
+        $this->tran = $tran;
         //$this->is_error = $error;
     }
 
@@ -34,7 +38,7 @@ class alert extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', SmsChannel::class];
     }
 
     /**
@@ -49,7 +53,7 @@ class alert extends Notification implements ShouldQueue
             ->greeting("Hello {$notifiable->full_name}!")
             ->line($this->desc);
 
-        if ($this->is_tran) {
+        if ($this->tran) {
             $mail = $mail->subject('Transaction Alert')->action('View History', url("user/wallet/{$notifiable->id}/history"));
         }
 
@@ -70,5 +74,23 @@ class alert extends Notification implements ShouldQueue
         return [
             //
         ];
+    }
+
+    /**
+     * Get the sms representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return mixed
+     */
+    public function toSMS($notifiable)
+    {
+        $message = "Hello {$notifiable->first_name},
+    You have a transaction notification with description: {$this->desc}";
+        /* if ($notifiable->sms_notify && $this->tran) {
+    $this->chargeSms($tran,calSmsUnit($message));
+    $sms = $this->sms($message, $notifiable->nigeria_number);
+    return $sms;
+    } */
+
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Channels\SmsChannel;
+use App\Traits\BillPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,7 +12,7 @@ use Illuminate\Notifications\Notification;
 class UserCreated extends Notification implements ShouldQueue
 {
 
-    use Queueable;
+    use Queueable, BillPayment;
 
     //public $user;
     /**
@@ -31,7 +33,7 @@ class UserCreated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', SmsChannel::class];
     }
 
     /**
@@ -47,6 +49,7 @@ class UserCreated extends Notification implements ShouldQueue
             ->greeting("Hello {$notifiable->full_name}!")
             ->line('You have successfully registered on ' . url('/') . '.')
             ->line('Thank you for choosing ' . env("APP_NAME") . '!')
+            ->line("Go to your profile, and fund your wallet to start enjoying our amazing cheap services.")
             ->action('Go to Profile', url($notifiable->routePath()));
     }
 
@@ -61,5 +64,18 @@ class UserCreated extends Notification implements ShouldQueue
         return [
             //
         ];
+    }
+
+    /**
+     * Get the sms representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return mixed
+     */
+    public function toSMS($notifiable)
+    {
+        $message = "Welcome to " . env("APP_NAME") . " {$notifiable->first_name}, Please fund your wallet to start enjoying our amazing cheap services.";
+        //return $this->sms($message, $notifiable->nigeria_number);
+
     }
 }

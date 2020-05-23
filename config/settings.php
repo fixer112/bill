@@ -1,5 +1,11 @@
 <?php
 return [
+    "social" => [
+        'facebook' => 'https://web.facebook.com/moniwalletng',
+        'twitter' => 'https://twitter.com/moniwalletng',
+        'instagram' => 'https://instagram.com/moniwalletng',
+
+    ],
     'recent_page' => 10,
     'per_page' => 1000,
     'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'mtn_sns' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],

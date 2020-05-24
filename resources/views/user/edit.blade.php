@@ -121,14 +121,19 @@ $admin = request()->user->hasRole('super admin');
                         <div class="col-lg-6">
                             <div class="form-group">
                                 @foreach($permissions as $permission)
+                                @php
+                                $isDefault
+                                =request()->user->getPermissionsViaRoles()->pluck('id')->contains($permission->id);
+                                @endphp
                                 <div class="custom-control custom-switch">
                                     <input :disabled="disable" type="checkbox" value="{{$permission->name}}"
                                         class="custom-control-input" id="permission{{$permission->id}}"
                                         {{request()->user->hasPermissionTo($permission->id) ? 'checked':''}}
                                         {{request()->user->hasRole('super admin') ? 'disabled' :''}}
-                                        @click="permissions(' {{$permission->name}}')">
+                                        {{$isDefault ? 'disabled' :''}} @click="permissions(' {{$permission->name}}')">
                                     <label class="custom-control-label"
-                                        for="permission{{$permission->id}}">{{$permission->name}}</label>
+                                        for="permission{{$permission->id}}">{{$permission->name}} {{$isDefault ?
+                                        '(Default)':''}}</label>
 
                                 </div>
                                 @endforeach
@@ -231,7 +236,7 @@ $admin = request()->user->hasRole('super admin');
             console.log(response.data);
             this.disable = false;
             $.notify(response.data.success, "success");
-            location.reload();
+            //location.reload();
             })
             .catch((error)=>{
             console.log(error.response.data);
@@ -247,7 +252,7 @@ $admin = request()->user->hasRole('super admin');
         console.log(response.data);
         this.disable = false;
         $.notify(response.data.success, "success");
-        location.reload();
+        //location.reload();
         })
         .catch((error)=>{
         console.log(error.response.data);

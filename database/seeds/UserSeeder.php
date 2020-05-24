@@ -68,7 +68,7 @@ class UserSeeder extends Seeder
             $user->assignRole(1);
 
             $user = User::create([
-                'balance' => 100000,
+                'balance' => 1200,
                 'login' => 'user',
                 'first_name' => 'Tester',
                 'last_name' => 'User',

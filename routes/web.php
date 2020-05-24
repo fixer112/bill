@@ -39,6 +39,8 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('/search/users', 'AdminController@searchUsers');
             Route::get('/contact', 'AdminController@getContact');
             Route::post('/contact', 'AdminController@contact');
+            Route::get('/user/create', 'AdminController@getCreateAdmin');
+            Route::post('/user/create', 'AdminController@createAdmin');
 
             Route::get('/test', 'Controller@test');
 
@@ -47,6 +49,10 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('/data', 'Controller@refreshData');
 
             Route::get('/update_users/{id?}', 'Controller@updateUsers');
+
+            Route::get('/assign_role/{user}', 'AdminController@assignRole');
+            Route::get('/assign_permission/{user}', 'AdminController@assignPermission');
+
         });
 
         #User

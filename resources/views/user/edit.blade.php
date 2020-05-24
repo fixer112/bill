@@ -1,7 +1,14 @@
 @extends(request()->user->is_admin ?'admin.layout':'user.layout')
 @section('title','Edit Profile')
+@section('head')
+<script src="{{ asset('js/vue.js')}}"></script>
+<script src="{{ asset('js/axios.js')}}"></script>
+<script src="/js/notify.js"></script>
+
+@endsection
+
 @php
-$admin = request()->user->is_admin;
+$admin = request()->user->hasRole('super admin');
 @endphp
 
 @section('content')
@@ -10,7 +17,7 @@ $admin = request()->user->is_admin;
         <div class="mb-3">
             <img class="profile-userpic" src="{{request()->user->profilePic()}}" />
         </div>
-        <form method="POST" action="{{url()->current()}}" enctype="multipart/form-data">
+        <form method="POST" action="{{url()->current()}}" enctype="multipart/form-data" id="role">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -64,6 +71,7 @@ $admin = request()->user->is_admin;
                         </div>
 
                     </div>
+
                     @if (!request()->user->is_admin)
                     <div class="form-group">
                         <label>SMS Notification <span class="text-danger text-small">(You will be charged
@@ -85,6 +93,52 @@ $admin = request()->user->is_admin;
                         </div>
                     </div>
                     @endif
+                    @can('manageRoles', App\User::class)
+                    @if( request()->user->is_admin)
+
+
+                    <label class="col-form-label text-sm">Roles</label>
+                    @foreach (Spatie\Permission\Models\Role::all() as $role)
+
+                    <div class="custom-control custom-switch">
+                        <input :disabled="disable" type="checkbox" value="{{$role->name}}" class="custom-control-input"
+                            id="role{{$role->id}}" {{request()->user->hasRole($role->id) ? 'checked':''}}
+                            {{$role->name =='super admin' ? 'disabled' :''}} @click="roles(' {{$role->name}}')"
+                            data-toggle="toggle">
+                        <label class="custom-control-label" for="role{{$role->id}}">{{$role->name}}</label>
+                    </div>
+                    @endforeach
+                    <span class="text-danger" role="alert">
+                        <strong>Please reload page after role change to update permissions</strong>
+                    </span>
+
+
+
+                    <label class="col-form-label text-sm">Permissions</label>
+                    @foreach (Spatie\Permission\Models\Permission::all()->chunk(8) as $permissionss)
+                    <div class="row">
+                        @foreach($permissionss->chunk(4) as $permissions)
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                @foreach($permissions as $permission)
+                                <div class="custom-control custom-switch">
+                                    <input :disabled="disable" type="checkbox" value="{{$permission->name}}"
+                                        class="custom-control-input" id="permission{{$permission->id}}"
+                                        {{request()->user->hasPermissionTo($permission->id) ? 'checked':''}}
+                                        {{request()->user->hasRole('super admin') ? 'disabled' :''}}
+                                        @click="permissions(' {{$permission->name}}')">
+                                    <label class="custom-control-label"
+                                        for="permission{{$permission->id}}">{{$permission->name}}</label>
+
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    @endforeach
+                    @endif
+                    @endcan
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -160,4 +214,55 @@ $admin = request()->user->is_admin;
         </form>
     </div>
 </div>
+<script>
+    new Vue({
+    el: '#role',
+    data: function() {
+    return {
+       disable:false,
+        
+    }
+  }, 
+       methods:{
+        roles(name){
+            this.disable = true;
+            axios.get('/admin/assign_role/{{request()->user->id}}?role='+name)
+            .then(response => {
+            console.log(response.data);
+            this.disable = false;
+            $.notify(response.data.success, "success");
+            location.reload();
+            })
+            .catch((error)=>{
+            console.log(error.response.data);
+            this.disable = false;
+            var error = error.response.data.message ? error.response.data.message : 'An error occured';
+            $.notify(error, "error");
+            })
+        },
+        permissions(name){
+        this.disable = true;
+        axios.get('/admin/assign_permission/{{request()->user->id}}?permission='+name)
+        .then(response => {
+        console.log(response.data);
+        this.disable = false;
+        $.notify(response.data.success, "success");
+        location.reload();
+        })
+        .catch((error)=>{
+        console.log(error.response.data);
+        this.disable = false;
+        var error = error.response.data.message ? error.response.data.message : 'An error occured';
+        $.notify(error, "error");
+        })
+        }
+        },
+        watch:{
+            
+        },
+        created(){
+           
+        }
+});
+</script>
 @endsection

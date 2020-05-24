@@ -26,6 +26,9 @@ class UserSeeder extends Seeder
                 'is_admin' => 1,
                 // 'api_token' => Str::random(60),
             ]);
+
+            $user->assignRole(1);
+
             $user = User::create([
                 //'balance' => 1200,
                 'login' => 'Sazjun',
@@ -36,6 +39,8 @@ class UserSeeder extends Seeder
                 'is_admin' => 1,
                 // 'api_token' => Str::random(60),
             ]);
+
+            $user->assignRole(1);
 
             $user = User::create([
                 'balance' => 0,
@@ -59,6 +64,8 @@ class UserSeeder extends Seeder
                 'is_admin' => 1,
                 // 'api_token' => Str::random(60),
             ]);
+
+            $user->assignRole(1);
 
             $user = User::create([
                 'balance' => 100000,

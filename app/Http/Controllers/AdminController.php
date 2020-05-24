@@ -14,6 +14,8 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -263,9 +265,10 @@ class AdminController extends Controller
     {
         $search = request()->search ?? '';
         $sub_type = request()->sub_type ? request()->sub_type : '';
+        $roles = Role::pluck('name')->toArray();
         $subscriptions = array_keys(config('settings.subscriptions'));
         //$sub_types = [...['individual'], ...$subscriptions];
-        $sub_types = array_merge(['individual'], $subscriptions);
+        $sub_types = array_merge(['individual'], $subscriptions, $roles);
         //return $sub_types;
 
         $query = User::where(function ($q) use ($search, $sub_type) {
@@ -296,6 +299,14 @@ class AdminController extends Controller
                 }
             });
         }
+
+        if (in_array($sub_type, $roles)) {
+
+            $query = $query->filter(function ($user) use ($sub_type) {
+                return $user->hasRole($sub_type);
+            });
+        }
+
         //$pagination = $query->paginate(config("settings.per_page"));
 
         $users = $query;
@@ -316,6 +327,8 @@ class AdminController extends Controller
 
     public function fundWallet(User $user)
     {
+        $this->authorize('fund', $user);
+
         $this->validate(request(), [
             'amount' => 'required|numeric|min:1',
             //'password' => ["required", new checkOldPassword(Auth::user())],
@@ -399,6 +412,114 @@ class AdminController extends Controller
     ]);
     //$user->delete();
     return redirect($user->routePath()); */
+
+    }
+
+    public function assignRole(User $user)
+    {
+        $this->authorize('manageRoles', User::class);
+
+        if (!$user->is_admin || $user->hasRole('super admin')) {
+            abort(403);
+        }
+
+        $validate = [
+
+            'role' => 'required|string|not_in:1',
+
+        ];
+
+        $this->validate(request(), $validate);
+        $role = Role::findByName(request()->role);
+        if (!$role) {
+            abort(404);
+        }
+        if ($user->hasRole($role->name)) {
+            $user->removeRole($role->name);
+            $status = 'removed from';
+        } else {
+            $user->assignRole($role->name);
+            $status = 'added to';
+        }
+
+        return $this->jsonWebBack('success', "Role " . $role->name . " {$status} user {$user->login}");
+
+    }
+
+    public function assignPermission(User $user)
+    {
+        $this->authorize('manageRoles', User::class);
+
+        if (!$user->is_admin || $user->hasRole('super admin')) {
+            abort(403);
+        }
+
+        $validate = [
+
+            'permission' => 'required|string',
+
+        ];
+
+        $this->validate(request(), $validate);
+        $permission = Permission::findByName(request()->permission);
+        if (!$permission) {
+            abort(404);
+        }
+
+        if ($user->hasPermissionTo($permission->name)) {
+            $user->revokePermissionTo($permission->name);
+            $status = 'removed from';
+        } else {
+            $user->givePermissionTo($permission->name);
+            $status = 'added to';
+        }
+
+        return $this->jsonWebBack('success', "Permission " . $permission->name . " {$status} user {$user->login}");
+
+    }
+
+    public function getCreateAdmin()
+    {
+        $this->authorize('manageRoles', User::class);
+
+        return view('admin.admin.create');
+    }
+
+    public function createAdmin()
+    {
+        $data = [
+            'login' => ['required', 'string', 'max:15', 'unique:users', 'alpha_dash'],
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
+            'pic' => 'nullable|image|max:250',
+            'number' => 'required|numeric|digits_between:10,11|unique:users',
+            'email' => 'required|email:rfc,dns,strict,spoof,filter|unique:users',
+            'password' => 'required|min:5|string|confirmed',
+            'role' => 'required|not_in:1',
+        ];
+
+        $this->validate(request(), $data);
+
+        $user = User::create(request()->except('pic', 'password_confirmation', 'role'));
+
+        $user->assignRole(request()->role);
+
+        $user->update([
+            'is_admin' => 1,
+        ]);
+
+        if (request()->pic) {
+
+            $id = request()->file('pic');
+            $path = $id->store('profile', ['disk' => 'public']);
+
+            $user->update([
+                'profile' => $path,
+            ]);
+
+        }
+
+        return $this->jsonWebBack('success', "Admin {$user->login} with {$user->roles->first()->name} role created");
 
     }
 }

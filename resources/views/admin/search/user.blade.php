@@ -106,14 +106,14 @@
                                 <td class="font-weight-bold">
 
                                     @if ($user->is_admin)
-                                    {{$user->login}}
+                                    <a href="/user/{{$user->id}}/edit">{{$user->login}}</a>
                                     @else
                                     <a href="/user/{{$user->id}}">{{$user->login}}</a>
                                     @endif
                                 </td>
                                 <td>{{$user->full_name}}</td>
                                 <td><a
-                                        class="label rounded-pill text-white theme-bg">{{ucfirst($user->userPackage())}}</a>
+                                        class="label rounded-pill text-white theme-bg">{{ucwords($user->userPackage())}}</a>
                                 </td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->number}}</td>

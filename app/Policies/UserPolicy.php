@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->id == $model->id;
+        return $user->id == $model->id || (!$model->is_admin && $user->can('view user'));
     }
 
     /**
@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return ($user->can('create user'));
     }
 
     /**
@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->id == $model->id;
+        return $user->id == $model->id || (!$model->is_admin && $user->can('update user'));
     }
 
     /**
@@ -64,7 +64,12 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return false;
+        return (!$model->is_admin && $user->can('delete user'));
+    }
+
+    public function suspend(User $user, User $model)
+    {
+        return (!$model->is_admin && $user->can('suspend user'));
     }
 
     /**
@@ -104,18 +109,28 @@ class UserPolicy
 
     public function massMail(User $user)
     {
-        return false;
+        return $user->can('send mass mail');
     }
 
     public function debit(User $user, User $model)
     {
-        return false;
+        return (!$model->is_admin && $user->can('debit wallet'));
+    }
+
+    public function fund(User $user, User $model)
+    {
+        return (!$model->is_admin && $user->can('fund wallet'));
+    }
+
+    public function manageRoles(User $user)
+    {
+        return $user->can('manage roles');
     }
 
     public function before($user, $ability)
     {
 
-        if ($user->is_admin) {
+        if ($user->hasAnyRole(['super admin'])) {
             return true;
         }
     }

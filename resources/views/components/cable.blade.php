@@ -209,7 +209,7 @@
                 this.amount = this.bills[this.type][n]['amount'];
                 var charges = plan['charges'] - ((this.bonus / 100) * plan['charges']) ;
                 this.discountAmount = this.bills[this.type][n]['price'] + charges;
-                this.details = 'Cable Subscription of ' + this.type.toUpperCase() + '-' + plan["name"] + '- ' + plan["price"] + ' - '+ plan["duration"] +' for smart no '+this.number;
+                this.details = 'Cable Subscription of ' + this.type.toUpperCase() + '-' + plan["name"] + '- ' + plan["price"] + ' - '+ plan["duration"] +' for smart no '+this.number+' ('+this.mobile_number+')';
             },
             number(n){
                 console.log(this.type);

@@ -110,6 +110,12 @@
                         <li class="nav-item pcoded-menu-caption">
                             <label>Administration</label>
                         </li>
+                        @can('manageRoles',App\User::class)
+                        <li class="nav-item"><a href="/admin/user/create" class="nav-link"><span class="pcoded-micon"><i
+                                        class="fa fa-user"></i></span><span class="pcoded-mtext">Create
+                                    Admin</span></a>
+                        </li>
+                        @endcan
                         @can('massMail',App\User::class)
                         <li class="nav-item"><a href="/admin/contact" class="nav-link"><span class="pcoded-micon"><i
                                         class="fa fa-envelope-square"></i></span><span class="pcoded-mtext">Send Mass

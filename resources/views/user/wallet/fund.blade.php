@@ -6,7 +6,7 @@
 @endsection
 @section('content')
 
-@if (Auth::user()->is_admin)
+@if (Auth::user()->can('fund',request()->user))
 <div class="row" id="fund">
     <div class="col-10 mx-auto card p-5">
         <h4 class="text-6 mb-4">Fund Wallet by Admin</h4>

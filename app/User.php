@@ -9,10 +9,11 @@ use Devi\MultiReferral\Traits\MultiReferral;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable, MultiReferral, Refer;
+    use Notifiable, HasRoles, MultiReferral, Refer;
 
     /**
      * The attributes that are mass assignable.
@@ -56,7 +57,7 @@ class User extends Authenticatable
     public function userPackage()
     {
         if ($this->is_admin) {
-            return 'admin';
+            return implode(", ", $this->getRoleNames()->toArray());
         }
 
         if (!$this->is_reseller) {

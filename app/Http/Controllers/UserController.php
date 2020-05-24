@@ -840,7 +840,6 @@ class UserController extends Controller
 
         $smart_no = request()->smart_no;
         $discount_amount = $price;
-        $desc = "Cable Subscription of {$details} for smart no {$smart_no}";
         //return $discount_amount;
 
         request()->merge(['discount_amount' => $discount_amount]);
@@ -854,6 +853,7 @@ class UserController extends Controller
         $ref = generateRef($user);
 
         $number = request()->number ? nigeriaNumber(request()->number) : $user->nigeria_number;
+        $desc = "Cable Subscription of {$details} for smart no {$smart_no} ($number)";
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
             return $this->jsonWebBack('error', dublicateMessage());
@@ -919,7 +919,7 @@ class UserController extends Controller
 
     public function updateStatus(User $user)
     {
-        $this->authorize('delete', $user);
+        $this->authorize('suspend', $user);
 
         $user->update(['is_active' => !$user->is_active]);
 

@@ -94,6 +94,7 @@
                             <th>Id</th>
                             <th>Username</th>
                             <th>Full Name</th>
+                            <th>Status</th>
                             <th>User Type</th>
                             <th>Email</th>
                             <th>Mobile Number</th>
@@ -112,6 +113,9 @@
                                     @endif
                                 </td>
                                 <td>{{$user->full_name}}</td>
+                                <td><a
+                                        class="label rounded-pill text-white  {{$user->is_active ? 'bg-success':'bg-danger'}}">{{$user->status()}}</a>
+                                </td>
                                 <td><a
                                         class="label rounded-pill text-white theme-bg">{{ucwords($user->userPackage())}}</a>
                                 </td>

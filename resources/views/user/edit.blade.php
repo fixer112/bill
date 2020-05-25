@@ -75,11 +75,10 @@ $admin = request()->user->hasRole('super admin');
                     @if (!request()->user->is_admin)
                     <div class="form-group">
                         <label>SMS Notification <span class="text-danger text-small">(You will be charged
-                                N{{env('SMS_CHARGE',2.5)}} per sms
-                                notification) </span> (Comming soon)</label>
+                                N{{env('SMS_CHARGE',3)}} per sms
+                                notification) </span></label>
                         <div class="input-group">
-                            <select disabled class="custom-select @error('sms_notify') is-invalid @enderror"
-                                name="sms_notify">
+                            <select class="custom-select @error('sms_notify') is-invalid @enderror" name="sms_notify">
                                 <option value="1" {{request()->user->sms_notify ? 'selected' :'' }}>Enabled
                                 </option>
                                 <option value="0" {{request()->user->sms_notify ? '': 'selected' }}>Disabled

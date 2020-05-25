@@ -74,6 +74,7 @@ class UserSeeder extends Seeder
                 'last_name' => 'User',
                 'email' => 'abula3003@gmail.com',
                 'password' => 'abula112',
+                'number' => '8106813749',
                 'is_reseller' => 1,
                 'api_token' => 'abcde12345', //Str::random(60),
             ]);

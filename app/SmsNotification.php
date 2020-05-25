@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SmsNotification extends Model
 {
+    protected $guarded = [];
+
     public function transaction()
     {
         return $this->belongsTo('App\Transaction');

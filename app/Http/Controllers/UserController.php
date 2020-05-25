@@ -76,6 +76,11 @@ class UserController extends Controller
 
         ];
 
+        if ($user->can('suspend', $user) && !$user->hasRole('super admin')) {
+            $data['is_active'] = 'nullable|boolean';
+
+        }
+
         if (request()->email != $user->email) {
             $data['email'] = 'required|email:rfc,dns,strict,spoof,filter|unique:users';
 

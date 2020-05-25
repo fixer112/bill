@@ -173,7 +173,29 @@ $admin = request()->user->hasRole('super admin');
                         </div>
                     </div>
 
+                    @can('suspend', request()->user)
+                    @if( !request()->user->hasRole('super admin'))
+                    <div class="form-group">
+                        <label>Status</label>
+                        <div class="input-group">
+                            <select class="custom-select @error('is_active') is-invalid @enderror" name="is_active">
+                                <option value="1" {{request()->user->is_active ? 'selected' :'' }}>Activate
+                                </option>
+                                <option value="0" {{request()->user->is_active ? '': 'selected' }}>Suspend
+                                </option>
+                            </select>
+                            @error('is_active')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    @endif
+                    @endcan
+
                     @if (!Auth::user()->is_admin)
+
 
                     <div class="form-group">
                         <label>Old Password</label>

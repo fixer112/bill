@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -54,5 +55,35 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         return redirect($user->routePath());
+    }
+
+    public function loginApi()
+    {
+        $this->validate(request(), [
+            'username' => 'required|exists:users',
+            'password' => 'required',
+        ]);
+        $credentials = [
+            'username' => request()->username,
+            'password' => request()->password,
+            'is_active' => 1,
+            'is_admin' => 0,
+        ];
+
+        if (Auth::attempt($credentials)) {
+            if (!Auth::user()->api_token) {
+                Auth::user()->update(['api_token' => Str::random(60)]);
+            }
+            Activity::create([
+                'user_id' => Auth::id(),
+                'admin_id' => Auth::id(),
+                'Summary' => 'You logged in to mobile app',
+            ]);
+
+            return new UserResource(Auth::user());
+        }
+
+        return ['error' => 'Invalid credentials or suspended'];
+
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Activity;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
 use App\Providers\RouteServiceProvider;

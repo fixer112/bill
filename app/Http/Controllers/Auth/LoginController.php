@@ -60,11 +60,11 @@ class LoginController extends Controller
     public function loginApi()
     {
         $this->validate(request(), [
-            'username' => 'required|exists:users',
+            'username' => 'required|exists:users,login',
             'password' => 'required',
         ]);
         $credentials = [
-            'username' => request()->username,
+            'login' => request()->username,
             'password' => request()->password,
             'is_active' => 1,
             'is_admin' => 0,

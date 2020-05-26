@@ -19,6 +19,7 @@ class User extends JsonResource
     {
         $data = parent::toArray($request);
         //$data['settings'] = config('settings');
+        $data['profile_pic'] = $this->profilePic();
         $data['full_name'] = $this->full_name;
         $data['settings']['bills'] = config('settings.bills');
         $data['settings']['bills']['cable'] = getCable();

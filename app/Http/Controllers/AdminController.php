@@ -442,6 +442,12 @@ class AdminController extends Controller
             $status = 'added to';
         }
 
+        $activityTo = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => "Role " . $role->name . " {$status} user {$user->login}",
+        ]);
+
         return $this->jsonWebBack('success', "Role " . $role->name . " {$status} user {$user->login}");
 
     }
@@ -473,6 +479,12 @@ class AdminController extends Controller
             $user->givePermissionTo($permission->name);
             $status = 'added to';
         }
+
+        $activityTo = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => "Permission " . $permission->name . " {$status} user {$user->login}",
+        ]);
 
         return $this->jsonWebBack('success', "Permission " . $permission->name . " {$status} user {$user->login}");
 

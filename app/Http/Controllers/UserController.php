@@ -929,6 +929,12 @@ class UserController extends Controller
 
         $user->update(['is_active' => !$user->is_active]);
 
+        $activityTo = Activity::create([
+            'user_id' => $user->id,
+            'admin_id' => auth()->user()->id,
+            'summary' => "User {$user->status()}",
+        ]);
+
         try {
 
             $user->notify(new alert("Your Account is {$user->status()}"));

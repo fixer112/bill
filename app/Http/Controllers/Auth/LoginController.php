@@ -68,14 +68,19 @@ class LoginController extends Controller
         $credentials = [
             'login' => request()->username,
             'password' => request()->password,
-            'is_active' => 1,
+            //'is_active' => 1,
             'is_admin' => 0,
         ];
 
         if (Auth::attempt($credentials)) {
+            if (!Auth::user()->is_active) {
+                return ['error' => 'You are suspended'];
+
+            }
             if (!Auth::user()->api_token) {
                 Auth::user()->update(['api_token' => Str::random(60)]);
             }
+
             Activity::create([
                 'user_id' => Auth::id(),
                 'admin_id' => Auth::id(),
@@ -85,7 +90,7 @@ class LoginController extends Controller
             return new UserResource(Auth::user());
         }
 
-        return ['error' => 'Invalid credentials or suspended'];
+        return ['error' => 'Invalid credentials'];
 
     }
 }

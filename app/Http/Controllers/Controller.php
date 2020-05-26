@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Http\Resources\User as UserResource;
 use App\Jobs\SendEmail;
 use App\Mail\bulkMail;
 use App\Mail\lowBalance;
@@ -427,7 +428,7 @@ class Controller extends BaseController
     public function test()
     {
 
-        //return;
+        return new UserResource(User::find(2));
 
         //return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '09049941820', 'MoniWallet');
         return $this->cableInfo('dstv', '7036717423');

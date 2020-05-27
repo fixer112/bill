@@ -584,7 +584,7 @@ class UserController extends Controller
 
         try {
 
-            $user->notify(new alert($fullDesc, $tran));
+            // $user->notify(new alert($fullDesc, $tran));
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -685,8 +685,12 @@ class UserController extends Controller
             'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
             'number' => "required|numeric|digits_between:10,11",
             'discount_amount' => ['required', "numeric", new checkBalance($user)],
-            'password' => ["required_if:type,app", new checkOldPassword($user)],
+
         ];
+
+        if (!request()->wantsJson() || request()->type == 'app') {
+            $data['password'] = ["required", new checkOldPassword($user)];
+        }
 
         $this->validate(request(), $data);
 
@@ -770,9 +774,13 @@ class UserController extends Controller
         $data = [
             'number' => "required|numeric|digits_between:10,11",
             'price' => "required|numeric",
-            'password' => ["required", new checkOldPassword($user)],
+            //'password' => ["required", new checkOldPassword($user)],
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ];
+
+        if (!request()->wantsJson() || request()->type == 'app') {
+            $data['password'] = ["required", new checkOldPassword($user)];
+        }
 
         $this->validate(request(), $data);
 
@@ -830,10 +838,14 @@ class UserController extends Controller
 
         ];
 
+        if (!request()->wantsJson() || request()->type == 'app') {
+            $data['password'] = ["required", new checkOldPassword($user)];
+        }
+
         /* if (!request()->wantsJson()) {
         } */
 
-        $data['password'] = ["required", new checkOldPassword($user)];
+        //$data['password'] = ["required", new checkOldPassword($user)];
         $this->validate(request(), $data);
 
         $type = request()->type;

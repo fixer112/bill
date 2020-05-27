@@ -28,6 +28,7 @@ class User extends JsonResource
         $data['settings']['cable_discount'] = cableDiscount(U::find($this->id));
         $data['latest_comissions'] = Referral::ordered()->get()->take(config("settings.recent_page"));
         $data['latest_transactions'] = Transaction::ordered()->get()->take(config("settings.recent_page"));
+        $data['package_name'] = $this->lastSub()->name;
 
         return $data;
     }

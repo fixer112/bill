@@ -51,6 +51,7 @@ class alert extends Notification implements ShouldQueue
     {
         $mail = (new MailMessage)
             ->greeting("Hello {$notifiable->full_name}!")
+            ->line('You have a transaction notification with description:')
             ->line($this->desc);
 
         if ($this->tran) {

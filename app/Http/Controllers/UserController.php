@@ -612,7 +612,7 @@ class UserController extends Controller
 
         $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
-        $desc = "Wallet funding of {$amount} from online payment";
+        $desc = "Wallet funding of " . currencyFormat($amount) . " from online payment";
 
         $user->update([
             'balance' => $user->balance + $amount,

@@ -81,11 +81,14 @@ class LoginController extends Controller
                 Auth::user()->update(['api_token' => Str::random(60)]);
             }
 
-            Activity::create([
-                'user_id' => Auth::id(),
-                'admin_id' => Auth::id(),
-                'Summary' => 'You logged in to mobile app',
-            ]);
+            if (!request()->refresh) {
+
+                Activity::create([
+                    'user_id' => Auth::id(),
+                    'admin_id' => Auth::id(),
+                    'Summary' => 'You logged in to mobile app',
+                ]);
+            }
 
             return new UserResource(Auth::user());
         }

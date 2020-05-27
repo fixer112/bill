@@ -182,7 +182,7 @@ class Controller extends BaseController
             'ref' => $ref,
             'user_id' => $user->id,
             'reason' => $type,
-            'plathform' => !request()->wantsJson() ? 'web' : request()->type == 'app' ? 'app' : 'api',
+            'plathform' => getPlathform(),
         ]);
 
         $activity = Activity::create([

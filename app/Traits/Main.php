@@ -21,7 +21,7 @@ trait Main
 
         //return $dublicate;
 
-        $seconds = request()->wantsJson() ? 60 : env("DUBLICATE_LIMIT", 180);
+        $seconds = dublicateTime();
         if ($dublicate) {
             //return now()->diffInSeconds($dublicate->created_at);
             //return $seconds;

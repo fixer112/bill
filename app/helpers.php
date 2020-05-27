@@ -8,9 +8,41 @@ use Illuminate\Support\Facades\Storage;
 //if (!function_exists("calPercentage")) {
 function dublicateMessage($message = null)
 {
-    $min = (request()->wantsJson() ? 60 : env("DUBLICATE_LIMIT", 180)) / 60;
+    $min = dublicateTime() / 60;
     $message = $message == null ? "Dublicate Transaction, please try again in {$min} Minutes" : $message;
     return $message;
+}
+
+function dublicateTime()
+{
+    if (request()->wantsJson()) {
+
+        if (request()->type == 'app') {
+            return env("DUBLICATE_LIMIT", 180);
+        } else {
+            return 60;
+        }
+
+    }
+    return env("DUBLICATE_LIMIT", 180);
+
+    //return request()->wantsJson() ? 60 : env("DUBLICATE_LIMIT", 180);
+    //return !request()->wantsJson() ? env("DUBLICATE_LIMIT", 180) : request()->type == 'app' ? env("DUBLICATE_LIMIT", 180) : 60;
+}
+
+function getPlathform()
+{
+    if (request()->wantsJson()) {
+
+        if (request()->type == 'app') {
+            return 'app';
+        } else {
+            return 'api';
+        }
+
+    }
+    return 'web';
+
 }
 
 function successMessage($message = "An error occured, Please try again later")

@@ -202,8 +202,8 @@ class Controller extends BaseController
         if (request()->wantsJson()) {
             return $tran;
         }
-
-        return $this->jsonWebBack('success', $desc/* ,$user->routePath() */, $ref);
+        //return "user/{$user->id}/$type";
+        return $this->jsonWebRedirect('success', $desc, "user/{$user->id}/$type", $ref);
 
     }
 
@@ -427,7 +427,7 @@ class Controller extends BaseController
 
     public function test()
     {
-        
+
         return new UserResource(User::find(2));
 
         //return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '09049941820', 'MoniWallet');

@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
             ]);
 
         } else {
-            $user = User::create([
+            $admin = User::create([
                 //'balance' => 1200,
                 'login' => 'admin',
                 'first_name' => 'Abu',
@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
                 // 'api_token' => Str::random(60),
             ]);
 
-            $user->assignRole(1);
+            $admin->assignRole('super admin');
 
             $user = User::create([
                 'balance' => 1200,
@@ -76,7 +76,7 @@ class UserSeeder extends Seeder
                 'password' => 'abula112',
                 'number' => '8106813749',
                 'is_reseller' => 1,
-                'api_token' => 'abcde12345', //Str::random(60),
+                'api_token' => 'abcde123455', //Str::random(60),
             ]);
 
             $tran = Transaction::create([

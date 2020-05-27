@@ -29,6 +29,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
+        //return true;
         return $user->id == $model->id || (!$model->is_admin && $user->can('view user'));
     }
 

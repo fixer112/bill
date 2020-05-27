@@ -657,6 +657,7 @@ class UserController extends Controller
 
     public function postAirtime(User $user)
     {
+        //return $user;
         $this->authorize('view', $user);
         //return request()->all();
 
@@ -684,7 +685,7 @@ class UserController extends Controller
             'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
             'number' => "required|numeric|digits_between:10,11",
             'discount_amount' => ['required', "numeric", new checkBalance($user)],
-            'password' => ["required", new checkOldPassword($user)],
+            'password' => ["required_if:type,app", new checkOldPassword($user)],
         ];
 
         $this->validate(request(), $data);

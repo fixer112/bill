@@ -554,27 +554,30 @@ class UserController extends Controller
 
         $this->validate(request(), [
             'amount' => ["required", "numeric"],
-            'desc' => "required|string|max:100",
+            'with_desc' => "required|boolean",
+            'desc' => "required_if:with_desc,1|string|max:100",
             //'password' => ["required", new checkOldPassword(Auth::user())],
         ]);
 
         $amount = request()->amount;
-        $desc = request()->desc;
+        $desc = request()->desc ?? "Account debited with {$amount}";
         $fullDesc = "{$amount} debited from wallet. Description: " . $desc;
 
         $user->update([
             'balance' => $user->balance - $amount,
         ]);
 
-        $tran = Transaction::create([
-            'amount' => $amount,
-            'balance' => $user->balance,
-            'type' => 'debit',
-            'desc' => "{$desc}",
-            'ref' => generateRef($user),
-            'user_id' => $user->id,
-            'reason' => 'debit',
-        ]);
+        if (request()->with_desc) {
+            $tran = Transaction::create([
+                'amount' => $amount,
+                'balance' => $user->balance,
+                'type' => 'debit',
+                'desc' => "{$fullDesc}",
+                'ref' => generateRef($user),
+                'user_id' => $user->id,
+                'reason' => 'debit',
+            ]);
+        }
 
         $activity = Activity::create([
             'user_id' => $user->id,

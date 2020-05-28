@@ -705,7 +705,7 @@ class UserController extends Controller
         ]); */
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
-            return $this->jsonWebBack('error', dublicateMessage());
+            return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
         }
 
         $ref = generateRef($user);
@@ -713,14 +713,14 @@ class UserController extends Controller
         //return $number;
         if ($network == 'mtn_sns') {
             if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
-                return $this->jsonWebBack('error', dublicateMessage());
+                return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
             }
 
             $result = $this->mtnAirtime(request()->amount, $number, $ref);
 
         } else {
             if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
-                return $this->jsonWebBack('error', dublicateMessage());
+                return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
             }
 
             $result = $this->airtime(request()->amount, $number, $network_code, $ref);
@@ -789,7 +789,7 @@ class UserController extends Controller
         $number = nigeriaNumber(request()->number);
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
-            return $this->jsonWebBack('error', dublicateMessage());
+            return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
         }
 
         $ref = generateRef($user);
@@ -797,7 +797,7 @@ class UserController extends Controller
         if ($network == 'mtn_sme') {
 
             if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
-                return $this->jsonWebBack('error', dublicateMessage());
+                return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
             }
 
             $result = $this->dataMtn($price, $number, $network_code, $ref);
@@ -805,7 +805,7 @@ class UserController extends Controller
         } else {
 
             if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
-                return $this->jsonWebBack('error', dublicateMessage());
+                return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
             }
 
             $result = $this->data($price, $number, $network_code, $ref);
@@ -875,19 +875,19 @@ class UserController extends Controller
         $desc = "Cable Subscription of {$details} for smart no {$smart_no} ($number)";
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
-            return $this->jsonWebBack('error', dublicateMessage());
+            return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
         }
 
         if ($type == 'startimes') {
             if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
-                return $this->jsonWebBack('error', dublicateMessage());
+                return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
             }
 
             $result = $this->startimeCable(request()->amount, $smart_no, $number);
 
         } else {
             if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
-                return $this->jsonWebBack('error', dublicateMessage());
+                return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
             }
 
             $result = $this->cable($type, request()->amount, $smart_no, request()->customer_name, request()->customer_number, request()->invoice, $number);
@@ -896,7 +896,7 @@ class UserController extends Controller
         //return $result;
 
         if (is_array($result) && isset($result['error'])) {
-            return $this->jsonWebBack('error', $result['error']);
+            return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/cable");
         }
 
         /* if (!isset($result['exchangeReference'])) {

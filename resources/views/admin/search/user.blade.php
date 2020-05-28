@@ -94,6 +94,8 @@
                             <th>Id</th>
                             <th>Username</th>
                             <th>Full Name</th>
+                            <th>Wallet Balance</th>
+                            <th>Referral Balance</th>
                             <th>Status</th>
                             <th>User Type</th>
                             <th>Email</th>
@@ -113,6 +115,8 @@
                                     @endif
                                 </td>
                                 <td>{{$user->full_name}}</td>
+                                <td>{{$user->balance}}</td>
+                                <td>{{$user->referral_balance}}</td>
                                 <td><a
                                         class="label rounded-pill text-white  {{$user->is_active ? 'bg-success':'bg-danger'}}">{{$user->status()}}</a>
                                 </td>

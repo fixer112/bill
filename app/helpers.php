@@ -225,7 +225,7 @@ function fetchDataInfo()
         $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
             //$plan['price'] = ceil($plan['price'] / 5) * 5;
             $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
-            $plan['id'] = convertDataAmount($plan['data_amount']);
+            //$plan['id'] = convertDataAmount($plan['data_amount']);
             //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
             $plan['type'] = 'direct';
 
@@ -252,7 +252,7 @@ function fetchDataInfo()
     }
     $sme = [
         [
-            'id' => "1GB",
+            'id' => "SME-1GB",
             'topup_currency' => "NGN",
             'topup_amount' => 400,
             'price' => 1000,
@@ -261,7 +261,7 @@ function fetchDataInfo()
             'type' => 'sme',
         ],
         [
-            'id' => "2GB",
+            'id' => "SME-2GB",
             'topup_currency' => "NGN",
             'topup_amount' => 800,
             'price' => 2000,
@@ -271,7 +271,7 @@ function fetchDataInfo()
         ],
 
         [
-            'id' => "3GB",
+            'id' => "SME-3GB",
             'topup_currency' => "NGN",
             'topup_amount' => 1200,
             'price' => 3000,
@@ -280,7 +280,7 @@ function fetchDataInfo()
             'type' => 'sme',
         ],
         [
-            'id' => "5GB",
+            'id' => "SME-5GB",
             'topup_currency' => "NGN",
             'topup_amount' => 2000,
             'price' => 5000,

@@ -769,7 +769,7 @@ class UserController extends Controller
 
         $formatAmount = currencyFormat($amount);
 
-        $details = ($plan["id"]) . " - {$formatAmount} - {$plan['validity']}";
+        $details = (($plan["id"])) . " - {$formatAmount} - {$plan['validity']}";
 
         $discount_amount = calDiscountAmount($amount, dataDiscount($user)[$network]);
         request()->merge(['discount_amount' => $discount_amount]);

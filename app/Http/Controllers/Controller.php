@@ -428,6 +428,7 @@ class Controller extends BaseController
     public function test()
     {
 
+        return fetchDataInfo();
         return new UserResource(User::find(2));
 
         //return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '09049941820', 'MoniWallet');
@@ -436,7 +437,6 @@ class Controller extends BaseController
         return $this->fetchDataInfo(request()->type ?? 'glo');
         return $this->mtnAirtime(50, '', 'mtntest');
 
-        return fetchDataInfo();
         return $this->reserveAccount(User::find(2));
         return $this->verifyTransfer("MNFY|20200512181838|000258");
 

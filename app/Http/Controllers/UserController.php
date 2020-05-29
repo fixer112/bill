@@ -759,6 +759,11 @@ class UserController extends Controller
         request()->merge(['network' => strtolower(request()->network)]);
         $this->validate(request(), [
             'network' => "required|string|in:" . implode(',', array_keys($networks)),
+
+        ]);
+
+        $this->validate(request(), [
+            'price' => "required|numeric|in:" . implode(',', collect($bills[$network])->pluck('price')->toArray()),
         ]);
 
         $network_code = $networks[$network];
@@ -776,8 +781,6 @@ class UserController extends Controller
 
         $data = [
             'number' => "required|numeric|digits_between:10,11",
-            'price' => "required|numeric",
-            //'password' => ["required", new checkOldPassword($user)],
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ];
 

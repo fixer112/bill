@@ -232,7 +232,7 @@ function fetchDataInfo()
             return [$k => $plan];
         });
 
-        $fetchData = $fetchData->unique('price')->sortBy('price')->values()->all();
+        $fetchData = $fetchData/* ->unique('price') */->sortBy('price')->values()->all();
         //return $fetchData->toArray();
 
         $datas[$key] = $fetchData;

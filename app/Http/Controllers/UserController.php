@@ -691,7 +691,7 @@ class UserController extends Controller
 
         ];
 
-        if (!request()->wantsJson() || request()->type == 'app') {
+        if (!request()->wantsJson() || request()->plathform == 'app') {
             $data['password'] = ["required", new checkOldPassword($user)];
         }
 
@@ -784,7 +784,7 @@ class UserController extends Controller
             'discount_amount' => ["required", "numeric", new checkBalance($user)],
         ];
 
-        if (!request()->wantsJson() || request()->type == 'app') {
+        if (!request()->wantsJson() || request()->plathform == 'app') {
             $data['password'] = ["required", new checkOldPassword($user)];
         }
 
@@ -844,7 +844,7 @@ class UserController extends Controller
 
         ];
 
-        if (!request()->wantsJson() || request()->type == 'app') {
+        if (!request()->wantsJson() || request()->plathform == 'app') {
             $data['password'] = ["required", new checkOldPassword($user)];
         }
 

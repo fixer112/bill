@@ -314,7 +314,7 @@ class UserController extends Controller
         $to = $to->endOfDay();
         $reason = request()->reason ? request()->reason : '';
         $ref = request()->ref ? request()->ref : '';
-        $type = request()->type ? request()->type : '';
+        $type = request() ? request()->type : '';
 
         //return $from;
         if (request()->wantsJson()) {

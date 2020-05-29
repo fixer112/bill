@@ -17,7 +17,7 @@ function dublicateTime()
 {
     if (request()->wantsJson()) {
 
-        if (request()->type == 'app') {
+        if (request()->plathform == 'app') {
             return env("DUBLICATE_LIMIT", 180);
         } else {
             return 60;
@@ -34,7 +34,7 @@ function getPlathform()
 {
     if (request()->wantsJson()) {
 
-        if (request()->type == 'app') {
+        if (request()->plathform == 'app') {
             return 'app';
         } else {
             return 'api';

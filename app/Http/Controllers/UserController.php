@@ -848,10 +848,6 @@ class UserController extends Controller
             $data['password'] = ["required", new checkOldPassword($user)];
         }
 
-        /* if (!request()->wantsJson()) {
-        } */
-
-        //$data['password'] = ["required", new checkOldPassword($user)];
         $this->validate(request(), $data);
 
         $type = request()->type;
@@ -871,9 +867,6 @@ class UserController extends Controller
         $this->validate(request(), [
             'discount_amount' => [new checkBalance($user)],
         ]);
-
-        //return request()->amount;
-        //$number = request()->number;
 
         $ref = generateRef($user);
 

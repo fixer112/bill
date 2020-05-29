@@ -428,8 +428,10 @@ class Controller extends BaseController
     public function test()
     {
 
+        $data = new UserResource(User::find(2));
+        $data['general_alert'] = env("GENERAL_ALERT");
+        return $data;
         return fetchDataInfo();
-        return new UserResource(User::find(2));
 
         //return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '09049941820', 'MoniWallet');
         return $this->cableInfo('dstv', '7036717423');

@@ -33,7 +33,7 @@ class User extends JsonResource
         $data['latest_comissions'] = Referral::ordered()->get()->take(config("settings.recent_page"));
         $data['latest_transactions'] = Transaction::ordered()->get()->take(config("settings.recent_page"));
         $data['package_name'] = $this->userPackage();
-        $data['transfer_fee'] = env("MONIFY_FEE", 2);
+        $data['settings']['transfer_fee'] = env("MONIFY_FEE", 2);
 
         return $data;
     }

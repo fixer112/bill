@@ -349,7 +349,7 @@
 
             @if (session('success'))
             
-            swal("",'{{session('success')}}',"success",{
+            swal("",`{{session('success')}}`,"success",{
             buttons: true,
             //dangerMode: true,
             });
@@ -358,7 +358,7 @@
             
             @if (session('error'))
             
-            swal("",'{{session('error')}}',"error",{
+            swal("",`{{session('error')}}`,"error",{
             buttons: true,
             dangerMode: true,
             });

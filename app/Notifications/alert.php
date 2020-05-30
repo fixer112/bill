@@ -89,8 +89,8 @@ class alert extends Notification implements ShouldQueue
         $message = "Hello {$notifiable->first_name},
 You have a transaction notification with description: {$desc}";
         if ($notifiable->sms_notify && $this->tran) {
-            $this->chargeSms($this->tran, calSmsUnit($message));
-            $sms = $this->sms($message, $notifiable->nigeria_number);
+            $this->chargeSms($this->tran, ($message));
+
             return $sms;
         }
 

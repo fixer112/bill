@@ -374,7 +374,7 @@
             var dashbord = "{{request()->user->routePath()}}";
             @if (session('success'))
             
-            swal("",'{{session('success')}}',"success",{
+            swal("",`{{session('success')}}`,"success",{
             buttons: ["Stay Here", "Dashbord"],
             //dangerMode: true,
             })
@@ -390,7 +390,7 @@
             
             @if (session('error'))
             
-            swal("",'{{session('error')}}',"error",{
+            swal("",`{{session('error')}}`,"error",{
             buttons: ["Stay Here", "Dashboard"],
             dangerMode: true,
             })

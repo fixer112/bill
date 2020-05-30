@@ -15,7 +15,7 @@ trait BillPayment
         $user = env('MANG_USER');
         $pass = env('MANG_PASS');
         $credentials = "?userid={$user}&pass={$pass}&jsn=json";
-        $link = "https://mobileairtimeng.com/httpapi/";
+        $link = "http://mobileairtimeng.com/httpapi/";
 
         $link = $subLink ? "{$link}{$subLink}{$credentials}" : "{$link}{$credentials}";
 
@@ -284,7 +284,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::asForm()->post("https://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
+        $response = Http::asForm()->post("http://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
 
         return $response;
 

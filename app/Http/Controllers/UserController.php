@@ -560,8 +560,9 @@ class UserController extends Controller
         ]);
 
         $amount = request()->amount;
-        $desc = request()->desc ?? "Account debited with {$amount}";
-        $fullDesc = "{$amount} debited from wallet. Description: " . $desc;
+        $desc = request()->desc ?? "Account debited with " . currencyFormat($amount);
+
+        $fullDesc = currencyFormat($amount) . " debited from wallet. Description: " . $desc;
 
         $user->update([
             'balance' => $user->balance - $amount,

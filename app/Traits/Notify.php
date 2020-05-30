@@ -2,13 +2,24 @@
 namespace App\Traits;
 
 use App\SmsNotification;
+use App\Traits\BillPayment;
 use App\Transaction;
 
 trait Notify
 {
-    public static function chargeSms(Transaction $tran, $unit = 1)
+    use BillPayment;
+
+    public static function chargeSms(Transaction $tran, $message)
     {
+        $unit = calSmsUnit($message);
         $amount = env('SMS_CHARGE', 3) * $unit;
+
+        if ($tran->user->balance < $amount) {
+            return ['error' => 'Insufficient balance to send sms'];
+            //new Exception("Insufficient balance to send sms");
+        }
+
+        $sms = Self::sms($message, $tran->user->nigeria_number);
 
         SmsNotification::create([
             'amount' => $amount,

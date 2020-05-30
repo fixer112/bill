@@ -59,7 +59,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         Route::prefix('user')->group(function () {
             // Route::get('/paystack/validate/{reference}', 'UserController@validatePaystack');
 
-            Route::middleware(['subscribed'])->group(function () {
+            Route::middleware(['subscribed', 'locker'])->group(function () {
                 Route::get('/{user}', 'UserController@index');
                 Route::get('/{user}/edit', 'UserController@getEditUser');
                 Route::post('/{user}/edit', 'UserController@editUser');

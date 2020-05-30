@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
         'webRouteEnabled' => \App\Http\Middleware\webRouteEnabled::class,
         'checkStatus' => \App\Http\Middleware\checkStatus::class,
         'admin' => \App\Http\Middleware\Admin::class,
+        'locker' => \AltThree\Locker\Http\Middleware\LockingMiddleware::class,
     ];
 }

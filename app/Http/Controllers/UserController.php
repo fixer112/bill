@@ -647,7 +647,8 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
-        return $this->jsonWebBack('success', "{$amount} added to wallet"/* , $user->routePath() */);
+
+        return $this->jsonWebBack('success', currencyFormat($amount) . " added to wallet" /* , $user->routePath() */);
 
         //return view('user.wallet.fund');
     }

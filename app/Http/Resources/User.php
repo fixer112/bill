@@ -33,6 +33,7 @@ class User extends JsonResource
         $data['package_name'] = $this->userPackage();
         $data['settings']['transfer_fee'] = env("MONIFY_FEE", 2);
         $data['settings']['paystack_key'] = env("PAYSTACK_KEY", );
+        $data['settings']['min_fund'] = $this->minFund();
 
         return $data;
     }

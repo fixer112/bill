@@ -1,4 +1,4 @@
-function calcCharges(amount, charges = 1.5, flatFee = 50) {
+function calcCharges(amount, charges = 1.5, flatFee = 0) {
     amount = +amount;
 
     var charges = charges / 100;

@@ -43,7 +43,7 @@
             var handler = PaystackPop.setup({
               key: '{{env("PAYSTACK_KEY")}}',
               email: '{{$user->email}}',
-              amount: calcCharges(this.amount) * 100,
+              amount: calcCharges(this.amount,0,0) * 100,
               currency: "NGN",
               first_name:'{{$user->fname}}',
               last_name:'{{$user->lname}}',

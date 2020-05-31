@@ -97,10 +97,10 @@ function removeCharges($charged, $amount)
     return $charged - ($charged - $amount);
 }
 
-function calcCharges($amount)
+function calcCharges($amount, $charges = 1.5, $flatFee = 50)
 {
-    $flatFee = 100;
-    $charges = 1.5 / 100;
+
+    $charges = $charges / 100;
 
     $amount = $amount < 2500 ? $amount : $amount + $flatFee;
 

@@ -1,7 +1,7 @@
-function calcCharges(amount) {
+function calcCharges(amount, charges = 1.5, flatFee = 50) {
     amount = +amount;
-    var flatFee = 100 / 2;
-    var charges = 1.5 / 100;
+
+    var charges = charges / 100;
 
     amount = amount < 2500 ? amount : amount + flatFee;
 
@@ -62,22 +62,22 @@ function processPayment(data, balance, billEnabled, errorMessage, key) {
 
 }
 
-function wpChat(){
+function wpChat() {
     $('.floating-wpp').floatingWhatsApp({
 
         phone: '2349049392607',
 
         size: '50px',
 
-        position:"right",
+        position: "right",
 
-	    popupMessage: 'Hello!!!, how can we help you',
+        popupMessage: 'Hello!!!, how can we help you',
 
-	    showPopup: true,
+        showPopup: true,
 
-	    //message: 'Message To Send',
+        //message: 'Message To Send',
 
-	    headerTitle: 'MoniWallet Whatsapp'
+        headerTitle: 'MoniWallet Whatsapp'
 
-	  });
+    });
 }

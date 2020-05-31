@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Notifications\remindReseller;
 use App\User;
 use Illuminate\Console\Command;
 

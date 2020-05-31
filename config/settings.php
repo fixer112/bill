@@ -6,7 +6,7 @@ return [
         'instagram' => 'https://instagram.com/moniwalletng',
 
     ],
-    'recent_page' => 10,
+    'recent_page' => 100,
     'per_page' => 1000,
     'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'mtn_sns' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
     'bills' => [

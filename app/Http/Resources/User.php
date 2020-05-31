@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Referral;
-use App\Transaction;
 use App\User as U;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,8 +28,8 @@ class User extends JsonResource
         $data['settings']['data_alert'] = env("DATA_ALERT");
         $data['settings']['cable_alert'] = env("CABLE_ALERT");
         $data['settings']['general_alert'] = env("GENERAL_ALERT");
-        $data['latest_comissions'] = Referral::ordered()->get()->take(config("settings.recent_page"));
-        $data['latest_transactions'] = Transaction::ordered()->get()->take(config("settings.recent_page"));
+        $data['latest_comissions'] = $this->referrals->take(config("settings.recent_page"));
+        $data['latest_transactions'] = $this->transactions->take(config("settings.recent_page"));
         $data['package_name'] = $this->userPackage();
         $data['settings']['transfer_fee'] = env("MONIFY_FEE", 2);
 

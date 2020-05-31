@@ -428,7 +428,7 @@ class Controller extends BaseController
     public function test()
     {
 
-        $data = new UserResource(User::find(2));
+        return new UserResource(User::find(2));
         $data['general_alert'] = env("GENERAL_ALERT");
         return $data;
         return fetchDataInfo();

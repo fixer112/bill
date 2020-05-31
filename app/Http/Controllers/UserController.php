@@ -246,7 +246,7 @@ class UserController extends Controller
 
         $activity = Activity::create([
             'user_id' => $tranx->data->metadata->user_id,
-            'admin_id' => auth()->user()->id,
+            'admin_id' => $tranx->data->metadata->user_id,
             'summary' => $desc,
         ]);
 

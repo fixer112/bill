@@ -364,7 +364,7 @@
             });
             @endif
             $(document).ready(function () {
-               // wpChat();
+                wpChat('left');
         $('#verticalTab').easyResponsiveTabs({
         type: 'vertical', //Types: default, vertical, accordion
         });

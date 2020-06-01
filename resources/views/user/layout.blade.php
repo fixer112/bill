@@ -333,8 +333,8 @@
             </div>
             <p>Sorry for the inconvenience!</p>
         </div>
+        <![endif]-->
         <div class="floating-wpp"></div>
-    <![endif]-->
 
         {{-- <script src="/assets/js/vendor-all.min.js"></script> --}}
 
@@ -356,7 +356,12 @@
         {{-- <script src="/assets/js/pages/dashboard-custom.js"></script> --}}
         @yield('js')
 
+
         <script>
+            $(document).ready(function() {
+
+            wpChat();
+        });
             var alerted = localStorage.getItem('alerted');
 
             @if (env('GENERAL_ALERT'))
@@ -404,7 +409,7 @@
             @endif
 
             $( document ).ready(function() {
-                wpChat();
+                
                // $.stickysidebarscroll(".scroll-div",{offset: {top: 10, bottom: 200}});
                 var url = window.location;
                 var link =url.origin + url.pathname;
@@ -441,7 +446,7 @@
         </center>
         @if(!Auth::user()->is_admin && env('APP_ENV') =='production')
         <!--Start of Tawk.to Script-->
-        <script type="text/javascript">
+        {{--  <script type="text/javascript">
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
             (function(){
             var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -451,7 +456,7 @@
             s1.setAttribute('crossorigin','*');
             s0.parentNode.insertBefore(s1,s0);
             })();
-        </script>
+        </script>  --}}
         <!--End of Tawk.to Script-->
         @endif
     </body>

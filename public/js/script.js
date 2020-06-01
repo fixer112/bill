@@ -62,14 +62,14 @@ function processPayment(data, balance, billEnabled, errorMessage, key) {
 
 }
 
-function wpChat() {
+function wpChat(position = 'right') {
     $('.floating-wpp').floatingWhatsApp({
 
-        phone: '2349049392607',
+        phone: '2349013428002',
 
         size: '50px',
 
-        position: "right",
+        position: position,
 
         popupMessage: 'Hello!!!, how can we help you',
 

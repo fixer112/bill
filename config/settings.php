@@ -212,7 +212,7 @@ return [
         ],
         ],
 
-        'premium' => ['amount' => 80000, 'discount' => 0.7, 'bonus' => 10, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
+        'premium' => ['amount' => 80000, 'discount' => 0.7, 'bonus' => 5, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
             'airtime' => [
                 'mtn_sns' => 4,
                 'mtn' => 3,

@@ -386,9 +386,10 @@
             <div class="col-md-5 col-lg-6 text-center"> <img class="img-fluid" alt="" src="images/app-mobile.png">
             </div>
             <div class="col-md-7 col-lg-6">
-                <h2 class="text-9 font-weight-600 my-4">Our {{ucfirst(strtolower(env('APP_NAME')))}}
-                    Mobile App<br class="d-none d-lg-inline-block">
-                    Coming Soon</h2>
+                <h2 class="text-9 font-weight-600 my-4">{{ucfirst(strtolower(env('APP_NAME')))}}
+                    <br class="d-none d-lg-inline-block">
+                    Mobile App
+                </h2>
                 <p class="lead">Download our app for the fastest, most convenient way to send Recharge.
                 </p>
                 <p>{{env('APP_DESCRIPTION')}}</p>
@@ -397,11 +398,13 @@
                     <li>Bill Payment</li>
                     <li>and much more.....</li>
                 </ul>
-                {{-- <div class="d-flex flex-wrap pt-2"> <a class="mr-4" href=""><img alt=""
-                                            src="images/app-store.png"></a><a href=""><img alt=""
-                                            src="images/google-play-store.png"></a> </div>
-                            </div> --}}
+                <div class="d-flex flex-wrap pt-2">
+                    <a href="https://play.google.com/store/apps/details?id=com.altechtic.moniwallet.moniwallet"><img
+                            alt="" src="images/google-play-store.png"></a>
+                    {{--  <a class="mr-4" href=""><img alt="" src="images/app-store.png"></a>  --}}
+                </div>
             </div>
         </div>
+    </div>
 </section><!-- Mobile App end -->
 @endsection

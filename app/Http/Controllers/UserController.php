@@ -642,7 +642,7 @@ class UserController extends Controller
 
         try {
 
-            $user->notify(new alert($desc, $tran));
+            $user->notify(new alert($desc, $tran, false));
 
         } catch (\Throwable $th) {
             //throw $th;

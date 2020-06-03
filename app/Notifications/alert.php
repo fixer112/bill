@@ -23,10 +23,11 @@ class alert extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(String $desc, Transaction $tran = null)
+    public function __construct(String $desc, Transaction $tran = null, $enable_sms = true)
     {
         $this->desc = $desc;
         $this->tran = $tran;
+        $this->enable_sms = $enable_sms;
         //$this->is_error = $error;
     }
 
@@ -88,7 +89,7 @@ class alert extends Notification implements ShouldQueue
         $desc = str_replace('₦', 'NGN', $this->desc);
         $message = "Hello {$notifiable->first_name},
 You have a transaction notification with description: {$desc}";
-        if ($notifiable->sms_notify && $this->tran) {
+        if ($notifiable->sms_notify && $this->tran && $this->enable_sms) {
             $this->chargeSms($this->tran, ($message));
 
             return $sms;

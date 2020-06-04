@@ -250,6 +250,8 @@ class UserController extends Controller
             'summary' => $desc,
         ]);
 
+        $this->reserveAccount($user);
+
         try {
 
             $user->notify(new alert($desc, $tran));

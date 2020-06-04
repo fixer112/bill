@@ -113,8 +113,9 @@ class RegisterController extends Controller
         } */
 
         //Cookie::queue(Cookie::forget('referral'));
-
-        $reserved = $this->reserveAccount($user);
+        if (!$user->is_reseller) {
+            $reserved = $this->reserveAccount($user);
+        }
 
         /* $user->update([
         'account_number' => $reserved['accountNumber'],

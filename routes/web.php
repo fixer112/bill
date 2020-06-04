@@ -48,6 +48,8 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
             Route::get('/data', 'Controller@refreshData');
 
+            Route::get('/update_user/{user}', 'Controller@reserveAccount');
+
             Route::get('/update_users/{id?}', 'Controller@updateUsers');
 
             Route::get('/assign_role/{user}', 'AdminController@assignRole');

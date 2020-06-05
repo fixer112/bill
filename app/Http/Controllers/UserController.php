@@ -94,7 +94,7 @@ class UserController extends Controller
 
         } else {
             $data['password'] = 'nullable|min:5|string|confirmed|required_with:old_password';
-            $data['old_password'] = ['required_with:password', 'string', new checkOldPassword($user)];
+            $data['old_password'] = ['nullable', 'required_with:password', 'string', new checkOldPassword($user)];
 
         }
 

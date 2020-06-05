@@ -77,6 +77,12 @@ class LoginController extends Controller
                 return ['error' => 'You are suspended'];
 
             }
+
+            if (Auth::user()->is_reseller && !Auth::user()->lastSub()) {
+                return ['error' => 'Please login at' . url('/login') . ' and subscribe to a reseller package or downgrade to an individual account.'];
+
+            }
+
             if (!Auth::user()->api_token) {
                 Auth::user()->update(['api_token' => Str::random(60)]);
             }

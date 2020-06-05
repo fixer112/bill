@@ -189,6 +189,14 @@ class User extends Authenticatable
         $this->attributes['number'] = formatedNumber($value);
     }
 
+    public function getIsResellerAttribute($value)
+    {
+        /* if (!$this->lastSub()) {
+        return 0;
+        } */
+        return $value;
+    }
+
     public function getFormattedNumberAttribute()
     {
         //if (strlen($this->attributes['number']) > 10) {

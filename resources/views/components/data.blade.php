@@ -66,7 +66,9 @@
                 <select class="custom-select @error('network') is-invalid @enderror" required v-model="plan">
                     <option value="">Select Plan</option>
                     <template v-for="data,key in plans">
-                        <option :value='key'>@{{(data["id"])}} - @{{data["topup_currency"]}}
+                        <option :value='key'
+                            :disabled="'{{$guest}}' == 'true' && data['price'] >= {{env("GUEST_MAX_PRICE",2500)}}">
+                            @{{(data["id"])}} - @{{data["topup_currency"]}}
                             @{{data["topup_amount"]}} - @{{data["validity"]}} - (@{{data["type"].toUpperCase()}})
                             {{-- {{getLastString($value[0]['id'])}} --}}
                         </option>
@@ -184,7 +186,7 @@
             
             },
             created(){
-               
+               //console.log('{{$guest}}');
             }
             });
 </script>

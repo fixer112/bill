@@ -43,7 +43,10 @@
                     :disabled="plans == ''">
                     <option value="">Select Plan</option>
                     <template v-for="p,key in plans">
-                        <option :value="key">@{{p['name'].toUpperCase()}} - @{{p['price'] + p['charges']}} -
+                        <option :value="key"
+                            :disabled="'{{$guest}}' == true && p['price'] >= {{env("GUEST_MAX_PRICE",2500)}}">
+                            @{{p['name'].toUpperCase()}} -
+                            @{{p['price'] + p['charges']}} -
                             @{{p['duration']}}</option>
                     </template>
                     {{--  @foreach ($dat as $key => $discount )
@@ -201,7 +204,7 @@
                 this.plans = this.bills[n];
                 this.bonus = this.data[n];
                 
-                //console.log(this.plans);
+                console.log(this.plans);
             },
             plan(n){
                 var plan = this.bills[this.type][n];

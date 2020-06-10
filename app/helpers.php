@@ -180,7 +180,7 @@ function cableDiscount(User $user = null)
     if (!$user) {
 
         return [
-            'startime' => 0,
+            'startimes' => 0,
             'gotv' => 0,
             'dstv' => 0,
         ];

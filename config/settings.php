@@ -10,13 +10,13 @@ return [
     'per_page' => 1000,
     'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'mtn_sns' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
     'bills' => [
-
         'airtime' => [
             'mtn' => ['min' => 50, 'max' => 50000],
             'mtn_sns' => ['min' => 50, 'max' => 50000],
             'airtel' => ['min' => 50, 'max' => 50000],
             '9mobile' => ['min' => 50, 'max' => 50000],
             'glo' => ['min' => 50, 'max' => 50000]],
+
         'cable' => [
             'startimes' => [
                 [

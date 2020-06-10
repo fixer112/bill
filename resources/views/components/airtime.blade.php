@@ -144,7 +144,7 @@
                 console.log(n);
                 this.network_code = this.networks[n];
                 this.min = this.bills[n]['min'];
-                this.max = this.bills[n]['max'];
+                this.max = "{{$guest}}" ? {{env("GUEST_MAX_PRICE",2500)}} : this.bills[n]['max'];
                 this.bonus = this.data[n];
 
                 if(this.amount !=''){

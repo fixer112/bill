@@ -56,6 +56,11 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
+        try {
+            $this->reserveAccount($user);
+        } catch (\Throwable $th) {
+        }
+
         return redirect($user->routePath());
     }
 
@@ -94,6 +99,11 @@ class LoginController extends Controller
                     'admin_id' => Auth::id(),
                     'Summary' => 'You logged in to mobile app',
                 ]);
+            }
+
+            try {
+                $this->reserveAccount($user);
+            } catch (\Throwable $th) {
             }
 
             return new UserResource(Auth::user());

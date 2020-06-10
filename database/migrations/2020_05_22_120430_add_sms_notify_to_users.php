@@ -14,7 +14,7 @@ class AddSmsNotifyToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('sms_notify')->default(1);
+            $table->string('sms_notify')->default(0);
 
         });
     }

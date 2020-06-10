@@ -37,7 +37,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                     </div>
-                    <input name="amount" type="number" step=".01" min="200" max="{{env('MAX_FUND',2500)}}"
+                    <input name="amount" type="number" step=".01"
                         class="form-control @error('amount') is-invalid @enderror" required placeholder="Enter Amount">
                     @error('amount')
                     <span class="invalid-feedback" role="alert">
@@ -82,7 +82,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                     </div>
-                    <input name="amount" min="{{request()->user->minFund()}}" max="10000" type="number" step=".01"
+                    <input name="amount" min="200" max="{{env('MAX_FUND',2500)}}" type="number" step=".01"
                         class="form-control" v-model="amount" required placeholder="Enter Amount">
                 </div>
 

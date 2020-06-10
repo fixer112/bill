@@ -57,7 +57,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         try {
-            $this->reserveAccount($user);
+            if (!$user->is_admin) {
+                $this->reserveAccount($user);
+            }
         } catch (\Throwable $th) {
         }
 

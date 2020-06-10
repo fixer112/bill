@@ -32,7 +32,7 @@ class User extends JsonResource
         $data['latest_transactions'] = $this->transactions->take(config("settings.recent_page"));
         $data['package_name'] = $this->userPackage();
         $data['settings']['transfer_fee'] = env("MONIFY_FEE", 2);
-        $data['settings']['paystack_key'] = env("PAYSTACK_KEY_APP");
+        $data['settings']['paystack_key_app'] = env("PAYSTACK_KEY_APP", env("PAYSTACK_KEY"));
         $data['settings']['min_fund'] = 200;
         $data['settings']['max_fund'] = env('MAX_FUND', 2500);
 

@@ -37,7 +37,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                     </div>
-                    <input name="amount" type="number" step=".01" min="200" max="2500"
+                    <input name="amount" type="number" step=".01" min="200" max="{{env('MAX_FUND',2500)}}"
                         class="form-control @error('amount') is-invalid @enderror" required placeholder="Enter Amount">
                     @error('amount')
                     <span class="invalid-feedback" role="alert">

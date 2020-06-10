@@ -43,9 +43,16 @@ class AwaitingResellers extends Command
         $resellers = User::where('is_reseller', 1)->chunk(100, function ($users) use (&$count) {
             foreach ($users as $user) {
                 if (!$user->lastSub() && $user->created_at->diffInDays(now()) >= $this->argument('days')) {
+                    $days = $this->argument('days') + 4;
 
                     $count++;
-                    $user->notify((new remindReseller())->delay(now()->addSeconds(60)));
+
+                    if ($user->created_at->diffInDays(now()) >= $days) {
+                        $user->update(['is_reseller' => 0]);
+                        continue;
+                    }
+
+                    $user->notify((new remindReseller($days))->delay(now()->addSeconds(60)));
 
                 }
 

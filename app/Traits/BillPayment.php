@@ -263,11 +263,11 @@ trait BillPayment
 
     }
 
-    public static function sms($message, $numbers, $sender = "MoniWallet", $route = 1, $vtype = 1)
+    public static function sms($message, $numbers, $sender = "MoniWallet", $route = 1, $vtype = 1, $error = true)
     {
-        /* if (!env("ENABLE_BILL_PAYMENT")) {
-        return errorMessage(env("ERROR_MESSAGE"));
-        } */
+        if (!env("ENABLE_BILL_PAYMENT") && $error) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
 
         $user = env('MANG_USER');
         $pass = env('MANG_PASS');

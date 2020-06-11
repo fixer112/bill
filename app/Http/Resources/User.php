@@ -32,7 +32,8 @@ class User extends JsonResource
         $data['latest_transactions'] = $this->transactions->take(config("settings.recent_page"));
         $data['package_name'] = $this->userPackage();
         $data['settings']['transfer_fee'] = env("MONIFY_FEE", 2);
-        $data['settings']['rave_key_app'] = env("RAVE_PUBLIC_KEY_APP", env("RAVE_PUBLIC_KEY"));
+        $data['settings']['rave_public_key_app'] = env("RAVE_PUBLIC_KEY_APP", env("RAVE_PUBLIC_KEY"));
+        $data['settings']['rave_enc_key_app'] = env("RAVE_ENC_KEY_APP", env("RAVE_ENC_KEY"));
         $data['settings']['min_fund'] = 200;
         $data['settings']['max_fund'] = env('MAX_FUND', 2500);
 

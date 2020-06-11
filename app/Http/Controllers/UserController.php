@@ -146,6 +146,7 @@ class UserController extends Controller
 
     public function getUpgrade(User $user)
     {
+
         $isUpgrade = $user->lastSub() ? true : false;
         $this->authorize('upgrade', $user);
         // if (!request()->user->lastSub()) {
@@ -161,6 +162,8 @@ class UserController extends Controller
 
     public function subscribe($reference)
     {
+        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+
         $tranx = $this->validatePayment($reference, 'subscription');
 
         if (is_array($tranx) && isset($tranx['error'])) {
@@ -607,6 +610,7 @@ class UserController extends Controller
 
     public function fundWallet($reference)
     {
+        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validatePayment($reference, 'top-up');
 
@@ -1000,6 +1004,8 @@ class UserController extends Controller
 
     public function hook()
     {
+        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+
         $this->validate(request(), [
             'data.reference' => 'required|String',
         ]);

@@ -62,6 +62,8 @@ class Controller extends BaseController
 
     public function guestAirtime($reference)
     {
+        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+
         $tranx = $this->validateGuestPayment($reference, 'airtime');
         // return \json_encode($tranx);
 
@@ -108,6 +110,7 @@ class Controller extends BaseController
 
     public function guestData($reference)
     {
+        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validateGuestPayment($reference, 'data');
         // return \json_encode($tranx);

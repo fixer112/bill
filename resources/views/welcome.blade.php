@@ -61,6 +61,7 @@
 
                                         };
                                 //console.log(data['reason']);
+                                return window.location.replace("/register");
                                 processPayment(data,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
                                 });
                                 
@@ -93,6 +94,7 @@
 
                                         };
                                 //console.log(data);
+                                return window.location.replace("/register");
                                 processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
                                 });
                             </script>
@@ -118,13 +120,15 @@
                                                 details:cable.details,
 
                                             };
-                                    $.notify({
+                                    return window.location.replace("/register");
+                                    /*$.notify({
                                     // options
                                     message: "Cable Coming Soon to guest user, please register to use for registered user and enjoy amazing discounts",
                                     }, {
                                     // settings
                                     type: 'danger'
                                     });
+                                    */
                                     //console.log(data);
                                     //processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
                                     });

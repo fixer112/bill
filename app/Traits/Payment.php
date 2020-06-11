@@ -49,7 +49,7 @@ trait Payment
 
         }
 
-        if (!$user = User::find(getRaveMetaValue($tranx['data']['meta'], 'user_id'))) {
+        if (!$user = User::find(getRaveMetaValue($tranx['data']['meta'], 'user_id')) || $user->is_admin) {
             return ['error' => 'User does not exist'];
 
         }

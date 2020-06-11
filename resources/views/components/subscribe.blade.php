@@ -38,7 +38,7 @@
   }, 
        methods:{
            payWithRave() {
-        return;
+        //return;
         var x = getpaidSetup({
         PBFPubKey: "{{env('RAVE_PUBLIC_KEY')}}",
         customer_email: '{{request()->user->email}}',

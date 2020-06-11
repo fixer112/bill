@@ -110,8 +110,9 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         Route::get('/logout', 'Auth\LoginController@logout');
     });
 
+    Route::post('/pay', 'Controller@initializeRave')->name('pay');
     Route::prefix('verify')->group(function () {
-        Route::post('/hook', 'UserController@hook');
+        Route::post('/hook', 'UserController@hook')->name('callback');
         Route::get('/subscribe/{reference}', 'UserController@subscribe');
         Route::get('/wallet/fund/{reference}', 'UserController@fundWallet');
         Route::get('/airtime/{reference}', 'Controller@guestAirtime');

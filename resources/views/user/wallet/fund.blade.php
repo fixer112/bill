@@ -3,6 +3,7 @@
 @section('head')
 <script src="{{ asset('js/vue.js')}}"></script>
 <script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
 @endsection
 @section('content')
 
@@ -75,8 +76,26 @@
 
             </p>
         </div>
-        <form ref="fund" @submit.prevent="payWithPaystack">
-            {{-- @csrf --}}
+        <form ref="fund" @submit.prevent="payWithRave" id="paymentForm">
+
+            {{--   @csrf  --}}
+
+            {{--  <input type="hidden" name="payment_method" value="both" /> <!-- Can be card, account, both -->
+            <input type="hidden" name="description" value="Beats by Dre. 2017" />
+            <!-- Replace the value with your transaction description -->
+            <input type="hidden" name="country" value="NG" /> <!-- Replace the value with your transaction country -->
+            <input type="hidden" name="currency" value="NGN" />
+            <!-- Replace the value with your transaction currency -->
+            <input type="hidden" name="email" value="test@test.com" />
+            <!-- Replace the value with your customer email -->
+            <input type="hidden" name="firstname" value="Oluwole" />
+            <!-- Replace the value with your customer firstname -->
+            <input type="hidden" name="lastname" value="Adebiyi" />
+            <!-- Replace the value with your customer lastname -->
+            <input type="hidden" name="metadata" value="{{ json_encode($array) }}">
+            <!-- Meta data that might be needed to be passed to the Rave Payment Gateway -->
+            <input type="hidden" name="phonenumber" value="090929992892" />
+            --}}
             <div class="form-group">
                 <label>Amount</label>
                 <div class="input-group">
@@ -101,6 +120,53 @@
     }
   }, 
        methods:{
+           
+           payWithRave() {
+               return;
+            var x = getpaidSetup({
+            PBFPubKey: "{{env('RAVE_PUBLIC_KEY')}}",
+            customer_email: '{{request()->user->email}}',
+            customer_firstname:'{{request()->user->first_name}}',
+            customer_lastname:'{{request()->user->last_name}}',
+            custom_title:"{{env('RAVE_TITLE')}}",
+            custom_logo:"{{env('RAVE_LOGO')}}",
+            custom_description:"Wallet Funding",
+            amount: this.amount,
+            customer_phone: '{{request()->user->number}}',
+            currency: "NGN",
+            txref: "mw-{{generateRef(request()->user)}}",
+            meta: [{
+            metaname: "user_id",
+            metavalue: "{{request()->user->id}}"
+            },{
+            metaname: "reason",
+            metavalue: "top-up"
+            },{
+            metaname: "amount",
+            metavalue: this.amount
+            }],
+            onclose: function() {
+               //alert('Payment Cancelled');
+            },
+            callback: function(response) {
+            var txref = response.data.data.txRef; // collect txRef returned and pass to a server page to complete status check.
+            console.log(response.data.data);
+            window.location.replace("/verify/wallet/fund/"+txref);
+            /*if (
+            response.data.chargeResponseCode == "00" ||
+            response.data.chargeResponseCode == "0"
+            ) {
+            // redirect to a success page
+            window.location.replace("/verify/wallet/fund/"+txref);
+            } else {
+            // redirect to a failure page.
+            
+            }*/
+        
+            x.close(); // use this to close the modal immediately after payment.
+            }
+            });
+            },
 
            payWithPaystack(){
 

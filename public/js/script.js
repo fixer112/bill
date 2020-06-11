@@ -44,9 +44,43 @@ function guestPaystack(amount, data, key) {
     handler.openIframe();
 };
 
-function processPayment(data, balance, billEnabled, errorMessage, key) {
+function guestRave(amount, data, key, reason, ref) {
 
-    if (balance < data['amount'] || !billEnabled) {
+    var x = getpaidSetup({
+        PBFPubKey: key,
+        customer_email: 'guestpayment@altechtic.com',
+        amount: amount,
+        //customer_phone: '{{request()->user->number}}',
+        currency: "NGN",
+        txref: "mwg-" + ref,
+        meta: data,
+        onclose: function() {
+            //alert('Payment Cancelled');
+        },
+        callback: function(response) {
+            var txref = response.data.data.txRef; // collect txRef returned and pass to a server page to complete status check.
+            console.log(response.data.data);
+            window.location.replace("/verify/" + reason + '/' + txref);
+            /*if (
+                response.data.chargeResponseCode == "00" ||
+                response.data.chargeResponseCode == "0"
+                ) {
+                // redirect to a success page
+                window.location.replace("/verify/wallet/fund/"+txref);
+                } else {
+                // redirect to a failure page.
+            
+                }*/
+
+            x.close(); // use this to close the modal immediately after payment.
+        }
+    });
+
+}
+
+function processPayment(amount, data, balance, billEnabled, errorMessage, key, reason, ref) {
+
+    if (balance < amount || !billEnabled) {
         $.notify({
             // options
             message: errorMessage
@@ -58,7 +92,7 @@ function processPayment(data, balance, billEnabled, errorMessage, key) {
         return;
     }
 
-    guestPaystack(data['amount'], data, key);
+    guestRave(amount, data, key, reason, ref);
 
 }
 

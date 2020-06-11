@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use KingFlamez\Rave\Facades\Rave;
 use Throwable;
 
 class Controller extends BaseController
@@ -43,7 +44,7 @@ class Controller extends BaseController
         request()->session()->flash($type, $message);
 
         //return $message;
-        return url()->previous() /*  == url()->current() && !request()->isMethod('post') */ ? back() : $message;
+        return url()->previous() != url()->current() /* && !request()->isMethod('post') */ ? back() : $message;
 
     }
     public function jsonWebRedirect($type, $message, $link, $ref = null)
@@ -62,16 +63,16 @@ class Controller extends BaseController
 
     public function guestAirtime($reference)
     {
-        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+        //return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validateGuestPayment($reference, 'airtime');
         // return \json_encode($tranx);
 
-        if (is_array($tranx) && isset($tranx['error'])) {
+        if ( /* is_array($tranx) &&  */isset($tranx['error'])) {
             return $this->jsonWebBack('error', $tranx['error']);
         }
 
-        $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
+        $amount = getRaveMetaValue($tranx['data']['meta'], 'amount'); //removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
         $ref = generateRef();
 
@@ -79,28 +80,29 @@ class Controller extends BaseController
             return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         }
 
-        $number = nigeriaNumber($tranx->data->metadata->number);
+        $number = nigeriaNumber(getRaveMetaValue($tranx['data']['meta'], 'number'));
 
-        if ($tranx->data->metadata->network_code == '15') {
+        if (getRaveMetaValue($tranx['data']['meta'], 'network') == 'mtn_sns') {
             $result = $this->mtnAirtime($amount, $number, $ref);
 
         } else {
 
-            $result = $this->airtime($amount, $number, $tranx->data->metadata->network_code, $ref);
+            $result = $this->airtime($amount, $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
         }
 
+        //$result = [];
         //return $result;
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
         }
 
-        $desc = "Recharge of " . strtoupper($tranx->data->metadata->network) . " " . currencyFormat($amount) . " to " . $tranx->data->metadata->number;
+        $desc = "Recharge of " . strtoupper(getRaveMetaValue($tranx['data']['meta'], 'network')) . " " . currencyFormat($amount) . " to " . $number;
 
         $tran = Transaction::create([
             'amount' => $amount,
             'desc' => "{$desc}",
-            'ref' => $tranx->data->reference,
+            'ref' => $reference,
             'reason' => 'airtime',
             'balance' => 0,
         ]);
@@ -110,18 +112,18 @@ class Controller extends BaseController
 
     public function guestData($reference)
     {
-        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+        //return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validateGuestPayment($reference, 'data');
         // return \json_encode($tranx);
 
-        if (is_array($tranx) && isset($tranx['error'])) {
+        if ( /* is_array($tranx) && */isset($tranx['error'])) {
             return $this->jsonWebBack('error', $tranx['error']);
         }
 
         //return json_decode(json_encode($tranx), true);
 
-        $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
+        $amount = getRaveMetaValue($tranx['data']['meta'], 'amount'); //removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
         $ref = generateRef();
 
@@ -129,15 +131,15 @@ class Controller extends BaseController
             return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
         }
 
-        $number = nigeriaNumber($tranx->data->metadata->number);
+        $number = nigeriaNumber(getRaveMetaValue($tranx['data']['meta'], 'number'));
 
-        if ($tranx->data->metadata->network == 'mtn_sme') {
+        if (getRaveMetaValue($tranx['data']['meta'], 'network') == 'mtn_sme') {
 
-            $result = $this->dataMtn($tranx->data->metadata->price, $number, $tranx->data->metadata->network_code, $ref);
+            $result = $this->dataMtn(getRaveMetaValue($tranx['data']['meta'], 'price'), $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
 
         } else {
 
-            $result = $this->data($tranx->data->metadata->price, $number, $tranx->data->metadata->network_code, $ref);
+            $result = $this->data(getRaveMetaValue($tranx['data']['meta'], 'price'), $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
         }
 
         //return $result;
@@ -146,12 +148,12 @@ class Controller extends BaseController
             return $this->jsonWebBack('error', $result['error']);
         }
 
-        $desc = "Data subscription of " . strtoupper($tranx->data->metadata->network) . " " . $tranx->data->metadata->details . " to " . $number;
+        $desc = "Data subscription of " . strtoupper(getRaveMetaValue($tranx['data']['meta'], 'network')) . " " . getRaveMetaValue($tranx['data']['meta'], 'details') . " to " . $number;
 
         $tran = Transaction::create([
             'amount' => $amount,
             'desc' => "{$desc}",
-            'ref' => $tranx->data->reference,
+            'ref' => $reference,
             'reason' => 'data',
             'balance' => 0,
         ]);
@@ -426,6 +428,14 @@ class Controller extends BaseController
 
         return [$users->last()->id, $collecteds];
 
+    }
+
+    public function initializeRave()
+    {
+        //This initializes payment and redirects to the payment gateway
+        //The initialize method takes the parameter of the redirect URL
+        //return route('callback');
+        Rave::initialize(route('callback'));
     }
 
     public function test()

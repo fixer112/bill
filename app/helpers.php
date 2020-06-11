@@ -141,6 +141,7 @@ function airtimeDiscount(User $user = null)
     if (!$user) {
 
         return [
+            'mtn_sns' => 0,
             'mtn' => 0,
             'airtel' => 0,
             '9mobile' => 0,
@@ -316,4 +317,14 @@ function calSmsUnit($message)
 {
     $length = strlen($message);
     return $length <= 160 ? 1 : ceil($length / 160);
+}
+
+function getRaveMetaValue(array $metas, String $name)
+{
+    foreach ($metas as $meta) {
+        if ($meta['metaname'] == $name) {
+            return $meta['metavalue'];
+        }
+    }
+    return '';
 }

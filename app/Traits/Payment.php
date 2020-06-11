@@ -3,12 +3,23 @@ namespace App\Traits;
 
 use App\Transaction;
 use App\User;
-use Yabacon\Paystack;
+use Illuminate\Support\Facades\Http;
 /**
  *
  */
 trait Payment
 {
+    public static function validateReference($reference)
+    {
+        $data = array('txref' => $reference,
+            'SECKEY' => env("RAVE_SECRET_KEY"), //secret key from pay button generated on rave dashboard
+        );
+
+        $tranx = Http::post("https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify", $data)->throw();
+
+        return $tranx;
+
+    }
     public static function validatePayment($reference, $reason)
     {
 
@@ -16,14 +27,15 @@ trait Payment
             return ['error' => 'No reference supplied'];
         }
 
-// initiate the Library's Paystack Object
-        $paystack = new Paystack(env('PAYSTACK_SECRET'));
+        //$paystack = new Paystack(env('PAYSTACK_SECRET'));
         try
         {
             // verify using the library
-            $tranx = $paystack->transaction->verify([
-                'reference' => $reference, // unique to transactions
-            ]);
+            /*  $tranx = $paystack->transaction->verify([
+            'reference' => $reference, // unique to transactions
+            ]); */
+            $tranx = self::validateReference($reference);
+            //return $tranx;
 
         } catch (\Throwable $e) {
 
@@ -32,17 +44,17 @@ trait Payment
             return ['error' => $e->getMessage()];
         }
 
-        if ('success' != $tranx->data->status) {
+        if ('success' != $tranx['status'] || '00' != $tranx['data']['chargecode']) {
             return ['error' => "Payment {$reference} failed, pls try again"];
 
         }
 
-        if (!$user = User::find($tranx->data->metadata->user_id)) {
+        if (!$user = User::find(getRaveMetaValue($tranx['data']['meta'], 'user_id'))) {
             return ['error' => 'User does not exist'];
 
         }
 
-        if ($tranx->data->metadata->reason != $reason) {
+        if (getRaveMetaValue($tranx['data']['meta'], 'reason') != $reason) {
 
             return ['error' => "Payment is not for {$reason}"];
 
@@ -65,13 +77,14 @@ trait Payment
         }
 
 // initiate the Library's Paystack Object
-        $paystack = new Paystack(env('PAYSTACK_SECRET'));
+        //$paystack = new Paystack(env('PAYSTACK_SECRET'));
         try
         {
             // verify using the library
-            $tranx = $paystack->transaction->verify([
-                'reference' => $reference, // unique to transactions
-            ]);
+            /* $tranx = $paystack->transaction->verify([
+            'reference' => $reference, // unique to transactions
+            ]); */
+            $tranx = self::validateReference($reference);
 
         } catch (\Throwable $e) {
 
@@ -79,13 +92,12 @@ trait Payment
             // print_r($e->getResponseObject());
             return ['error' => $e->getMessage()];
         }
-
-        if ('success' != $tranx->data->status) {
+        if ('success' != $tranx['status'] || '00' != $tranx['data']['chargecode']) {
             return ['error' => "Payment {$reference} failed, pls try again"];
 
         }
 
-        if ($tranx->data->metadata->reason != $reason) {
+        if (getRaveMetaValue($tranx['data']['meta'], 'reason') != $reason) {
 
             return ['error' => "Payment is not for {$reason}"];
 
@@ -108,13 +120,14 @@ trait Payment
         }
 
 // initiate the Library's Paystack Object
-        $paystack = new Paystack(env('PAYSTACK_SECRET'));
+        //$paystack = new Paystack(env('PAYSTACK_SECRET'));
         try
         {
             // verify using the library
-            $tranx = $paystack->transaction->verify([
-                'reference' => $reference, // unique to transactions
-            ]);
+            /*  $tranx = $paystack->transaction->verify([
+            'reference' => $reference, // unique to transactions
+            ]); */
+            $tranx = self::validateReference($reference);
 
         } catch (\Throwable $e) {
 
@@ -123,7 +136,7 @@ trait Payment
             return ['error' => $e->getMessage()];
         }
 
-        if ('success' != $tranx->data->status) {
+        if ('success' != $tranx['status'] || '00' != $tranx['data']['chargecode']) {
             return ['error' => "Payment {$reference} failed, pls try again"];
 
         }

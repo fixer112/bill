@@ -2,6 +2,7 @@
 @section('title','Home')
 @section('head')
 <script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
 <style>
     .side {
         height: 273px;
@@ -51,7 +52,7 @@
                                 document.getElementById('airtime-home').addEventListener("submit",function(event){
 
                                 event.preventDefault();
-                                var data = {
+                               /* var data = {
                                             reason: 'airtime',
                                             amount:airtime.discountAmount,
                                             network:airtime.network,
@@ -59,10 +60,26 @@
                                             number:airtime.number,
                                             //price:airtime.price,
 
-                                        };
+                                        };*/
+                                        var data= [{
+                                        metaname: "reason",
+                                        metavalue: "airtime"
+                                        }, {
+                                        metaname: "network",
+                                        metavalue: airtime.network
+                                        }, {
+                                        metaname: "amount",
+                                        metavalue: airtime.discountAmount
+                                        },{
+                                        metaname: "number",
+                                        metavalue: airtime.number
+                                        },{
+                                        metaname: "network_code",
+                                        metavalue: airtime.network_code
+                                        },];
                                 //console.log(data['reason']);
                                 return window.location.replace("/register");
-                                processPayment(data,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
+                                processPayment(airtime.discountAmount,data,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}","{{env('RAVE_PUBLIC_KEY')}}",'airtime',"{{generateRef()}}");
                                 });
                                 
                                 
@@ -83,7 +100,8 @@
                                 document.getElementById('data-home').addEventListener("submit",function(event){
 
                                 event.preventDefault();
-                                var d = {
+
+                                /*var d = {
                                             reason: 'data',
                                             amount:data.discountAmount,
                                             network:data.network,
@@ -92,10 +110,32 @@
                                             details:data.details,
                                             price:data.price,
 
-                                        };
+                                        };*/
+                                        var d = [{
+                                        metaname: "reason",
+                                        metavalue: "data"
+                                        }, {
+                                        metaname: "network",
+                                        metavalue: data.network
+                                        }, {
+                                        metaname: "amount",
+                                        metavalue: data.discountAmount
+                                        },{
+                                        metaname: "number",
+                                        metavalue: data.number
+                                        },{
+                                        metaname: "network_code",
+                                        metavalue: data.network_code
+                                        },{
+                                        metaname: "details",
+                                        metavalue: data.details
+                                        },{
+                                        metaname: "price",
+                                        metavalue: data.price
+                                        }];
                                 //console.log(data);
                                 return window.location.replace("/register");
-                                processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
+                                processPayment(data.discountAmount,d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}","{{env('RAVE_PUBLIC_KEY')}}",'data',"{{generateRef()}}");
                                 });
                             </script>
                             <!-- Data Recharge end -->
@@ -121,14 +161,14 @@
 
                                             };
                                     return window.location.replace("/register");
-                                    /*$.notify({
+                                    $.notify({
                                     // options
                                     message: "Cable Coming Soon to guest user, please register to use for registered user and enjoy amazing discounts",
                                     }, {
                                     // settings
                                     type: 'danger'
                                     });
-                                    */
+                                    
                                     //console.log(data);
                                     //processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
                                     });

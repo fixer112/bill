@@ -162,15 +162,15 @@ class UserController extends Controller
 
     public function subscribe($reference)
     {
-        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+        // return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validatePayment($reference, 'subscription');
 
-        if (is_array($tranx) && isset($tranx['error'])) {
+        if ( /* is_array($tranx) && */isset($tranx['error'])) {
             return $this->jsonWebBack('error', $tranx['error']);
         }
 
-        $user = User::find($tranx->data->metadata->user_id);
+        $user = User::find(getRaveMetaValue($tranx['data']['meta'], 'user_id'));
 
         $lastSub = $user->lastSub();
 
@@ -178,9 +178,9 @@ class UserController extends Controller
         abort(403);
         } */
 
-        $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
+        $amount = getRaveMetaValue($tranx['data']['meta'], 'amount'); //removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
-        if ($tranx->data->metadata->upgrade) {
+        if (getRaveMetaValue($tranx['data']['meta'], 'upgrade')) {
             $newSubAmount = config("settings.subscriptions.{$lastSub->name}.amount") + $amount;
             foreach (config("settings.subscriptions") as $key => $value) {
 
@@ -233,14 +233,14 @@ class UserController extends Controller
             'balance' => $user->balance,
             'type' => 'credit',
             'desc' => "{$desc} bonus",
-            'ref' => $tranx->data->reference,
-            'user_id' => $tranx->data->metadata->user_id,
+            'ref' => $reference,
+            'user_id' => $user->id,
             // 'reason' => 'subscription',
         ]);
 
         $sub = Subscription::create([
             'amount' => config("settings.subscriptions.{$newSub}.amount"),
-            'user_id' => $tranx->data->metadata->user_id,
+            'user_id' => $user->id,
             'name' => $newSub,
             'last_sub' => $lastSub ? $lastSub->name : null,
             'bonus' => calPercentageAmount($amount, $bonus),
@@ -248,8 +248,8 @@ class UserController extends Controller
         ]);
 
         $activity = Activity::create([
-            'user_id' => $tranx->data->metadata->user_id,
-            'admin_id' => $tranx->data->metadata->user_id,
+            'user_id' => $user->id,
+            'admin_id' => $user->id,
             'summary' => $desc,
         ]);
 
@@ -610,17 +610,20 @@ class UserController extends Controller
 
     public function fundWallet($reference)
     {
-        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+        //return $reference;
 
         $tranx = $this->validatePayment($reference, 'top-up');
+        //return getRaveMetaValue($tranx['data']['meta'], 'reason');
+        //return $tranx->json();
 
-        if (is_array($tranx) && isset($tranx['error'])) {
+        if ( /* is_array($tranx) && */isset($tranx['error'])) {
             return $this->jsonWebBack('error', $tranx['error']);
         }
 
-        $user = User::find($tranx->data->metadata->user_id);
+        $user = User::find(getRaveMetaValue($tranx['data']['meta'], 'user_id'));
+        //return $user;
 
-        $amount = removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
+        $amount = getRaveMetaValue($tranx['data']['meta'], 'amount'); //removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
         $desc = "Wallet funding of " . currencyFormat($amount) . " from online payment";
 
@@ -633,13 +636,13 @@ class UserController extends Controller
             'balance' => $user->balance,
             'type' => 'credit',
             'desc' => "{$desc}",
-            'ref' => $tranx->data->reference,
-            'user_id' => $tranx->data->metadata->user_id,
+            'ref' => $reference,
+            'user_id' => $user->id,
             //'reason' => 'top-up',
         ]);
 
         $activity = Activity::create([
-            'user_id' => $tranx->data->metadata->user_id,
+            'user_id' => $user->id,
             'admin_id' => auth()->check() ? auth()->user()->id : 1,
             'summary' => $desc,
         ]);
@@ -1004,42 +1007,43 @@ class UserController extends Controller
 
     public function hook()
     {
-        return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $this->validate(request(), [
-            'data.reference' => 'required|String',
+            'txRef' => 'required|String',
         ]);
 
-        $reference = request()->data['reference'];
+        $reference = request()->txRef;
 
-        if (request()->event == "charge.success") {
-            $tranx = $this->validateHookPayment($reference);
+        //if (request()->event == "charge.success") {
+        $tranx = $this->validateHookPayment($reference);
 
-            if (is_array($tranx) && isset($tranx['error'])) {
-                return $this->jsonWebBack('error', $tranx['error']);
-            }
+        if ( /* is_array($tranx) && */isset($tranx['error'])) {
+            return $this->jsonWebBack('error', $tranx['error']);
+        }
+        //return $tranx->json();
+        $reason = getRaveMetaValue($tranx['data']['meta'], 'reason');
 
-            if ($tranx->data->metadata->reason == 'top-up') {
-                return $this->fundWallet($reference);
-
-            }
-
-            if ($tranx->data->metadata->reason == 'subscription') {
-                return $this->subscribe($reference);
-
-            }
-
-            if ($tranx->data->metadata->reason == 'airtime') {
-                return $this->guestAirtime($reference);
-
-            }
-
-            if ($tranx->data->metadata->reason == 'data') {
-                return $this->guestData($reference);
-
-            }
+        if ($reason == 'top-up') {
+            return $this->fundWallet($reference);
 
         }
+
+        if ($reason == 'subscription') {
+            return $this->subscribe($reference);
+
+        }
+
+        if ($reason == 'airtime') {
+            return $this->guestAirtime($reference);
+
+        }
+
+        if ($reason == 'data') {
+            return $this->guestData($reference);
+
+        }
+
+        //}
     }
 
 }

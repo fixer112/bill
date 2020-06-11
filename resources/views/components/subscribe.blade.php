@@ -1,7 +1,8 @@
 <script src="{{ asset('js/vue.js')}}"></script>
 <script src="{{ asset('js/axios.js')}}"></script>
 <script src="https://js.paystack.co/v1/inline.js"></script>
-<form id="subscribe" @submit.prevent="payWithPaystack">
+<script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+<form id="subscribe" @submit.prevent="payWithRave">
     <div>
 
         {{-- <form ref="form"> --}}
@@ -36,6 +37,55 @@
     }
   }, 
        methods:{
+           payWithRave() {
+        return;
+        var x = getpaidSetup({
+        PBFPubKey: "{{env('RAVE_PUBLIC_KEY')}}",
+        customer_email: '{{request()->user->email}}',
+        customer_firstname:'{{request()->user->first_name}}',
+        customer_lastname:'{{request()->user->last_name}}',
+        custom_title:"{{env('RAVE_TITLE')}}",
+        custom_logo:"{{env('RAVE_LOGO')}}",
+        custom_description:"Subscription",
+        txref: "mw-{{generateRef(request()->user)}}",
+        amount: this.amount,
+        customer_phone: '{{request()->user->number}}',
+        currency: "NGN",
+        meta: [{
+        metaname: "user_id",
+        metavalue: "{{request()->user->id}}"
+        },{
+        metaname: "reason",
+        metavalue: "subscription"
+        },{
+        metaname: "amount",
+        metavalue: this.amount
+        },{
+        metaname: "upgrade",
+        metavalue: "{{$upgrade}}"
+        }],
+        onclose: function() {
+        //alert('Payment Cancelled');
+        },
+        callback: function(response) {
+        var txref = response.data.data.txRef; // collect txRef returned and pass to a server page to complete status check.
+        console.log(response.data.data);
+        window.location.replace("/verify/subscribe/"+txref);
+        /*if (
+        response.data.chargeResponseCode == "00" ||
+        response.data.chargeResponseCode == "0"
+        ) {
+        // redirect to a success page
+        window.location.replace("/verify/wallet/fund/"+txref);
+        } else {
+        // redirect to a failure page.
+        
+        }*/
+        
+        x.close(); // use this to close the modal immediately after payment.
+        }
+        });
+        },
            payWithPaystack(){
               // this.$refs.form.valida();
             if(this.amount=="") return;

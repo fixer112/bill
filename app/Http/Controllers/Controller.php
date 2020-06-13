@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Activity;
-use App\Http\Resources\User as UserResource;
-use App\Jobs\SendEmail;
-use App\Mail\bulkMail;
-use App\Mail\lowBalance;
-use App\Mail\massMail;
-use App\Notifications\alert;
-use App\Traits\BillPayment;
-use App\Traits\Main;
-use App\Traits\Payment;
-use App\Transaction;
 use App\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Artisan;
+use Throwable;
+use App\Activity;
+use App\Traits\Main;
+use App\Transaction;
+use App\Mail\bulkMail;
+use App\Mail\massMail;
+use App\Traits\Notify;
+use App\Jobs\SendEmail;
+use App\Traits\Payment;
+use App\Mail\lowBalance;
+use App\Traits\BillPayment;
+use App\Notifications\alert;
+use KingFlamez\Rave\Facades\Rave;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
-use KingFlamez\Rave\Facades\Rave;
-use Throwable;
+use App\Http\Resources\User as UserResource;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
-    use BillPayment, Payment, Main;
+    use BillPayment, Payment, Main, Notify;
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, BillPayment;
 
@@ -440,6 +441,7 @@ class Controller extends BaseController
 
     public function test()
     {
+        return $this->app(User::find(2), 'This is a test', 'test');
 
         return new UserResource(User::find(2));
         $data['general_alert'] = env("GENERAL_ALERT");

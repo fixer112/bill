@@ -19,7 +19,7 @@ trait Notify
             //new Exception("Insufficient balance to send sms");
         }
 
-        $sms = Self::sms($message, $tran->user->nigeria_number);
+        $sms = self::sms($message, $tran->user->nigeria_number);
 
         SmsNotification::create([
             'amount' => $amount,

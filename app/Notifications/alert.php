@@ -17,6 +17,7 @@ class alert extends Notification implements ShouldQueue
 
     public $desc;
     public $tran;
+    public $enable_sms;
     //public $is_error;
     /**
      * Create a new notification instance.
@@ -91,8 +92,8 @@ class alert extends Notification implements ShouldQueue
 You have a transaction notification with description: {$desc}";
         if ($notifiable->sms_notify && $this->tran && $this->enable_sms) {
             $this->chargeSms($this->tran, ($message));
-
-            return $sms;
+            //dd($desc);
+            //return $sms;
         }
 
     }

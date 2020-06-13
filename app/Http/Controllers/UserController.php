@@ -666,6 +666,10 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
+        //$user->notify(new alert('Testing Alert', Transaction::find(1)));
+
+        //return $this->saveTransaction($user, 'airtime', 1, 'airtime test', $ref, $result);
+
         return view('user.bill.airtime');
     }
 

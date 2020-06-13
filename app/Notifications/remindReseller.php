@@ -78,4 +78,16 @@ class remindReseller extends Notification implements ShouldQueue
         //return $this->sms($message, $notifiable->nigeria_number);
 
     }
+    /**
+     * Get the sms representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return mixed
+     */
+    public function toApp($notifiable)
+    {
+        //$message = "We noticed you registered as a reseller {$notifiable->created_at->diffForHumans()}, Please subscribe to one of our reseller's package or downgrade to the free individual package.";
+
+        //return $this->app($notifiable, $this->desc, 'Transaction Alert');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\AppChannel;
 use App\Channels\SmsChannel;
 use App\Traits\BillPayment;
 use App\Traits\Notify;
@@ -40,7 +41,7 @@ class alert extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', SmsChannel::class];
+        return ['mail', SmsChannel::class, AppChannel::class];
     }
 
     /**
@@ -96,5 +97,16 @@ You have a transaction notification with description: {$desc}";
             //return $sms;
         }
 
+    }
+
+    /**
+     * Get the sms representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return mixed
+     */
+    public function toApp($notifiable)
+    {
+        return $this->app($notifiable, $this->desc, 'Transaction Alert');
     }
 }

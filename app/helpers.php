@@ -328,3 +328,17 @@ function getRaveMetaValue(array $metas, String $name)
     }
     return '';
 }
+
+function formatStringsArray($numbers): array
+    {
+        $numbers = explode(',', str_replace(' ', '', $numbers));
+        /*  $numbers = array_map(function ($number) {
+        return filter_var($number, FILTER_SANITIZE_NUMBER_INT);
+        }, $numbers);
+         */
+        if (end($numbers) == '') {
+            array_pop($numbers);
+        }
+        return $numbers;
+
+    }

@@ -323,4 +323,34 @@ class User extends Authenticatable
         return $query->orderBy('created_at', 'desc');
     }
 
+    public function setAppTokenAttribute($value)
+    {
+        $tokens = formatStringsArray($this->attributes['app_token']);
+
+        if (!\in_array($value, $tokens)) {
+            array_push($tokens, $value);
+        }
+        $this->attributes['app_token'] = implode(',', formatStringsArray(implode(',', $tokens)));
+
+    }
+
+    public function removeAppToken($value)
+    {
+        $tokens = formatStringsArray($this->attributes['app_token']);
+
+        if (in_array($value, $tokens)) {
+            $keys = array_keys($tokens, $value);
+            foreach ($keys as $key) {
+                unset($tokens[$key]);
+            }
+        }
+        $this->attributes['app_token'] = implode(',', formatStringsArray(implode(',', $tokens)));
+
+    }
+    public function getAppTokenAttribute()
+    {
+        return formatStringsArray($this->attributes['app_token']);
+
+    }
+
 }

@@ -1050,4 +1050,28 @@ class UserController extends Controller
         //}
     }
 
+    public function updateToken(User $user)
+    {
+        $this->validate(request(), [
+            'app_token' => "required|string",
+        ]);
+        $user->update(['app_token' => request()->app_token]);
+        return $user->app_token;
+        return ['success' => 'App Token Updated'];
+
+    }
+    
+    public function removeToken(User $user)
+    {
+        $this->validate(request(), [
+            'app_token' => "required|string",
+        ]);
+
+        $user->removeAppToken(request()->app_token);
+
+        return $user->app_token;
+        return ['success' => 'App Token Updated'];
+
+    }
+
 }

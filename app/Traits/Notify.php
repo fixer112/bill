@@ -5,6 +5,7 @@ use App\SmsNotification;
 use App\Traits\BillPayment;
 use App\Transaction;
 use Illuminate\Support\Facades\Http;
+use App\User;
 
 trait Notify
 {
@@ -56,8 +57,7 @@ trait Notify
             $result = Http::withHeaders([
                 'Authorization' => 'key=' . env('FCM_LEGACY_KEY'),
                 'Content-Type' => 'application/json',
-            ], )
-                ->post($url, $fields);
+            ])->post($url, $fields);
 
             /* $client->post($url, [
             'json' =>

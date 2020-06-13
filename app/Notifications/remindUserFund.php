@@ -31,7 +31,7 @@ class remindUserFund extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', SmsChannel::class];
+        return ['mail', SmsChannel::class, AppChannel::class];
     }
 
     /**

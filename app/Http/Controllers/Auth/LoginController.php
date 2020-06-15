@@ -58,7 +58,7 @@ class LoginController extends Controller
     {
         try {
             if (!$user->is_admin) {
-                $this->reserveAccount($user);
+                //$this->reserveAccount($user);
             }
         } catch (\Throwable $th) {
         }

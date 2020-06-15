@@ -17,6 +17,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Permission::create(['name' => 'create user']);
         Permission::create(['name' => 'view user']);
+        Permission::create(['name' => 'view all users']);
         Permission::create(['name' => 'update user']);
         Permission::create(['name' => 'suspend user']);
         Permission::create(['name' => 'delete user']);
@@ -41,12 +42,18 @@ class RolesAndPermissionsSeeder extends Seeder
             ->givePermissionTo([
                 'view user',
                 'update user',
+                'view all users',
 
             ]);
 
         $role = Role::create(['name' => 'share holder'])
             ->givePermissionTo([
+                'view all users',
+            ]);
 
+        $role = Role::create(['name' => 'customer care'])
+            ->givePermissionTo([
+                'view all users',
             ]);
 
     }

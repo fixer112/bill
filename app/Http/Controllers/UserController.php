@@ -605,6 +605,16 @@ class UserController extends Controller
     public function getFundWallet(User $user)
     {
         $this->authorize('view', $user);
+
+        //try {
+        if (!$user->account_number) {
+            $this->reserveAccount($user);
+        }
+
+        /* } catch (\Throwable $th) {
+        //throw $th;
+        } */
+
         return view('user.wallet.fund');
     }
 

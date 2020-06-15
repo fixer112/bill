@@ -102,10 +102,12 @@
                             <label>Search</label>
                         </li>
 
+                        @can('viewAny',App\User::class)
                         <li class="nav-item"><a href="/admin/search/users" class="nav-link"><span
                                     class="pcoded-micon"><i class="fa fa-users"></i></span><span
                                     class="pcoded-mtext">Users</span></a>
                         </li>
+                        @endcan
 
                         <li class="nav-item pcoded-menu-caption">
                             <label>Administration</label>

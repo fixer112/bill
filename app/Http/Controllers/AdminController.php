@@ -265,6 +265,8 @@ class AdminController extends Controller
 
     public function searchUsers()
     {
+        $this->authorize('viewAny', User::class);
+
         $search = request()->search ?? '';
         $sub_type = request()->sub_type ? request()->sub_type : '';
         $roles = Role::pluck('name')->toArray();

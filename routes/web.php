@@ -38,7 +38,10 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('/subscriptions', 'AdminController@subscriptionHistory');
             Route::get('/search/users', 'AdminController@searchUsers');
             Route::get('/contact', 'AdminController@getContact');
+            Route::post('/sms', 'AdminController@postSms');
+            Route::get('/sms', 'AdminController@getSms');
             Route::post('/contact', 'AdminController@contact');
+
             Route::get('/user/create', 'AdminController@getCreateAdmin');
             Route::post('/user/create', 'AdminController@createAdmin');
 

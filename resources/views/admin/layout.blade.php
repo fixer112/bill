@@ -121,7 +121,13 @@
                                         class="fa fa-envelope-square"></i></span><span class="pcoded-mtext">Send Mass
                                     Mail</span></a>
                         </li>
+
+                        <li class="nav-item"><a href="/admin/sms" class="nav-link"><span class="pcoded-micon"><i
+                                        class="fa fa-envelope-square"></i></span><span class="pcoded-mtext">Send Mass
+                                    SMS/APP</span></a>
+                        </li>
                         @endcan
+
 
 
                     </ul>

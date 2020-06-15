@@ -8,7 +8,9 @@ use App\Mail\bulkMail;
 use App\Mail\contact;
 use App\Referral;
 use App\Subscription;
+use App\Traits\BillPayment;
 use App\Traits\Main;
+use App\Traits\Notify;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -19,7 +21,7 @@ use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
-    use Main;
+    use Main, Notify, BillPayment;
 
     public function __construct()
     {
@@ -370,6 +372,39 @@ class AdminController extends Controller
         }
 
         return $this->jsonWebBack('success', "{$amount} added to wallet"/* , $user->routePath() */);
+
+    }
+
+    public function getSms()
+    {
+        $this->authorize('massMail', User::class);
+
+        return view('admin.sms');
+    }
+
+    public function postSms()
+    {
+        $this->authorize('massMail', User::class);
+        $this->validate(request(), [
+            'subject' => 'nullable|String',
+            'content' => 'required|String',
+            'sms' => 'required|boolean',
+        ]);
+
+        $users = User::where('is_admin', 0)->get();
+        $subject = request()->subject;
+        $content = request()->content;
+
+        $numbers = $users->where('number', '!=', '')->pluck('number');
+        $numbers = formatPhoneNumberArray(implode(',', $numbers->toArray()));
+
+        if (request()->sms) {
+            $this->sms($content, implode(',', $numbers));
+        }
+
+        $this->appTopic('global', $content, $subject);
+
+        return $this->jsonWebBack('success', "Mass Message Sent");
 
     }
 

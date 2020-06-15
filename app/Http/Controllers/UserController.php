@@ -621,6 +621,7 @@ class UserController extends Controller
         }
 
         $user = User::find(getRaveMetaValue($tranx['data']['meta'], 'user_id'));
+        $plathform = getRaveMetaValue($tranx['data']['meta'], 'plathform') ?? 'web';
         //return $user;
 
         $amount = getRaveMetaValue($tranx['data']['meta'], 'amount'); //removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
@@ -638,6 +639,7 @@ class UserController extends Controller
             'desc' => "{$desc}",
             'ref' => $reference,
             'user_id' => $user->id,
+            'plathform' => $plathform,
             //'reason' => 'top-up',
         ]);
 
@@ -1060,7 +1062,7 @@ class UserController extends Controller
         return ['success' => 'App Token Updated'];
 
     }
-    
+
     public function removeToken(User $user)
     {
         $this->validate(request(), [

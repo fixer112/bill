@@ -27,7 +27,7 @@ class User extends JsonResource
         $data['settings']['airtime_alert'] = env("AIRTIME_ALERT");
         $data['settings']['data_alert'] = env("DATA_ALERT");
         $data['settings']['cable_alert'] = env("CABLE_ALERT");
-        $data['settings']['general_alert'] = env("GENERAL_ALERT");
+        $data['settings']['general_alert'] = env("GENERAL_ALERT_APP");
         $data['latest_comissions'] = $this->referrals->take(config("settings.recent_page"));
         $data['latest_transactions'] = $this->transactions->take(config("settings.recent_page"));
         $data['package_name'] = $this->userPackage();

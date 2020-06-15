@@ -4,8 +4,8 @@ namespace App\Traits;
 use App\SmsNotification;
 use App\Traits\BillPayment;
 use App\Transaction;
-use Illuminate\Support\Facades\Http;
 use App\User;
+use Illuminate\Support\Facades\Http;
 
 trait Notify
 {
@@ -77,5 +77,28 @@ trait Notify
 
         }
         return $results;
+    }
+    public static function appTopic($topic, $body, $title = '')
+    {
+        //return $user;
+        $url = 'https://fcm.googleapis.com/fcm/send';
+
+        $fields = [
+            'to' => "/topics/$topic",
+
+            "priority" => "high",
+            "data" => [
+                "click_action" => "FLUTTER_NOTIFICATION_CLICK",
+                "body" => $body,
+                "title" => $title,
+            ],
+
+        ];
+        $result = Http::withHeaders([
+            'Authorization' => 'key=' . env('FCM_LEGACY_KEY'),
+            'Content-Type' => 'application/json',
+        ])->post($url, $fields);
+
+        return $result;
     }
 }

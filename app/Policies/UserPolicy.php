@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        $user->can('view all users');
+        return $user->can('view all users');
     }
 
     /**

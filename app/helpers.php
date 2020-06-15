@@ -326,7 +326,7 @@ function getRaveMetaValue(array $metas, String $name)
             return $meta['metavalue'];
         }
     }
-    return '';
+    return null;
 }
 
 function formatStringsArray($numbers): array

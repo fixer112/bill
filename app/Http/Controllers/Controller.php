@@ -64,7 +64,7 @@ class Controller extends BaseController
 
     public function guestAirtime($reference)
     {
-        return;
+        //return;
         //return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validateGuestPayment($reference, 'airtime');
@@ -77,23 +77,22 @@ class Controller extends BaseController
         $amount = getRaveMetaValue($tranx['data']['meta'], 'amount'); //removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
         $ref = generateRef();
-
-        if (!env('ENABLE_BILL_PAYMENT')) {
-            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        }
-
         $number = nigeriaNumber(getRaveMetaValue($tranx['data']['meta'], 'number'));
 
+        /* if (!env('ENABLE_BILL_PAYMENT')) {
+        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        }
+
         if (getRaveMetaValue($tranx['data']['meta'], 'network') == 'mtn_sns') {
-            $result = $this->mtnAirtime($amount, $number, $ref);
+        $result = $this->mtnAirtime($amount, $number, $ref);
 
         } else {
 
-            $result = $this->airtime($amount, $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
-        }
+        $result = $this->airtime($amount, $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
+        } */
 
-        //$result = [];
         //return $result;
+        $result = [];
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);
@@ -114,7 +113,7 @@ class Controller extends BaseController
 
     public function guestData($reference)
     {
-        return;
+        //return;
         //return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validateGuestPayment($reference, 'data');
@@ -130,22 +129,22 @@ class Controller extends BaseController
 
         $ref = generateRef();
 
-        if (!env('ENABLE_BILL_PAYMENT')) {
-            return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
-        }
-
         $number = nigeriaNumber(getRaveMetaValue($tranx['data']['meta'], 'number'));
+        /* if (!env('ENABLE_BILL_PAYMENT')) {
+        return env('ERROR_MESSAGE') ? $this->jsonWebBack('error', env('ERROR_MESSAGE')) : $this->jsonWebBack('success', $desc, $ref);
+        }
 
         if (getRaveMetaValue($tranx['data']['meta'], 'network') == 'mtn_sme') {
 
-            $result = $this->dataMtn(getRaveMetaValue($tranx['data']['meta'], 'price'), $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
+        $result = $this->dataMtn(getRaveMetaValue($tranx['data']['meta'], 'price'), $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
 
         } else {
 
-            $result = $this->data(getRaveMetaValue($tranx['data']['meta'], 'price'), $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
-        }
+        $result = $this->data(getRaveMetaValue($tranx['data']['meta'], 'price'), $number, getRaveMetaValue($tranx['data']['meta'], 'network_code'), $ref);
+        } */
 
         //return $result;
+        $result = [];
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebBack('error', $result['error']);

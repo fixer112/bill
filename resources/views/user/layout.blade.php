@@ -66,7 +66,8 @@
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-messaging.js"></script>
         <script>
             localStorage.setItem('user_id', "{{request()->user->id}}");
-            localStorage.setItem('user_token', "{{request()->user->app_token}}");
+            localStorage.setItem('user_token', "{{request()->user->api_token}}");
+            console.log(localStorage.getItem('user_token'));
         </script>
         <script type="module" src="/firebase.js"></script>
 

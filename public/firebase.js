@@ -1,5 +1,6 @@
 import {
-    key
+    key,
+    pubKey
 } from "./key.js";
 
 console.log('key', key());
@@ -37,7 +38,7 @@ messaging
     .requestPermission()
     .then(function() {
         console.log("Permission Granted");
-        messaging.usePublicVapidKey("BFuDoKbZSsvRyezIBJ5xbDkOIe7MAfHaFXmcbn1QKVS7VQKwT8MNLIm82GNBNmJ1IHosmDShdek4BVPPc5aVSVo");
+        messaging.usePublicVapidKey(pubKey());
         messaging.getToken().then((currentToken) => {
             if (currentToken) {
 
@@ -114,7 +115,7 @@ messaging.onMessage((payload) => {
 function updateToken(app_token) {
     var user_id = localStorage.getItem('user_id');
     var user_token = localStorage.getItem('user_token');
-    console.log('user_token', user_token);
+    //console.log('user_token', user_token);
     if (user_id && user_token) {
         $.post("/api/user/" + user_id + "/update_token?api_token=" + user_token, {
             app_token: app_token

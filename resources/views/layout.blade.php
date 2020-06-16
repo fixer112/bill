@@ -54,6 +54,12 @@
         
           gtag('config', 'UA-165374331-1');
         </script>
+        <!--// https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-messaging.js"></script>
+
+
         <style>
             .logo {
                 margin-top: 10px;
@@ -400,6 +406,44 @@
         </script>
         <!--End of Tawk.to Script-->
         @endif
+
+
+
+        <script>
+            // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyByXS9ACahY2QKmlnXfeFAXffWjMXn0tgM",
+        authDomain: "moniwallet.firebaseapp.com",
+        databaseURL: "https://moniwallet.firebaseio.com",
+        projectId: "moniwallet",
+        storageBucket: "moniwallet.appspot.com",
+        messagingSenderId: "190032867274",
+        appId: "1:190032867274:web:b7437e552b873f5760e933",
+        measurementId: "G-32HS8RPHQN"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+      const messaging = firebase.messaging();
+      messaging.usePublicVapidKey("BFuDoKbZSsvRyezIBJ5xbDkOIe7MAfHaFXmcbn1QKVS7VQKwT8MNLIm82GNBNmJ1IHosmDShdek4BVPPc5aVSVo");
+      messaging.getToken().then((currentToken) => {
+    if (currentToken) {
+    //sendTokenToServer(currentToken);
+    //updateUIForPushEnabled(currentToken);
+    console.log(currentToken);
+    } else {
+    // Show permission request.
+    console.log('No Instance ID token available. Request permission to generate one.');
+    // Show permission UI.
+    //updateUIForPushPermissionRequired();
+    //setTokenSentToServer(false);
+    }
+    }).catch((err) => {
+    console.log('An error occurred while retrieving token. ', err);
+    //showToken('Error retrieving Instance ID token. ', err);
+    //setTokenSentToServer(false);
+    });
+        </script>
     </body>
 
 </html>

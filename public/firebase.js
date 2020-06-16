@@ -30,6 +30,7 @@ messaging
 
                 console.log('current token', currentToken);
                 localStorage.setItem('token', currentToken);
+                subscribe([currentToken], 'test');
                 /* $.post("/", {
                     token: currentToken
                 }, function(result) {
@@ -65,3 +66,29 @@ messaging.onTokenRefresh(() => {
         console.log('Unable to retrieve refreshed token ', err);
     });
 });
+
+messaging.setBackgroundMessageHandler(function(payload) {
+    console.log('[firebase-messaging-sw.js] Received background message ', payload);
+    // Customize notification here
+    const notificationTitle = 'Background Message Title';
+    const notificationOptions = {
+        body: 'Background Message body.',
+        icon: '/firebase-logo.png'
+    };
+
+    return self.registration.showNotification(notificationTitle,
+        notificationOptions);
+});
+
+function subscribe(tokens, topic) {
+    messaging.subscribeToTopic(tokens, topic)
+        .then(function(response) {
+            // See the MessagingTopicManagementResponse reference documentation
+            // for the contents of response.
+            console.log('Successfully subscribed to topic:', response);
+        })
+        .catch(function(error) {
+            console.log('Error subscribing to topic:', error);
+        });
+
+}

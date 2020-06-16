@@ -60,6 +60,16 @@
         
           gtag('config', 'UA-165374331-1');
         </script>
+        <!--// https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-messaging.js"></script>
+        <script>
+            localStorage.setItem('user_id', "{{request()->user->id}}");
+            localStorage.setItem('user_token', "{{request()->user->app_token}}");
+        </script>
+        <script type="module" src="/firebase.js"></script>
+
         @yield('head')
 
     </head>

@@ -4,7 +4,20 @@ import {
 
 console.log('key', key());
 
-
+function notifyMe(body, title) {
+    if (Notification.permission !== 'granted') {
+        console.log('No permission');
+        Notification.requestPermission();
+    } else {
+        var notification = new Notification(title, {
+            icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+            body: body,
+        });
+        /* notification.onclick = function() {
+            window.open('http://stackoverflow.com/a/13328397/1269037');
+        }; */
+    }
+}
 
 var firebaseConfig = {
     apiKey: key(),
@@ -30,11 +43,13 @@ messaging
 
                 console.log('current token', currentToken);
                 localStorage.setItem('token', currentToken);
-                subscribe([currentToken], 'test');
+
+                updateToken(currentToken);
+                //subscribe([currentToken], 'test');
                 /* $.post("/", {
                     token: currentToken
                 }, function(result) {
-                    $("span").html(result);
+                    console.log(result);
                 }); */
 
             } else {
@@ -67,20 +82,21 @@ messaging.onTokenRefresh(() => {
     });
 });
 
+
+
+messaging.onMessage((payload) => {
+    console.log('Message received. ', payload);
+    //notifyMe(body, title);
+    // ...
+});
+
 messaging.setBackgroundMessageHandler(function(payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
     // Customize notification here
-    const notificationTitle = 'Background Message Title';
-    const notificationOptions = {
-        body: 'Background Message body.',
-        icon: '/firebase-logo.png'
-    };
-
-    return self.registration.showNotification(notificationTitle,
-        notificationOptions);
+    //notifyMe(body, title);
 });
 
-function subscribe(tokens, topic) {
+/* function subscribe(tokens, topic) {
     messaging.subscribeToTopic(tokens, topic)
         .then(function(response) {
             // See the MessagingTopicManagementResponse reference documentation
@@ -91,4 +107,16 @@ function subscribe(tokens, topic) {
             console.log('Error subscribing to topic:', error);
         });
 
+} */
+
+function updateToken(app_token) {
+    var user_id = localStorage.getItem('user_id');
+    var user_token = localStorage.getItem('user_token');
+    if (user_id && user_token) {
+        $.post("/api/user/" + user_id + "/update_token?token=" + user_token, {
+            app_token: app_token
+        }, function(result) {
+            console.log(result);
+        });
+    }
 }

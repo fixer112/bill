@@ -58,7 +58,7 @@
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-messaging.js"></script>
-        <script type="module" src="/firebase.js"></script>
+
 
 
         <style>
@@ -414,6 +414,7 @@
             // Your web app's Firebase configuration
             
         </script>
+        <script type="module" src="/firebase.js"></script>
     </body>
 
 </html>

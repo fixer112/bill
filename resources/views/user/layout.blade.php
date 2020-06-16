@@ -69,7 +69,7 @@
             localStorage.setItem('user_token', "{{request()->user->api_token}}");
             console.log(localStorage.getItem('user_token'));
         </script>
-        <script type="module" src="/firebase.js"></script>
+
 
         @yield('head')
 
@@ -470,6 +470,7 @@
         </script>  --}}
         <!--End of Tawk.to Script-->
         @endif
+        <script type="module" src="/firebase.js"></script>
     </body>
 
 </html>

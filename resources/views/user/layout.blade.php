@@ -65,8 +65,10 @@
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-messaging.js"></script>
         <script>
+            @if(!Auth::user()->is_admin)
             localStorage.setItem('user_id', "{{request()->user->id}}");
             localStorage.setItem('user_token', "{{request()->user->api_token}}");
+            @endif
             //console.log(localStorage.getItem('user_token'));
         </script>
 

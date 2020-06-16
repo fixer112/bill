@@ -70,8 +70,7 @@ messaging.onTokenRefresh(() => {
 
 messaging.onMessage((payload) => {
     console.log('Message received. ', payload);
-    //notifyMe(body, title);
-    // ...
+
 });
 
 function updateToken(app_token) {

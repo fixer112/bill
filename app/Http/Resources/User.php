@@ -36,6 +36,7 @@ class User extends JsonResource
         $data['settings']['rave_enc_key_app'] = env("RAVE_ENC_KEY_APP", env("RAVE_ENC_KEY"));
         $data['settings']['min_fund'] = 200;
         $data['settings']['max_fund'] = env('MAX_FUND', 2500);
+        $data['settings']['ref_link'] = $this->getReferralLink();
 
         return $data;
     }

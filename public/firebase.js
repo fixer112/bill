@@ -1,5 +1,13 @@
+import {
+    key
+} from "./key.js";
+
+console.log('key', key());
+
+var key = key();
+
 var firebaseConfig = {
-    apiKey: "AIzaSyByXS9ACahY2QKmlnXfeFAXffWjMXn0tgM",
+    apiKey: key,
     authDomain: "moniwallet.firebaseapp.com",
     databaseURL: "https://moniwallet.firebaseio.com",
     projectId: "moniwallet",
@@ -15,7 +23,28 @@ const messaging = firebase.messaging();
 messaging
     .requestPermission()
     .then(function() {
-        console.log("Have permission");
+        console.log("Permission Granted");
+        messaging.usePublicVapidKey("BFuDoKbZSsvRyezIBJ5xbDkOIe7MAfHaFXmcbn1QKVS7VQKwT8MNLIm82GNBNmJ1IHosmDShdek4BVPPc5aVSVo");
+        messaging.getToken().then((currentToken) => {
+            if (currentToken) {
+
+                console.log('current token', currentToken);
+                localStorage.setItem('token', currentToken);
+                /* $.post("/", {
+                    token: currentToken
+                }, function(result) {
+                    $("span").html(result);
+                }); */
+
+            } else {
+
+                console.log('No Instance ID token available. Request permission to generate one.');
+
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+
+        });
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/firebase-messaging-sw.js')
                 .then(function(registration) {
@@ -26,21 +55,13 @@ messaging
         }
     });
 
-/* messaging.usePublicVapidKey("BFuDoKbZSsvRyezIBJ5xbDkOIe7MAfHaFXmcbn1QKVS7VQKwT8MNLIm82GNBNmJ1IHosmDShdek4BVPPc5aVSVo");
-messaging.getToken().then((currentToken) => {
-    if (currentToken) {
-        //sendTokenToServer(currentToken);
-        //updateUIForPushEnabled(currentToken);
-        console.log(currentToken);
-    } else {
-        // Show permission request.
-        console.log('No Instance ID token available. Request permission to generate one.');
-        // Show permission UI.
-        //updateUIForPushPermissionRequired();
-        //setTokenSentToServer(false);
-    }
-}).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    //showToken('Error retrieving Instance ID token. ', err);
-    //setTokenSentToServer(false);
-}); */
+
+messaging.onTokenRefresh(() => {
+    messaging.getToken().then((refreshedToken) => {
+        console.log('Token refreshed', refreshedToken);
+        localStorage.setItem('token', refreshedToken);
+        // ...
+    }).catch((err) => {
+        console.log('Unable to retrieve refreshed token ', err);
+    });
+});

@@ -30,8 +30,7 @@ Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1'])->group(f
         Route::get('/{user}/referral', 'UserController@referralHistory');
 
         Route::post('/{user}/update_token', 'UserController@updateToken');
-Route::post('/{user}/remove_token', 'UserController@removeToken');
-
+        Route::post('/{user}/remove_token', 'UserController@removeToken');
 
     });
 

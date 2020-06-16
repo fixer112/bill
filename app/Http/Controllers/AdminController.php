@@ -388,7 +388,7 @@ class AdminController extends Controller
     {
         $this->authorize('massMail', User::class);
         $this->validate(request(), [
-            'subject' => 'nullable|String',
+            'subject' => 'required|String',
             'content' => 'required|String',
             'sms' => 'required|boolean',
         ]);

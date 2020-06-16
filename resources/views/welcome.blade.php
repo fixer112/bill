@@ -78,7 +78,7 @@
                                         metavalue: airtime.network_code
                                         },];
                                 //console.log(data['reason']);
-                                //return window.location.replace("/register");
+                                return window.location.replace("/register");
                                 processPayment(airtime.discountAmount,data,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}","{{env('RAVE_PUBLIC_KEY')}}",'airtime',"{{generateRef()}}");
                                 });
                                 
@@ -134,7 +134,7 @@
                                         metavalue: data.price
                                         }];
                                 //console.log(data);
-                                //return window.location.replace("/register");
+                                return window.location.replace("/register");
                                 processPayment(data.discountAmount,d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}","{{env('RAVE_PUBLIC_KEY')}}",'data',"{{generateRef()}}");
                                 });
                             </script>
@@ -170,6 +170,7 @@
                                     });
                                     
                                     //console.log(data);
+                                    return window.location.replace("/register");
                                     //processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
                                     });
                             </script>

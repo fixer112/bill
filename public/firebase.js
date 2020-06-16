@@ -4,10 +4,10 @@ import {
 
 console.log('key', key());
 
-var key = key();
+
 
 var firebaseConfig = {
-    apiKey: key,
+    apiKey: key(),
     authDomain: "moniwallet.firebaseapp.com",
     databaseURL: "https://moniwallet.firebaseio.com",
     projectId: "moniwallet",

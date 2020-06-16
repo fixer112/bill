@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Throwable;
 use App\Activity;
-use App\Traits\Main;
-use App\Transaction;
-use App\Mail\bulkMail;
-use App\Mail\massMail;
-use App\Traits\Notify;
+use App\Http\Resources\User as UserResource;
 use App\Jobs\SendEmail;
-use App\Traits\Payment;
+use App\Mail\bulkMail;
 use App\Mail\lowBalance;
-use App\Traits\BillPayment;
+use App\Mail\massMail;
 use App\Notifications\alert;
-use KingFlamez\Rave\Facades\Rave;
+use App\Traits\BillPayment;
+use App\Traits\Main;
+use App\Traits\Notify;
+use App\Traits\Payment;
+use App\Transaction;
+use App\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\User as UserResource;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use KingFlamez\Rave\Facades\Rave;
+use Throwable;
 
 class Controller extends BaseController
 {
@@ -64,6 +64,7 @@ class Controller extends BaseController
 
     public function guestAirtime($reference)
     {
+        return;
         //return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validateGuestPayment($reference, 'airtime');
@@ -113,6 +114,7 @@ class Controller extends BaseController
 
     public function guestData($reference)
     {
+        return;
         //return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
 
         $tranx = $this->validateGuestPayment($reference, 'data');

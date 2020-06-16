@@ -442,8 +442,8 @@ class Controller extends BaseController
 
     public function test()
     {
-        return new UserResource(User::find(2));
         return $this->app(User::find(2), 'This is a test', 'test');
+        return new UserResource(User::find(2));
 
         $data['general_alert'] = env("GENERAL_ALERT");
         return $data;

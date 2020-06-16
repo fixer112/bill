@@ -45,6 +45,7 @@ messaging
                 localStorage.setItem('token', currentToken);
 
                 updateToken(currentToken);
+
                 //subscribe([currentToken], 'test');
                 /* $.post("/", {
                     token: currentToken
@@ -113,11 +114,14 @@ messaging.onMessage((payload) => {
 function updateToken(app_token) {
     var user_id = localStorage.getItem('user_id');
     var user_token = localStorage.getItem('user_token');
+    console.log('user_token', user_token);
     if (user_id && user_token) {
-        $.post("/api/user/" + user_id + "/update_token?token=" + user_token, {
+        $.post("/api/user/" + user_id + "/update_token?api_token=" + user_token, {
             app_token: app_token
         }, function(result) {
             console.log(result);
+        }).fail(function(xhr, textStatus, errorThrown) {
+            console.log(xhr.responseText);
         });
     }
 }

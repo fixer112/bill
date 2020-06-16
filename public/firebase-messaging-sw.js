@@ -21,6 +21,7 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
+messaging.usePublicVapidKey(pubKey());
 
 
 messaging.setBackgroundMessageHandler(function(payload) {

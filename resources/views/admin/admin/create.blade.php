@@ -91,6 +91,35 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label class="">Gender</label>
+                        <select name="gender" class="custom-select @error('gender') is-invalid @enderror" required>
+                            <option value="">Choose Type</option>
+                            <option value="male" {{old('gender') == 'male' ? 'selected' :''}}>Male</option>
+                            <option value="female" {{old('gender') == 'female' ? 'selected' :''}}>Female</option>
+
+                        </select>
+                        @error('gender')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label class="">Address</label>
+                        <div class="input-group">
+
+                            <input type="text" name="address"
+                                class="form-control @error('address') is-invalid @enderror" placeholder="Address"
+                                value="{{old('address')}}" required>
+                            @error('address')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>Mobile Number</label>
                         <div class="input-group">
                             <div class="input-group-prepend">

@@ -62,6 +62,8 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email:rfc,dns,strict,spoof,filter', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'reseller' => ['required', 'boolean'],
+            'gender' => ['required', 'in:male,female'],
+            'address' => ['required', 'string', 'max:150'],
         ]);
     }
 
@@ -83,6 +85,8 @@ class RegisterController extends Controller
             'password' => $data['password'],
             'is_reseller' => $data['reseller'],
             'api_token' => Str::random(60),
+            'gender' => $data['gender'],
+            'address' => $data['address'],
         ]);
 
         return $user;

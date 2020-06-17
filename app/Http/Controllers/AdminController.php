@@ -545,6 +545,9 @@ class AdminController extends Controller
             'email' => 'required|email:rfc,dns,strict,spoof,filter|unique:users',
             'password' => 'required|min:5|string|confirmed',
             'role' => 'required|not_in:1',
+            'gender' => 'required|in:male,female',
+            'address' => 'required|string|max:150',
+
         ];
 
         $this->validate(request(), $data);

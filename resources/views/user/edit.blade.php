@@ -92,6 +92,22 @@ $admin = request()->user->hasRole('super admin');
                         </div>
                     </div>
                     @endif
+                    <div class="form-group">
+                        <label class="">Gender</label>
+                        <select name="gender" class="custom-select @error('gender') is-invalid @enderror"
+                            {{!Auth::user()->can('update user') ? 'disabled' :''}}>
+                            <option value="">Choose Type</option>
+                            <option value="male" {{request()->user->gender == 'male' ? 'selected' :'' }}>Male</option>
+                            <option value="female" {{request()->user->gender == 'female' ? 'selected' :'' }}>Female
+                            </option>
+
+                        </select>
+                        @error('gender')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
                     @can('manageRoles', App\User::class)
                     @if( request()->user->is_admin)
 
@@ -146,6 +162,21 @@ $admin = request()->user->hasRole('super admin');
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label class="">Address</label>
+                        <div class="input-group">
+
+                            <input type="text" name="address"
+                                class="form-control @error('address') is-invalid @enderror" placeholder="Address"
+                                value="{{request()->user->address}}"
+                                {{!Auth::user()->can('update user') ? 'disabled' :''}}>
+                            @error('address')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>Mobile Number</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -193,6 +224,7 @@ $admin = request()->user->hasRole('super admin');
                     </div>
                     @endif
                     @endcan
+
 
                     @if (!Auth::user()->is_admin)
 

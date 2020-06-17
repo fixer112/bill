@@ -163,6 +163,9 @@ class UserController extends Controller
     public function subscribe($reference)
     {
         // return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
+        if (!env("ENABLE_ONLINE_PAYMENT")) {
+            return $this->jsonWebBack('error', 'payment disabled');
+        }
 
         $tranx = $this->validatePayment($reference, 'subscription');
 
@@ -605,7 +608,9 @@ class UserController extends Controller
     public function getFundWallet(User $user)
     {
         $this->authorize('view', $user);
-
+        if (!env("ENABLE_ONLINE_PAYMENT")) {
+            return $this->jsonWebBack('error', 'payment disabled');
+        }
         //try {
         if (!$user->account_number) {
             $this->reserveAccount($user);

@@ -122,6 +122,9 @@
        methods:{
            
            payWithRave() {
+               if (!{{env("ENABLE_ONLINE_PAYMENT")}}) {
+            return alert('Payment disabled');
+            }
                //return;
             var x = getpaidSetup({
             PBFPubKey: "{{env('RAVE_PUBLIC_KEY')}}",

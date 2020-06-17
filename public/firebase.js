@@ -3,7 +3,7 @@ import {
     pubKey
 } from "./key.js";
 
-console.log('key', pubKey());
+//console.log('key', pubKey());
 
 var firebaseConfig = {
     apiKey: key(),

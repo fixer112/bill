@@ -252,7 +252,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$smart_no}&billtype={$type}&customernumber={$customer_number}"))->throw();
+        $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$invoice}&billtype={$type}&customernumber={$customer_number}"))->throw();
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());

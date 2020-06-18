@@ -17,27 +17,28 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Service Type</label>
-                <select class="custom-select @error('service') is-invalid @enderror" name="service" required
-                    v-model="service">
+                <select class="custom-select @error('service') is-invalid @enderror" v-model="product" required>
                     <option value="">Select Type</option>
-                    @foreach (config("settings.bills.electricity.products") as $bill)
-                    <option value='{{$bill["product_id"]}}'>{{strtoupper($bill['name'])}}</option>
+                    @foreach (config("settings.bills.electricity.products") as $key => $bill)
+                    <option value='{{json_encode($bill)}}'>{{strtoupper($bill['name'])}}</option>
                     @endforeach
                 </select>
-                @error('type')
+                @error('service')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>
+            <input v-model="service" name="service" hidden />
+
             <div class="form-group">
-                <label>Amount (Charges of {{currencyFormat(config("settings.bills.electricity.charges"))}})</label>
+                <label>Amount (Charges of @{{bills['charges'] * multiples}})</label>
                 <div class="input-group">
                     <div class="input-group-prepend"> <span class="input-group-text">{{currencySymbol()}}</span>
                     </div>
 
                     <input class="form-control @error('amount') is-invalid @enderror" type="number" name="amount"
-                        required v-model="amount">
+                        required v-model="amount" :min="min" :max="max" :disabled="service == ''">
                     @error('amount')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -130,12 +131,16 @@
         amount:"",
         name:"",
         service:"",
+        product:"",
+        min:0,
+        max:0,
         discountAmount:"",
         //discount:"{{$discount}}",
         bills:@json(config("settings.bills.electricity")),
         bonus:"{{$discount}}",
         info:"",
         submit:false,
+        multiples:1,
         
         
     }
@@ -173,10 +178,17 @@
 
         },
         watch:{
+            product(n){
+                console.log(this.product);
+                this.service = n["product_id"];
+                this.min = n["min_denomination"];
+                this.max = n["max_denomination"];
+
+            },
             amount(n){
-                var multiples =Math.ceil(this.amount/+("{{env('CABLE_DISCOUNT_MULTIPLE',5000)}}"));
+                this.multiples =Math.ceil(this.amount/+("{{env('CABLE_DISCOUNT_MULTIPLE',5000)}}"));
                 //console.log(multiples);
-                var charges = (+this.bills['charges'] * multiples) - ((+this.bonus / 100) * (+this.bills['charges'] * multiples));
+                var charges = (+this.bills['charges'] * this.multiples) - ((+this.bonus / 100) * (+this.bills['charges'] * this.multiples));
                 this.discountAmount = +this.amount + (+charges);
                 //this.details = 'Cable Subscription of ' + this.type.toUpperCase() + '-' + plan["name"] + '- ' + plan["price"] + ' - '+ plan["duration"] +' for smart no '+this.number+' ('+this.mobile_number+')';
             },

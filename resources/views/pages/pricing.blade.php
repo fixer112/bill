@@ -74,6 +74,17 @@
                         @endforeach
                     </tr>
                     @endforeach
+
+                    <tr>
+                        <td>ELECTRICITY (Charges Discount)<br>
+                            ({{currencyFormat(config("settings.bills.electricity.charges"))}} per
+                            {{currencyFormat(env('CABLE_DISCOUNT_MULTIPLE',5000))}})</td>
+                        <td>0% </td>
+                        <td>{{config("settings.individual.bills.electricity")}}%</td>
+                        @foreach ( config("settings.subscriptions") as $name => $item)
+                        <td>{{$item['bills']['electricity']}}%</td>
+                        @endforeach
+                    </tr>
                     <tr>
                         <td>API TROTTLE LIMIT/MINUTE</td>
                         <td> 0 </td>

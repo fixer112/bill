@@ -241,7 +241,7 @@ trait BillPayment
 
     }
 
-    public static function electricity($service, $meterno, $type, $amount)
+    public static function electricity($service, $meterno, $type, $amount, $ref)
     {
         if (!env("ENABLE_BILL_PAYMENT")) {
             return errorMessage(env("ERROR_MESSAGE"));
@@ -249,7 +249,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('power-pay', "service=$service&meterno=$meterno&mtype=$type&amt=$amount"))->throw();
+        $response = Http::get(self::link('power-pay', "user_ref=$ref&service=$service&meterno=$meterno&mtype=$type&amt=$amount"))->throw();
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());

@@ -955,9 +955,13 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
         //return request()->all();
+        $bills = config("settings.bills.electricity");
+        $product = array_search(request()->service, array_column($bills['products'], 'product_id'));
+        $min = $product["min_denomination"];
+        $max = $product["max_denomination"];
 
         $data = [
-            'amount' => "required|numeric",
+            'amount' => "required|numeric|min:$min|max:$max",
             'type' => "required|in:1,0",
             'meter_no' => "required|string",
             'service' => "required|string",
@@ -974,18 +978,23 @@ class UserController extends Controller
 
         $this->validate(request(), $data);
 
-        /* request()->merge(['discount_amount' => $discount_amount]);
-        $this->validate(request(), [
-        'discount_amount' => [new checkBalance($user)],
-        ]); */
-
         $amount = request()->amount;
         $meterno = request()->meter_no;
         $service = request()->service;
-        $discount_amount = request()->discount_amount;
         $type = request()->type;
         $t = $type == '1' ? 'prepaid' : 'postpaid';
         $a = currencyFormat($amount);
+
+        $multiples = $amount / env('CABLE_DISCOUNT_MULTIPLE', 5000);
+
+        $charges = calDiscountAmount($bills['charges'] * $multiples, electricityDiscount($user));
+
+        $discount_amount = $amount + $charges;
+
+        request()->merge(['discount_amount' => $discount_amount]);
+        $this->validate(request(), [
+            'discount_amount' => [new checkBalance($user)],
+        ]);
 
         $ref = generateRef($user);
 

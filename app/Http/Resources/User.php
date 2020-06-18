@@ -34,8 +34,8 @@ class User extends JsonResource
         $data['settings']['transfer_fee'] = env("MONIFY_FEE", 2);
         $data['settings']['rave_public_key_app'] = env("RAVE_PUBLIC_KEY_APP", env("RAVE_PUBLIC_KEY"));
         $data['settings']['rave_enc_key_app'] = env("RAVE_ENC_KEY_APP", env("RAVE_ENC_KEY"));
-        $data['settings']['min_fund'] = 200;
-        $data['settings']['max_fund'] = env('MAX_FUND', 2500);
+        $data['settings']['min_fund'] = env('MIN_FUND_APP', 200);
+        $data['settings']['max_fund'] = env('MAX_FUND_APP', 0);
         $data['settings']['ref_link'] = $this->getReferralLink();
 
         return $data;

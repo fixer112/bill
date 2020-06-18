@@ -50,6 +50,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             Route::get('test/{user}', 'Controller@testUser');
 
             Route::get('/data', 'Controller@refreshData');
+            Route::get('/electricity', 'Controller@refreshElectricity');
 
             Route::get('/update_user/{user}', 'Controller@reserveAccount');
 

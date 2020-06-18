@@ -226,6 +226,13 @@ class Controller extends BaseController
         return json_decode(Storage::get('data.json'), true)['data'];
 
     }
+    public function refreshElectricity()
+    {
+        Storage::delete('electricity.json');
+        getElectricityInfo();
+        return json_decode(Storage::get('electricity.json'), true)['electricity'];
+
+    }
 
     public function testUser(User $user)
     {

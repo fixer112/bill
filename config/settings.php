@@ -163,6 +163,7 @@ return [
                 'gotv' => 50,
                 'dstv' => 50,
             ],
+            'electricity' => 50,
         ],
     ],
 
@@ -187,6 +188,7 @@ return [
                 'gotv' => 60,
                 'dstv' => 60,
             ],
+            'electricity' => 50,
         ],
         ],
         'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'portal' => false, 'bills' => [
@@ -209,6 +211,7 @@ return [
                 'gotv' => 70,
                 'dstv' => 70,
             ],
+            'electricity' => 50,
         ],
         ],
 
@@ -232,6 +235,7 @@ return [
                 'gotv' => 90,
                 'dstv' => 90,
             ],
+            'electricity' => 50,
         ],
         ],
 

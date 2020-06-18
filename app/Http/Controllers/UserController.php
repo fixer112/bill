@@ -944,6 +944,66 @@ class UserController extends Controller
 
     }
 
+    public function getElectricity(User $user)
+    {
+        $this->authorize('view', $user);
+
+        return view('user.bill.electricity');
+    }
+
+    public function postElectricity(User $user)
+    {
+        $this->authorize('view', $user);
+        //return request()->all();
+
+        $data = [
+            'amount' => "required|numeric",
+            'type' => "required|in:1,0",
+            'meter_no' => "required|string",
+            'service' => "required|string",
+            'discount_amount' => [new checkBalance($user)],
+            //'number' => "required|numeric|digits_between:10,11",
+            //'customer_name' => "required_unless:type,startimes",
+            //'customer_number' => "required_unless:type,startimes",
+
+        ];
+
+        if (!request()->wantsJson() || request()->plathform == 'app') {
+            $data['password'] = ["required", new checkOldPassword($user)];
+        }
+
+        $this->validate(request(), $data);
+
+        /* request()->merge(['discount_amount' => $discount_amount]);
+        $this->validate(request(), [
+        'discount_amount' => [new checkBalance($user)],
+        ]); */
+
+        $amount = request()->amount;
+        $meterno = request()->meter_no;
+        $service = request()->service;
+        $discount_amount = request()->discount_amount;
+        $type = request()->type;
+        $t = $type == '1' ? 'prepaid' : 'postpaid';
+        $a = currencyFormat($amount);
+
+        $ref = generateRef($user);
+
+        $desc = "Electricity payment of {$a} for meter no {$meter_no} {$t} ($service)";
+
+        if ($this->isDublicate($user, $discount_amount, $desc, 'electricity')) {
+            return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/electricity");
+        }
+
+        $result = $this->electricity($service, $meterno, $type, $amount, $ref);
+
+        if (is_array($result) && isset($result['error'])) {
+            return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/cable");
+        }
+
+        return $this->saveTransaction($user, 'electricity', $discount_amount, $desc, $ref, $result);
+
+    }
     public function apiReset(User $user)
     {
         $this->authorize('view', $user);

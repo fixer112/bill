@@ -214,6 +214,12 @@ trait BillPayment
         return $response->json()['products'];
 
     }
+    public static function fetchElectricityInfo()
+    {
+        $response = Http::get(self::link('power-lists'))->throw();
+        return $response->json()['result'];
+
+    }
 
     public static function cableInfo($bill, $no)
     {
@@ -222,6 +228,35 @@ trait BillPayment
         $result = $response->json();
         unset($result['code']);
         return $result;
+
+    }
+
+    public static function electricityInfo($service, $meterno)
+    {
+        $response = Http::get(self::link('power-validate', "service=$service&meterno=$meterno"))->throw();
+
+        $result = $response->json();
+        //unset($result['code']);
+        return $result;
+
+    }
+
+    public static function electricity($service, $meterno, $type, $amount)
+    {
+        if (!env("ENABLE_BILL_PAYMENT")) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
+
+        self::balance();
+
+        $response = Http::get(self::link('power-pay', "service=$service&meterno=$meterno&mtype=$type&amt=$amount"))->throw();
+
+        if (isset(self::checkError($response->json())['error'])) {
+            return self::checkError($response->json());
+
+        }
+
+        return $response->json();
 
     }
 

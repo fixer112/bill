@@ -4,19 +4,18 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Data extends Component
+class Electricity extends Component
 {
-    public $dat;
+    public $discount;
     public $guest;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($dat, $guest = false)
+    public function __construct($discount, $guest = false)
     {
-        $this->dat = $dat;
+        $this->discount = $discount;
         $this->guest = $guest;
 
     }
@@ -28,6 +27,6 @@ class Data extends Component
      */
     public function render()
     {
-        return view('components.data');
+        return view('components.electricity');
     }
 }

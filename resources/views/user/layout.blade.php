@@ -165,6 +165,10 @@
                                 class="nav-link"><span class="pcoded-micon"><i class="fa fa-tv"></i></span><span
                                     class="pcoded-mtext">Cable Tv</span></a>
                         </li>
+                        <li class="nav-item text-success"><a href="/user/{{request()->user->id}}/electricity"
+                                class="nav-link"><span class="pcoded-micon"><i class="fa fa-bolt"></i></span><span
+                                    class="pcoded-mtext">Electricity</span></a>
+                        </li>
 
                         <li class="nav-item pcoded-menu-caption">
                             <label>API</label>

@@ -170,6 +170,11 @@ class Controller extends BaseController
         return $this->cableInfo($type, $number);
 
     }
+    public function verifyMeter($service, $number)
+    {
+        return $this->electricityInfo($service, $number);
+
+    }
 
     public function saveTransaction(User $user, $type, $discount_amount, $desc, $ref, $result)
     {
@@ -442,6 +447,9 @@ class Controller extends BaseController
 
     public function test()
     {
+        return fetchElectricityInfo();
+        return config("settings.bills.electricity");
+        return getElectricityInfo();
         return $this->app(User::find(2), 'This is a test', 'test');
         return new UserResource(User::find(2));
 

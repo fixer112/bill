@@ -191,11 +191,50 @@ function cableDiscount(User $user = null)
     return !$user->is_reseller ? config("settings.individual.bills.cable") : config("settings.subscriptions.{$user->lastSub()->name}.bills.cable");
 
 }
+function electricityDiscount(User $user = null)
+{
+    if (!$user) {
+
+        return 0;
+
+    }
+    return !$user->is_reseller ? config("settings.individual.bills.electricity") : config("settings.subscriptions.{$user->lastSub()->name}.bills.electricity");
+
+}
+
 function getLastString($string, $delimiter = '-')
 {
     $strings = explode($delimiter, $string);
 
     return last($strings);
+}
+
+function getElectricityInfo()
+{
+
+    if (Storage::exists('electricity.json') && time() - json_decode(Storage::get('electricity.json'), true)['time'] < (60 * 60 * 24)) {
+        config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
+
+    } else {
+        fetchElectricityInfo();
+
+        config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
+
+    }
+
+}
+
+function fetchElectricityInfo()
+{
+    Artisan::call('config:clear');
+
+    $electricity = BillPayment::fetchElectricityInfo();
+
+    $data = array_merge(['products' => $electricity], ['charges' => 100]);
+
+    Storage::put('electricity.json', json_encode(['electricity' => $data, 'time' => time()]));
+
+    return $data;
 }
 
 function getDataInfo()

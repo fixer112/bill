@@ -101,9 +101,9 @@
                 <label>Smart Card Number</label>
                 <div class="input-group">
                     <input class="form-control @error('smart_no') is-invalid @enderror" name="smart_no" type="text"
-                        placeholder="Smart card number" required v-model="number" required>
+                        placeholder="Smart card number" required v-model="number" required :disabled="type == ''">
                     @error('smart_no')
-                    <span class="invalid-feedback" role="alert">
+                    <span class=" invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
@@ -183,13 +183,17 @@
         console.log(this.info);
         }else if(response.data == ''){
             this.name = "Unable to validate smartcard";
+            this.submit = false;
         
         }else{
         this.name = 'SmartCard number does not exist';
+        this.submit = false;
         }
         
         })
         .catch((error)=>{
+        this.name = "Unable to validate smartcard";
+        this.submit = false;
         console.log(error.response.data)
         })
         },

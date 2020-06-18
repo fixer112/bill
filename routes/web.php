@@ -90,6 +90,9 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/cable', 'UserController@getCable');
                 Route::post('/{user}/cable', 'UserController@postCable');
 
+                Route::get('/{user}/electricity', 'UserController@getElectricity');
+                Route::post('/{user}/electricity', 'UserController@postElectricity');
+
                 Route::get('/{user}/subscriptions/', 'UserController@subscriptions');
 
                 Route::get('/{user}/api/documentation/', 'UserController@apiDocumentation');
@@ -122,6 +125,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         Route::get('/data/{reference}', 'Controller@guestData');
 
         Route::get('/smart_no/{type}/{number}', 'Controller@verifySmartCard');
+        Route::get('/meter_no/{service}/{number}', 'Controller@verifyMeter');
 
     });
 

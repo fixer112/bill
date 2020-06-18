@@ -1,11 +1,11 @@
 @extends('user.layout')
-@section('title','Data Subscription')
+@section('title','Electricity Bill')
 @section('content')
 <div class="row">
     <div class="col-10 mx-auto card p-5">
         <form action="{{url()->current()}}" method="POST">
             @csrf
-            <x-data :discount="dataDiscount(request()->user)" />
+            <x-electricity :discount="electricityDiscount(request()->user)" />
         </form>
     </div>
 </div>

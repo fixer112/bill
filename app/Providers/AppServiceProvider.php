@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         getDataInfo();
+        getElectricityInfo();
 
         Schema::defaultStringLength(191);
 

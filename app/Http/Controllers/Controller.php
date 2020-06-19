@@ -455,6 +455,8 @@ class Controller extends BaseController
     public function test()
     {
         return fetchElectricityInfo();
+
+        return $this->sms('', '08106813749');
         return config("settings.bills.electricity");
         return getElectricityInfo();
         return $this->app(User::find(2), 'This is a test', 'test');

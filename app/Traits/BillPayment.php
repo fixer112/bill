@@ -310,7 +310,7 @@ trait BillPayment
         $data = [
             'username' => $user,
             'password' => $pass,
-            'message' => ($message),
+            'message' => str_replace('  ', "\n", $message),
             'mobile' => $numbers,
             'sender' => $sender,
             'route' => $route,

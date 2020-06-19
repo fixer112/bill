@@ -89,8 +89,7 @@ class alert extends Notification implements ShouldQueue
     public function toSMS($notifiable)
     {
         $desc = str_replace('₦', 'NGN', $this->desc);
-        $message = "Hello {$notifiable->first_name},
-You have a transaction notification with description: {$desc}";
+        $message = "Hello {$notifiable->first_name},You have a transaction notification with description: {$desc}";
         if ($notifiable->sms_notify && $this->tran && $this->enable_sms) {
             $this->chargeSms($this->tran, ($message));
             //dd($desc);

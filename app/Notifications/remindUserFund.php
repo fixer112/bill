@@ -75,8 +75,7 @@ class remindUserFund extends Notification implements ShouldQueue
      */
     public function toSMS($notifiable)
     {
-        $message = "Hello {$notifiable->first_name}, We noticed its been a while you funded your wallet.
-Please fund your wallet by making a transfer to {$notifiable->account_number}({$notifiable->bank_name})";
+        $message = "Hello {$notifiable->first_name}, We noticed its been a while you funded your wallet.\nPlease fund your wallet by making a transfer to {$notifiable->account_number}({$notifiable->bank_name})";
         //return $this->sms($message, $notifiable->nigeria_number);
 
     }
@@ -89,8 +88,7 @@ Please fund your wallet by making a transfer to {$notifiable->account_number}({$
      */
     public function toApp($notifiable)
     {
-        $message = "Hello {$notifiable->first_name}, We noticed its been a while you funded your wallet.
-    Please fund your wallet by making a transfer to {$notifiable->account_number}({$notifiable->bank_name})";
+        $message = "Hello {$notifiable->first_name}, We noticed its been a while you funded your wallet.\nPlease fund your wallet by making a transfer to {$notifiable->account_number}({$notifiable->bank_name})";
 
         return $this->app($notifiable, $message, 'We miss you!');
     }

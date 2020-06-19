@@ -51,15 +51,7 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/js/script.js"></script>
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'UA-165374331-1');
-        </script>
+
         <!--// https://firebase.google.com/docs/web/setup#available-libraries -->
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
@@ -475,8 +467,17 @@
             })();
         </script>  --}}
         <!--End of Tawk.to Script-->
-        @endif
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                
+                  gtag('config', 'UA-165374331-1');
+        </script>
         <script type="module" src="/firebase.js"></script>
+        @endif
     </body>
 
 </html>

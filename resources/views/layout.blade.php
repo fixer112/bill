@@ -45,15 +45,7 @@
         <link rel="stylesheet" href="/css/floating-wpp.min.css">
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/js/script.js"></script>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'UA-165374331-1');
-        </script>
+
         <!--// https://firebase.google.com/docs/web/setup#available-libraries -->
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
@@ -392,7 +384,7 @@
         });
 
         </script>
-        @if(env('APP_ENV') =='production')
+        @if((Auth::check() && !Auth::user()->is_admin) && env('APP_ENV') =='production')
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -406,6 +398,16 @@
     })();
         </script>
         <!--End of Tawk.to Script-->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165374331-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                
+                  gtag('config', 'UA-165374331-1');
+        </script>
+        <script type="module" src="/firebase.js"></script>
         @endif
 
 
@@ -414,7 +416,7 @@
             // Your web app's Firebase configuration
             
         </script>
-        <script type="module" src="/firebase.js"></script>
+
     </body>
 
 </html>

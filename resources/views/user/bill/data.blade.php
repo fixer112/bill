@@ -5,7 +5,7 @@
     <div class="col-10 mx-auto card p-5">
         <form action="{{url()->current()}}" method="POST">
             @csrf
-            <x-data :discount="dataDiscount(request()->user)" />
+            <x-data :dat="dataDiscount(request()->user)" />
         </form>
     </div>
 </div>

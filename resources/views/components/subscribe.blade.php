@@ -38,7 +38,9 @@
   }, 
        methods:{
            payWithRave() {
-        //return;
+               if (!'{{env("ENABLE_ONLINE_PAYMENT")}}') {
+                return alert('Payment disabled, please contact us on how to upgrade');
+                }
         var x = getpaidSetup({
         PBFPubKey: "{{env('RAVE_PUBLIC_KEY')}}",
         customer_email: '{{request()->user->email}}',

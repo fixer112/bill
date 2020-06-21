@@ -17,6 +17,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+firebase.analytics();
 const messaging = firebase.messaging();
 messaging.usePublicVapidKey(pubKey());
 messaging

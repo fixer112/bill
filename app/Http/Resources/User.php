@@ -37,6 +37,7 @@ class User extends JsonResource
         $data['settings']['min_fund'] = env('MIN_FUND_APP', 200);
         $data['settings']['max_fund'] = env('MAX_FUND_APP', 0);
         $data['settings']['ref_link'] = $this->getReferralLink();
+        $data['settings']['enable_online_payment'] = env("ENABLE_ONLINE_PAYMENT", false);
 
         return $data;
     }

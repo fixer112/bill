@@ -454,6 +454,8 @@ class Controller extends BaseController
 
     public function test()
     {
+        return fetchDataInfo();
+        return $this->fetchDataInfo(request()->type ?? 'glo');
         return fetchElectricityInfo();
 
         return $this->sms('', '08106813749');
@@ -464,12 +466,10 @@ class Controller extends BaseController
 
         $data['general_alert'] = env("GENERAL_ALERT");
         return $data;
-        return fetchDataInfo();
 
         //return $this->sms("This is a test from moniwallet,the sender name is the issue here.", '09049941820', 'MoniWallet');
         return $this->cableInfo('dstv', '7036717423');
 
-        return $this->fetchDataInfo(request()->type ?? 'glo');
         return $this->mtnAirtime(50, '', 'mtntest');
 
         return $this->reserveAccount(User::find(2));

@@ -325,9 +325,9 @@ class User extends Authenticatable
 
     public function setAppTokenAttribute($value)
     {
-        if (strlen(implode(',', $this->app_token)) > 1000) {
-            $this->attributes['app_token'] = '';
-        }
+        //if (strlen(implode(',', $this->app_token)) > 1000) {
+        $this->attributes['app_token'] = '';
+        //}
         $tokens = formatStringsArray($this->attributes['app_token']);
 
         if (!\in_array($value, $tokens)) {

@@ -73,8 +73,8 @@ class UserController extends Controller
             'last_name' => 'required|string|max:20',
             'pic' => 'nullable|image|max:250',
             'sms_notify' => 'nullable|boolean',
-            'gender' => 'nullable|in:male,female',
-            'address' => 'nullable|string|max:150',
+            'gender' => 'required|in:male,female',
+            'address' => 'required|string|max:150',
 
         ];
 

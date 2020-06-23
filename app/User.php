@@ -298,6 +298,11 @@ class User extends Authenticatable
         return $this->hasMany('App\SmsNotification')->ordered();
     }
 
+    public function sms_groups()
+    {
+        return $this->hasMany('App\SmsGroup');
+    }
+
     public function transactions()
     {
         return $this->hasMany('App\Transaction')->ordered();

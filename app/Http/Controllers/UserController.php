@@ -11,6 +11,8 @@ use App\Notifications\alert;
 use App\Referral;
 use App\Rules\checkBalance;
 use App\Rules\checkOldPassword;
+use App\SmsGroup;
+use App\SmsHistory;
 use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
@@ -1161,6 +1163,95 @@ class UserController extends Controller
 
         return $user->app_token;
         return ['success' => 'App Token Updated'];
+
+    }
+
+    public function getCreateSms(User $user)
+    {
+        $this->authorize('view', $user);
+        return view("user.sms.compose");
+    }
+
+    public function createSms(User $user)
+    {
+        $this->authorize('view', $user);
+        return $this->jsonWebBack('error', 'Coming Soon');
+
+    }
+
+    public function smsHistory(User $user)
+    {
+        $this->authorize('view', $user);
+        $from = request()->from ? Carbon::parse(request()->from) : now();
+        $from = $from->startOfDay();
+        $to = request()->to ? Carbon::parse(request()->to) : now();
+        $to = $to->endOfDay();
+
+        $transactions = SmsHistory::join('transactions', 'sms_histories.transaction_id', 'transactions.id')->where('transactions.user_id', $user->id)->whereBetween('sms_histories.created_at', [$from, $to])->get();
+
+        return view("user.sms.history", compact('to', 'from', 'transactions'));
+
+    }
+
+    public function getCreateSmsGroup(User $user)
+    {
+        $this->authorize('view', $user);
+        return view("user.sms.group.create");
+
+    }
+
+    public function createSmsGroup(User $user)
+    {
+        $this->authorize('view', $user);
+
+        $this->validate(request(), [
+            'name' => 'required|String',
+            'numbers' => 'required|String',
+        ]);
+
+        $group = $user->sms_groups()->create(request()->all());
+
+        //return $group;
+
+        return $this->jsonWebBack('success', "Group $group->name created.");
+
+    }
+
+    public function smsGroups(User $user)
+    {
+        $this->authorize('view', $user);
+        /* $from = request()->from ? Carbon::parse(request()->from) : now();
+        $from = $from->startOfDay();
+        $to = request()->to ? Carbon::parse(request()->to) : now();
+        $to = $to->endOfDay(); */
+
+        $groups = $user->sms_groups;
+
+        return view("user.sms.group.index", compact('groups'));
+
+    }
+
+    public function getEditSmsGroup(User $user, SmsGroup $group)
+    {
+        $this->authorize('view', $user);
+
+        return view("user.sms.group.edit");
+
+    }
+
+    public function editSmsGroup(User $user, SmsGroup $group)
+    {
+        $this->authorize('view', $user);
+        $this->authorize('update', $group);
+
+        $this->validate(request(), [
+            'name' => 'required|String',
+            'numbers' => 'required|String',
+        ]);
+
+        $group->fill(request()->all());
+
+        return $this->jsonWebBack('success', "Group $group->name edited.");
 
     }
 

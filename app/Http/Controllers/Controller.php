@@ -11,6 +11,7 @@ use App\Mail\massMail;
 use App\Notifications\alert;
 use App\Traits\BillPayment;
 use App\Traits\Main;
+use App\Traits\MoniWalletBill;
 use App\Traits\Notify;
 use App\Traits\Payment;
 use App\Transaction;
@@ -454,6 +455,7 @@ class Controller extends BaseController
 
     public function test()
     {
+        return MoniWalletBill::mtnSNS('08106813749', "51");
         return fetchDataInfo();
         return $this->fetchDataInfo(request()->type ?? 'glo');
         return fetchElectricityInfo();

@@ -102,6 +102,15 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/contact', 'UserController@getContact');
                 Route::post('/{user}/contact', 'UserController@contact');
 
+                Route::get('/{user}/sms', 'UserController@getCreateSms');
+                Route::post('/{user}/sms', 'UserController@createSms');
+                Route::get('/{user}/sms/history', 'UserController@smsHistory');
+                Route::get('/{user}/sms/group/create', 'UserController@getCreateSmsGroup');
+                Route::post('/{user}/sms/group/create', 'UserController@createSmsGroup');
+                Route::get('/{user}/sms/group', 'UserController@smsGroups');
+                Route::get('/{user}/sms/group/{group}', 'UserController@getEditSmsGroup');
+                Route::post('/{user}/sms/group/{group}', 'UserController@editSmsGroup');
+
             });
 
             Route::middleware(['unsubscribed'])->group(function () {

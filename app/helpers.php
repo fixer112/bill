@@ -338,13 +338,17 @@ function fetchDataInfo()
 
 function formatedNumber($number)
 {
+    if (strlen($number) < 10) {
+        return "";
+    }
 
     return Str::substr($number, -10);
 }
 
 function nigeriaNumber($number)
 {
-    return "0" . formatedNumber($number);
+
+    return !$number ? $number : "0" . formatedNumber($number);
 }
 
 function convertDataAmount($number)
@@ -389,7 +393,7 @@ function formatPhoneNumberArray($numbers): array
     $numbers = collect($numbers)->map(function ($number) {
         filter_var($number, FILTER_SANITIZE_NUMBER_INT);
 
-        $number = "0$number";
+        $number = nigeriaNumber($number);
 
         return filter_var($number, FILTER_SANITIZE_NUMBER_INT);
     });

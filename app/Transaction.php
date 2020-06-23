@@ -23,6 +23,10 @@ class Transaction extends Model
     {
         return $this->hasOne('App\Subscription');
     }
+    public function sms_history()
+    {
+        return $this->hasOne('App\SmsHistory');
+    }
 
     public function sms_notifications()
     {

@@ -161,6 +161,22 @@
                                 class="nav-link"><span class="pcoded-micon"><i class="fa fa-bolt"></i></span><span
                                     class="pcoded-mtext">Electricity</span></a>
                         </li>
+                        <li class="nav-item pcoded-hasmenu">
+                            <a class=""><span class="pcoded-micon"><i class="fa fa-envelope-square"></i></span><span
+                                    class="pcoded-mtext">Bulk SMS</span></a>
+                            <ul class="pcoded-submenu">
+                                <li class=""><a href="/user/{{request()->user->id}}/sms" class="">Compose
+                                        SMS</a>
+                                </li>
+                                <li class=""><a href="/user/{{request()->user->id}}/sms/history" class="">History</a>
+                                </li>
+                                <li class=""><a href="/user/{{request()->user->id}}/sms/group/create" class="">Create
+                                        Group</a>
+                                </li>
+                                <li class=""><a href="/user/{{request()->user->id}}/sms/group" class="">All Groups</a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="nav-item pcoded-menu-caption">
                             <label>API</label>
@@ -170,6 +186,8 @@
                                 class="nav-link"><span class="pcoded-micon"><i class="fa fa-info"></i></span><span
                                     class="pcoded-mtext">Api Documentation</span></a>
                         </li>
+
+
 
                         <li class="nav-item pcoded-menu-caption">
                             <label>Administration</label>
@@ -478,6 +496,13 @@
         </script>
         <script type="module" src="/firebase.js"></script>
         @endif
+        <script>
+            function showNumbers(numbers){
+                swal("Phone Numbers",numbers,{
+                //buttons: ["Stay Here", "Dashboard"],
+                });
+            }
+        </script>
     </body>
 
 </html>

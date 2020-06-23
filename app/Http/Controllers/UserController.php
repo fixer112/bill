@@ -1175,6 +1175,10 @@ class UserController extends Controller
     public function createSms(User $user)
     {
         $this->authorize('view', $user);
+        if (!request()->wantsJson() || request()->plathform == 'app') {
+            $data['password'] = ["required", new checkOldPassword($user)];
+        }
+
         return $this->jsonWebBack('error', 'Coming Soon');
 
     }
@@ -1207,9 +1211,10 @@ class UserController extends Controller
         $this->validate(request(), [
             'name' => 'required|String',
             'numbers' => 'required|String',
+            'password' => ["required", new checkOldPassword($user)],
         ]);
 
-        $group = $user->sms_groups()->create(request()->all());
+        $group = $user->sms_groups()->create(request()->only('name', 'numbers'));
 
         //return $group;
 
@@ -1247,9 +1252,10 @@ class UserController extends Controller
         $this->validate(request(), [
             'name' => 'required|String',
             'numbers' => 'required|String',
+            'password' => ["required", new checkOldPassword($user)],
         ]);
 
-        $group->fill(request()->all());
+        $group->fill(request()->only('name', 'numbers'));
 
         return $this->jsonWebBack('success', "Group $group->name edited.");
 

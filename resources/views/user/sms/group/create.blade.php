@@ -41,6 +41,18 @@
                     @enderror
                 </div>
             </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <div class="input-group">
+                    <input class="form-control @error('password') is-invalid @enderror" name="password" type="password"
+                        placeholder="Confirm your password to continue" required>
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
 
             <button class="btn btn-primary btn-block" type="submit">Continue</button>
         </form>

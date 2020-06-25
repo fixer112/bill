@@ -169,7 +169,7 @@ return [
                 'dstv' => 50,
             ],
             'electricity' => 50,
-            'sms' => 2,
+            'sms' => 3,
         ],
     ],
 
@@ -195,7 +195,7 @@ return [
                 'dstv' => 60,
             ],
             'electricity' => 50,
-            'sms' => 2,
+            'sms' => 2.5,
         ],
         ],
         'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'portal' => false, 'bills' => [
@@ -219,7 +219,7 @@ return [
                 'dstv' => 70,
             ],
             'electricity' => 50,
-            'sms' => 2,
+            'sms' => 2.2,
         ],
         ],
 

@@ -86,6 +86,15 @@
                         @endforeach
                     </tr>
                     <tr>
+                        <td>SMS/PAGE/NUMBER</td>
+                        <td> 4 </td>
+                        <td>{{currencyFormat(config("settings.individual.bills.sms"))}}</td>
+                        @foreach ( config("settings.subscriptions") as $name => $item)
+                        <td>{{currencyFormat($item['bills']['sms'])}}</td>
+                        @endforeach
+
+                    </tr>
+                    <tr>
                         <td>API TROTTLE LIMIT/MINUTE</td>
                         <td> 0 </td>
                         <td> 60 </td>

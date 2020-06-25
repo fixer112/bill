@@ -206,7 +206,7 @@ function smsDiscount(User $user = null)
 {
     if (!$user) {
 
-        return 2;
+        return 4;
 
     }
 

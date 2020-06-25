@@ -9,6 +9,7 @@ use App\Mail\bulkMail;
 use App\Mail\lowBalance;
 use App\Mail\massMail;
 use App\Notifications\alert;
+use App\SmsHistory;
 use App\Traits\BillPayment;
 use App\Traits\Main;
 use App\Traits\MoniWalletBill;
@@ -197,6 +198,20 @@ class Controller extends BaseController
             'reason' => $type,
             'plathform' => getPlathform(),
         ]);
+
+        if ($type == 'sms') {
+            SmsHistory::create([
+                'group_id' => request()->group,
+                'sender' => request()->sender,
+                'message' => request()->message,
+                'numbers' => $result['all_numbers'],
+                'success_numbers' => $result['successful'],
+                'failed_numbers' => $result['failed'],
+                'transaction_id' => $tran->id,
+
+            ]);
+
+        }
 
         $activity = Activity::create([
             'user_id' => $user->id,
@@ -455,6 +470,7 @@ class Controller extends BaseController
 
     public function test()
     {
+        return MoniWalletBill::sms('49', 'This is a test', 3);
         return MoniWalletBill::mtnSNS('08106813749', "51");
         return fetchDataInfo();
         return $this->fetchDataInfo(request()->type ?? 'glo');

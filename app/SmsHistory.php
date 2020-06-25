@@ -10,11 +10,27 @@ class SmsHistory extends Model
 
     public function transaction()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Transaction');
     }
 
     public function sms_group()
     {
         return $this->hasOne('App\SmsGroup');
+    }
+
+    public function setNumbersAttribute($value)
+    {
+        $this->attributes['numbers'] = implode(',', formatPhoneNumberArray($value));
+
+    }
+    public function setSuccessNumbersAttribute($value)
+    {
+        $this->attributes['success_numbers'] = implode(',', formatPhoneNumberArray($value));
+
+    }
+    public function setFailedNumbersAttribute($value)
+    {
+        $this->attributes['failed_numbers'] = implode(',', formatPhoneNumberArray($value));
+
     }
 }

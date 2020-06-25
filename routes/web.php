@@ -110,6 +110,7 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/sms/group', 'UserController@smsGroups');
                 Route::get('/{user}/sms/group/{group}', 'UserController@getEditSmsGroup');
                 Route::post('/{user}/sms/group/{group}', 'UserController@editSmsGroup');
+                Route::get('/{user}/sms/group/{group}/delete', 'UserController@deleteSmsGroup');
 
             });
 

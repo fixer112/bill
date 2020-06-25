@@ -16,6 +16,7 @@ use App\SmsHistory;
 use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
+use App\Traits\MoniWalletBill;
 use App\Traits\Payment;
 use App\Transaction;
 use App\User;
@@ -1175,11 +1176,74 @@ class UserController extends Controller
     public function createSms(User $user)
     {
         $this->authorize('view', $user);
+        //return $user->sms_groups->pluck('id');
+        $data = [
+            'sender' => 'nullable|String|max:10',
+            'numbers' => 'required_without:group|nullable|String',
+            'message' => 'required|String',
+            'group' => 'required_without:numbers|nullable|in:' . implode(',', $user->sms_groups->pluck('id')->toArray()),
+        ];
+
+        //return request()->all();
+
         if (!request()->wantsJson() || request()->plathform == 'app') {
             $data['password'] = ["required", new checkOldPassword($user)];
         }
 
-        return $this->jsonWebBack('error', 'Coming Soon');
+        $this->validate(request(), $data);
+
+        $group = SmsGroup::find(request()->group);
+        $numbers = formatPhoneNumberArray(request()->numbers);
+        $numberCount = count($numbers);
+        $groupNum = formatPhoneNumberArray($group ? $group->numbers : '');
+        $groupNumCount = count($groupNum);
+
+        $message = str_replace('  ', "\n", request()->message);
+        $messageCount = strlen($message);
+        $pageCount = ceil($messageCount / env('SMS_PER_PAGE', 160));
+
+        $pagePrice = $pageCount * smsDiscount($user);
+
+        $discount_amount = ($numberCount + $groupNumCount) * $pagePrice;
+
+        request()->merge(['discount_amount' => $discount_amount]);
+
+        $this->validate(request(), [
+            'minimum_amount' => [new checkBalance($user)],
+        ]);
+
+        $sms = SmsHistory::latest()->first();
+        //return $sms_transaction;
+        if ($sms && $now()->diffInSeconds($sms->created_at < 60)) {
+            return $this->jsonWebRedirect('error', "Dublicate transaction, pls try again in 1 minutes", "user/{$user->id}/sms");
+
+        }
+
+        $ref = generateRef($user);
+
+        $allNumbers = [...$numbers, ...$groupNum];
+        $allNumbers = implode(',', $allNumbers);
+
+        $result = MoniWalletBill::sms($allNumbers, $message, $ref, request()->route, request()->sender);
+
+        ////return $result;
+        if (is_array($result) && isset($result['error'])) {
+            //return $result['error'];
+            return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/sms");
+        }
+
+        $successCount = count(formatPhoneNumberArray($result['successful']));
+        $failedCount = count(formatPhoneNumberArray($result['failed']));
+        $pages = $result['sms_pages'];
+
+        $desc = "Sms Sent to $successCount numbers successfully and $failedCount failed ($pages page(s))";
+
+        $discount_amount = $result['sms_pages'] * $successCount * smsDiscount($user);
+
+        //return request()->all();
+        return $this->saveTransaction($user, 'sms', $discount_amount, $desc, $ref, $result);
+
+        //return $this->jsonWebBack('error', 'Coming Soon');
 
     }
 
@@ -1190,10 +1254,16 @@ class UserController extends Controller
         $from = $from->startOfDay();
         $to = request()->to ? Carbon::parse(request()->to) : now();
         $to = $to->endOfDay();
+        $ref = request()->ref;
 
-        $transactions = SmsHistory::join('transactions', 'sms_histories.transaction_id', 'transactions.id')->where('transactions.user_id', $user->id)->whereBetween('sms_histories.created_at', [$from, $to])->get();
+        $transactions = SmsHistory::join('transactions', 'sms_histories.transaction_id', 'transactions.id')->where('transactions.user_id', $user->id)->whereBetween('sms_histories.created_at', [$from, $to])->where(function ($q) use ($ref) {
+            if ($ref) {
+                $q->where('transactions.ref', 'LIKE', "%{$ref}%");
 
-        return view("user.sms.history", compact('to', 'from', 'transactions'));
+            }
+        })->get();
+
+        return view("user.sms.history", compact('to', 'from', 'transactions', 'ref'));
 
     }
 
@@ -1239,6 +1309,7 @@ class UserController extends Controller
     public function getEditSmsGroup(User $user, SmsGroup $group)
     {
         $this->authorize('view', $user);
+        $this->authorize('update', $group);
 
         return view("user.sms.group.edit");
 
@@ -1258,6 +1329,17 @@ class UserController extends Controller
         $group->fill(request()->only('name', 'numbers'));
 
         return $this->jsonWebBack('success', "Group $group->name edited.");
+
+    }
+
+    public function deleteSmsGroup(User $user, SmsGroup $group)
+    {
+        $this->authorize('view', $user);
+        $this->authorize('update', $group);
+
+        $group->delete();
+
+        return $this->jsonWebBack('error', 'group deleted');
 
     }
 

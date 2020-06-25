@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-10 mx-auto card p-5">
+    <div class="col-12 mx-auto card p-5">
         <h4 class="text-6 mb-4">Compose New Sms</h4>
         <form action="{{url()->current()}}" method="POST" id="compose">
             @csrf
@@ -85,6 +85,11 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
+                    @error('minimum_amount')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label>Confirm Password</label>
@@ -96,13 +101,14 @@
                             <strong>{{ $message }}</strong>
                         </span>
                         @enderror
+
                     </div>
                 </div>
                 <br>
                 <span>Length:@{{len}}</span><br>
                 <span>Pages:@{{pages}}</span><br>
                 <span>{{env("SMS_PER_PAGE",160)}} characters per page</span><br>
-                <span>Price at {{currencyFormat(2)}}/page/number</span><br>
+                <span>Price at {{currencyFormat(smsDiscount(request()->user))}}/page/number</span><br>
             </div>
 
             <button class="btn btn-primary btn-block" type="submit">Continue</button>

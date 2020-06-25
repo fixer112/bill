@@ -12,13 +12,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-10 mx-auto card p-5">
+    <div class="col-12 mx-auto card p-5">
         <h4 class="text-6 mb-4">SMS Groups</h4>
         <div class="card">
             <div class="card-header">
-                <div class="">
-                    <h5>History</h5>
-                </div>
+
                 {{-- <div class="">
                     <form class="form-inline" action="{{url()->current()}}">
 
@@ -59,10 +57,13 @@
                             <td>{{$group->name}}</td>
                             <td>{{$group->created_at}}</td>
                             <td>
-                                <button class="btn btn-primary" onclick="showNumbers('{{$group->numbers}}')">View
+                                <button class="btn btn-sm btn-primary" onclick="showNumbers('{{$group->numbers}}')">View
                                     Numbers</button>
                                 <a href="/user/{{request()->user->id}}/sms/group/{{$group->id}}"><button
-                                        class="btn btn-danger">Edit</button></a>
+                                        class="btn btn-sm btn-warning">Edit</button></a>
+
+                                <a href="/user/{{request()->user->id}}/sms/group/{{$group->id}}/delete"><button
+                                        class="btn btn-sm btn-danger">Delete</button></a>
                             </td>
                         </tr>
                         @endforeach

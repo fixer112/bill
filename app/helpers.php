@@ -202,6 +202,18 @@ function electricityDiscount(User $user = null)
 
 }
 
+function smsDiscount(User $user = null)
+{
+    if (!$user) {
+
+        return 2;
+
+    }
+
+    return !$user->is_reseller ? config("settings.individual.bills.sms") : config("settings.subscriptions.{$user->lastSub()->name}.bills.sms");
+
+}
+
 function getLastString($string, $delimiter = '-')
 {
     $strings = explode($delimiter, $string);

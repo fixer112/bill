@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-10 mx-auto card p-5">
+    <div class="col-12 mx-auto card p-5">
         <h4 class="text-6 mb-4">Edit SMS Group</h4>
         <form action="{{url()->current()}}" method="POST" id="compose">
             @csrf

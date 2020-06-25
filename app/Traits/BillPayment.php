@@ -262,6 +262,8 @@ trait BillPayment
 
     public static function startimeCable($amount, $smart_no, $number)
     {
+        return errorMessage(env("ERROR_MESSAGE"));
+
         if (!env("ENABLE_BILL_PAYMENT")) {
             return errorMessage(env("ERROR_MESSAGE"));
         }
@@ -281,6 +283,8 @@ trait BillPayment
 
     public static function cable($type, $amount, $smart_no, $customer_name, $customer_number, $invoice, $number)
     {
+        return errorMessage(env("ERROR_MESSAGE"));
+
         if (!env("ENABLE_BILL_PAYMENT")) {
             return errorMessage(env("ERROR_MESSAGE"));
         }

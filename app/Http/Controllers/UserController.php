@@ -1214,7 +1214,7 @@ class UserController extends Controller
 
         $sms = SmsHistory::latest()->first();
         //return $sms_transaction;
-        if ($sms && $now()->diffInSeconds($sms->created_at < 60)) {
+        if ($sms && now()->diffInSeconds($sms->created_at) < 60) {
             return $this->jsonWebRedirect('error', "Dublicate transaction, pls try again in 1 minutes", "user/{$user->id}/sms");
 
         }
@@ -1232,11 +1232,14 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/sms");
         }
 
+        $failed = [...formatPhoneNumberArray($result['failed']), ...formatPhoneNumberArray($result['insufficient_unit'])];
+        //return $failed;
         $successCount = count(formatPhoneNumberArray($result['successful']));
-        $failedCount = count(formatPhoneNumberArray($result['failed']));
+        $failedCount = count($failed);
+        $invalidCount = count(formatPhoneNumberArray($result['invalid']));
         $pages = $result['sms_pages'];
 
-        $desc = "Sms Sent to $successCount numbers successfully and $failedCount failed ($pages page(s))";
+        $desc = "Sms Sent to $successCount numbers successfully and $failedCount failed and $invalidCount Invalid numbers($pages page(s))";
 
         $discount_amount = $result['sms_pages'] * $successCount * smsDiscount($user);
 

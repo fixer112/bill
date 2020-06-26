@@ -360,7 +360,7 @@ function formatedNumber($number)
 function nigeriaNumber($number)
 {
 
-    return !$number ? $number : "0" . formatedNumber($number);
+    return !formatedNumber($number) ? "" : "0" . formatedNumber($number);
 }
 
 function convertDataAmount($number)
@@ -391,9 +391,11 @@ function formatStringsArray($numbers): array
     return filter_var($number, FILTER_SANITIZE_NUMBER_INT);
     }, $numbers);
      */
-    if (end($numbers) == '') {
-        array_pop($numbers);
-    }
+    $numbers = $numbers->filter(function ($number) {
+
+        return $number != "";
+    });
+
     return $numbers;
 
 }
@@ -410,9 +412,11 @@ function formatPhoneNumberArray($numbers): array
         return filter_var($number, FILTER_SANITIZE_NUMBER_INT);
     });
 
-    if (end($numbers) == '') {
-        array_pop($numbers);
-    }
+    $numbers = $numbers->filter(function ($number) {
+
+        return $number != "";
+    });
+
     return $numbers->toArray();
 
 }

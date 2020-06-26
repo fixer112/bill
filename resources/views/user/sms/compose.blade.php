@@ -22,8 +22,8 @@
                 <label>Sender</label>
                 <div class="input-group">
 
-                    <input name="sender" class="form-control @error('sender') is-invalid @enderror"
-                        placeholder="Sender">
+                    <input name="sender" class="form-control @error('sender') is-invalid @enderror" placeholder="Sender"
+                        value="{{old('sender')}}">
                 </div>
                 @error('sender')
                 <span class="invalid-feedback" role="alert">
@@ -35,7 +35,7 @@
                 <label>Phone Numbers</label>
                 <div class="input-group">
                     <textarea class="form-control @error('numbers') is-invalid @enderror" name="numbers"
-                        placeholder="Enter numbers seperated by commas. e.g 08011111111,09011111111"></textarea>
+                        placeholder="Enter numbers seperated by commas. e.g 08011111111,09011111111">{{old('numbers')}}</textarea>
                     @error('numbers')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -49,15 +49,16 @@
                     <select name="group" class="form-control custom-select @error('group') is-invalid @enderror">
                         <option value="">Choose</option>
                         @foreach (request()->user->sms_groups as $group)
-                        <option value="{{$group->id}}">{{$group->name}}</option>
+                        <option value="{{$group->id}}" {{old('group') == $group->id ? 'selected' :''}}>{{$group->name}}
+                        </option>
                         @endforeach
                     </select>
+                    @error('group')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
-                @error('group')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
             </div>
             <div class="form-group">
                 <label>Route Type</label>
@@ -65,8 +66,8 @@
                     <select name="route" class="form-control custom-select @error('route') is-invalid @enderror"
                         required>
                         <option value="">Choose</option>
-                        <option value="2">DND Excluded</option>
-                        <option value="3">DND Included</option>
+                        <option value="2" {{old('route') == '2' ? 'selected' :''}}>DND Excluded</option>
+                        <option value="3" {{old('route') == '3' ? 'selected' :''}}>DND Included</option>
                     </select>
                 </div>
                 @error('route')
@@ -79,7 +80,8 @@
                 <label>Message</label>
                 <div class="input-group">
                     <textarea class="form-control @error('message') is-invalid @enderror" name="message"
-                        placeholder="Use double space to enter a new line" v-model="message" required></textarea>
+                        placeholder="Use double space to enter a new line" v-model="message"
+                        required>{{old('message')}}</textarea>
                     @error('message')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -91,7 +93,7 @@
                     </span>
                     @enderror
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label>Confirm Password</label>
                     <div class="input-group">
                         <input class="form-control @error('password') is-invalid @enderror" name="password"

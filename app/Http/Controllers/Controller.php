@@ -201,12 +201,13 @@ class Controller extends BaseController
 
         if ($type == 'sms') {
             SmsHistory::create([
-                'group_id' => request()->group,
+                'sms_group_id' => request()->group,
                 'sender' => request()->sender,
                 'message' => request()->message,
                 'numbers' => $result['all_numbers'],
                 'success_numbers' => $result['successful'],
-                'failed_numbers' => $result['failed'],
+                'failed_numbers' => "${result['failed']},{$result['insufficient_unit']}",
+                'invalid_numbers' => $result['invalid'],
                 'transaction_id' => $tran->id,
 
             ]);
@@ -470,7 +471,8 @@ class Controller extends BaseController
 
     public function test()
     {
-        return MoniWalletBill::sms('49', 'This is a test', 3);
+        return formatPhoneNumberArray('dwdmwdg,676bgggh,08106813749');
+        return MoniWalletBill::sms('08106813749', 'This is a test', 3);
         return MoniWalletBill::mtnSNS('08106813749', "51");
         return fetchDataInfo();
         return $this->fetchDataInfo(request()->type ?? 'glo');

@@ -15,7 +15,7 @@ class SmsHistory extends Model
 
     public function sms_group()
     {
-        return $this->hasOne('App\SmsGroup');
+        return $this->belongsTo('App\SmsGroup');
     }
 
     public function setNumbersAttribute($value)

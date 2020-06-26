@@ -60,6 +60,8 @@
                             <th>Desc</th>
                             <th>Success Numbers</th>
                             <th>Failed Numbers</th>
+                            <th>Invalid Numbers</th>
+                            <th>Group Name</th>
                             <th>Created At</th>
                         </thead>
                         <tbody>
@@ -79,6 +81,12 @@
                                     <a class="btn btn-primary btn-sm text-white"
                                         onclick="showNumbers('{{$transaction->failed_numbers}}')">View Numbers</a>
                                 </td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm text-white"
+                                        onclick="showNumbers('{{$transaction->invalid_numbers}}')">View
+                                        Numbers</a>
+                                </td>
+                                <td>{{$transaction->sms_group ? $transaction->sms_group->name:''}}</td>
                                 <td>{{$transaction->created_at}}</td>
 
                             </tr>

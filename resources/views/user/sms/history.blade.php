@@ -61,6 +61,8 @@
                             <th>Success Numbers</th>
                             <th>Failed Numbers</th>
                             <th>Invalid Numbers</th>
+                            <th>DND Numbers</th>
+                            <th>NON DND Numbers</th>
                             <th>Group Name</th>
                             <th>Created At</th>
                         </thead>
@@ -84,6 +86,16 @@
                                 <td>
                                     <a class="btn btn-primary btn-sm text-white"
                                         onclick="showNumbers('{{$transaction->invalid_numbers}}')">View
+                                        Numbers</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm text-white"
+                                        onclick="showNumbers('{{$transaction->dnd_numbers}}')">View
+                                        Numbers</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm text-white"
+                                        onclick="showNumbers('{{$transaction->nondnd_numbers}}')">View
                                         Numbers</a>
                                 </td>
                                 <td>{{$transaction->sms_group ? $transaction->sms_group->name:''}}</td>

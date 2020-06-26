@@ -1181,6 +1181,7 @@ class UserController extends Controller
             'sender' => 'nullable|String|max:10',
             'numbers' => 'required_without:group|nullable|String',
             'message' => 'required|String',
+            'route' => 'required|in:2,3',
             'group' => 'required_without:numbers|nullable|in:' . implode(',', $user->sms_groups->pluck('id')->toArray()),
         ];
 
@@ -1203,16 +1204,16 @@ class UserController extends Controller
         $pageCount = ceil($messageCount / env('SMS_PER_PAGE', 160));
 
         $pagePrice = $pageCount * smsDiscount($user);
+        $routeUnit = request()->route == 2 ? 1 : env('SMS_ROUTE_UNIT', 2.5);
+        $minimum_amount = ($numberCount + $groupNumCount) * $pagePrice * $routeUnit;
 
-        $discount_amount = ($numberCount + $groupNumCount) * $pagePrice;
-
-        request()->merge(['discount_amount' => $discount_amount]);
+        request()->merge(['minimum_amount' => $minimum_amount]);
 
         $this->validate(request(), [
             'minimum_amount' => [new checkBalance($user)],
         ]);
 
-        $sms = SmsHistory::latest()->first();
+        $sms = SmsHistory::orderBy('created_at', 'desc')->first();
         //return $sms_transaction;
         if ($sms && now()->diffInSeconds($sms->created_at) < 60) {
             return $this->jsonWebRedirect('error', "Dublicate transaction, pls try again in 1 minutes", "user/{$user->id}/sms");
@@ -1241,7 +1242,7 @@ class UserController extends Controller
 
         $desc = "Sms Sent to $successCount numbers successfully and $failedCount failed and $invalidCount Invalid numbers($pages page(s))";
 
-        $discount_amount = $result['sms_pages'] * $successCount * smsDiscount($user);
+        $discount_amount = $result['sms_pages'] * $result['units_used'] * smsDiscount($user);
 
         //return request()->all();
         return $this->saveTransaction($user, 'sms', $discount_amount, $desc, $ref, $result);
@@ -1264,7 +1265,7 @@ class UserController extends Controller
                 $q->where('transactions.ref', 'LIKE', "%{$ref}%");
 
             }
-        })->get();
+        })->orderBy('sms_histories.created_at', 'desc')->get();
 
         return view("user.sms.history", compact('to', 'from', 'transactions', 'ref'));
 

@@ -209,6 +209,8 @@ class Controller extends BaseController
                 'failed_numbers' => "${result['failed']},{$result['insufficient_unit']}",
                 'invalid_numbers' => $result['invalid'],
                 'transaction_id' => $tran->id,
+                'nondnd_numbers' => $result['nondnd_numbers'],
+                'dnd_numbers' => $result['dnd_numbers'],
 
             ]);
 
@@ -472,7 +474,7 @@ class Controller extends BaseController
     public function test()
     {
         return formatPhoneNumberArray('dwdmwdg,676bgggh,08106813749');
-        return MoniWalletBill::sms('08106813749', 'This is a test', 3);
+        return MoniWalletBill::sms('749', 'This is a test', 3);
         return MoniWalletBill::mtnSNS('08106813749', "51");
         return fetchDataInfo();
         return $this->fetchDataInfo(request()->type ?? 'glo');

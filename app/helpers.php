@@ -391,12 +391,12 @@ function formatStringsArray($numbers): array
     return filter_var($number, FILTER_SANITIZE_NUMBER_INT);
     }, $numbers);
      */
-    $numbers = $numbers->filter(function ($number) {
+    $numbers = collect($numbers)->filter(function ($number) {
 
         return $number != "";
     });
 
-    return $numbers;
+    return $numbers->toArray();
 
 }
 

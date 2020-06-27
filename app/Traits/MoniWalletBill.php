@@ -12,7 +12,7 @@ trait MoniWalletBill
         $pin = env("MTN_PIN");
 
         $data = [
-            'ussd' => "*777*$number*$amount*$pin",
+            'ussd' => "*777*$number*$amount*$pin#",
             "servercode" => env("MTN_SIMSERVER_TOKEN"),
             'token' => env('USSD_TOKEN'),
             "refid" => $ref,

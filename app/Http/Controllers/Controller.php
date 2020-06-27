@@ -17,13 +17,13 @@ use App\Traits\Notify;
 use App\Traits\Payment;
 use App\Transaction;
 use App\User;
-use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use KingFlamez\Rave\Facades\Rave;
@@ -191,10 +191,11 @@ class Controller extends BaseController
         "time_submitted": "2020-04-14 09:33:25",
         "time_replied": "2020-04-14 09:33:32"
         }*/
-        throw new Exception(request()->all());
+        //throw new Exception(request()->all());
         /* $this->validate(request(),[
 
-    ]); */
+        ]); */
+        Log::debug(request()->all());
 
     }
 

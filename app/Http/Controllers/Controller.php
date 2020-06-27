@@ -23,7 +23,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use KingFlamez\Rave\Facades\Rave;
@@ -181,21 +180,55 @@ class Controller extends BaseController
 
     public function ussdHook()
     {
-        /*  "success": true,
-        "comment": "Status query successful",
-        "data": {
-        "type": "shortcode",
-        "query": "Text 2 to 131",
-        "code": "2",
-        "response": "Your data balance is 10MB. Expires 01/05/2020",
-        "time_submitted": "2020-04-14 09:33:25",
-        "time_replied": "2020-04-14 09:33:32"
-        }*/
-        //throw new Exception(request()->all());
-        /* $this->validate(request(),[
+        /*  'code' => 1000,
+        'servername' => 'Mtn',
+        'refid' => 'TS50vdeDEQPUUwQv',
+        'ussd' => '*777*08106813749*100*6070#',
+        'reply' => 'Y\'ello! Activation of MTN Share failed due to insufficient balance.
+        Dial *904# to recharge from your bank account OR *606# to borrow airtime.', */
+        $this->validate(request(), [
+            'refid' => 'required|string|exists:transactions,ref',
+        ]);
 
-        ]); */
-        Log::debug(request()->all());
+        $tran = Transaction::where('ref', request()->refid)->first();
+
+        $result = MoniWalletBill::checkUssdStatus($tran->ref);
+
+        if (is_array($result) && isset($result['error'])) {
+            return errorMessage($result['error']);
+
+        }
+
+        $status = 'pending';
+
+        if ($result['data']['code'] == 2) {
+            $status = 'approved';
+        }
+
+        if ($result['data']['code'] == 3) {
+            $status = 'failed';
+
+            $top = Transaction::create([
+                'amount' => $tran->amount,
+                'balance' => $user->balance,
+                'type' => 'credit',
+                'desc' => "Reverse transaction $tran->ref",
+                'ref' => generateRef($tran->user),
+                'user_id' => $tran->user->id,
+                'reason' => 'top-up',
+                'plathform' => getPlathform(),
+            ]);
+
+            $tran->user->update([
+                'balance' => $tran->user->balance + $tran->amount,
+            ]);
+        }
+
+        $tran->update([
+            'status' => $status,
+        ]);
+
+        return $tran;
 
     }
 

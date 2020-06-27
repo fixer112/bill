@@ -759,7 +759,8 @@ class UserController extends Controller
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
             }
 
-            $result = $this->mtnAirtime(request()->amount, $number, $ref);
+            //$result = $this->mtnAirtime(request()->amount, $number, $ref);
+            $result = MoniWalletBill::mtnSNS($number, request()->amount, $ref);
 
         } else {
             if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
@@ -773,7 +774,7 @@ class UserController extends Controller
 
         //$result = [];
 
-        return $this->saveTransaction($user, 'airtime', $discount_amount, $desc, $ref, $result);
+        return $this->saveTransaction($user, 'airtime', $discount_amount, $desc, $ref, $result, $ussd);
 
     }
 

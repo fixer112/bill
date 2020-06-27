@@ -7,8 +7,29 @@ trait MoniWalletBill
 {
 //env("SSS_URL");
 
+    public static function checkUssdStatus($ref)
+    {
+
+        $data = [
+            'token' => env('USSD_TOKEN'),
+            "refid" => $ref,
+        ];
+
+        $response = Http::get(env("USSD_URL") . '/status/?' . http_build_query($data))->throw();
+        $response = $response->json();
+        if (!$response['success']) {
+            return errorMessage(errorMessage());
+        }
+
+        return $response;
+    }
+
     public static function mtnSNS($number, $amount, $ref)
     {
+        if (!env("ENABLE_BILL_PAYMENT") || !env("ENABLE_MTN_SNS", false)) {
+            return errorMessage(env("ERROR_MESSAGE"));
+        }
+
         $pin = env("MTN_PIN");
 
         $data = [
@@ -18,7 +39,7 @@ trait MoniWalletBill
             "refid" => $ref,
         ];
 
-        $response = Http::get(env("USSD_URL") . http_build_query($data))->throw();
+        $response = Http::get(env("USSD_URL") . '/ussd?' . http_build_query($data))->throw();
         $response = $response->json();
         if (!$response['success']) {
             return errorMessage(errorMessage());

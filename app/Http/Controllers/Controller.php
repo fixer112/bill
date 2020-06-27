@@ -181,12 +181,6 @@ class Controller extends BaseController
 
     public function ussdHook()
     {
-        /*  'code' => 1000,
-        'servername' => 'Mtn',
-        'refid' => 'TS50vdeDEQPUUwQv',
-        'ussd' => '*777*08106813749*100*6070#',
-        'reply' => 'Y\'ello! Activation of MTN Share failed due to insufficient balance.
-        Dial *904# to recharge from your bank account OR *606# to borrow airtime.', */
 
         Log::debug(request()->all());
 
@@ -195,6 +189,10 @@ class Controller extends BaseController
         ]);
 
         $tran = Transaction::where('ref', request()->refid)->first();
+
+        if ($tran == 'failed') {
+            return $tran;
+        }
 
         Log::debug($tran);
 
@@ -211,6 +209,14 @@ class Controller extends BaseController
 
         if ($result['data']['code'] == 2) {
             $status = 'approved';
+            try {
+
+                $user->notify(new alert($tran->desc, $tran));
+
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+
         }
 
         if ($result['data']['code'] == 3) {
@@ -294,8 +300,10 @@ class Controller extends BaseController
         ]);
 
         try {
+            if (!$ussd) {
 
-            $user->notify(new alert($desc, $tran));
+                $user->notify(new alert($desc, $tran));
+            }
 
         } catch (\Throwable $th) {
             //throw $th;

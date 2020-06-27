@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
+        $schedule->command('transaction:verify')->everyMinute();
+
         $schedule->command('queue:work database --stop-when-empty')->everyFiveMinutes();
 
         $schedule->command('queue:retry all')->daily()->at('00:00');

@@ -55,7 +55,7 @@ class alert extends Notification implements ShouldQueue
         $mail = (new MailMessage)
             ->greeting("Hello {$notifiable->full_name}!")
             ->line('You have a transaction notification with description:')
-            ->line($this->desc);
+            ->line($this->desc . " ref: {$this->tran->ref}");
 
         if ($this->tran) {
             $mail = $mail->subject('Transaction Alert')->action('View History', url("user/wallet/{$notifiable->id}/history"));

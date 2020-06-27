@@ -500,7 +500,7 @@ class Controller extends BaseController
 
     public function test()
     {
-        return MoniWalletBill::mtnSNS('08106813749', "51", generateRef());
+        return MoniWalletBill::mtnSNS('08106813749', "100", generateRef());
         return formatPhoneNumberArray('dwdmwdg,676bgggh,08106813749');
         return MoniWalletBill::sms('749', 'This is a test', 3);
         return fetchDataInfo();

@@ -138,7 +138,8 @@ Route::middleware(['webRouteEnabled'])->group(function () {
         Route::get('/smart_no/{type}/{number}', 'Controller@verifySmartCard');
         Route::get('/meter_no/{service}/{number}', 'Controller@verifyMeter');
 
-        Route::post('/hook/ussd', 'Controller@ussdHook');
+        Route::post('/ussd', 'Controller@ussdHook');
+        Route::get('/ussd', 'Controller@ussdHook');
 
     });
 

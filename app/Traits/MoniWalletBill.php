@@ -42,7 +42,7 @@ trait MoniWalletBill
         $response = Http::get(env("USSD_URL") . '/ussd?' . http_build_query($data))->throw();
         $response = $response->json();
         if (!$response['success']) {
-            return errorMessage(errorMessage());
+            return errorMessage();
         }
 
         return $response;

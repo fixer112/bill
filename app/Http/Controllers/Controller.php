@@ -23,6 +23,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use KingFlamez\Rave\Facades\Rave;
@@ -186,13 +187,20 @@ class Controller extends BaseController
         'ussd' => '*777*08106813749*100*6070#',
         'reply' => 'Y\'ello! Activation of MTN Share failed due to insufficient balance.
         Dial *904# to recharge from your bank account OR *606# to borrow airtime.', */
+
+        Log::debug(request()->all());
+
         $this->validate(request(), [
             'refid' => 'required|string|exists:transactions,ref',
         ]);
 
         $tran = Transaction::where('ref', request()->refid)->first();
 
+        Log::debug($tran);
+
         $result = MoniWalletBill::checkUssdStatus($tran->ref);
+
+        Log::debug($result);
 
         if (is_array($result) && isset($result['error'])) {
             return errorMessage($result['error']);
@@ -227,6 +235,8 @@ class Controller extends BaseController
         $tran->update([
             'status' => $status,
         ]);
+
+        Log::debug($tran);
 
         return $tran;
 

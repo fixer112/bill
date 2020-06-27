@@ -7,17 +7,23 @@ trait MoniWalletBill
 {
 //env("SSS_URL");
 
-    public static function mtnSNS($number, $amount)
+    public static function mtnSNS($number, $amount, $ref)
     {
         $pin = env("MTN_PIN");
 
         $data = [
             'ussd' => "*777*$number*$amount*$pin",
-            'simserver_token' => "hfjhfdjhfjdhf", //env('MTN_SIMSERVER_TOKEN'),
-            'token' => env('SSS_TOKEN'),
+            "servercode" => env("MTN_SIMSERVER_TOKEN"),
+            'token' => env('USSD_TOKEN'),
+            "refid" => $ref,
         ];
 
-        $response = Http::asForm()->post(env("SSS_URL") . "/ussd.php", $data)->throw();
+        $response = Http::get(env("USSD_URL") . http_build_query($data))->throw();
+        $response = $response->json();
+        if (!$response['success']) {
+            return errorMessage(errorMessage());
+        }
+
         return $response;
     }
 

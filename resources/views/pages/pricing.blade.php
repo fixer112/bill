@@ -87,10 +87,20 @@
                     </tr>
                     <tr>
                         <td>SMS/PAGE/NUMBER</td>
-                        <td> 4 </td>
-                        <td>{{currencyFormat(config("settings.individual.bills.sms"))}}</td>
+                        <td>
+                            {{-- DND {{currencyFormat(4 * 2.5)}}<br> --}}
+                            {{currencyFormat(4)}}<br>
+                        </td>
+                        <td>
+                            {{-- DND {{currencyFormat(config("settings.individual.bills.sms") * 2.5)}}<br> --}}
+                            {{currencyFormat(config("settings.individual.bills.sms"))}}<br>
+                        </td>
                         @foreach ( config("settings.subscriptions") as $name => $item)
-                        <td>{{currencyFormat($item['bills']['sms'])}}</td>
+                        <td>
+                            {{--  DND {{currencyFormat($item['bills']['sms']*2.5)}}<br> --}}
+                            {{currencyFormat($item['bills']['sms'])}}
+
+                        </td>
                         @endforeach
 
                     </tr>

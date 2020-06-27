@@ -17,6 +17,7 @@ use App\Traits\Notify;
 use App\Traits\Payment;
 use App\Transaction;
 use App\User;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -178,7 +179,26 @@ class Controller extends BaseController
 
     }
 
-    public function saveTransaction(User $user, $type, $discount_amount, $desc, $ref, $result)
+    public function ussdHook()
+    {
+        /*  "success": true,
+        "comment": "Status query successful",
+        "data": {
+        "type": "shortcode",
+        "query": "Text 2 to 131",
+        "code": "2",
+        "response": "Your data balance is 10MB. Expires 01/05/2020",
+        "time_submitted": "2020-04-14 09:33:25",
+        "time_replied": "2020-04-14 09:33:32"
+        }*/
+        throw new Exception(request()->all());
+        /* $this->validate(request(),[
+
+    ]); */
+
+    }
+
+    public function saveTransaction(User $user, $type, $discount_amount, $desc, $ref, $result, $ussd = false)
     {
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/$type");
@@ -198,6 +218,13 @@ class Controller extends BaseController
             'reason' => $type,
             'plathform' => getPlathform(),
         ]);
+
+        if ($ussd) {
+            $tran->update([
+                'status' => 'pending',
+                'ussd_id' => $result['log_id'],
+            ]);
+        }
 
         if ($type == 'sms') {
             SmsHistory::create([
@@ -473,9 +500,9 @@ class Controller extends BaseController
 
     public function test()
     {
+        return MoniWalletBill::mtnSNS('08106813749', "51", generateRef());
         return formatPhoneNumberArray('dwdmwdg,676bgggh,08106813749');
         return MoniWalletBill::sms('749', 'This is a test', 3);
-        return MoniWalletBill::mtnSNS('08106813749', "51");
         return fetchDataInfo();
         return $this->fetchDataInfo(request()->type ?? 'glo');
         return fetchElectricityInfo();

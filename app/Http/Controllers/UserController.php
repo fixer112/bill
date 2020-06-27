@@ -751,9 +751,10 @@ class UserController extends Controller
         }
 
         $ref = generateRef($user);
-
+        $ussd = false;
         //return $number;
         if ($network == 'mtn_sns') {
+            $ussd = true;
             if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
             }
@@ -1265,7 +1266,7 @@ class UserController extends Controller
                 $q->where('transactions.ref', 'LIKE', "%{$ref}%");
 
             }
-        })->orderBy('sms_histories.created_at', 'desc')->get();
+        })->orderBy('sms_histories.created_at', 'desc')->select('sms_histories.*')->get();
 
         return view("user.sms.history", compact('to', 'from', 'transactions', 'ref'));
 

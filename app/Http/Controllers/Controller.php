@@ -244,6 +244,9 @@ class Controller extends BaseController
 
         //Log::debug($tran);
 
+        if (request()->redirect == 'true') {
+            return back();
+        }
         return $tran;
 
     }
@@ -289,6 +292,7 @@ class Controller extends BaseController
                 'transaction_id' => $tran->id,
                 'nondnd_numbers' => $result['nondnd_numbers'],
                 'dnd_numbers' => $result['dnd_numbers'],
+                'unit' => $result['units_used'],
 
             ]);
 

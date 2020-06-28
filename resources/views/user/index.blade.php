@@ -226,7 +226,7 @@
                                     </td>
                                     <td>{{$transaction->reason}}</td>
                                     <td>{{$transaction->desc}}</td>
-                                    <td>{{$transaction->status}}</td>
+                                    <td><span class="badge badge-primary"> {{$transaction->status}} </span></td>
                                     <td>{{$transaction->plathform}}</td>
                                     <td>{{$transaction->created_at}}</td>
                                 </tr>

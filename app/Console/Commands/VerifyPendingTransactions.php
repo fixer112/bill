@@ -41,7 +41,11 @@ class VerifyPendingTransactions extends Command
     {
         $trans = Transaction::where('status', 'pending')->get();
         $trans->each(function ($tran) {
-            Http::get(url("/verify/ussd?refid=$tran->ref"));
+            try {
+                Http::get(url("/verify/ussd?refid=$tran->ref"))->throw();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         });
     }
 }

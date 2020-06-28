@@ -182,7 +182,7 @@ class Controller extends BaseController
     public function ussdHook()
     {
 
-        Log::debug(request()->all());
+        Log::debug("All request: " . request()->all());
 
         $this->validate(request(), [
             'refid' => 'required|string|exists:transactions,ref',
@@ -194,11 +194,11 @@ class Controller extends BaseController
             return $tran;
         }
 
-        Log::debug($tran);
+        //Log::debug($tran);
 
         $result = MoniWalletBill::checkUssdStatus($tran->ref);
 
-        Log::debug($result);
+        //Log::debug($result);
 
         if (is_array($result) && isset($result['error'])) {
             return errorMessage($result['error']);
@@ -224,7 +224,7 @@ class Controller extends BaseController
 
             $top = Transaction::create([
                 'amount' => $tran->amount,
-                'balance' => $user->balance,
+                'balance' => $tran->user->balance + $tran->amount,
                 'type' => 'credit',
                 'desc' => "Reverse transaction $tran->ref",
                 'ref' => generateRef($tran->user),
@@ -242,7 +242,7 @@ class Controller extends BaseController
             'status' => $status,
         ]);
 
-        Log::debug($tran);
+        //Log::debug($tran);
 
         return $tran;
 

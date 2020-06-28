@@ -453,6 +453,9 @@ class Controller extends BaseController
         //$charges = $charges > env("MONIFY_CAP", 250) ? env("MONIFY_CAP", 250) : $charges;
         $amount = $body['amount'] - $charges;
         $balance = $user->balance + $amount;
+
+        Main::fundBonus($user, $amount);
+
         $user->update(['balance' => $balance]);
         $paymentDescription = request()->paymentDescription;
         $currencyAmount = currencyFormat($amount);

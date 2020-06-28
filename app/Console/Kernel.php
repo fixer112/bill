@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command('transaction:verify')->everyTenMinutes();
+        $schedule->command('transaction:verify')->everyFiveMinutes();
 
         $schedule->command('queue:work database --stop-when-empty')->everyFiveMinutes();
 

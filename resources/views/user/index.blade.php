@@ -101,7 +101,8 @@
 
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
-                    {{request()->user->full_name}} ({{request()->user->status()}})
+                    {{request()->user->full_name}} ({{request()->user->login}})<br>
+                    <small>{{request()->user->status()}}</small>
 
                 </div>
                 <div class="profile-usertitle-job">

@@ -16,7 +16,7 @@ class checkStatus
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()->is_admin && !Auth::user()->is_active) {
+        if (!Auth::user()->is_active) {
             $error = 'You are curently suspended, please contact us.';
             if (request()->wantsJson()) {
                 return response(['error' => $error]);

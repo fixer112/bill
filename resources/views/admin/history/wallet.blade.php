@@ -187,6 +187,7 @@
                             <th>Type</th>
                             <th>Reason</th>
                             <th>Desc</th>
+                            <th>Status</th>
                             <th>PlathForm</th>
                             <th>Created At</th>
                         </thead>
@@ -217,6 +218,10 @@
                                 </td>
                                 <td>{{$transaction->reason}}</td>
                                 <td>{{$transaction->desc}}</td>
+                                <td><span class="badge badge-{{$transaction->statusColor()}} p-1 rounded-pill">
+                                        {{ucfirst($transaction->status)}}
+                                    </span>
+                                </td>
                                 <td>{{$transaction->plathform}}</td>
                                 <td>{{$transaction->created_at}}</td>
                             </tr>

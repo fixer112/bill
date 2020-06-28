@@ -273,6 +273,7 @@ class Controller extends BaseController
             $tran->update([
                 'status' => 'pending',
                 'ussd_id' => $result['log_id'],
+                'desc' => "$tran->desc (ussd)",
             ]);
         }
 

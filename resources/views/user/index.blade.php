@@ -226,7 +226,10 @@
                                     </td>
                                     <td>{{$transaction->reason}}</td>
                                     <td>{{$transaction->desc}}</td>
-                                    <td><span class="badge badge-primary"> {{$transaction->status}} </span></td>
+                                    <td><span class="badge badge-{{$transaction->statusColor()}} p-1 rounded-pill">
+                                            {{ucfirst($transaction->status)}}
+                                        </span>
+                                    </td>
                                     <td>{{$transaction->plathform}}</td>
                                     <td>{{$transaction->created_at}}</td>
                                 </tr>
@@ -271,7 +274,6 @@
         </div>
     </div>
 </div>
-
 
 {{-- </div> --}}
 @endsection

@@ -5,17 +5,17 @@ use App\User;
 
 trait Main
 {
-    function isReferalBalanceEnuf(User $user, $amount)
+    public function isReferalBalanceEnuf(User $user, $amount)
     {
         return $amount > $user->referral_balance ? false : true;
     }
 
-    function isBalanceEnuf(User $user, $amount)
+    public function isBalanceEnuf(User $user, $amount)
     {
         return $amount > $user->balance ? false : true;
     }
 
-    function isDublicate(User $user, $amount, $desc, $reason)
+    public function isDublicate(User $user, $amount, $desc, $reason)
     {
         $dublicate = $user->transactions->where('amount', $amount) /* ->where('reason', $reason) */->where('desc', $desc)->first();
 
@@ -36,7 +36,7 @@ trait Main
         return false;
 
     }
-    function giveReferralBonus($user)
+    public function giveReferralBonus($user)
     {
         //$referedBefore = Referral::where('user_id', $u->id)->where('referral_id', $this->id)->exists();
         //$cummulative = $user->transactions->where('type', 'credit')->where('reason', 'top-up')->sum('amount');
@@ -54,5 +54,27 @@ trait Main
     } */
 
     }
-    
+
+    public static function fundBonus(User $user, $amount)
+    {
+
+        if ($user->balance == 0 && $amount >= 500) {
+            $bonus = 100;
+            $user->transactions()->create([
+                'amount' => $bonus,
+                'balance' => $user->balance + $bonus,
+                'type' => 'credit',
+                'desc' => "First time fund bonus",
+                'ref' => generateRef($user),
+                'user_id' => $user->id,
+                'plathform' => getPlathform(),
+
+            ]);
+            $user->update([
+                'balance' => $user->balance + $bonus,
+            ]);
+
+        }
+    }
+
 }

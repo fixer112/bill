@@ -14,8 +14,8 @@ class AddGenderAndAddressToUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('gender');
-            $table->string('address');
+            $table->string('gender')->nullable();
+            $table->string('address')->nullable();
 
         });
     }

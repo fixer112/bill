@@ -338,11 +338,13 @@ class AdminController extends Controller
             //'password' => ["required", new checkOldPassword(Auth::user())],
         ]);
 
+        $amount = request()->amount;
+
+        Main::fundBonus($user, $amount);
+
         $user->update([
             'balance' => $user->balance + request()->amount,
         ]);
-
-        $amount = request()->amount;
 
         $desc = "Wallet funding of {$amount} by " . Auth::user()->login;
 

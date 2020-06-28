@@ -37,4 +37,22 @@ class Transaction extends Model
     {
         return $query->orderBy('created_at', 'desc');
     }
+    public function statusColor()
+    {
+        switch ($this->status) {
+            case 'approved':
+                return 'success';
+                break;
+            case 'pending':
+                return 'primary';
+                break;
+            case 'failed':
+                return 'danger';
+                break;
+            default:
+
+                break;
+        }
+
+    }
 }

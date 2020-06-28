@@ -648,6 +648,8 @@ class UserController extends Controller
 
         $amount = getRaveMetaValue($tranx['data']['meta'], 'amount'); //removeCharges(($tranx->data->amount / 100), $tranx->data->metadata->amount);
 
+        Main::fundBonus($user, $amount);
+
         $desc = "Wallet funding of " . currencyFormat($amount) . " from online payment";
 
         $user->update([
@@ -754,13 +756,13 @@ class UserController extends Controller
         $ussd = false;
         //return $number;
         if ($network == 'mtn_sns') {
-            $ussd = true;
+            //$ussd = true;
             if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
             }
 
-            //$result = $this->mtnAirtime(request()->amount, $number, $ref);
-            $result = MoniWalletBill::mtnSNS($number, request()->amount, $ref);
+            $result = $this->mtnAirtime(request()->amount, $number, $ref);
+            //$result = MoniWalletBill::mtnSNS($number, request()->amount, $ref);
 
         } else {
             if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {

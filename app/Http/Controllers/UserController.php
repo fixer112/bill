@@ -833,9 +833,9 @@ class UserController extends Controller
 
         $this->validate(request(), $data);
 
-        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . request()->number;
-
         $number = nigeriaNumber(request()->number);
+
+        $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . $number;
 
         if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");

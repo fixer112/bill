@@ -394,13 +394,26 @@ class AdminController extends Controller
             'subject' => 'required|String',
             'content' => 'required|String',
             'sms' => 'required|boolean',
+            'balance' => 'required_with:sign|numeric',
+            'sign' => 'nullable|in:<=,>=',
         ]);
 
-        $users = User::where('is_admin', 0)->get();
+        $users = User::where('is_admin', 0);
         $subject = request()->subject;
         $content = request()->content;
+        $balance = request()->balance;
+        $sign = request()->sign;
 
-        $numbers = $users->where('number', '!=', '')->pluck('number');
+        //return $sign;
+
+        $numbers = $users->where('number', '!=', '')->where(function ($q) use ($balance, $sign) {
+            if ($balance != '') {
+                $q->where('balance', $sign, $balance);
+            }
+
+        })->pluck('number');
+
+        //return $numbers;
         $numbers = formatPhoneNumberArray(implode(',', $numbers->toArray()));
 
         if (request()->sms) {

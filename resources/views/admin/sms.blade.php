@@ -51,6 +51,34 @@
                     @enderror
                 </div>
             </div>
+
+            <div class="form-group @error('sign') is-invalid @enderror">
+                <label>Sign</label>
+                <div class="input-group">
+                    <select name="sign" class="form-control custom-select @error('sign') is-invalid @enderror">
+                        <option value="">None</option>
+                        <option value=">=">Greater Than or Equal</option>
+                        <option value="<=">Lesser Than or Equal</option>
+                    </select>
+                    @error('sign')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group @error('balance') is-invalid @enderror">
+                <label>Balance</label>
+                <div class="input-group">
+                    <input type="number" name="balance" class="form-control @error('balance') is-invalid @enderror"
+                        placeholder="Balance" step=".01">
+                    @error('balance')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
             <button class="btn btn-primary btn-block" type="submit">Send</button>
         </form>
 

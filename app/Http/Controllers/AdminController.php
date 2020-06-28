@@ -10,6 +10,7 @@ use App\Referral;
 use App\Subscription;
 use App\Traits\BillPayment;
 use App\Traits\Main;
+use App\Traits\MoniWalletBill;
 use App\Traits\Notify;
 use App\Transaction;
 use App\User;
@@ -403,7 +404,7 @@ class AdminController extends Controller
         $numbers = formatPhoneNumberArray(implode(',', $numbers->toArray()));
 
         if (request()->sms) {
-            $this->sms($content, implode(',', $numbers));
+            MoniWalletBill::sms(implode(',', $numbers), $content, generateRef());
         }
 
         $this->appTopic('global', $content, $subject);

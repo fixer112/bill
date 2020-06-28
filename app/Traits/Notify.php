@@ -3,6 +3,7 @@ namespace App\Traits;
 
 use App\SmsNotification;
 use App\Traits\BillPayment;
+use App\Traits\MoniWalletBill;
 use App\Transaction;
 use App\User;
 use Illuminate\Support\Facades\Http;
@@ -13,21 +14,41 @@ trait Notify
 
     public static function chargeSms(Transaction $tran, $message)
     {
-        $unit = calSmsUnit($message);
-        $amount = env('SMS_CHARGE', 3) * $unit;
+        /* $unit = calSmsUnit($message);
+        $amount = env('SMS_CHARGE', 3) * $unit; */
 
         if ($tran->user->balance < $amount) {
             return ['error' => 'Insufficient balance to send sms'];
             //new Exception("Insufficient balance to send sms");
         }
 
-        $sms = self::sms($message, $tran->user->nigeria_number);
+        $ref = generateRef($tran->user);
+
+        $sms = MoniWalletBill::sms($tran->user->nigeria_number, $message, $ref);
+
+        if (is_array($result) && isset($result['error'])) {
+            return;
+        }
+
+        $amount = $result['sms_pages'] * $result['units_used'] * env('SMS_CHARGE', 3);
 
         SmsNotification::create([
             'amount' => $amount,
             'user_id' => $tran->user->id,
             'transaction_id' => $tran->id,
+            //'ref' => $ref,
 
+        ]);
+
+        Transaction::create([
+            'amount' => $amount,
+            'balance' => $tran->user->balance - $amount,
+            'type' => 'debit',
+            'desc' => "Sms alert for $tran->ref",
+            'ref' => $ref,
+            'user_id' => $tran->user->id,
+            'reason' => 'sms',
+            'plathform' => getPlathform(),
         ]);
 
         $tran->user->update(['balance' => $tran->user->balance - $amount]);

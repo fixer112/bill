@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Transaction;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 

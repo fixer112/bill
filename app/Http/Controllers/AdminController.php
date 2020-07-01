@@ -394,8 +394,8 @@ class AdminController extends Controller
             'subject' => 'required|String',
             'content' => 'required|String',
             'sms' => 'required|boolean',
-            'balance' => 'required_with:sign|nullable|numeric',
-            'sign' => 'nullable|in:<=,>=',
+            'balance' => 'nullable|required_with:sign|numeric',
+            'sign' => 'nullable|required_with:balance|in:<=,>=',
         ]);
 
         $users = User::where('is_admin', 0);

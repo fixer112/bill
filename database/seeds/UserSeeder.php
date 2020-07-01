@@ -76,7 +76,7 @@ class UserSeeder extends Seeder
                 'password' => 'abula112',
                 'number' => '8106813749',
                 'is_reseller' => 1,
-                'api_token' => 'abcde123455', //Str::random(60),
+                'api_token' => 'abcde12345', //Str::random(60),
             ]);
 
             $tran = Transaction::create([

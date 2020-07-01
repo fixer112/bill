@@ -18,7 +18,7 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-const messaging = firebase.messaging();
+/* const messaging = firebase.messaging();
 messaging.usePublicVapidKey(pubKey());
 messaging
     .requestPermission()
@@ -87,4 +87,4 @@ function updateToken(app_token) {
             console.log(xhr.responseText);
         });
     }
-}
+} */

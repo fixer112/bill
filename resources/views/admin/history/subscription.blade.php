@@ -163,7 +163,7 @@
                                 <td>{{numberFormat($subscription->bonus)}}</td>
                                 <td><a class="label rounded-pill text-white theme-bg">{{$subscription->name}}</a></td>
                                 <td>
-                                    @if($subscription->lastSub !='')
+                                    @if($subscription->last_sub !='')
                                     <a class="label rounded-pill text-white theme-bg2">{{$subscription->last_sub}}
                                     </a>
                                     @endif

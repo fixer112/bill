@@ -247,7 +247,7 @@ class UserController extends Controller
         ]);
 
         $sub = Subscription::create([
-            'amount' => config("settings.subscriptions.{$newSub}.amount"),
+            'amount' => $amount,
             'user_id' => $user->id,
             'name' => $newSub,
             'last_sub' => $lastSub ? $lastSub->name : null,

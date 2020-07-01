@@ -98,6 +98,7 @@
                 
                   gtag('config', 'UA-165374331-1');
         </script>
+        <script type="module" src="/firebase.js"></script>
         @endif
     </body>
 

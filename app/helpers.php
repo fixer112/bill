@@ -302,47 +302,49 @@ function fetchDataInfo()
             $datas['glo'] = $glo;
         }
     }
-    $sme = [
-        [
-            'id' => "1GB",
-            'topup_currency' => "NGN",
-            'topup_amount' => 400,
-            'price' => 1000,
-            'data_amount' => "1000",
-            'validity' => "30 days",
-            'type' => 'sme',
-        ],
-        [
-            'id' => "2GB",
-            'topup_currency' => "NGN",
-            'topup_amount' => 800,
-            'price' => 2000,
-            'data_amount' => "2000",
-            'validity' => "30 days",
-            'type' => 'sme',
-        ],
+    /* $sme = [
+    [
+    'id' => "1GB",
+    'topup_currency' => "NGN",
+    'topup_amount' => 400,
+    'price' => 1000,
+    'data_amount' => "1000",
+    'validity' => "30 days",
+    'type' => 'sme',
+    ],
+    [
+    'id' => "2GB",
+    'topup_currency' => "NGN",
+    'topup_amount' => 800,
+    'price' => 2000,
+    'data_amount' => "2000",
+    'validity' => "30 days",
+    'type' => 'sme',
+    ],
 
-        [
-            'id' => "3GB",
-            'topup_currency' => "NGN",
-            'topup_amount' => 1200,
-            'price' => 3000,
-            'data_amount' => "3000",
-            'validity' => "30 days",
-            'type' => 'sme',
-        ],
-        [
-            'id' => "5GB",
-            'topup_currency' => "NGN",
-            'topup_amount' => 2000,
-            'price' => 5000,
-            'data_amount' => "5000",
-            'validity' => "30 days",
-            'type' => 'sme',
-        ],
+    [
+    'id' => "3GB",
+    'topup_currency' => "NGN",
+    'topup_amount' => 1200,
+    'price' => 3000,
+    'data_amount' => "3000",
+    'validity' => "30 days",
+    'type' => 'sme',
+    ],
+    [
+    'id' => "5GB",
+    'topup_currency' => "NGN",
+    'topup_amount' => 2000,
+    'price' => 5000,
+    'data_amount' => "5000",
+    'validity' => "30 days",
+    'type' => 'sme',
+    ],
     ];
-
-    $datas = array_merge(array('mtn_sme' => $sme) + $datas);
+     */
+    $defaltConfig = config('settings.bills.data');
+    $datas = array_merge($defaltConfig + $datas);
+    //$newConfig = [...$defaltConfig, ...$datas];
 
     Storage::put('data.json', json_encode(['data' => $datas, 'time' => time()]));
     return $datas;
@@ -419,4 +421,9 @@ function formatPhoneNumberArray($numbers): array
 
     return $numbers->toArray();
 
+}
+
+function motto()
+{
+    return "\n...Convinience at it's peak.";
 }

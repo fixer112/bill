@@ -394,13 +394,13 @@ class AdminController extends Controller
             'subject' => 'required|String',
             'content' => 'required|String',
             'sms' => 'required|boolean',
-            'balance' => 'required_with:sign|numeric',
+            'balance' => 'required_with:sign|nullable|numeric',
             'sign' => 'nullable|in:<=,>=',
         ]);
 
         $users = User::where('is_admin', 0);
         $subject = request()->subject;
-        $content = request()->content;
+        $content = request()->content . motto();
         $balance = request()->balance;
         $sign = request()->sign;
 
@@ -443,7 +443,7 @@ class AdminController extends Controller
 
         $users = User::where('is_admin', 0)->get();
         $subject = request()->subject;
-        $content = request()->content;
+        $content = request()->content . motto();
 
         foreach ($users as $user) {
             Mail::to($user->email)->later(now()->addMinutes(5), new bulkMail($subject, $content));

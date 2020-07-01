@@ -55,7 +55,8 @@ class alert extends Notification implements ShouldQueue
         $mail = (new MailMessage)
             ->greeting("Hello {$notifiable->full_name}!")
             ->line('You have a transaction notification with description:')
-            ->line($this->desc . " ref: {$this->tran->ref}");
+            ->line($this->desc . " ref: {$this->tran->ref}")
+            ->line(motto());
 
         if ($this->tran) {
             $mail = $mail->subject('Transaction Alert')->action('View History', url("user/wallet/{$notifiable->id}/history"));
@@ -89,7 +90,7 @@ class alert extends Notification implements ShouldQueue
     public function toSMS($notifiable)
     {
         $desc = str_replace('₦', 'NGN', $this->desc);
-        $message = "Hello {$notifiable->first_name},You have a transaction notification with description: {$desc}";
+        $message = "Hello {$notifiable->first_name},You have a transaction notification with description: {$desc}" . motto();
         if ($notifiable->sms_notify && $this->tran && $this->enable_sms) {
             $this->chargeSms($this->tran, ($message));
             //dd($desc);
@@ -106,6 +107,6 @@ class alert extends Notification implements ShouldQueue
      */
     public function toApp($notifiable)
     {
-        return $this->app($notifiable, $this->desc, 'Transaction Alert');
+        return $this->app($notifiable, $this->desc . motto(), 'Transaction Alert');
     }
 }

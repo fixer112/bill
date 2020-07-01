@@ -292,7 +292,7 @@ class Controller extends BaseController
                 'transaction_id' => $tran->id,
                 'nondnd_numbers' => $result['nondnd_numbers'],
                 'dnd_numbers' => $result['dnd_numbers'],
-                'unit' => $result['units_used'],
+                'units' => $result['units_used'],
 
             ]);
 

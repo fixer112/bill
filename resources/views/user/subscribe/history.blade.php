@@ -74,7 +74,7 @@
                                 <td><a class="label rounded-pill text-white theme-bg">{{$subscription->name}}</a></td>
                                 <td>
                                     @if($subscription->lastSub !='')
-                                    <a class="label rounded-pill text-white theme-bg2">{{$subscription->lastSub}}
+                                    <a class="label rounded-pill text-white theme-bg2">{{$subscription->last_sub}}
                                     </a>
                                     @endif
                                 </td>

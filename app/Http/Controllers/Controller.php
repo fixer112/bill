@@ -182,7 +182,7 @@ class Controller extends BaseController
     public function ussdHook()
     {
 
-        Log::debug("All request: " . request()->all());
+        Log::debug("All request: " . json_encode(request()->all()));
 
         $this->validate(request(), [
             'refid' => 'required|string|exists:transactions,ref',

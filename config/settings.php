@@ -17,7 +17,7 @@ return [
         ],
         'airtime' => [
             'mtn' => ['min' => 50, 'max' => 20000],
-            'mtn_sns' => ['min' => 51, 'max' => 5000],
+            'mtn_sns' => ['min' => 50, 'max' => 50000],
             'airtel' => ['min' => 50, 'max' => 20000],
             '9mobile' => ['min' => 50, 'max' => 20000],
             'glo' => ['min' => 50, 'max' => 20000]],

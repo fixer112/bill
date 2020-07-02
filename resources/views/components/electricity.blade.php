@@ -29,6 +29,7 @@
                 </span>
                 @enderror
             </div>
+
             <input v-model="service" name="service" hidden />
 
             <div class="form-group">
@@ -179,10 +180,11 @@
         },
         watch:{
             product(n){
-                console.log(this.product);
-                this.service = n["product_id"];
-                this.min = n["min_denomination"];
-                this.max = n["max_denomination"];
+                var product = JSON.parse(n);
+                this.service = product["product_id"];
+                this.min = product["min_denomination"];
+                this.max = product["max_denomination"];
+                console.log(this.service);
 
             },
             amount(n){

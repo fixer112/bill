@@ -963,7 +963,12 @@ class UserController extends Controller
         $this->authorize('view', $user);
         //return request()->all();
         $bills = config("settings.bills.electricity");
-        $product = array_search(request()->service, array_column($bills['products'], 'product_id'));
+        //return request()->service;
+
+        $key = array_search(request()->service, array_column($bills['products'], 'product_id'));
+
+        $product = $bills['products'][$key];
+        //return $product;
         $min = $product["min_denomination"];
         $max = $product["max_denomination"];
 
@@ -986,7 +991,7 @@ class UserController extends Controller
         $this->validate(request(), $data);
 
         $amount = request()->amount;
-        $meterno = request()->meter_no;
+        $meter_no = request()->meter_no;
         $service = request()->service;
         $type = request()->type;
         $t = $type == '1' ? 'prepaid' : 'postpaid';
@@ -1011,7 +1016,9 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/electricity");
         }
 
-        $result = $this->electricity($service, $meterno, $type, $amount, $ref);
+        $result = $this->electricity($service, $meter_no, $type, $amount, $ref);
+
+        //return $result;
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/cable");

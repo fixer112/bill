@@ -280,6 +280,12 @@ class Controller extends BaseController
             ]);
         }
 
+        if ($type == 'electricity') {
+            $tran->update([
+                'desc' => "$tran->desc pin {$result['pincode']}",
+            ]);
+        }
+
         if ($type == 'sms') {
             SmsHistory::create([
                 'sms_group_id' => request()->group,

@@ -39,6 +39,6 @@ class checkOldPassword implements Rule
      */
     public function message()
     {
-        return 'Old Password is Invalid';
+        return 'Password is Invalid';
     }
 }

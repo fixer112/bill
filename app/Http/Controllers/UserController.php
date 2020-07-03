@@ -997,11 +997,13 @@ class UserController extends Controller
         $t = $type == '1' ? 'prepaid' : 'postpaid';
         $a = currencyFormat($amount);
 
-        $multiples = $amount / env('CABLE_DISCOUNT_MULTIPLE', 5000);
+        $multiples = ceil($amount / env('CABLE_DISCOUNT_MULTIPLE', 5000));
 
         $charges = calDiscountAmount($bills['charges'] * $multiples, electricityDiscount($user));
 
         $discount_amount = $amount + $charges;
+
+        //return $discount_amount;
 
         request()->merge(['discount_amount' => $discount_amount]);
         $this->validate(request(), [

@@ -390,7 +390,7 @@
             wpChat();
         });
             var alerted = localStorage.getItem('alerted');
-            var timeout localStorage.getItem('time');
+            var timeout = localStorage.getItem('time');
 
             @if (env('GENERAL_ALERT'))
             

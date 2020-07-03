@@ -390,14 +390,16 @@
             wpChat();
         });
             var alerted = localStorage.getItem('alerted');
+            var timeout localStorage.getItem('time');
 
             @if (env('GENERAL_ALERT'))
             
-            if(!alerted){
+            if(!alerted || (timeout != '' && (new Date().getTime() - timeout)/1000/60 > 60)){
             swal("",`{{env("GENERAL_ALERT")}}`,{
             
             });
             localStorage.setItem('alerted',true);
+            localStorage.setItem('time',Date.now());
             }
             
 

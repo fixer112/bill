@@ -336,15 +336,20 @@
 
         <script>
             var alerted = localStorage.getItem('alerted');
+            var timeout =localStorage.getItem('time');
+            console.log((new Date().getTime() - timeout)/1000/60);
             @if (env('GENERAL_ALERT'))
-            if(!alerted){
-
-                swal("",`{{env("GENERAL_ALERT")}}`,{
+            if(!alerted || (timeout != '' && (new Date().getTime() - timeout)/1000/60 > 60 )){
                 
+                swal("",`{{env("GENERAL_ALERT")}}`,{
+                    
                 });
                 localStorage.setItem('alerted',true);
+                //var timeout = new Date().getTime() + 60*60*1000;
+                localStorage.setItem('time',Date.now());
             }
             @endif
+            //console.log(localStorage.getItem('time') - Date.now());
 
             @if (session('success'))
             

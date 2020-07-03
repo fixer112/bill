@@ -95,10 +95,10 @@ class UserController extends Controller
             if (request()->number != $user->number) {
                 $data['number'] = 'required|numeric|digits_between:10,11|unique:users';
             }
-            $data['password'] = 'nullable|min:5|string|confirmed';
+            $data['password'] = 'nullable|min:8|string|confirmed';
 
         } else {
-            $data['password'] = 'nullable|min:5|string|confirmed|required_with:old_password';
+            $data['password'] = 'nullable|min:8|string|confirmed|required_with:old_password';
             $data['old_password'] = ['nullable', 'required_with:password', 'string', new checkOldPassword($user)];
 
         }

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 return $request->user();
 }); */
 Route::post('/login', 'Auth\LoginController@loginApi');
+Route::post('/register', 'Auth\RegisterController@register');
 
 Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1'])->group(function () {
     Route::prefix('user')->group(function () {

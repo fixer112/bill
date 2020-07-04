@@ -17,12 +17,14 @@ use Illuminate\Support\Facades\Route;
 return $request->user();
 }); */
 Route::post('/login', 'Auth\LoginController@loginApi');
+Route::post('/register', 'Auth\RegisterController@register');
 
 Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::post('/{user}/airtime', 'UserController@postAirtime');
         Route::post('/{user}/data', 'UserController@postData');
         Route::post('/{user}/cable', 'UserController@postCable');
+        Route::post('/{user}/electricity', 'UserController@postElectricity');
         Route::get('/{user}/balance', 'UserController@getBalance');
         Route::get('/{user}/history/{ref}', 'UserController@history');
 

@@ -142,6 +142,10 @@ class RegisterController extends Controller
             //dump("Mail not sent : {$e->getMessage()}");
         }
 
+        if (request()->wantsJson()) {
+            return $user;
+        }
+
         return redirect($user->routePath());
 
     }

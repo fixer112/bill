@@ -24,6 +24,8 @@ class User extends JsonResource
         $data['settings']['airtime_discount'] = airtimeDiscount(U::find($this->id));
         $data['settings']['data_discount'] = dataDiscount(U::find($this->id));
         $data['settings']['cable_discount'] = cableDiscount(U::find($this->id));
+        $data['settings']['electricity_discount'] = electricityDiscount(U::find($this->id));
+        $data['settings']['electricity_discount_multiple'] = env('ELECTRICITY_DISCOUNT_MULTIPLE', 5000);
         $data['settings']['airtime_alert'] = env("AIRTIME_ALERT");
         $data['settings']['data_alert'] = env("DATA_ALERT");
         $data['settings']['cable_alert'] = env("CABLE_ALERT");

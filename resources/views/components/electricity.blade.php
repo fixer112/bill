@@ -188,7 +188,7 @@
 
             },
             amount(n){
-                this.multiples =Math.ceil(this.amount/+("{{env('CABLE_DISCOUNT_MULTIPLE',5000)}}"));
+                this.multiples =Math.ceil(this.amount/+("{{env('ELECTRICITY_DISCOUNT_MULTIPLE',5000)}}"));
                 //console.log(multiples);
                 var charges = (+this.bills['charges'] * this.multiples) - ((+this.bonus / 100) * (+this.bills['charges'] * this.multiples));
                 this.discountAmount = +this.amount + (+charges);

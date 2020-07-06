@@ -58,7 +58,7 @@ trait Main
     public static function fundBonus(User $user, $amount)
     {
 
-        if ($user->balance == 0 && $amount >= 500) {
+        if ($user->balance == 0 && $amount >= 500 && $user->transactions->count() == 0) {
             $bonus = 100;
             $user->transactions()->create([
                 'amount' => $bonus,

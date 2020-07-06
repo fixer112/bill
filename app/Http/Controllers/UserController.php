@@ -482,7 +482,7 @@ class UserController extends Controller
         $this->authorize('update', $user);
         $this->validate(request(), [
             'amount' => ["required", "numeric", new checkBalance($user), 'min:100'],
-            'username' => "required|exists:users,login",
+            'username' => "required|exists:users,login|not_in:" . $user->login,
             'password' => ["required", new checkOldPassword($user)],
         ]);
 

@@ -1023,7 +1023,7 @@ class UserController extends Controller
         //return $result;
 
         if (is_array($result) && isset($result['error'])) {
-            return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/cable");
+            return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/electricity");
         }
 
         return $this->saveTransaction($user, 'electricity', $discount_amount, $desc, $ref, $result);

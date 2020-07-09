@@ -98,6 +98,39 @@
 </div>
 
 <div class="row">
+    <div class="col-md-6">
+        <div class="card theme-bg">
+            <div class="card-header borderless">
+                <h5 class="text-white">Profit</h5>
+            </div>
+            <div class="card-block pt-0">
+                <div class="earning-text mb-0">
+                    <h3 class="mb-2 text-white f-w-300">{{currencyFormat($totalDebit->sum('profit'))}}
+                    </h3>
+                    <span class="text-uppercase text-white d-block">Total Transactions</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card theme-bg">
+            <div class="card-header borderless">
+                <h5 class="text-white">Profit</h5>
+            </div>
+            <div class="card-block pt-0">
+                <div class="earning-text mb-0">
+                    <h3 class="mb-2 text-white f-w-300">{{currencyFormat($debit->sum('profit'))}}
+                    </h3>
+                    <span class="text-uppercase text-white d-block">This Transactions</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">

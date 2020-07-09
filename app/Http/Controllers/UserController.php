@@ -927,7 +927,7 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
         }
 
-        $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['cable'][$type]) / 100;
+        $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['cable'][$type]);
 
         if ($type == 'startimes') {
             if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
@@ -945,6 +945,8 @@ class UserController extends Controller
         }
 
         //return $result;
+
+        //$result = [];
 
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/cable");
@@ -1020,7 +1022,8 @@ class UserController extends Controller
         ]);
 
         $ref = generateRef($user);
-        $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['electricity']) / 100;
+
+        $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['electricity']);
 
         $desc = "Electricity payment of {$a} for meter no {$meter_no} {$t} ($service)";
 

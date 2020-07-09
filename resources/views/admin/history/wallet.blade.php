@@ -249,7 +249,7 @@
                                 </td>
                                 <td>{{$transaction->amount}}</td>
                                 <td>{{$transaction->balance}}</td>
-                                <td>{{$transaction->profit}}</td>
+                                <td>{{numberFormat($transaction->profit)}}</td>
                                 <td><a
                                         class="label rounded-pill text-white {{$transaction->type =='credit' ?'theme-bg':'theme-bg2'}}">{{$transaction->type}}</a>
                                 </td>

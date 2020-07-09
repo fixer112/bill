@@ -102,6 +102,7 @@
                                 <th>User Package</th>
                                 <th>Amount</th>
                                 <th>Balance</th>
+                                <th>Profit</th>
                                 <th>Type</th>
                                 <th>Reason</th>
                                 <th>Desc</th>
@@ -131,6 +132,7 @@
                                     </td>
                                     <td>{{$transaction->amount}}</td>
                                     <td>{{$transaction->balance}}</td>
+                                    <td>{{numberFormat($transaction->profit)}}</td>
                                     <td><a
                                             class="label rounded-pill text-white {{$transaction->type =='credit' ?'theme-bg':'theme-bg2'}}">{{$transaction->type}}</a>
                                     </td>

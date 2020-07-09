@@ -569,6 +569,7 @@ class UserController extends Controller
             'amount' => ["required", "numeric"],
             'with_desc' => "required|boolean",
             'desc' => "required_if:with_desc,1|string|max:100",
+            'profit' => "required_if:with_desc,1|numeric",
             //'password' => ["required", new checkOldPassword(Auth::user())],
         ]);
 
@@ -590,6 +591,7 @@ class UserController extends Controller
                 'ref' => generateRef($user),
                 'user_id' => $user->id,
                 'reason' => 'debit',
+                'profit' => request()->profit ?? 0,
             ]);
         }
 

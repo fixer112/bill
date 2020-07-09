@@ -39,6 +39,17 @@
                     @enderror
                 </div>
             </div>
+            <div class="form-group">
+                <label>Profit</label>
+                <div class="input-group">
+                    <input name="profit" type="number" class="form-control @error('profit') is-invalid @enderror" />
+                    @error('profit')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
             <div class="form-group" v-if="enabled == '1'">
                 <label>Description</label>
                 <div class="input-group">

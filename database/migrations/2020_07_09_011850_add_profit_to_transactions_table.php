@@ -14,7 +14,7 @@ class AddProfitToTransactionsTable extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->decimal('profit', 13, 2)->default(0);
+            $table->decimal('profit', 13, 5)->default(0);
 
         });
     }

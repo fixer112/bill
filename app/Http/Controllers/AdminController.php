@@ -79,8 +79,9 @@ class AdminController extends Controller
 
             }
 
+        })->where(function ($query) use ($desc) {
             if ($desc != '') {
-                $query->where('desc', 'LIKE', "%{$desc}%");
+                $query->where('desc', 'LIKE', "%({$desc})%")->orWhere('desc', 'LIKE', "%{$desc} %")->orWhere('desc', 'LIKE', "%{$desc}-%");
 
             }
 
@@ -102,7 +103,7 @@ class AdminController extends Controller
 
             $query = $query->filter(function ($transaction) use ($sub_type, $subscriptions) {
 
-                return $transaction->user->is_reseller == 0;
+                return $transaction->user ? $transaction->user->is_reseller == 0 : false;
 
             });
         }
@@ -137,7 +138,80 @@ class AdminController extends Controller
 
         //return $sub_types;
 
-        $compact = compact('transactions', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types', 'desc');
+        //Profit Calculations
+        //return config('settings.subscriptions');
+        $profit = [];
+
+        $guest = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
+
+            return $transaction->user_id == '';
+
+        })->where('type', 'debit');
+
+        $sum = $guest->sum('amount');
+
+        $profit['guest'] = [
+            //'discount' => $value['bills']['airtime'][$desc],
+            'debit' => $sum,
+            'profit' => $guest->sum('profit'),
+        ];
+
+        $tran = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
+
+            return $transaction->user ? $transaction->user->is_reseller == 0 : false;
+
+        })->where('type', 'debit');
+        $sum = $tran->sum('amount');
+
+        $profit['individual'] = [
+            //'discount' => $value['bills']['airtime'][$desc],
+            'debit' => $sum,
+            'profit' => $tran->sum('profit'),
+        ];
+
+        foreach (config('settings.subscriptions') as $key => $value) {
+            $tran = $transactions->filter(function ($transaction) use ($key) {
+                if ($transaction->user && $transaction->user->lastSub()) {
+                    return $transaction->user->lastSub()->name == $key;
+                }
+            })->where('type', 'debit');
+
+            $sum = $tran->sum('amount');
+
+            $profit[$key] = [
+                //'discount' => $value['bills']['airtime'][$desc],
+                'debit' => $sum,
+                'profit' => $tran->sum('profit'),
+            ];
+        }
+
+        /* if (in_array($reason, ['airtime', 'data'])) {
+
+        if (in_array($desc, array_keys(config('settings.bills')[$reason]))) {
+        $profit['individual']['default'] = config('settings.default')[$reason][$desc];
+        $profit['individual']['discount'] = config('settings.individual')['bills'][$reason][$desc];
+        $profit['individual']['profit'] = $profit['individual']['debit'] * (($profit['individual']['default'] - $profit['individual']['discount']) / 100);
+
+        $profit['guest']['default'] = config('settings.default')[$reason][$desc];
+        $profit['guest']['discount'] = 0;
+        $profit['guest']['profit'] = $profit['guest']['debit'] * (($profit['guest']['default'] - $profit['guest']['discount']) / 100);
+
+        foreach (config('settings.subscriptions') as $key => $value) {
+        $profit[$key]['default'] = config('settings.default')[$reason][$desc];
+        $profit[$key]['discount'] = $value['bills'][$reason][$desc];
+        $profit[$key]['profit'] = $profit[$key]['debit'] * (($profit[$key]['default'] - $profit[$key]['discount']) / 100);
+
+        }
+        } else {
+        $profit = [];
+        }
+        } else {
+        $profit = [];
+
+        } */
+        //åreturn $profit;
+
+        $compact = compact('transactions', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types', 'desc', 'profit');
 
         return view('admin.history.wallet', $compact);
 

@@ -173,6 +173,8 @@
                             <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                         </div>
                     </form>
+                    <button onclick='profit(@json($profit))' class="btn btn-success btn-sm" {{count($profit)==0
+                        ? 'disabled' : ''}}>Calculate Profit</button>
                 </div>
             </div>
             <div class="card-block px-0 py-3">
@@ -236,4 +238,49 @@
 </div>
 
 </div>
+<script>
+    function profit(datas){
+        var rows ='';
+        var t_profit = 0;
+        var keys = Object.keys((datas));
+        keys.forEach(function(key){
+        t_profit+=datas[key]['profit'];
+        rows += `<tr>
+            <td>
+                ${key}
+            </td>
+            <td>
+                ${datas[key]['debit']}
+            </td>
+           
+            <td>
+                ${datas[key]['profit']}
+            </td>
+            </tr>`;
+        });
+
+       //console.log(rows);
+       //return;
+        var table = document.createElement("div");
+        
+        table.innerHTML = `<center>
+            <div class="table-responsive">
+                <table class="table table-hover">
+            <thead>
+                <th>Type</th>
+                <th>Total Debit</th>
+                <th>Profit</th>
+        
+            </thead>
+            <tbody>
+                ${rows}
+            </tbody>
+        </table></div>
+        <p>Total Profit : ${t_profit}</p>
+    </center>`;
+        swal({
+        content: table,
+        });
+    }
+</script>
 @endsection

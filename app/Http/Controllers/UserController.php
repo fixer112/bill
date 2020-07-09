@@ -754,6 +754,9 @@ class UserController extends Controller
 
         $ref = generateRef($user);
         $ussd = false;
+
+        //$default = config('settings.default')['airtime'][$network];
+        $profit = request()->amount * (config('settings.default')['airtime'][$network] - airtimeDiscount($user)[$network]) / 100;
         //return $number;
         if ($network == 'mtn_sns') {
             //$ussd = true;
@@ -776,7 +779,7 @@ class UserController extends Controller
 
         //$result = [];
 
-        return $this->saveTransaction($user, 'airtime', $discount_amount, $desc, $ref, $result, $ussd);
+        return $this->saveTransaction($user, 'airtime', $discount_amount, $desc, $ref, $result, $profit, $ussd);
 
     }
 
@@ -843,6 +846,8 @@ class UserController extends Controller
 
         $ref = generateRef($user);
 
+        $profit = request()->amount * (config('settings.default')['data'][$network] - dataDiscount($user)[$network]) / 100;
+
         if ($network == 'mtn_sme') {
 
             if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
@@ -860,7 +865,7 @@ class UserController extends Controller
             $result = $this->data($price, $number, $network_code, $ref);
         }
 
-        return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result);
+        return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result, $profit);
 
     }
 
@@ -920,6 +925,8 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
         }
 
+        $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['cable'][$type]) / 100;
+
         if ($type == 'startimes') {
             if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
@@ -947,7 +954,7 @@ class UserController extends Controller
 
         $ref = $result['exchangeReference'] ?? $ref;
 
-        return $this->saveTransaction($user, 'cable', $discount_amount, $desc, $ref, $result);
+        return $this->saveTransaction($user, 'cable', $discount_amount, $desc, $ref, $result, $profit);
 
     }
 
@@ -1011,6 +1018,7 @@ class UserController extends Controller
         ]);
 
         $ref = generateRef($user);
+        $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['electricity']) / 100;
 
         $desc = "Electricity payment of {$a} for meter no {$meter_no} {$t} ($service)";
 
@@ -1026,7 +1034,7 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/electricity");
         }
 
-        return $this->saveTransaction($user, 'electricity', $discount_amount, $desc, $ref, $result);
+        return $this->saveTransaction($user, 'electricity', $discount_amount, $desc, $ref, $result, $profit);
 
     }
     public function apiReset(User $user)
@@ -1255,10 +1263,13 @@ class UserController extends Controller
 
         $desc = "Sms Sent to $successCount numbers successfully and $failedCount failed and $invalidCount Invalid numbers($pages page(s))";
 
+        $default_amount = $result['sms_pages'] * $result['units_used'] * config('settings.default')['sms'];
         $discount_amount = $result['sms_pages'] * $result['units_used'] * smsDiscount($user);
 
+        $profit = $discount_amount - $default_amount;
+
         //return request()->all();
-        return $this->saveTransaction($user, 'sms', $discount_amount, $desc, $ref, $result);
+        return $this->saveTransaction($user, 'sms', $discount_amount, $desc, $ref, $result, $profit);
 
         //return $this->jsonWebBack('error', 'Coming Soon');
 

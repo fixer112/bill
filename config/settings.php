@@ -9,6 +9,27 @@ return [
     'recent_page' => 100,
     'per_page' => 1000,
     'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'mtn_sns' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
+    'default' => [
+        'airtime' => [
+            'mtn' => 4.6,
+            'mtn_sns' => 7.0,
+            'airtel' => 3.0,
+            'glo' => 3.9,
+        ],
+        'data' => [
+            'mtn' => 4.6,
+            'mtn_sme' => 21.25,
+            'airtel' => 3.0,
+            'glo' => 8.0,
+        ],
+        'cable' => [
+            'startimes' => 1,
+            'gotv' => 1,
+            'dstv' => 1,
+        ],
+        'electricity' => 0,
+        'sms' => 1.8,
+    ],
     'bills' => [
         'sms' => [
 

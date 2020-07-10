@@ -846,9 +846,9 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
         }
 
-        $ref = generateRef($user);
-
         $profit = request()->amount * (config('settings.default')['data'][$network] - dataDiscount($user)[$network]) / 100;
+        
+        $ref = generateRef($user);
 
         //return $profit;
         if ($network == 'mtn_sme') {

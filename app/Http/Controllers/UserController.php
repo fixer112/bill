@@ -850,6 +850,7 @@ class UserController extends Controller
 
         $profit = request()->amount * (config('settings.default')['data'][$network] - dataDiscount($user)[$network]) / 100;
 
+        //return $profit;
         if ($network == 'mtn_sme') {
 
             if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {

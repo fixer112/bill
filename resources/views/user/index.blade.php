@@ -209,6 +209,9 @@
                                 <th>Ref</th>
                                 <th>Amount</th>
                                 <th>Balance</th>
+                                @can('manageRoles',App\User::class)
+                                <th>Profit</th>
+                                @endcan
                                 <th>Type</th>
                                 <th>Reason</th>
                                 <th>Desc</th>
@@ -222,6 +225,7 @@
                                     <td>{{$transaction->ref}}</td>
                                     <td>{{$transaction->amount}}</td>
                                     <td>{{$transaction->balance}}</td>
+                                    <td>{{numberFormat($transaction->profit)}}</td>
                                     <td><a
                                             class="label rounded-pill text-white {{$transaction->type =='credit' ?'theme-bg':'theme-bg2'}}">{{$transaction->type}}</a>
                                     </td>

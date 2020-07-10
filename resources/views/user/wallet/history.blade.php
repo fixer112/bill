@@ -192,7 +192,7 @@
                             <th>Ref</th>
                             <th>Amount</th>
                             <th>Balance</th>
-                            @can('manageRoles', App\User::class)
+                            @can('manageRoles',App\User::class)
                             <th>Profit</th>
                             @endcan
                             <th>Type</th>

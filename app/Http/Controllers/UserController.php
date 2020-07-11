@@ -847,7 +847,7 @@ class UserController extends Controller
         }
 
         //calPercentageAmount(request()->amount, config('settings.default')['cable'][$type]);
-        $profit = calPercentageAmount(request()->amount, (config('settings.default')['data'][$network] - dataDiscount($user)[$network]));
+        $profit = calPercentageAmount($amount, (config('settings.default')['data'][$network] - dataDiscount($user)[$network]));
 
         $ref = generateRef($user);
 

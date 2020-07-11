@@ -251,7 +251,7 @@ class Controller extends BaseController
 
     }
 
-    public function saveTransaction(User $user, $type, $discount_amount, $desc, $ref, $result, $profit, $ussd = false)
+    public function saveTransaction(User $user, $type, $discount_amount, $desc, $ref, $result, $profit = 0, $ussd = false)
     {
         if (is_array($result) && isset($result['error'])) {
             return $this->jsonWebRedirect('error', $result['error'], "user/{$user->id}/$type");

@@ -758,7 +758,7 @@ class UserController extends Controller
         $ussd = false;
 
         //$default = config('settings.default')['airtime'][$network];
-        $profit = request()->amount * (config('settings.default')['airtime'][$network] - airtimeDiscount($user)[$network]) / 100;
+        $profit = calPercentageAmount(request()->amount, (config('settings.default')['airtime'][$network] - airtimeDiscount($user)[$network]));
         //return $number;
         if ($network == 'mtn_sns') {
             //$ussd = true;
@@ -846,11 +846,15 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
         }
 
-        $profit = request()->amount * (config('settings.default')['data'][$network] - dataDiscount($user)[$network]) / 100;
-        
+        //calPercentageAmount(request()->amount, config('settings.default')['cable'][$type]);
+        $profit = calPercentageAmount(request()->amount, (config('settings.default')['data'][$network] - dataDiscount($user)[$network]));
+
         $ref = generateRef($user);
 
+        $ussd = false;
+
         //return $profit;
+
         if ($network == 'mtn_sme') {
 
             if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
@@ -868,7 +872,7 @@ class UserController extends Controller
             $result = $this->data($price, $number, $network_code, $ref);
         }
 
-        return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result, $profit);
+        return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result, $profit, $ussd);
 
     }
 
@@ -920,6 +924,7 @@ class UserController extends Controller
         ]);
 
         $ref = generateRef($user);
+        $ussd = false;
 
         $number = request()->number ? nigeriaNumber(request()->number) : $user->nigeria_number;
         $desc = "Cable Subscription of {$details} for smart no {$smart_no} ($number)";
@@ -959,7 +964,7 @@ class UserController extends Controller
 
         $ref = $result['exchangeReference'] ?? $ref;
 
-        return $this->saveTransaction($user, 'cable', $discount_amount, $desc, $ref, $result, $profit);
+        return $this->saveTransaction($user, 'cable', $discount_amount, $desc, $ref, $result, $profit, $ussd);
 
     }
 
@@ -1023,6 +1028,7 @@ class UserController extends Controller
         ]);
 
         $ref = generateRef($user);
+        $ussd = false;
 
         $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['electricity']);
 
@@ -1032,7 +1038,7 @@ class UserController extends Controller
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/electricity");
         }
 
-        $result = $this->electricity($service, $meter_no, $type, $amount, $ref);
+        $result = $this->electricity($service, $meter_no, $type, $amount, $ref, $ussd);
 
         //return $result;
 

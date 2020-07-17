@@ -349,10 +349,14 @@
                 e.parent().parent().parent().addClass('pcoded-trigger');
 
                 $('.pcoded-trigger ul').attr('style','display:block');//.attr('style'));
-            
+                
+                var index = $('table').find('th:last').index();
                 $('table').DataTable( {
                 responsive: true,
                 pageLength: 1000,
+                "order": [
+                [index, "desc"]
+                ],
                 dom: 'Bfrtip',
                 buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'

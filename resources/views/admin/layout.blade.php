@@ -47,6 +47,10 @@
         <script src="/js/script.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/assets/js/vendor-all.min.js"></script>
+
+        <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet" />
         @yield('head')
 
     </head>
@@ -276,6 +280,13 @@
         <script src="/assets/plugins/amchart/js/worldlow.js"></script>
         <script src="/assets/plugins/notification/js/bootstrap-growl.min.js"></script> --}}
         {{-- <script src="/assets/js/pages/dashboard-custom.js"></script> --}}
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.bootstrap.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.js"></script>
         @yield('js')
         <script>
             var dashboard = "{{Auth::user()->routePath()}}";
@@ -313,6 +324,7 @@
             });
             @endif
             $( document ).ready(function() {
+            
                // $.stickysidebarscroll(".scroll-div",{offset: {top: 10, bottom: 200}});
                 var url = window.location;
                 var link =url.origin + url.pathname;
@@ -337,6 +349,15 @@
                 e.parent().parent().parent().addClass('pcoded-trigger');
 
                 $('.pcoded-trigger ul').attr('style','display:block');//.attr('style'));
+            
+                $('table').DataTable( {
+                responsive: true,
+                pageLength: 1000,
+                dom: 'Bfrtip',
+                buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+                });
             });
         </script>
         <center>

@@ -271,36 +271,41 @@ function fetchDataInfo()
     unset($networks['mtn_sme']);
     unset($networks['mtn_sns']);
 
-    foreach ($networks as $key => $value) {
+    try {
+        //code...
+        foreach ($networks as $key => $value) {
 
-        $fetchData = BillPayment::fetchDataInfo($key);
-        $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
-            //$plan['price'] = ceil($plan['price'] / 5) * 5;
-            $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
-            $plan['id'] = convertDataAmount($plan['data_amount']);
-            //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
-            $plan['type'] = 'direct';
+            $fetchData = BillPayment::fetchDataInfo($key);
+            $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
+                //$plan['price'] = ceil($plan['price'] / 5) * 5;
+                $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
+                $plan['id'] = convertDataAmount($plan['data_amount']);
+                //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
+                $plan['type'] = 'direct';
 
-            return [$k => $plan];
-        });
-
-        $fetchData = $fetchData/* ->unique('price') */->sortBy('price')->values()->all();
-        //return $fetchData->toArray();
-
-        $datas[$key] = $fetchData;
-
-        if (isset($datas['glo'])) {
-            $filters = [[25, 50, 100], ["250", "500", "1000"]];
-            $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
-                //foreach ($filters as $key => $filter) {
-                return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
-                // }
+                return [$k => $plan];
             });
 
-            $glo = $glo->sortBy('price')->values()->all();
+            $fetchData = $fetchData/* ->unique('price') */->sortBy('price')->values()->all();
+            //return $fetchData->toArray();
 
-            $datas['glo'] = $glo;
+            $datas[$key] = $fetchData;
+
+            if (isset($datas['glo'])) {
+                $filters = [[25, 50, 100], ["250", "500", "1000"]];
+                $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
+                    //foreach ($filters as $key => $filter) {
+                    return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
+                    // }
+                });
+
+                $glo = $glo->sortBy('price')->values()->all();
+
+                $datas['glo'] = $glo;
+            }
         }
+    } catch (\Throwable $th) {
+        //throw $th;
     }
     /* $sme = [
     [

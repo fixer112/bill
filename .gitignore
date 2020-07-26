@@ -4,6 +4,8 @@ moniwallet.json
 /public/key.js
 /public/storage
 /storage/*.key
+/storage/app/data.json
+/storage/app/electricity.json
 /vendor
 .env
 .env.backup

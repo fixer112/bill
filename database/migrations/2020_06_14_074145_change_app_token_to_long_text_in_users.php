@@ -27,7 +27,7 @@ class ChangeAppTokenToLongTextInUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('app_token')->nullable()->change();
+            $table->string('app_token')->change();
 
         });
     }

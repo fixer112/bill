@@ -789,6 +789,8 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
+        getDataInfo();
+
         return view('user.bill.data');
     }
 
@@ -847,7 +849,8 @@ class UserController extends Controller
         }
 
         //calPercentageAmount(request()->amount, config('settings.default')['cable'][$type]);
-        $profit = calPercentageAmount($amount, (config('settings.default')['data'][$network] - dataDiscount($user)[$network]));
+
+        $profit = $network == 'mtn_sme' ? $discount_amount - config('settings.default')['data'][$network] : calPercentageAmount($amount, (config('settings.default')['data'][$network] - dataDiscount($user)[$network]));
 
         $ref = generateRef($user);
 
@@ -871,6 +874,8 @@ class UserController extends Controller
 
             $result = $this->data($price, $number, $network_code, $ref);
         }
+
+        //$result = [];
 
         return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result, $profit, $ussd);
 
@@ -971,6 +976,9 @@ class UserController extends Controller
     public function getElectricity(User $user)
     {
         $this->authorize('view', $user);
+
+        getElectricityInfo();
+
 
         return view('user.bill.electricity');
     }

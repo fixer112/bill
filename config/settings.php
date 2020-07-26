@@ -18,8 +18,8 @@ return [
         ],
         'data' => [
             'mtn' => 4.6,
-            'mtn_sme' => 21.25,
-            'airtel' => 3.0,
+            'mtn_sme' => 290, //21.25,
+            'airtel' => 5.0,
             'glo' => 8.0,
         ],
         'cable' => [

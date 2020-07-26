@@ -211,6 +211,7 @@ trait BillPayment
     public static function fetchDataInfo($info)
     {
         $response = Http::get(self::link('get-items', "service={$info}"))->throw();
+        //throw new Exception($response);
         return $response->json()['products'];
 
     }

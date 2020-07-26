@@ -567,11 +567,14 @@ class Controller extends BaseController
 
     public function test()
     {
+        return $this->fetchDataInfo(request()->type ?? 'mtn');
+        return $this->balance();
+
+        //return explode(',',env(''));
         return MoniWalletBill::mtnSNS('08106813749', "100", generateRef());
         return formatPhoneNumberArray('dwdmwdg,676bgggh,08106813749');
         return MoniWalletBill::sms('749', 'This is a test', 3);
         return fetchDataInfo();
-        return $this->fetchDataInfo(request()->type ?? 'glo');
         return fetchElectricityInfo();
 
         return $this->sms('', '08106813749');

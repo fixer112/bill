@@ -45,12 +45,11 @@ class AwaitingResellers extends Command
                 if (!$user->lastSub() && $user->created_at->diffInDays(now()) >= $this->argument('days')) {
                     $days = $this->argument('days') + 4;
 
-                    $count++;
-
                     if ($user->created_at->diffInDays(now()) >= $days) {
                         $user->update(['is_reseller' => 0]);
                         continue;
                     }
+                    $count++;
 
                     $user->notify((new remindReseller($days))->delay(now()->addSeconds(60)));
 

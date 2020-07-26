@@ -852,11 +852,11 @@ class UserController extends Controller
 
         $profit = $network == 'mtn_sme' ? $discount_amount - config('settings.default')['data'][$network] : calPercentageAmount($amount, (config('settings.default')['data'][$network] - dataDiscount($user)[$network]));
 
+        //return $profit;
+
         $ref = generateRef($user);
 
         $ussd = false;
-
-        //return $profit;
 
         if ($network == 'mtn_sme') {
 
@@ -978,7 +978,6 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         getElectricityInfo();
-
 
         return view('user.bill.electricity');
     }

@@ -287,15 +287,19 @@ function fetchDataInfo()
 
             //$plan['id'] = convertDataAmount($plan['data_amount']);
             //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
+
             $plan['type'] = 'direct';
 
             return [$k => $plan];
+
         });
 
-        $fetchData = $fetchData/* ->unique('price') */->sortBy('amount')->values()->all();
+        $fetchData = $fetchData/* ->sortBy('amount')->values()->all() */;
         //return $fetchData->toArray();
 
-        $datas[$key] = $fetchData;
+        $datas[$key] = $fetchData->filter(function ($plan) {
+            return $plan['price'] <= 5000;
+        })->sortBy('amount')->values()->all();
 
         /* if (isset($datas['glo'])) {
     $filters = [[25, 50, 100], ["250", "500", "1000"]];

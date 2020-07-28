@@ -279,6 +279,7 @@ function fetchDataInfo()
         $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
             $plan['id'] = getDataID($plan['data']);
             $plan['topup_amount'] = ceil($plan['amount'] / 5) * 5;
+            $plan['topup_currency'] = 'NGN';
             $plan['price'] = $plan['amount'];
             unset($plan['amount']);
             $plan['validity'] = getBetween(substr($plan['data'], strpos($plan['data'], "-") + 1), '(', ')');

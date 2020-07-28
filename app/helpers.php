@@ -271,88 +271,70 @@ function fetchDataInfo()
     unset($networks['mtn_sme']);
     unset($networks['mtn_sns']);
 
-    try {
-        //code...
-        foreach ($networks as $key => $value) {
+    //try {
+    //code...
+    foreach ($networks as $key => $value) {
 
-            $fetchData = BillPayment::fetchDataInfo($key);
-            $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
-                //$plan['price'] = ceil($plan['price'] / 5) * 5;
-                $plan['topup_amount'] = ceil($plan['price'] / 5) * 5;
-                $plan['id'] = convertDataAmount($plan['data_amount']);
-                //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
-                $plan['type'] = 'direct';
+        $fetchData = BillPayment::fetchDataInfo($key);
+        $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
+            $plan['id'] = getDataID($plan['data']);
+            $plan['topup_amount'] = ceil($plan['amount'] / 5) * 5;
+            $plan['price'] = $plan['amount'];
+            unset($plan['amount']);
+            $plan['validity'] = getBetween(substr($plan['data'], strpos($plan['data'], "-") + 1), '(', ')');
+            unset($plan['data']);
 
-                return [$k => $plan];
-            });
+            //$plan['id'] = convertDataAmount($plan['data_amount']);
+            //$build = isset($plan['type']) ? $k.$plan['type'] :  $k;
+            $plan['type'] = 'direct';
 
-            $fetchData = $fetchData/* ->unique('price') */->sortBy('price')->values()->all();
-            //return $fetchData->toArray();
+            return [$k => $plan];
+        });
 
-            $datas[$key] = $fetchData;
+        $fetchData = $fetchData/* ->unique('price') */->sortBy('amount')->values()->all();
+        //return $fetchData->toArray();
 
-            if (isset($datas['glo'])) {
-                $filters = [[25, 50, 100], ["250", "500", "1000"]];
-                $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
-                    //foreach ($filters as $key => $filter) {
-                    return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
-                    // }
-                });
+        $datas[$key] = $fetchData;
 
-                $glo = $glo->sortBy('price')->values()->all();
+        /* if (isset($datas['glo'])) {
+    $filters = [[25, 50, 100], ["250", "500", "1000"]];
+    $glo = collect($datas['glo'])->filter(function ($plan) use ($filters) {
+    //foreach ($filters as $key => $filter) {
+    return !in_array($plan['price'], $filters[0]) && !in_array($plan['data_amount'], $filters[1]);
+    // }
+    });
 
-                $datas['glo'] = $glo;
-            }
-        }
-    } catch (\Throwable $th) {
-        //throw $th;
+    $glo = $glo->sortBy('price')->values()->all();
+
+    $datas['glo'] = $glo;
+    } */
     }
-    /* $sme = [
-    [
-    'id' => "1GB",
-    'topup_currency' => "NGN",
-    'topup_amount' => 400,
-    'price' => 1000,
-    'data_amount' => "1000",
-    'validity' => "30 days",
-    'type' => 'sme',
-    ],
-    [
-    'id' => "2GB",
-    'topup_currency' => "NGN",
-    'topup_amount' => 800,
-    'price' => 2000,
-    'data_amount' => "2000",
-    'validity' => "30 days",
-    'type' => 'sme',
-    ],
+    /* } catch (\Throwable $th) {
+    //throw $th;
+    } */
 
-    [
-    'id' => "3GB",
-    'topup_currency' => "NGN",
-    'topup_amount' => 1200,
-    'price' => 3000,
-    'data_amount' => "3000",
-    'validity' => "30 days",
-    'type' => 'sme',
-    ],
-    [
-    'id' => "5GB",
-    'topup_currency' => "NGN",
-    'topup_amount' => 2000,
-    'price' => 5000,
-    'data_amount' => "5000",
-    'validity' => "30 days",
-    'type' => 'sme',
-    ],
-    ];
-     */
     $defaltConfig = config('settings.bills.data');
     $datas = array_merge($defaltConfig + $datas);
     //$newConfig = [...$defaltConfig, ...$datas];
 
     Storage::put('data.json', json_encode(['data' => $datas, 'time' => time()]));
     return $datas;
+}
+
+function getDataID($content)
+{
+    return explode('(', explode('-', $content, 2)[0], 2)[0];
+
+}
+
+function getBetween($content, $start, $end)
+{
+    $r = explode($start, $content);
+    if (isset($r[1])) {
+        $r = explode($end, $r[1]);
+        return $r[0];
+    }
+    return $content;
 }
 
 function formatedNumber($number)

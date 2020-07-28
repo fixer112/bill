@@ -50,8 +50,8 @@ class HomeController extends Controller
 
     public function pricing()
     {
-        getDataInfo();
-        getElectricityInfo();
+        //getDataInfo();
+        //getElectricityInfo();
 
         return view('pages.pricing');
     }

@@ -789,7 +789,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        getDataInfo();
+        //getDataInfo();
 
         return view('user.bill.data');
     }
@@ -804,6 +804,8 @@ class UserController extends Controller
         //unset($networks['mtn']);
         //unset($networks['mtn_direct']);
         $bills = config("settings.bills.data");
+
+        //return $bills;
 
         $network = request()->network;
         request()->merge(['network' => strtolower(request()->network)]);
@@ -825,6 +827,8 @@ class UserController extends Controller
         $formatAmount = currencyFormat($amount);
 
         $details = (($plan["id"])) . " - {$formatAmount} - {$plan['validity']}";
+
+        //return $details;
 
         $discount_amount = calDiscountAmount($amount, dataDiscount($user)[$network]);
         request()->merge(['discount_amount' => $discount_amount]);
@@ -852,7 +856,7 @@ class UserController extends Controller
 
         $profit = calPercentageAmount($amount, (config('settings.default')['data'][$network] - dataDiscount($user)[$network]));
 
-        //return $profit;
+        return $profit;
 
         $ref = generateRef($user);
 

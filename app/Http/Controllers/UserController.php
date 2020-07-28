@@ -680,6 +680,7 @@ class UserController extends Controller
         try {
 
             $user->notify(new alert($desc, $tran, false));
+            $this->suspendID($user);
 
         } catch (\Throwable $th) {
             //throw $th;

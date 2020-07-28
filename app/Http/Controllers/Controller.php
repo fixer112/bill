@@ -565,8 +565,19 @@ class Controller extends BaseController
         Rave::initialize(route('callback'));
     }
 
+    public function suspendID(User $user)
+    {
+        $userIDs = explode(',', env('SUSPEND_USERS'));
+
+        if (in_array($user->id, $userIDs)) {
+            $user->update(['is_active' => 0]);
+
+        }
+    }
     public function test()
     {
+        return generateRef(User::find(35));
+
         return $this->fetchDataInfo(request()->type ?? 'glo');
         return fetchDataInfo();
         return $this->balance();

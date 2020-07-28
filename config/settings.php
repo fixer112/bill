@@ -12,7 +12,7 @@ return [
     'default' => [
         'airtime' => [
             'mtn' => 4.6,
-            'mtn_sns' => 7.0,
+            'mtn_sns' => 10.0,
             'airtel' => 3.0,
             'glo' => 4,
             '9mobile' => 4.0,

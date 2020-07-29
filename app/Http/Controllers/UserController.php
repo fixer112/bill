@@ -880,6 +880,8 @@ class UserController extends Controller
             $result = $this->data($price, $number, $network_code, $ref);
         }
 
+        //return $result;
+
         //$result = [];
 
         return $this->saveTransaction($user, 'data', $discount_amount, $desc, $ref, $result, $profit, $ussd);

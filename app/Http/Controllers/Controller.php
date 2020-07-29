@@ -576,9 +576,11 @@ class Controller extends BaseController
     }
     public function test()
     {
+        return $this->fetchDataInfo(request()->type ?? 'glo');
+        $this->dataMtn('', '08106813749', '15', generateRef());
+
         return generateRef(User::find(35));
 
-        return $this->fetchDataInfo(request()->type ?? 'glo');
         return fetchDataInfo();
         return $this->balance();
 

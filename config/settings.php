@@ -15,14 +15,14 @@ return [
             'mtn_sns' => 10.0,
             'airtel' => 3.0,
             'glo' => 4,
-            '9mobile' => 4.0,
+            '9mobile' => 3.5,
         ],
         'data' => [
             'mtn' => 4.6,
             'mtn_sme' => 27.5, //21.25,
             'airtel' => 5.0,
             'glo' => 8.0,
-            '9mobile' => 4.0,
+            '9mobile' => 3.5,
         ],
         'cable' => [
             'startimes' => 1,

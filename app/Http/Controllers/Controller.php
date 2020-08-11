@@ -461,6 +461,9 @@ class Controller extends BaseController
         $body = $verify['responseBody'];
         $user = User::where('login', request()->product['reference'])->first();
         $charges = (env("MONIFY_FEE", 2) / 100) * $body['amount'];
+        $fee = (0.75 / 100) * $body['amount'];
+        $vat = (7.5 / 100) * $fee;
+        $profit = $charges - ($fee + $vat);
         //$charges = $charges > env("MONIFY_CAP", 250) ? env("MONIFY_CAP", 250) : $charges;
         $amount = $body['amount'] - $charges;
         $balance = $user->balance + $amount;
@@ -484,6 +487,7 @@ class Controller extends BaseController
             'bank_name' => request()->accountDetails['accountName'],
             'bank_code' => request()->accountDetails['bankCode'],
             'bank_acc' => request()->accountDetails['accountNumber'],
+            'profit' => $profit,
             //'reason' => 'top-up',
         ]);
 

@@ -218,3 +218,7 @@ section.pricing {
     font-weight: bold !important;
     font-size: 15px !important;
 }
+
+.smartbanner {
+    z-index: 100000 !important;
+}

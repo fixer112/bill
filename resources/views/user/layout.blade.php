@@ -14,6 +14,25 @@
         <meta name="keywords" content="{{env('APP_KEYWORD')}}">
         <meta name="author" content="{{env('APP_NAME')}}" />
 
+        <!-- Start SmartBanner configuration -->
+        <meta name="smartbanner:title" content="MoniWallet">
+        <meta name="smartbanner:author" content="MoniWallet">
+        <meta name="smartbanner:price" content="FREE">
+        <meta name="smartbanner:price-suffix-apple" content=" - On the App Store">
+        <meta name="smartbanner:price-suffix-google" content=" - In Google Play">
+        {{--<meta name="smartbanner:icon-apple"
+                    content="https://is4-ssl.mzstatic.com/image/thumb/Purple123/v4/17/96/c5/1796c5bb-fd24-d656-81e9-1819879a6053/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-6.png/230x0w.jpg">  --}}
+        <meta name="smartbanner:icon-google"
+            content="http://lh3.ggpht.com/f4oX61ljZ6x8aYDELZOgxlvdUEu73-wSQ4fy5bx6fCRISnZP8T353wdaM43RO_DbGg=w300">
+        <meta name="smartbanner:button" content="View">
+        <meta name="smartbanner:button" content="DOWNLOAD">
+        {{--   <meta name="smartbanner:button-url-apple" content="https://ios/application-url">  --}}
+        <meta name="smartbanner:button-url-google"
+            content="https://play.google.com/store/apps/details?id=com.altechtic.moniwallet.moniwallet">
+        <meta name="smartbanner:enabled-platforms" content="android">
+        <meta name="smartbanner:close-label" content="Close">
+        <!-- End SmartBanner configuration -->
+
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -67,6 +86,11 @@
             @endif
             //console.log(localStorage.getItem('user_token'));
         </script>
+
+        @if (!Auth::user()->is_admin)
+        <link rel="stylesheet" href="/css/smartbanner.min.css">
+        <script src="/js/smartbanner.min.js"></script>
+        @endif
 
 
         @yield('head')

@@ -58,23 +58,23 @@ trait Main
     public static function fundBonus(User $user, $amount)
     {
 
-        if ($user->balance == 0 && $amount >= 500 && $user->transactions->count() == 0) {
-            $bonus = 100;
-            $user->transactions()->create([
-                'amount' => $bonus,
-                'balance' => $user->balance + $bonus,
-                'type' => 'credit',
-                'desc' => "First time fund bonus",
-                'ref' => generateRef($user),
-                'user_id' => $user->id,
-                'plathform' => getPlathform(),
+        /* if ($user->balance == 0 && $amount >= 500 && $user->transactions->count() == 0) {
+    $bonus = 100;
+    $user->transactions()->create([
+    'amount' => $bonus,
+    'balance' => $user->balance + $bonus,
+    'type' => 'credit',
+    'desc' => "First time fund bonus",
+    'ref' => generateRef($user),
+    'user_id' => $user->id,
+    'plathform' => getPlathform(),
 
-            ]);
-            $user->update([
-                'balance' => $user->balance + $bonus,
-            ]);
+    ]);
+    $user->update([
+    'balance' => $user->balance + $bonus,
+    ]);
 
-        }
+    } */
     }
 
 }

@@ -150,27 +150,41 @@ class AdminController extends Controller
 
             return $transaction->user_id == '';
 
-        })->where('type', 'debit');
+        });
 
-        $sum = $guest->sum('amount');
+        $sum_debit = $guest->where('type', 'debit')->sum('amount');
+        $sum_credit = $guest->where('type', 'credit')->sum('amount');
+
+        $profit_debit = $guest->where('type', 'debit')->sum('profit');
+        $profit_credit = $guest->where('type', 'credit')->sum('profit');
 
         $profit['guest'] = [
             //'discount' => $value['bills']['airtime'][$desc],
-            'debit' => $sum,
-            'profit' => $guest->sum('profit'),
+            'debit' => numberFormat($sum_debit),
+            'credit' => numberFormat($sum_credit),
+            'profit_debit' => numberFormat($profit_debit),
+            'profit_credit' => numberFormat($profit_credit),
+            'profit' => numberFormat($guest->sum('profit'), ''),
         ];
 
         $tran = $transactions->filter(function ($transaction) use ($sub_type, $subscriptions) {
 
             return $transaction->user ? $transaction->user->is_reseller == 0 : false;
 
-        })->where('type', 'debit');
-        $sum = $tran->sum('amount');
+        });
+        $sum_debit = $tran->where('type', 'debit')->sum('amount');
+        $sum_credit = $tran->where('type', 'credit')->sum('amount');
+
+        $profit_debit = $tran->where('type', 'debit')->sum('profit');
+        $profit_credit = $tran->where('type', 'credit')->sum('profit');
 
         $profit['individual'] = [
             //'discount' => $value['bills']['airtime'][$desc],
-            'debit' => $sum,
-            'profit' => $tran->sum('profit'),
+            'debit' => numberFormat($sum_debit),
+            'credit' => numberFormat($sum_credit),
+            'profit_debit' => numberFormat($profit_debit),
+            'profit_credit' => numberFormat($profit_credit),
+            'profit' => numberFormat($tran->sum('profit'), ''),
         ];
 
         foreach (config('settings.subscriptions') as $key => $value) {
@@ -180,12 +194,19 @@ class AdminController extends Controller
                 }
             })->where('type', 'debit');
 
-            $sum = $tran->sum('amount');
+            $sum_debit = $tran->where('type', 'debit')->sum('amount');
+            $sum_credit = $tran->where('type', 'credit')->sum('amount');
+
+            $profit_debit = $tran->where('type', 'debit')->sum('profit');
+            $profit_credit = $tran->where('type', 'credit')->sum('profit');
 
             $profit[$key] = [
                 //'discount' => $value['bills']['airtime'][$desc],
-                'debit' => $sum,
-                'profit' => $tran->sum('profit'),
+                'debit' => numberFormat($sum_debit),
+                'credit' => numberFormat($sum_credit),
+                'profit_debit' => numberFormat($profit_debit),
+                'profit_credit' => numberFormat($profit_credit),
+                'profit' => numberFormat($tran->sum('profit'), ''),
             ];
         }
 
@@ -215,7 +236,7 @@ class AdminController extends Controller
         } */
         //åreturn $profit;
 
-        $compact = compact('transactions', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types', 'desc', 'profit');
+        $compact = compact('trans', 'transactions', 'users', 'credit', 'debit', 'from', 'to', 'reason', 'reasons', 'ref', 'totalCredit', 'totalDebit', 'type', 'types', 'sub_type', 'sub_types', 'desc', 'profit');
 
         return view('admin.history.wallet', $compact);
 

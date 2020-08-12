@@ -64,9 +64,9 @@ function calDiscountAmount(float $amount, float $percentage)
     return $amount - calPercentageAmount($amount, $percentage);
 }
 
-function numberFormat(float $number)
+function numberFormat(float $number, $sep = ',')
 {
-    return number_format($number, 2);
+    return number_format($number, 2, '.', $sep);
 }
 
 function wholeNumberFormat(float $number)

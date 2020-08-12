@@ -105,7 +105,7 @@
             </div>
             <div class="card-block pt-0">
                 <div class="earning-text mb-0">
-                    <h3 class="mb-2 text-white f-w-300">{{currencyFormat($totalDebit->sum('profit'))}}
+                    <h3 class="mb-2 text-white f-w-300">{{currencyFormat($trans->sum('profit'))}}
                     </h3>
                     <span class="text-uppercase text-white d-block">Total Transactions</span>
                 </div>
@@ -120,7 +120,7 @@
             </div>
             <div class="card-block pt-0">
                 <div class="earning-text mb-0">
-                    <h3 class="mb-2 text-white f-w-300">{{currencyFormat($debit->sum('profit'))}}
+                    <h3 class="mb-2 text-white f-w-300">{{currencyFormat($transactions->sum('profit'))}}
                     </h3>
                     <span class="text-uppercase text-white d-block">This Transactions</span>
                 </div>
@@ -279,13 +279,23 @@
         var t_profit = 0;
         var keys = Object.keys((datas));
         keys.forEach(function(key){
-        t_profit+=datas[key]['profit'];
+        t_profit+= parseFloat(datas[key]['profit']);
+        //console.log(t_profit);
         rows += `<tr>
             <td>
                 ${key}
             </td>
             <td>
                 ${datas[key]['debit']}
+            </td>
+            <td>
+                ${datas[key]['profit_debit']}
+            </td>
+            <td>
+                ${datas[key]['credit']}
+            </td>
+            <td>
+                ${datas[key]['profit_credit']}
             </td>
            
             <td>
@@ -304,7 +314,10 @@
             <thead>
                 <th>Type</th>
                 <th>Total Debit</th>
-                <th>Profit</th>
+                <th>Profit Debit</th>
+                <th>Total Credit</th>
+                <th>Profit Credit</th>
+                <th>Total Profit</th>
         
             </thead>
             <tbody>

@@ -128,7 +128,7 @@
                         <td> - </td>
                         <td> - </td>
                         @foreach ( config("settings.subscriptions") as $name => $item)
-                        <td> {!! $name == 'premium' ? '<strike>'.currencyFormat(150000).'<br></strike>' : '' !!}
+                        <td> {{--  {!! $name == 'premium' ? '<strike>'.currencyFormat(150000).'<br></strike>' : '' !!}  --}}
                             {{currencyFormat($item['amount'])}}
                         </td>
                         @endforeach
@@ -136,11 +136,11 @@
                     </tr>
 
                     <tr>
-                        <td>PORTAL OWNER</td>
+                        <td>WEB PORTAL OWNER</td>
                         <td> - </td>
                         <td> - </td>
                         @foreach ( config("settings.subscriptions") as $name => $item)
-                        <td>{{$item['portal'] ? 'YES' : 'NO'}}</td>
+                        <td>{{$item['portal'] ? 'YES (Price Negotiable )' : 'NO'}}</td>
                         @endforeach
 
                     </tr>

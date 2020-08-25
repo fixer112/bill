@@ -270,6 +270,7 @@ function fetchDataInfo()
     $networks = config('settings.mobile_networks');
     unset($networks['mtn_sme']);
     unset($networks['mtn_sns']);
+    unset($networks['airtel']);
 
     //try {
     //code...

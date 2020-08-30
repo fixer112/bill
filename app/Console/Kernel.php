@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('reseller:remind 3')->daily()->at('02:00');
 
-        $schedule->command('user:remindFund 5')->weekly(6, '03:00');
+        //$schedule->command('user:remindFund 5')->weekly(6, '03:00');
 
     }
 

@@ -33,7 +33,7 @@ class Controller extends BaseController
 {
     use BillPayment, Payment, Main, Notify;
 
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, BillPayment;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function jsonWebBack($type, $message, $ref = null)
     {

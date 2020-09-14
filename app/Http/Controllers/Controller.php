@@ -458,6 +458,8 @@ class Controller extends BaseController
             return ['error' => 'Transaction not available'];
         }
 
+        return $verify;
+
         $body = $verify['responseBody'];
         $user = User::where('login', request()->product['reference'])->first();
         $charges = (env("MONIFY_FEE", 2) / 100) * $body['amount'];
@@ -580,6 +582,7 @@ class Controller extends BaseController
     }
     public function test()
     {
+        return fetchDataInfo();
         return $this->fetchDataInfo(request()->type ?? 'glo');
         $this->dataMtn('', '08106813749', '15', generateRef());
 

@@ -277,6 +277,9 @@ function fetchDataInfo()
     foreach ($networks as $key => $value) {
 
         $fetchData = BillPayment::fetchDataInfo($key);
+        if (!$fetchData) {
+            continue;
+        }
         $fetchData = collect($fetchData)->mapWithKeys(function ($plan, $k) {
             $plan['id'] = getDataID($plan['data']);
             $plan['topup_amount'] = ceil($plan['amount'] / 5) * 5;

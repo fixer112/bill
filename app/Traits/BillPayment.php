@@ -212,7 +212,7 @@ trait BillPayment
     {
         $response = Http::get(self::link('get-items', "tv={$info}"))->throw();
         //throw new Exception($response);
-        return $response->json()['products'];
+        return $response->json()['products'] ?? $response->json();
 
     }
     public static function fetchElectricityInfo()

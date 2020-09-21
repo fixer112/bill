@@ -1,5 +1,6 @@
 <?php
 return [
+    "from_date" => "",
     "social" => [
         'facebook' => 'https://web.facebook.com/moniwalletng',
         'twitter' => 'https://twitter.com/moniwalletng',

@@ -458,37 +458,49 @@ class Controller extends BaseController
             return ['error' => 'Transaction not available'];
         }
 
-        return $verify;
+        //return $verify;
 
         $body = $verify['responseBody'];
         $user = User::where('login', request()->product['reference'])->first();
-        $charges = (env("MONIFY_FEE", 2) / 100) * $body['amount'];
-        $fee = (0.75 / 100) * $body['amount'];
+        $paymentDescription = request()->paymentDescription;
+        $bankName = request()->accountDetails['accountName'];
+        $bankCode = request()->accountDetails['bankCode'];
+        $accNumber = request()->accountDetails['accountNumber'];
+        $ref = request()->transactionReference;
+
+        return $this->saveMonify($user, $ref, $body['amount'], $paymentDescription, $bankName, $bankCode, $accNumber);
+
+    }
+
+    public function saveMonify(User $user, $ref, $amount, $paymentDescription, $bankName = "", $bankCode = "", $accNumber = "")
+    {
+        $charges = (env("MONIFY_FEE", 2) / 100) * $amount;
+        $fee = (0.75 / 100) * $amount;
         $vat = (7.5 / 100) * $fee;
         $profit = $charges - ($fee + $vat);
-        //$charges = $charges > env("MONIFY_CAP", 250) ? env("MONIFY_CAP", 250) : $charges;
-        $amount = $body['amount'] - $charges;
+//$charges = $charges > env("MONIFY_CAP", 250) ? env("MONIFY_CAP", 250) : $charges;
+        $amount = $amount - $charges;
         $balance = $user->balance + $amount;
 
         Main::fundBonus($user, $amount);
 
         $user->update(['balance' => $balance]);
-        $paymentDescription = request()->paymentDescription;
+
         $currencyAmount = currencyFormat($amount);
 
-        $desc = "Wallet funding of {$currencyAmount} by Transfer ({$body['paymentDescription']})";
+        $desc = "Wallet funding of {$currencyAmount} by Transfer ({$paymentDescription})";
 
         $transaction = Transaction::create([
             'amount' => $amount,
             'balance' => $user->balance,
             'type' => 'credit',
             'desc' => $desc,
-            'ref' => request()->transactionReference,
+            'ref' => $ref,
             'user_id' => $user->id,
             'is_online' => 0,
-            'bank_name' => request()->accountDetails['accountName'],
-            'bank_code' => request()->accountDetails['bankCode'],
-            'bank_acc' => request()->accountDetails['accountNumber'],
+            'bank_name' => $bankName,
+            'bank_code' => $bankCode,
+            'bank_acc' => $accNumber,
             'profit' => $profit,
             //'reason' => 'top-up',
         ]);
@@ -510,6 +522,52 @@ class Controller extends BaseController
         }
 
         return $transaction;
+
+    }
+
+    public function monifySearch()
+    {
+        $authkey = $this->auth();
+
+        $query = [];
+
+        $query['paymentStatus'] = request()->status ?? 'PAID';
+
+        $query['size'] = request()->size ?? '20';
+
+        if (request()->ref) {
+            $query['transactionReference'] = request()->ref;
+        }
+
+        $response = Http::withHeaders([
+            'Content-Type' => "application/json",
+
+        ])
+            ->withToken($authkey)
+            ->get(env('MONIFY_URL') . "/api/v1/transactions/search?" . http_build_query($query));
+
+        if (!isset($response['requestSuccessful']) || !$response['requestSuccessful']) {
+            return $response;
+        }
+
+        return $response;
+
+        $transactions = [];
+
+        foreach ($response['responseBody']['content'] as $payment) {
+            $user = User::where('email', $payment['customerDTO']['email'])->first();
+            $ref = $payment['transactionReference'];
+            $exist = Transaction::where('ref', $ref)->first();
+            if (!$user || $exist) {
+                continue;
+            }
+            $amount = $payment['amount'];
+            $paymentDescription = $payment['paymentDescription'];
+            array_push($transactions, $this->saveMonify($user, $ref, $amount, $paymentDescription));
+        }
+        return $transactions;
+        return $response['responseBody']['content'];
+
     }
 
     public function verifyTransfer($ref)

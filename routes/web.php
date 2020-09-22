@@ -152,6 +152,8 @@ Route::middleware(['webRouteEnabled'])->group(function () {
     })->name('home');
 
     Route::post('/hook/transfer', 'Controller@monifyTransfer');
+    Route::get('/hook/search', 'Controller@monifySearch');
+
     Route::get('/test', 'Controller@test');
 
 });

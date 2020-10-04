@@ -451,7 +451,7 @@ class Controller extends BaseController
         // return $verify == request()->transactionHash;
         $verify = password_verify($verify, request()->transactionHash);
         return var_dump($verify); */
-
+        //return;
         $verify = $this->verifyTransfer(request()->transactionReference);
         //return $verify;
         if (!$verify || !$verify['requestSuccessful'] || $verify['responseBody']['paymentStatus'] != "PAID") {

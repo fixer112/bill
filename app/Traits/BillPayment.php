@@ -57,7 +57,14 @@ trait BillPayment
             return session('balance')[0];
         }
 
-        $response = Http::get(self::link('balance.php'))->throw();
+        try {
+
+            $response = Http::get(self::link('balance.php'))->throw();
+
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         /* if ($response->clientError() || $response->serverError()) {
         $response->body();
@@ -118,7 +125,13 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('msharesell', "phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
+        try {
+
+            $response = Http::get(self::link('msharesell', "phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -139,7 +152,13 @@ trait BillPayment
 
         //$ref = generateRef();
 
-        $response = Http::get(self::link(null, "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
+        try {
+
+            $response = Http::get(self::link(null, "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         //return $response->json();
 
@@ -173,7 +192,13 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
+        try {
+
+            $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         // return $response->json();
 
@@ -195,7 +220,13 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}")) /* ->throw() */;
+        try {
+
+            $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         //return $response->json();
 
@@ -222,14 +253,26 @@ trait BillPayment
     }
     public static function fetchElectricityInfo()
     {
-        $response = Http::get(self::link('power-lists'))->throw();
+        try {
+
+            $response = Http::get(self::link('power-lists')) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
+
         return $response->json()['result'];
 
     }
 
     public static function cableInfo($bill, $no)
     {
-        $response = Http::get(self::link('customercheck', "bill={$bill}&smartno={$no}")) /* ->throw() */;
+        try {
+            $response = Http::get(self::link('customercheck', "bill={$bill}&smartno={$no}")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         $result = $response->json();
         unset($result['code']);
@@ -239,7 +282,12 @@ trait BillPayment
 
     public static function electricityInfo($service, $meterno)
     {
-        $response = Http::get(self::link('power-validate', "service=$service&meterno=$meterno")) /* ->throw() */;
+        try {
+            $response = Http::get(self::link('power-validate', "service=$service&meterno=$meterno")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         $result = $response->json();
         //unset($result['code']);
@@ -255,7 +303,11 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('power-pay', "user_ref=$ref&service=$service&meterno=$meterno&mtype=$type&amt=$amount")) /* ->throw() */;
+        try {
+            $response = Http::get(self::link('power-pay', "user_ref=$ref&service=$service&meterno=$meterno&mtype=$type&amt=$amount")) /* ->throw() */;
+        } catch (\Throwable $th) {
+            throw new Exception('An Error Occured');
+        }
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -276,7 +328,13 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('startimes', "phone={$number}&amt={$amount}&smartno={$smart_no}")) /* ->throw() */;
+        try {
+
+            $response = Http::get(self::link('startimes', "phone={$number}&amt={$amount}&smartno={$smart_no}")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -297,7 +355,13 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$invoice}&billtype={$type}&customernumber={$customer_number}")) /* ->throw() */;
+        try {
+
+            $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$invoice}&billtype={$type}&customernumber={$customer_number}")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -329,7 +393,13 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::asForm()->post("http://www.mobileairtimeng.com/smsapi/bulksms.php", $data) /* ->throw() */;
+        try {
+            $response = Http::asForm()->post("http://www.mobileairtimeng.com/smsapi/bulksms.php", $data) /* ->throw() */;
+
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
 
         return $response;
 

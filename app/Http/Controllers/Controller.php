@@ -578,8 +578,7 @@ class Controller extends BaseController
             'Content-Type' => "application/json",
             "Authorization" => "Basic " . base64_encode(env('MONIFY_KEY') . ':' . env('MONIFY_SECRET')),
 
-        ])
-            ->get(env('MONIFY_URL') . "/api/v1/merchant/transactions/query/?transactionReference={$ref}");
+        ])->get(env('MONIFY_URL') . "/api/v1/merchant/transactions/query/?transactionReference={$ref}");
 
         return $response;
 
@@ -606,11 +605,6 @@ class Controller extends BaseController
         $users->each(function ($user) use (&$collecteds) {
             if ($user->ref == '' || $user->ref_reserved == '') {
                 $reserved = $this->reserveAccount($user);
-                /* $user->update([
-                'account_number' => $reserved['accountNumber'],
-                'account_reference' => $reserved['reservationReference'],
-                'bank_name' => $reserved['bankName'],
-                ]); */
 
                 array_push($collecteds, $user);
 

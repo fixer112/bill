@@ -139,7 +139,7 @@ trait BillPayment
 
         //$ref = generateRef();
 
-        $response = Http::get(self::link(null, "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
+        $response = Http::get(self::link(null, "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
 
         //return $response->json();
 
@@ -173,7 +173,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
+        $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
 
         // return $response->json();
 
@@ -195,7 +195,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}"))->throw();
+        $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}")) /* ->throw() */;
 
         //return $response->json();
 
@@ -210,8 +210,13 @@ trait BillPayment
 
     public static function fetchDataInfo($info)
     {
-        $response = Http::get(self::link('get-items', "tv={$info}"))->throw();
-        //throw new Exception($response);
+        try {
+            $response = Http::get(self::link('get-items', "tv={$info}")) /* ->throw() */;
+        } catch (\Throwable $th) {
+
+            throw new Exception('An Error Occured');
+        }
+
         return $response->json()['products'] ?? $response->json();
 
     }
@@ -224,7 +229,7 @@ trait BillPayment
 
     public static function cableInfo($bill, $no)
     {
-        $response = Http::get(self::link('customercheck', "bill={$bill}&smartno={$no}"))->throw();
+        $response = Http::get(self::link('customercheck', "bill={$bill}&smartno={$no}")) /* ->throw() */;
 
         $result = $response->json();
         unset($result['code']);
@@ -234,7 +239,7 @@ trait BillPayment
 
     public static function electricityInfo($service, $meterno)
     {
-        $response = Http::get(self::link('power-validate', "service=$service&meterno=$meterno"))->throw();
+        $response = Http::get(self::link('power-validate', "service=$service&meterno=$meterno")) /* ->throw() */;
 
         $result = $response->json();
         //unset($result['code']);
@@ -250,7 +255,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('power-pay', "user_ref=$ref&service=$service&meterno=$meterno&mtype=$type&amt=$amount"))->throw();
+        $response = Http::get(self::link('power-pay', "user_ref=$ref&service=$service&meterno=$meterno&mtype=$type&amt=$amount")) /* ->throw() */;
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -271,7 +276,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('startimes', "phone={$number}&amt={$amount}&smartno={$smart_no}"))->throw();
+        $response = Http::get(self::link('startimes', "phone={$number}&amt={$amount}&smartno={$smart_no}")) /* ->throw() */;
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -292,7 +297,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$invoice}&billtype={$type}&customernumber={$customer_number}"))->throw();
+        $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$invoice}&billtype={$type}&customernumber={$customer_number}")) /* ->throw() */;
 
         if (isset(self::checkError($response->json())['error'])) {
             return self::checkError($response->json());
@@ -324,7 +329,7 @@ trait BillPayment
 
         self::balance();
 
-        $response = Http::asForm()->post("http://www.mobileairtimeng.com/smsapi/bulksms.php", $data)->throw();
+        $response = Http::asForm()->post("http://www.mobileairtimeng.com/smsapi/bulksms.php", $data) /* ->throw() */;
 
         return $response;
 

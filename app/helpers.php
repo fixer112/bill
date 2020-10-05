@@ -276,7 +276,7 @@ function fetchDataInfo()
     //code...
     foreach ($networks as $key => $value) {
 
-        $fetchData = BillPayment::fetchDataInfo($key);
+        $fetchData = BillPaygitment::fetchDataInfo($key);
         if (!$fetchData) {
             continue;
         }

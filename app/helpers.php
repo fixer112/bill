@@ -20,7 +20,7 @@ function dublicateTime()
         if (request()->plathform == 'app') {
             return env("DUBLICATE_LIMIT", 180);
         } else {
-            return 60;
+            return 0;
         }
 
     }

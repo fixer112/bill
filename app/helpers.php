@@ -423,3 +423,11 @@ function motto()
 {
     return "\n...Convinience at it's peak.";
 }
+
+function inSuspendID(User $user)
+{
+    $userIDs = explode(',', env('SUSPEND_USERS'));
+
+    return in_array($user->id, $userIDs);
+
+}

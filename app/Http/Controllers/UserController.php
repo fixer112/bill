@@ -168,7 +168,7 @@ class UserController extends Controller
     public function subscribe($reference)
     {
         // return $this->jsonWebBack('error', 'Online Payment Currently Disabled');
-        if (!env("ENABLE_ONLINE_PAYMENT")) {
+        if (!env("ENABLE_ONLINE_PAYMENT") || !env("ENABLE_ONLINE_UPGRADE_PAYMENT")) {
             return $this->jsonWebBack('error', 'payment disabled');
         }
 
@@ -632,7 +632,7 @@ class UserController extends Controller
     {
         //return $reference;
 
-        if (!env("ENABLE_ONLINE_PAYMENT")) {
+        if (!env("ENABLE_ONLINE_PAYMENT") || !env("ENABLE_ONLINE_FUND_PAYMENT")) {
             return $this->jsonWebBack('error', 'payment disabled');
         }
 

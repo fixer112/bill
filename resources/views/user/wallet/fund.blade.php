@@ -122,7 +122,7 @@
        methods:{
            
            payWithRave() {
-               if (!'{{env("ENABLE_ONLINE_PAYMENT")}}') {
+               if (!'{{env("ENABLE_ONLINE_PAYMENT")}}' ||  !'{{env("ENABLE_ONLINE_FUND_PAYMENT")}}') {
             return alert('Payment disabled, please make a transfer to {{request()->user->account_number}} ({{request()->user->bank_name}}) to fund your wallet');
             }
                //return;

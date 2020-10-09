@@ -625,9 +625,8 @@ class Controller extends BaseController
 
     public function suspendID(User $user)
     {
-        $userIDs = explode(',', env('SUSPEND_USERS'));
 
-        if (in_array($user->id, $userIDs)) {
+        if (inSuspendID($user->id, $userIDs)) {
             $user->update(['is_active' => 0]);
 
         }

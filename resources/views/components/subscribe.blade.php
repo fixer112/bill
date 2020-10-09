@@ -38,7 +38,7 @@
   }, 
        methods:{
            payWithRave() {
-               if (!'{{env("ENABLE_ONLINE_PAYMENT")}}') {
+               if (!'{{env("ENABLE_ONLINE_PAYMENT")}}' || !'{{env("ENABLE_ONLINE_UPGRADE_PAYMENT")}}') {
                 return alert('Payment disabled, please contact us on how to upgrade');
                 }
         var x = getpaidSetup({

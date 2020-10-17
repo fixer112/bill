@@ -39,3 +39,4 @@ Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1'])->group(f
 });
 
 Route::get('/fetch_data', 'UserController@fetchData');
+//Route::post('/pay', 'Controller@initializeRave');

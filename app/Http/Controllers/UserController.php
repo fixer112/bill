@@ -723,13 +723,16 @@ class UserController extends Controller
         ]);
 
         $network_code = $networks[$network];
-        $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
+        $this->validate(request(), [
 
+            'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
+        ]);
+
+        $discount_amount = calDiscountAmount(request()->amount, airtimeDiscount($user)[$network]);
         request()->merge(['discount_amount' => $discount_amount]);
 
         $data = [
 
-            'amount' => "required|numeric|min:{$bills[$network]['min']}|max:{$bills[$network]['max']}",
             'number' => "required|numeric|digits_between:10,11",
             'discount_amount' => ['required', "numeric", new checkBalance($user)],
 

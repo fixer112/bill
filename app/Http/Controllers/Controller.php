@@ -633,8 +633,8 @@ class Controller extends BaseController
     }
     public function test()
     {
+        //return BillPayment::fetchDataInfo('9mobile');
         return fetchDataInfo();
-        return BillPayment::fetchDataInfo('etisalat');
 
         return $this->fetchDataInfo(request()->type ?? 'glo');
         $this->dataMtn('', '08106813749', '15', generateRef());

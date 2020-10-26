@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4658710ad72f077e705d80be4a5b5e09",
+    "content-hash": "b0af8fb37049a561011dd0c0d09cc9f5",
     "packages": [
         {
             "name": "alt-three/locker",

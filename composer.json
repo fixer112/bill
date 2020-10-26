@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
-        "alt-three/locker": "^6.3",
+        "alt-three/locker": "^6.4",
         "benjamincrozat/laravel-dropbox-driver": "^2.0",
         "devi/laravel-multi-referral": "~1.0",
         "doctrine/dbal": "^2.10",

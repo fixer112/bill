@@ -385,10 +385,7 @@ function getRaveMetaValue(array $metas, String $name)
 function formatStringsArray($numbers): array
 {
     $numbers = explode(',', str_replace(' ', '', $numbers));
-    /*  $numbers = array_map(function ($number) {
-    return filter_var($number, FILTER_SANITIZE_NUMBER_INT);
-    }, $numbers);
-     */
+
     $numbers = collect($numbers)->filter(function ($number) {
 
         return $number != "";

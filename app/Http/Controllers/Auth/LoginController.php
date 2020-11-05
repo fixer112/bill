@@ -104,7 +104,7 @@ class LoginController extends Controller
             }
 
             try {
-                $this->reserveAccount($user);
+                //$this->reserveAccount($user);
             } catch (\Throwable $th) {
             }
 

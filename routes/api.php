@@ -19,7 +19,7 @@ return $request->user();
 Route::post('/login', 'Auth\LoginController@loginApi');
 Route::post('/register', 'Auth\RegisterController@register');
 
-Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1'])->group(function () {
+Route::middleware(['auth:api', 'checkStatus', 'throttle:rate_limit,1', 'locker'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::post('/{user}/airtime', 'UserController@postAirtime');
         Route::post('/{user}/data', 'UserController@postData');

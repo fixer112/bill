@@ -1168,7 +1168,7 @@ class UserController extends Controller
             return $this->jsonWebBack('error', $tranx['error']);
         }
         //return $tranx->json();
-        $reason = getRaveMetaValue($tranx['data']['meta'], 'reason');
+        $reason = getRaveMetaValue($tranx['data']['meta'], 'reason'); 
 
         if ($reason == 'top-up') {
             return $this->fundWallet($reference);

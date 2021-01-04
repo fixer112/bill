@@ -81,8 +81,8 @@
                                 return window.location.replace("/register");
                                 processPayment(airtime.discountAmount,data,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}","{{env('RAVE_PUBLIC_KEY')}}",'airtime',"{{generateRef()}}");
                                 });
-                                
-                                
+
+
                             </script>
 
 
@@ -152,7 +152,7 @@
                             </form>
                             <script>
                                 document.getElementById('cable-home').addEventListener("submit",function(event){
-                            
+
                                     event.preventDefault();
                                     var d = {
                                                 reason: 'cable',
@@ -168,7 +168,7 @@
                                     // settings
                                     type: 'danger'
                                     });
-                                    
+
                                     //console.log(data);
                                     return window.location.replace("/register");
                                     //processPayment(d,@json(session('balance'))[0],"{{env('ENABLE_BILL_PAYMENT')}}","{{env('ERROR_MESSAGE')}}",'{{env("PAYSTACK_KEY")}}');
@@ -446,10 +446,11 @@
                 <div class="d-flex flex-wrap pt-2">
                     <a href="https://play.google.com/store/apps/details?id=com.altechtic.moniwallet.moniwallet"><img
                             alt="" src="images/google-play-store.png"></a>
-                    {{--  <a class="mr-4" href=""><img alt="" src="images/app-store.png"></a>  --}}
+                    <!--  <a class="mr-4" href=""><img alt="" src="images/app-store.png"></a>  -->
                 </div>
             </div>
         </div>
     </div>
-</section><!-- Mobile App end -->
+</section>
+<!-- Mobile App end -->
 @endsection

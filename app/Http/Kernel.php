@@ -27,6 +27,8 @@ class Kernel extends HttpKernel
         \RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
         //\RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
         //\RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
     ];
 
     /**
@@ -47,7 +49,10 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
+            'bindings',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Session\Middleware\StartSession::class,
         ],
     ];
 

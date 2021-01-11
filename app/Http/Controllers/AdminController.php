@@ -535,6 +535,7 @@ class AdminController extends Controller
     public function contact()
     {
         $this->authorize('massMail', User::class);
+
         $this->validate(request(), [
             'subject' => 'required|String',
             'content' => 'required|String',

@@ -549,7 +549,7 @@ class AdminController extends Controller
 
         foreach ($users as $user) {
 
-            Mail::to($user->email)->later(now()->addSeconds(30), new bulkMail($subject, "Hello {$user->first_name}!!!, <br> $content"));
+            Mail::to($user->email)->queue(new bulkMail($subject, "Hello {$user->first_name}!!!, <br> $content"));
         }
 
         return $this->jsonWebBack('success', "Mass Email Sent");

@@ -25,6 +25,7 @@ class checkStatus
             return redirect('/login')->with('error', $error);
 
         }
+        
         return $next($request);
     }
 }

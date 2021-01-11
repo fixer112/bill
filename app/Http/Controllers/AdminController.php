@@ -6,6 +6,7 @@ use App\Activity;
 use App\Http\Controllers\Controller;
 use App\Mail\bulkMail;
 use App\Mail\contact;
+use App\Notifications\alert;
 use App\Referral;
 use App\Subscription;
 use App\Traits\BillPayment;
@@ -471,7 +472,7 @@ class AdminController extends Controller
 
             $user->notify(new alert($desc, $tran));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -545,7 +546,7 @@ class AdminController extends Controller
         $content = request()->content . motto();
 
         foreach ($users as $user) {
-            Mail::to($user->email)->later(now()->addMinutes(5), new bulkMail($subject, $content));
+            Mail::to($user->email)->later(now()->addSeconds(30), new bulkMail($subject, $content));
         }
 
         return $this->jsonWebBack('success', "Mass Email Sent");

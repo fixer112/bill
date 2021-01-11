@@ -43,7 +43,7 @@ class VerifyPendingTransactions extends Command
         $trans->each(function ($tran) {
             try {
                 Http::get(url("/verify/ussd?refid=$tran->ref"))->throw();
-            } catch (\Throwable $th) {
+            } catch (\Throwable$th) {
                 //throw $th;
             }
         });

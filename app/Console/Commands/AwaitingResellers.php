@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Notifications\remindReseller;
 use App\User;
 use Illuminate\Console\Command;
 
@@ -50,7 +51,7 @@ class AwaitingResellers extends Command
                     }
                     $count++;
 
-                    //$user->notify((new remindReseller($days))->delay(now()->addSeconds(60)));
+                    $user->notify((new remindReseller($days))->delay(now()->addSeconds(60)));
 
                 }
 

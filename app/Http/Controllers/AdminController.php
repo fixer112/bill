@@ -543,10 +543,12 @@ class AdminController extends Controller
 
         $users = User::where('is_admin', 0)->get();
         $subject = request()->subject;
+
         $content = request()->content . motto();
 
         foreach ($users as $user) {
-            Mail::to($user->email)->later(now()->addSeconds(30), new bulkMail($subject, $content));
+
+            Mail::to($user->email)->later(now()->addSeconds(30), new bulkMail($subject, "Hello {$user->first_name}!!!, <br> $content"));
         }
 
         return $this->jsonWebBack('success', "Mass Email Sent");

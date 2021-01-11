@@ -28,9 +28,9 @@ class Kernel extends ConsoleKernel
 
         //$schedule->command('transaction:verify')->everyFiveMinutes();
 
-        $schedule->command('queue:work database --max-jobs=100 --stop-when-empty')->everyTwoMinutes();
+        $schedule->command('queue:work database --max-jobs=150 --stop-when-empty')->hourly();
 
-        $schedule->command('queue:retry --range=1-100')->hourly(); //->daily()->at('00:00');
+        $schedule->command('queue:retry --range=1-100')->everyTwoHours(); //->daily()->at('00:00');
 
         $schedule->command('backup:clean')->daily()->at('1:00');
 

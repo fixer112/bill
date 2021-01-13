@@ -27,8 +27,8 @@ class Kernel extends HttpKernel
         \RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
         //\RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
         //\RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        /* \Illuminate\Session\Middleware\StartSession::class,
+    \Illuminate\View\Middleware\ShareErrorsFromSession::class, */
     ];
 
     /**

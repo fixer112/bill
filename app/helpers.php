@@ -224,17 +224,21 @@ function getLastString($string, $delimiter = '-')
 
 function getElectricityInfo()
 {
+    try {
 
-    /* if (Storage::exists('electricity.json') && time() - json_decode(Storage::get('electricity.json'), true)['time'] < (60 * 60 * 24)) {
-    config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
+        if (Storage::exists('electricity.json') && time() - json_decode(Storage::get('electricity.json'), true)['time'] < (60 * 60 * 24 * 7)) {
+            config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
 
-    } else { */
-    $data = fetchElectricityInfo();
+        } else {
+            $data = fetchElectricityInfo();
 
-    config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
-    return $data;
-    // }
+            config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
+        }
+    } catch (\Throwable$th) {
+        //throw $th;
+    }
 
+    return config("settings.bills.electricity");
 }
 
 function fetchElectricityInfo()
@@ -242,12 +246,6 @@ function fetchElectricityInfo()
     Artisan::call('config:clear');
 
     $electricity = BillPayment::fetchElectricityInfo();
-
-    if (!$electricity['code'] != '100') {
-        return errorMessage();
-    }
-
-    $electricity = $electricity['result'];
 
     $data = array_merge(['products' => $electricity], ['charges' => 100]);
 
@@ -259,15 +257,15 @@ function fetchElectricityInfo()
 function getDataInfo()
 {
     //return json_decode(Storage::get('data.json'), true)['data'];
-    /* if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24)) {
-    config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
+    if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24 * 7)) {
+        config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
 
-    } else { */
-    $data = fetchDataInfo();
-    config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
-    return $data;
+    } else {
+        $data = fetchDataInfo();
+        config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
 
-    //}
+    }
+    return config("settings.bills.data");
 }
 
 function fetchDataInfo()

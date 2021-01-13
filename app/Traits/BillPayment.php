@@ -261,7 +261,7 @@ trait BillPayment
             throw new Exception('An Error Occured');
         }
 
-        return $response->json();
+        return $response->json()['result'] ?? $response->json();
 
     }
 

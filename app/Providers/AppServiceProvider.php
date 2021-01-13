@@ -27,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        getDataInfo();
+        getElectricityInfo();
 
         Schema::defaultStringLength(191);
 

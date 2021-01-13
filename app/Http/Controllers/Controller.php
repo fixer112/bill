@@ -631,6 +631,7 @@ class Controller extends BaseController
     }
     public function getInfo()
     {
+        //return config("settings.bills.data");
         return ['data' => getDataInfo(), 'electricity' => getElectricityInfo()];
 
     }

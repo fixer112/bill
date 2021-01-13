@@ -4,6 +4,7 @@ use App\Traits\BillPayment;
 use App\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 //if (!function_exists("calPercentage")) {
 function dublicateMessage($message = null)
@@ -224,15 +225,15 @@ function getLastString($string, $delimiter = '-')
 function getElectricityInfo()
 {
 
-    if (Storage::exists('electricity.json') && time() - json_decode(Storage::get('electricity.json'), true)['time'] < (60 * 60 * 24)) {
-        config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
+    /* if (Storage::exists('electricity.json') && time() - json_decode(Storage::get('electricity.json'), true)['time'] < (60 * 60 * 24)) {
+    config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
 
-    } else {
-        fetchElectricityInfo();
+    } else { */
+    $data = fetchElectricityInfo();
 
-        config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
-
-    }
+    config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
+    return $data;
+    // }
 
 }
 
@@ -241,6 +242,12 @@ function fetchElectricityInfo()
     Artisan::call('config:clear');
 
     $electricity = BillPayment::fetchElectricityInfo();
+
+    if (!$electricity['code'] != '100') {
+        return errorMessage();
+    }
+
+    $electricity = $electricity['result'];
 
     $data = array_merge(['products' => $electricity], ['charges' => 100]);
 
@@ -252,14 +259,15 @@ function fetchElectricityInfo()
 function getDataInfo()
 {
     //return json_decode(Storage::get('data.json'), true)['data'];
-    if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24)) {
-        config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
+    /* if (Storage::exists('data.json') && time() - json_decode(Storage::get('data.json'), true)['time'] < (60 * 60 * 24)) {
+    config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
 
-    } else {
-        fetchDataInfo();
-        config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
+    } else { */
+    $data = fetchDataInfo();
+    config(["settings.bills.data" => json_decode(Storage::get('data.json'), true)['data']]);
+    return $data;
 
-    }
+    //}
 }
 
 function fetchDataInfo()

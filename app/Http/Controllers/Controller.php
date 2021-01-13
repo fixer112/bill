@@ -7,7 +7,6 @@ use App\Http\Resources\User as UserResource;
 use App\Jobs\SendEmail;
 use App\Mail\bulkMail;
 use App\Mail\lowBalance;
-use App\Mail\massMail;
 use App\Notifications\alert;
 use App\SmsHistory;
 use App\Traits\BillPayment;
@@ -27,7 +26,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use KingFlamez\Rave\Facades\Rave;
-use Throwable;
 
 class Controller extends BaseController
 {
@@ -211,9 +209,9 @@ class Controller extends BaseController
             $status = 'approved';
             try {
 
-                $user->notify(new alert($tran->desc, $tran));
+                $tran->user->notify(new alert($tran->desc, $tran));
 
-            } catch (\Throwable $th) {
+            } catch (\Throwable$th) {
                 //throw $th;
             }
 
@@ -317,7 +315,7 @@ class Controller extends BaseController
                 $user->notify(new alert($desc, $tran));
             }
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -359,7 +357,7 @@ class Controller extends BaseController
         $details = ['email' => 'gmail.com'];
         return SendEmail::dispatch($details);
 
-        return new massMail($user, '<b>test</b>');
+        //return new massMail($user, '<b>test</b>');
 
         return Mail::to('support@moniwallet.com')->send(new lowBalance(10));
 
@@ -517,7 +515,7 @@ class Controller extends BaseController
 
             $user->notify(new alert($desc, $transaction));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -626,15 +624,20 @@ class Controller extends BaseController
     public function suspendID(User $user)
     {
 
-        if (inSuspendID($user->id, $userIDs)) {
+        if (inSuspendID($user->id)) {
             $user->update(['is_active' => 0]);
 
         }
     }
+    public function getInfo()
+    {
+        return ['data' => getDataInfo(), 'electricity' => getElectricityInfo()];
+
+    }
     public function test()
     {
-        //return BillPayment::fetchDataInfo('9mobile');
-        return fetchDataInfo();
+        return fetchElectricityInfo();
+        return BillPayment::fetchElectricityInfo();
 
         return $this->fetchDataInfo(request()->type ?? 'glo');
         $this->dataMtn('', '08106813749', '15', generateRef());

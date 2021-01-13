@@ -61,7 +61,7 @@ trait BillPayment
 
             $response = Http::get(self::link('balance.php'))->throw();
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -128,7 +128,7 @@ trait BillPayment
         try {
 
             $response = Http::get(self::link('msharesell', "phone={$phoneNumber}&amt={$amount}&user_ref={$ref}"))->throw();
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -155,7 +155,7 @@ trait BillPayment
         try {
 
             $response = Http::get(self::link(null, "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -195,7 +195,7 @@ trait BillPayment
         try {
 
             $response = Http::get(self::link('datatopup.php', "network={$networkCode}&phone={$phoneNumber}&amt={$amount}&user_ref={$ref}")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -223,7 +223,7 @@ trait BillPayment
         try {
 
             $response = Http::get(self::link('datashare', "network=1&phone={$phoneNumber}&datasize={$amount}&user_ref={$ref}")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -243,7 +243,7 @@ trait BillPayment
     {
         try {
             $response = Http::get(self::link('get-items', "tv={$info}")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -256,12 +256,12 @@ trait BillPayment
         try {
 
             $response = Http::get(self::link('power-lists')) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
 
-        return $response->json()['result'];
+        return $response->json();
 
     }
 
@@ -269,7 +269,7 @@ trait BillPayment
     {
         try {
             $response = Http::get(self::link('customercheck', "bill={$bill}&smartno={$no}")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -284,7 +284,7 @@ trait BillPayment
     {
         try {
             $response = Http::get(self::link('power-validate', "service=$service&meterno=$meterno")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -305,7 +305,7 @@ trait BillPayment
 
         try {
             $response = Http::get(self::link('power-pay', "user_ref=$ref&service=$service&meterno=$meterno&mtype=$type&amt=$amount")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             throw new Exception('An Error Occured');
         }
 
@@ -331,7 +331,7 @@ trait BillPayment
         try {
 
             $response = Http::get(self::link('startimes', "phone={$number}&amt={$amount}&smartno={$smart_no}")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -358,7 +358,7 @@ trait BillPayment
         try {
 
             $response = Http::get(self::link('multichoice', "phone={$number}&amt={$amount}&smartno={$smart_no}&customer={$customer_name}&invoice={$invoice}&billtype={$type}&customernumber={$customer_number}")) /* ->throw() */;
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }
@@ -396,7 +396,7 @@ trait BillPayment
         try {
             $response = Http::asForm()->post("http://www.mobileairtimeng.com/smsapi/bulksms.php", $data) /* ->throw() */;
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
 
             throw new Exception('An Error Occured');
         }

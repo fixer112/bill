@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Http\Resources\Activity as ActivityResource;
 use App\Http\Resources\Referral as ReferralResource;
 use App\Http\Resources\Transaction as TransactionResource;
 use App\Mail\bulkMail;
@@ -107,7 +108,7 @@ class UserController extends Controller
 
         if (request()->pic) {
 
-            if (Storage::disk('public')->has($user->profile)) {
+            if (Storage::disk('public')->exists($user->profile)) {
                 Storage::disk('public')->delete($user->profile);
             }
 
@@ -267,7 +268,7 @@ class UserController extends Controller
 
             $user->notify(new alert($desc, $tran));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -399,7 +400,7 @@ class UserController extends Controller
         })->orderBy('created_at', 'desc');
 
         if (request()->wantsJson()) {
-            return ReferralResource::collection($q->get());
+            return ReferralResource::collection($query->get());
         }
 
         $transactions = $query->get();
@@ -462,7 +463,7 @@ class UserController extends Controller
 
             $user->notify(new alert($desc, $tran));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -479,6 +480,8 @@ class UserController extends Controller
 
     public function transfer(User $user)
     {
+        return $this->jsonWebBack('error', 'Currently not available');
+
         $this->authorize('update', $user);
         $this->validate(request(), [
             'amount' => ["required", "numeric", new checkBalance($user), 'min:100'],
@@ -489,6 +492,13 @@ class UserController extends Controller
         $u = User::where('login', request()->username)->first();
 
         $amount = request()->amount;
+
+        $descTo = "Transfer of {$amount} from {$user->login}";
+
+        if ($this->isDublicate($user, 'transfer')) {
+            return $this->jsonWebBack('error', dublicateMessage());
+        }
+
         //return $user;
         //return $user->balance - $amount;
         $u->update([
@@ -498,8 +508,6 @@ class UserController extends Controller
         $user->update([
             'balance' => $user->balance - $amount,
         ]);
-
-        $descTo = "Transfer of {$amount} from {$user->login}";
 
         $tranTo = Transaction::create([
             'amount' => $amount,
@@ -521,7 +529,7 @@ class UserController extends Controller
 
             $u->notify(new alert($descTo, $tranTo));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -547,7 +555,7 @@ class UserController extends Controller
 
             $u->notify(new alert($descFrom, $tranFrom));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -605,7 +613,7 @@ class UserController extends Controller
 
             // $user->notify(new alert($fullDesc, $tran));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
         return $this->jsonWebBack('success', $fullDesc/* , $user->routePath() */);
@@ -682,7 +690,7 @@ class UserController extends Controller
             $user->notify(new alert($desc, $tran, false));
             $this->suspendID($user);
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -754,7 +762,7 @@ class UserController extends Controller
         'discount_amount' => [new checkBalance($user)],
         ]); */
 
-        if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
+        if ($this->isDublicate($user, 'airtime')) {
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
         }
 
@@ -766,7 +774,7 @@ class UserController extends Controller
         //return $number;
         if ($network == 'mtn_sns') {
             //$ussd = true;
-            if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
+            if ($this->isDublicate($user, 'airtime')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
             }
 
@@ -774,7 +782,7 @@ class UserController extends Controller
             //$result = MoniWalletBill::mtnSNS($number, request()->amount, $ref);
 
         } else {
-            if ($this->isDublicate($user, $discount_amount, $desc, 'airtime')) {
+            if ($this->isDublicate($user, 'airtime')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/airtime");
             }
 
@@ -852,7 +860,7 @@ class UserController extends Controller
 
         $desc = "Data subscription of " . strtoupper($network) . " " . $details . " to " . $number;
 
-        if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
+        if ($this->isDublicate($user, 'data')) {
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
         }
 
@@ -868,7 +876,7 @@ class UserController extends Controller
 
         if ($network == 'mtn_sme') {
 
-            if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
+            if ($this->isDublicate($user, 'data')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
             }
 
@@ -876,7 +884,7 @@ class UserController extends Controller
 
         } else {
 
-            if ($this->isDublicate($user, $discount_amount, $desc, 'data')) {
+            if ($this->isDublicate($user, 'data')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/data");
             }
 
@@ -944,21 +952,21 @@ class UserController extends Controller
         $number = request()->number ? nigeriaNumber(request()->number) : $user->nigeria_number;
         $desc = "Cable Subscription of {$details} for smart no {$smart_no} ($number)";
 
-        if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
+        if ($this->isDublicate($user, 'cable')) {
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
         }
 
         $profit = $charges + calPercentageAmount(request()->amount, config('settings.default')['cable'][$type]);
 
         if ($type == 'startimes') {
-            if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
+            if ($this->isDublicate($user, 'cable')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
             }
 
             $result = $this->startimeCable(request()->amount, $smart_no, $number);
 
         } else {
-            if ($this->isDublicate($user, $discount_amount, $desc, 'cable')) {
+            if ($this->isDublicate($user, 'cable')) {
                 return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/cable");
             }
 
@@ -1051,7 +1059,7 @@ class UserController extends Controller
 
         $desc = "Electricity payment of {$a} for meter no {$meter_no} {$t} ($service)";
 
-        if ($this->isDublicate($user, $discount_amount, $desc, 'electricity')) {
+        if ($this->isDublicate($user, 'electricity')) {
             return $this->jsonWebRedirect('error', dublicateMessage(), "user/{$user->id}/electricity");
         }
 
@@ -1109,7 +1117,7 @@ class UserController extends Controller
 
             $user->notify(new alert("Your Account is {$user->status()}"));
 
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             //throw $th;
         }
 
@@ -1168,7 +1176,7 @@ class UserController extends Controller
             return $this->jsonWebBack('error', $tranx['error']);
         }
         //return $tranx->json();
-        $reason = getRaveMetaValue($tranx['data']['meta'], 'reason'); 
+        $reason = getRaveMetaValue($tranx['data']['meta'], 'reason');
 
         if ($reason == 'top-up') {
             return $this->fundWallet($reference);

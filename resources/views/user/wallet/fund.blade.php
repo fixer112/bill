@@ -118,9 +118,9 @@
     return {
         amount:"",
     }
-  }, 
+  },
        methods:{
-           
+
            payWithRave() {
                if (!'{{env("ENABLE_ONLINE_PAYMENT")}}' ||  !'{{env("ENABLE_ONLINE_FUND_PAYMENT")}}') {
             return alert('Payment disabled, please make a transfer to {{request()->user->account_number}} ({{request()->user->bank_name}}) to fund your wallet');
@@ -137,6 +137,7 @@
             amount: this.amount,
             customer_phone: '{{request()->user->number}}',
             currency: "NGN",
+            payment_options: "account,ussd",
             txref: "mw-{{generateRef(request()->user)}}",
             meta: [{
             metaname: "user_id",
@@ -163,9 +164,9 @@
             window.location.replace("/verify/wallet/fund/"+txref);
             } else {
             // redirect to a failure page.
-            
+
             }*/
-        
+
             x.close(); // use this to close the modal immediately after payment.
             }
             });
@@ -177,7 +178,7 @@
             //this.$refs.form;
             //return;
            // if(this.amount=="") return;
-            
+
             var handler = PaystackPop.setup({
               key: '{{env("PAYSTACK_KEY")}}',
               email: '{{request()->user->email}}',
@@ -186,17 +187,17 @@
               first_name:'{{request()->user->fname}}',
               last_name:'{{request()->user->lname}}',
               phone:'{{request()->user->number}}',
-              
+
               //ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
               metadata: {
-                  
+
                   user_id: "{{request()->user->id}}",
                   reason: 'top-up',
                   //upgrade:"{{-- {{$upgrade}} --}}",
                   amount:this.amount,
-                 
+
               },
-              
+
               callback: function(response){
                   window.location.replace("/verify/wallet/fund/"+response.reference);
                   //alert('success. transaction ref is ' + response.reference);
@@ -210,7 +211,7 @@
 
         },
         watch:{
-            
+
             },
             created(){
 

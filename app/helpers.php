@@ -46,12 +46,12 @@ function getPlathform()
 
 }
 
-function successMessage($message = "An error occured, Please try again later")
+function successMessage($message = "Successfull")
 {
     return ['success' => $message];
 }
 
-function errorMessage($message = "An error occured, Please try again later")
+function errorMessage($message = "Temporary not available.")
 {
     return ['error' => $message];
 }
@@ -234,7 +234,7 @@ function getElectricityInfo()
 
             config(["settings.bills.electricity" => json_decode(Storage::get('electricity.json'), true)['electricity']]);
         }
-    } catch (\Throwable$th) {
+    } catch (\Throwable $th) {
         //throw $th;
     }
 

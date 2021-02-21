@@ -268,7 +268,7 @@ class UserController extends Controller
 
             $user->notify(new alert($desc, $tran));
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
@@ -463,7 +463,7 @@ class UserController extends Controller
 
             $user->notify(new alert($desc, $tran));
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
@@ -529,7 +529,7 @@ class UserController extends Controller
 
             $u->notify(new alert($descTo, $tranTo));
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
@@ -555,7 +555,7 @@ class UserController extends Controller
 
             $u->notify(new alert($descFrom, $tranFrom));
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
@@ -613,7 +613,7 @@ class UserController extends Controller
 
             // $user->notify(new alert($fullDesc, $tran));
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
         return $this->jsonWebBack('success', $fullDesc/* , $user->routePath() */);
@@ -625,8 +625,8 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         //try {
-        if (!$user->account_number) {
-            $this->reserveAccount($user);
+        if (!$user->account_number || $user->bank_name != 'Sterling bank') {
+            return $this->reserveAccount($user);
         }
 
         /* } catch (\Throwable $th) {
@@ -690,7 +690,7 @@ class UserController extends Controller
             $user->notify(new alert($desc, $tran, false));
             $this->suspendID($user);
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
@@ -1117,7 +1117,7 @@ class UserController extends Controller
 
             $user->notify(new alert("Your Account is {$user->status()}"));
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 

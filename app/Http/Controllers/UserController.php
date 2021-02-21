@@ -626,7 +626,7 @@ class UserController extends Controller
 
         //try {
         if (!$user->account_number || $user->bank_name != 'Sterling bank') {
-            return $this->reserveAccount($user);
+            $this->reserveAccount($user);
         }
 
         /* } catch (\Throwable $th) {

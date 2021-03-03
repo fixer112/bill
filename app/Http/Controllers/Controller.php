@@ -211,7 +211,7 @@ class Controller extends BaseController
 
                 $tran->user->notify(new alert($tran->desc, $tran));
 
-            } catch (\Throwable$th) {
+            } catch (\Throwable $th) {
                 //throw $th;
             }
 
@@ -315,7 +315,7 @@ class Controller extends BaseController
                 $user->notify(new alert($desc, $tran));
             }
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
@@ -323,6 +323,7 @@ class Controller extends BaseController
             return $tran;
         }
         //return "user/{$user->id}/$type";
+
         return $this->jsonWebRedirect('success', $desc, "user/{$user->id}/$type", $ref);
 
     }
@@ -515,7 +516,7 @@ class Controller extends BaseController
 
             $user->notify(new alert($desc, $transaction));
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
 
@@ -637,6 +638,7 @@ class Controller extends BaseController
     }
     public function test()
     {
+        return BillPayment::fetchDataInfo('mtn');
         return fetchElectricityInfo();
         return BillPayment::fetchElectricityInfo();
 

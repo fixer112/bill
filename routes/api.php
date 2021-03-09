@@ -21,10 +21,10 @@ Route::post('/register', 'Auth\RegisterController@register');
 
 Route::middleware(['auth:api', 'checkStatus', /* 'throttle:rate_limit,1', */'locker'])->group(function () {
     Route::prefix('user')->group(function () {
-        Route::post('/{user}/airtime', 'UserController@postAirtime')->block();
-        Route::post('/{user}/data', 'UserController@postData')->block();
-        Route::post('/{user}/cable', 'UserController@postCable')->block();
-        Route::post('/{user}/electricity', 'UserController@postElectricity')->block();
+        Route::post('/{user}/airtime', 'UserController@postAirtime')->block(60);
+        Route::post('/{user}/data', 'UserController@postData')->block(60);
+        Route::post('/{user}/cable', 'UserController@postCable')->block(60);
+        Route::post('/{user}/electricity', 'UserController@postElectricity')->block(60);
         Route::get('/{user}/balance', 'UserController@getBalance');
         Route::get('/{user}/history/{ref}', 'UserController@history');
         Route::get('/{user}/history', 'UserController@walletHistory');

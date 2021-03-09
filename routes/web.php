@@ -73,27 +73,27 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/activity', 'UserController@activity');
                 Route::get('/wallet/{user}/history', 'UserController@walletHistory');
                 Route::get('/wallet/{user}/fund', 'UserController@getFundWallet');
-                Route::post('/wallet/{user}/fund', 'AdminController@fundWallet');
+                Route::post('/wallet/{user}/fund', 'AdminController@fundWallet')->block();
                 Route::get('/wallet/{user}/debit', 'UserController@getDebitWallet');
                 Route::post('/wallet/{user}/debit', 'UserController@debitWallet');
                 Route::get('/wallet/{user}/transfer', 'UserController@getTransfer');
-                Route::post('/wallet/{user}/transfer', 'UserController@transfer');
+                Route::post('/wallet/{user}/transfer', 'UserController@transfer')->block();
                 Route::get('/referral/{user}/history', 'UserController@referralHistory');
                 Route::get('/referral/{user}/withdraw', 'UserController@getWithdrawReferral');
                 Route::post('/referral/{user}/withdraw', 'UserController@withdrawReferral');
                 Route::get('/{user}/status/update', 'UserController@updateStatus');
 
                 Route::get('/{user}/airtime', 'UserController@getAirtime');
-                Route::post('/{user}/airtime', 'UserController@postAirtime');
+                Route::post('/{user}/airtime', 'UserController@postAirtime')->block();
 
                 Route::get('/{user}/data', 'UserController@getData');
-                Route::post('/{user}/data', 'UserController@postData');
+                Route::post('/{user}/data', 'UserController@postData')->block();
 
                 Route::get('/{user}/cable', 'UserController@getCable');
-                Route::post('/{user}/cable', 'UserController@postCable');
+                Route::post('/{user}/cable', 'UserController@postCable')->block();
 
                 Route::get('/{user}/electricity', 'UserController@getElectricity');
-                Route::post('/{user}/electricity', 'UserController@postElectricity');
+                Route::post('/{user}/electricity', 'UserController@postElectricity')->block();
 
                 Route::get('/{user}/subscriptions/', 'UserController@subscriptions');
 

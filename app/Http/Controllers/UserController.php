@@ -779,6 +779,7 @@ class UserController extends Controller
             }
 
             $result = $this->mtnAirtime(request()->amount, $number, $ref);
+            //return $result;
             //$result = MoniWalletBill::mtnSNS($number, request()->amount, $ref);
 
         } else {

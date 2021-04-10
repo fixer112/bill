@@ -12,18 +12,18 @@ return [
     'mobile_networks' => ['mtn' => '15', 'mtn_sme' => '15', 'mtn_sns' => '15', 'airtel' => '1', '9mobile' => '2', 'glo' => '6'],
     'default' => [
         'airtime' => [
-            'mtn' => 4.6,
-            'mtn_sns' => 10.0,
+            'mtn' => 3,
+            'mtn_sns' => 5.5,
             'airtel' => 3.6,
-            'glo' => 4,
-            '9mobile' => 3,
+            'glo' => 5,
+            '9mobile' => 5.5,
         ],
         'data' => [
-            'mtn' => 4.6,
-            'mtn_sme' => 25, //21.25,
+            'mtn' => 3,
+            'mtn_sme' => 18.75, //25, //21.25,
             'airtel' => 3.6,
             'glo' => 8.0,
-            '9mobile' => 3,
+            '9mobile' => 5.5,
         ],
         'cable' => [
             'startimes' => 1,
@@ -31,7 +31,7 @@ return [
             'dstv' => 1,
         ],
         'electricity' => 0,
-        'sms' => 1.8,
+        'sms' => 2,
     ],
     'bills' => [
         'sms' => [
@@ -219,15 +219,15 @@ return [
     'individual' => [
         'bills' => [
             'airtime' => [
-                'mtn_sns' => 2,
-                'mtn' => 0.7,
+                'mtn_sns' => 1,
+                'mtn' => 0.5,
                 'airtel' => 0.5,
                 '9mobile' => 0.5,
                 'glo' => 1,
             ],
             'data' => [
-                'mtn_sme' => 12.5, //10, //4.5,
-                'mtn' => 0.7,
+                'mtn_sme' => 0, //12.5, //10, //4.5,
+                'mtn' => 0.5,
                 'airtel' => 0.5,
                 '9mobile' => 0.5,
                 'glo' => 1,
@@ -238,21 +238,21 @@ return [
                 'dstv' => 50,
             ],
             'electricity' => 50,
-            'sms' => 3,
+            'sms' => 4,
         ],
     ],
 
     'subscriptions' => [
         'basic' => ['amount' => 5000, 'discount' => 2, 'bonus' => 20, 'rate_limit' => 100, 'portal' => false, 'bills' => [
             'airtime' => [
-                'mtn_sns' => 3,
-                'mtn' => 2.0,
+                'mtn_sns' => 2,
+                'mtn' => 1,
                 'airtel' => 1.8,
                 '9mobile' => 1.8,
                 'glo' => 2.0,
             ],
             'data' => [
-                'mtn_sme' => 17.5, //12.5, //7,
+                'mtn_sme' => 5, //12.5, //7,
                 'mtn' => 2.0,
                 'airtel' => 1.8,
                 '9mobile' => 1.8,
@@ -264,19 +264,19 @@ return [
                 'dstv' => 60,
             ],
             'electricity' => 50,
-            'sms' => 2.5,
+            'sms' => 3,
         ],
         ],
         'silver' => ['amount' => 10000, 'discount' => 5, 'bonus' => 20, 'rate_limit' => 200, 'portal' => false, 'bills' => [
             'airtime' => [
-                'mtn_sns' => 3,
+                'mtn_sns' => 2.5,
                 'mtn' => 2.5,
                 'airtel' => 2.0,
                 '9mobile' => 2.0,
                 'glo' => 2.2,
             ],
             'data' => [
-                'mtn_sme' => 17.5, //15, //9,
+                'mtn_sme' => 7.5, //17.5, //15, //9,
                 'mtn' => 2.5,
                 'airtel' => 2.0,
                 '9mobile' => 2.0,
@@ -288,20 +288,20 @@ return [
                 'dstv' => 70,
             ],
             'electricity' => 50,
-            'sms' => 2.2,
+            'sms' => 2.5,
         ],
         ],
 
         'premium' => ['amount' => 30000, 'discount' => 0.7, 'bonus' => 5, 'rate_limit' => 1000, 'portal' => true, 'bills' => [
             'airtime' => [
-                'mtn_sns' => 4,
+                'mtn_sns' => 3,
                 'mtn' => 3,
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
                 'glo' => 2.5,
             ],
             'data' => [
-                'mtn_sme' => 17.5, //17, //12, //15,
+                'mtn_sme' => 12.5, //17, //12, //15,
                 'mtn' => 3,
                 'airtel' => 2.2,
                 '9mobile' => 2.2,
@@ -313,7 +313,7 @@ return [
                 'dstv' => 90,
             ],
             'electricity' => 50,
-            'sms' => 2,
+            'sms' => 2.5,
         ],
         ],
 

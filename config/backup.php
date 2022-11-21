@@ -17,9 +17,7 @@ return [
                 /*
                  * The list of directories and files that will be included in the backup.
                  */
-                'include' => [
-
-                ],
+                'include' => [],
 
                 /*
                  * These directories and files will be excluded from the backup.
@@ -97,7 +95,7 @@ return [
              */
             'disks' => [
                 'local',
-                'dropbox',
+                //'dropbox',
             ],
         ],
 
@@ -163,7 +161,7 @@ return [
     'monitor_backups' => [
         [
             'name' => env('APP_NAME', 'laravel-backup'),
-            'disks' => ['local', 'dropbox'],
+            'disks' => ['local'/* , 'dropbox' */],
             'health_checks' => [
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 500,

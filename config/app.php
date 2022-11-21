@@ -162,7 +162,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Devi\MultiReferral\MultiReferralServiceProvider::class,
+        //Devi\MultiReferral\MultiReferralServiceProvider::class,
 
         /*
          * Package Service Providers...

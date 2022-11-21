@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Traits\BillPayment;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
     }
 
     /**
@@ -31,6 +34,5 @@ class AppServiceProvider extends ServiceProvider
         getElectricityInfo();
 
         Schema::defaultStringLength(191);
-
     }
 }

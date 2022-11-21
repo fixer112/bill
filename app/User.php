@@ -46,8 +46,8 @@ class User extends Authenticatable
 
     public function getReferralChildren()
     {
+        return [];
         return ReferralList::whereUserId($this->id)->orderBy("level", "desc")->orderBy("created_at", "desc")->get()->unique('ref_id');
-
     }
 
     public function status()
@@ -62,7 +62,6 @@ class User extends Authenticatable
 
         if (!$this->is_reseller) {
             return 'individual';
-
         }
 
         if (!$this->lastSub()) {
@@ -70,7 +69,6 @@ class User extends Authenticatable
         }
 
         return $this->lastSub()->name;
-
     }
 
     public function lastSub()
@@ -128,14 +126,13 @@ class User extends Authenticatable
                 if ($u && $level == 1) {
                     array_push($users, ['user' => $u, 'level' => $level, 'comission' => $comission]);
                 }
-
             }
         }
         return collect($users);
-
     }
     public function giveReferralBounus(float $amount, String $desc, bool $isReferral = false, float $multiples = 1.0)
     {
+        return;
         $this->getReferralParents()->each(function ($parent) use ($amount, $desc, $isReferral, $multiples) {
 
             $comission = $parent['comission'];
@@ -165,7 +162,6 @@ class User extends Authenticatable
                 'desc' => $desc,
                 'ref' => generateRef($u),
             ]);
-
         });
     }
 
@@ -176,7 +172,7 @@ class User extends Authenticatable
 
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = /* Hash::needsRehash($value) ? */bcrypt($value) /* : $value */;
+        $this->attributes['password'] = /* Hash::needsRehash($value) ? */ bcrypt($value) /* : $value */;
     }
 
     public function getFullNameAttribute()
@@ -248,23 +244,18 @@ class User extends Authenticatable
             if ($points <= $values[0]) {
                 return $keys[0];
                 break;
-
             }
 
             if ($points >= $values[count($values) - 1]) {
                 return $keys[count($keys) - 1];
                 break;
-
             }
 
             if ($points >= $values[$i] && $points < $values[$i + 1]) {
                 return $keys[$i];
                 break;
-
             }
-
         }
-
     }
 
     public function minFund()
@@ -340,7 +331,6 @@ class User extends Authenticatable
         }
 
         $this->attributes['app_token'] = implode(',', formatStringsArray(implode(',', $tokens)));
-
     }
 
     public function removeAppToken($value)
@@ -354,12 +344,9 @@ class User extends Authenticatable
             }
         }
         $this->attributes['app_token'] = implode(',', formatStringsArray(implode(',', $tokens)));
-
     }
     public function getAppTokenAttribute()
     {
         return formatStringsArray($this->attributes['app_token']);
-
     }
-
 }

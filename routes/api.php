@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 /* Route::middleware('auth:api')->get('/user', function (Request $request) {
 return $request->user();
 }); */
+
 Route::post('/login', 'Auth\LoginController@loginApi');
 Route::post('/register', 'Auth\RegisterController@register');
 
-Route::middleware(['auth:api', 'checkStatus', /* 'throttle:rate_limit,1', */'locker'])->group(function () {
+Route::middleware(['auth:api', 'checkStatus', /* 'throttle:rate_limit,1', */])->group(function () {
     Route::prefix('user')->group(function () {
         Route::post('/{user}/airtime', 'UserController@postAirtime')->block(env('BLOCK_LIMIT', 60));
         Route::post('/{user}/data', 'UserController@postData')->block(env('BLOCK_LIMIT', 60));
@@ -32,7 +32,6 @@ Route::middleware(['auth:api', 'checkStatus', /* 'throttle:rate_limit,1', */'loc
         Route::post('/{user}/update_token', 'UserController@updateToken');
         Route::post('/{user}/remove_token', 'UserController@removeToken');
     });
-
 });
 
 Route::get('/fetch_data', 'UserController@fetchData');

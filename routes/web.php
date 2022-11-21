@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+
 Route::middleware(['webRouteEnabled'])->group(function () {
     Route::middleware(['referral'])->group(function () {
         /*  Route::get('/', function () {
@@ -59,14 +60,13 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
             Route::get('/assign_role/{user}', 'AdminController@assignRole');
             Route::get('/assign_permission/{user}', 'AdminController@assignPermission');
-
         });
 
         #User
         Route::prefix('user')->group(function () {
             // Route::get('/paystack/validate/{reference}', 'UserController@validatePaystack');
 
-            Route::middleware(['subscribed', 'locker'])->group(function () {
+            Route::middleware(['subscribed'])->group(function () {
                 Route::get('/{user}', 'UserController@index');
                 Route::get('/{user}/edit', 'UserController@getEditUser');
                 Route::post('/{user}/edit', 'UserController@editUser');
@@ -112,7 +112,6 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/sms/group/{group}', 'UserController@getEditSmsGroup');
                 Route::post('/{user}/sms/group/{group}', 'UserController@editSmsGroup');
                 Route::get('/{user}/sms/group/{group}/delete', 'UserController@deleteSmsGroup');
-
             });
 
             Route::middleware(['unsubscribed'])->group(function () {
@@ -120,7 +119,6 @@ Route::middleware(['webRouteEnabled'])->group(function () {
                 Route::get('/{user}/subscription/downgrade/', 'UserController@downgrade');
             });
             Route::get('/{user}/subscription/upgrade/', 'UserController@getUpgrade');
-
         });
 
         #Payment Verification
@@ -141,7 +139,6 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
         Route::post('/ussd', 'Controller@ussdHook');
         Route::get('/ussd', 'Controller@ussdHook');
-
     });
 
     Route::get('/home', function () {
@@ -149,7 +146,6 @@ Route::middleware(['webRouteEnabled'])->group(function () {
             return redirect(auth()->user()->routePath());
         }
         return redirect('/');
-
     })->name('home');
 
     Route::post('/hook/transfer', 'Controller@monifyTransfer');
@@ -157,5 +153,4 @@ Route::middleware(['webRouteEnabled'])->group(function () {
 
     Route::get('/test', 'Controller@test');
     Route::get('/info', 'Controller@getInfo');
-
 });
